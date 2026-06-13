@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-
-
+import { loadStays,  } from '../store/actions/stay.actions'
+import { useSearchParams } from 'react-router-dom'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { userService } from '../services/user/'
 import { stayService } from '../services/stays/'
-import { CarList } from '../cmps/CarList'
+import { StayList } from '../cmps/StayList'
 import { CarFilter } from '../cmps/CarFilter'
 
 export function HomesPage() {
-
+    const [searchParams] = useSearchParams()
+    const currentTab = searchParams.get('tab') || 'homes'
     const [filterBy, setFilterBy] = useState(stayService.getDefaultFilter())
-    const cars = useSelector(storeState => storeState.carModule.cars)
+    // const stays = useSelector(storeState => storeState.stayModule.stays)
 
     useEffect(() => {
         const urlFilter = {
@@ -58,16 +59,28 @@ export function HomesPage() {
     }
 
     return (
-        <section className="car-index">
-            <header>
-                <h2>Cars</h2>
-                {userService.getLoggedinUser() && <button onClick={onAddCar}>Add a Car</button>}
+        <section className="homes-page">
+            <header className="homes-header">
+                <h2>Explore</h2>
+                {/* <button onClick={onBecomeHost}>Airbnb your home</button> */}
             </header>
-            <CarFilter filterBy={filterBy} setFilterBy={setFilterBy} />
-            <CarList
-                cars={cars}
-                onRemoveCar={onRemoveCar}
-                onUpdateCar={onUpdateCar} />
+            
+            {/* <StayFilter filterBy={filterBy} setFilterBy={setFilterBy} /> */}
+
+            {/* {currentTab === 'homes' && <StayList stays={stays} />} */}
+            {currentTab === 'homes' && <StayList  />}
+            
+            {currentTab === 'experiences' && (
+                <div className="experiences-placeholder">
+                    <h2>Experiences Component Goes Here</h2>
+                </div>
+            )}
+            
+            {currentTab === 'services' && (
+                <div className="services-placeholder">
+                    <h2>Services Component Goes Here</h2>
+                </div>
+            )}
         </section>
     )
 }
