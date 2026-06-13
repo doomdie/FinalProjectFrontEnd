@@ -85,24 +85,30 @@ async function remove(stayId) {
 async function save(stay) {
     var savedStay
     if (stay._id) {
-        const stayToSave = {
-            _id: stay._id,
-            price: stay.price
-        }
-        savedStay = await storageService.put(STORAGE_KEY, stayToSave)
+        savedStay = await storageService.put(STORAGE_KEY, stay)
     } else {
         const stayToSave = {
-            vendor: stay.vendor,
-            price: stay.price,
-            // Later, owner is set by the backend
-            owner: userService.getLoggedinUser(),
-            msgs: []
+            ...stay,
+            host: userService.getLoggedinUser(),
+            reviews: [],
+            
         }
         savedStay = await storageService.post(STORAGE_KEY, stayToSave)
     }
     return savedStay
 }
-
+//_id,
+        // name,
+        // type,
+        // imgUrls,
+        // price,
+        // capacity,
+        // host,
+        // loc,
+        // labels,
+        // amenities,
+        // avgRating,
+        // reviewCount
 // async function addStayMsg(stayId, txt) {
 //     // Later, this is all done by the backend
 //     const stay = await getById(stayId)
