@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router'
 
-import { HomePage } from './pages/HomePage'
+import { HomesPage } from './pages/HomePage'
 import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
 import { CarIndex } from './pages/CarIndex.jsx'
 import { ReviewIndex } from './pages/ReviewIndex.jsx'
@@ -25,7 +25,9 @@ export function RootCmp() {
 
             <main>
                 <Routes>
-                    <Route path="" element={<HomePage />} />
+                    <Route path="" element={<HomesPage />} />
+                    <Route path="homes" element={<HomesPage />} />
+
                     <Route path="about" element={<AboutUs />}>
                         <Route path="team" element={<AboutTeam />} />
                         <Route path="vision" element={<AboutVision />} />
