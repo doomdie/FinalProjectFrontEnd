@@ -88,6 +88,6 @@ async function _createAdmin() {
         score: 10000,
     }
 
-    const newUser = await storageService.post('user', userCred)
+    const newUser = await storageService.post('user', user)
     console.log('newUser: ', newUser)
 }
