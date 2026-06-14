@@ -1,24 +1,30 @@
-// src/hooks/useSyncStayFilters.js
 import { useEffect } from 'react'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { loadStays } from '../store/actions/stay.actions'
 
-export function useSyncStayFilter(currentTab, searchParams) {
-    useEffect(() => {
-        const filterBy = {
-            search: searchParams.get('search') || '',
-            tab: currentTab 
-        }
+// Look! No more parameter arguments required from the parent!
+export function useSyncStayFilter() {
+    const location = useLocation()
+    const [searchParams] = useSearchParams() // Hook calls it directly inside itself
+    
+    const searchParamsString = searchParams ? searchParams.toString() : ''
 
-        if (currentTab === 'homes') {
-            filterBy.type = searchParams.get('type') || ''
-            filterBy.amenities = searchParams.get('amenities') || ''
-        } else if (currentTab === 'experiences') {
-            filterBy.guests = searchParams.get('guests') || ''
-        } else if (currentTab === 'services') {
-            filterBy.category = searchParams.get('category') || ''
+    useEffect(() => {
+        // Safe check to make sure searchParams is active
+        if (!searchParams || typeof searchParams.get !== 'function') return
+
+        const currentTab = location.pathname.substring(1) || 'homes'
+
+        const filterBy = {
+            tab: currentTab,
+            search: searchParams.get('search') || '',
+            type: searchParams.get('type') || '',
+            amenities: searchParams.get('amenities') || '',
+            guests: searchParams.get('guests') || '',
+            category: searchParams.get('category') || ''
         }
 
         loadStays(filterBy)
 
-    }, [currentTab, searchParams]) 
+    }, [location.pathname, searchParamsString]) 
 }
