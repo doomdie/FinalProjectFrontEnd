@@ -15,7 +15,7 @@ export function HomesPage() {
     const [filterBy, setFilterBy] = useState(stayService.getDefaultFilter())
     useSyncStayFilter(currentTab, searchParams)
     // const stays = useSelector(storeState => storeState.stayModule.stays)
-
+    const stays = useSelector(storeState => storeState.stayModule.stays)
     useEffect(() => {
         const urlFilter = {
             type: searchParams.get('type') || '',
@@ -70,7 +70,7 @@ export function HomesPage() {
             {/* <StayFilter filterBy={filterBy} setFilterBy={setFilterBy} /> */}
 
             {/* {currentTab === 'homes' && <StayList stays={stays} />} */}
-          {currentTab === 'homes' && <StayList />}
+          {currentTab === 'homes' && <StayList stays={stays}/>}
             {currentTab === 'experiences' && <StayList />}
             {currentTab === 'services' && <StayList />}
         </section>

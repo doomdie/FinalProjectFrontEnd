@@ -4,7 +4,7 @@ import { makeId } from '../util.service'
 import { userService } from '../user'
 
 const STORAGE_KEY = 'stay'
-
+_createStays()
 export const stayService = {
     query,
     getById,
@@ -81,7 +81,53 @@ async function remove(stayId) {
     // throw new Error('Nope')
     await storageService.remove(STORAGE_KEY, stayId)
 }
-
+function _createStays() {
+    let stays = JSON.parse(localStorage.getItem(STORAGE_KEY))
+    
+    if (!stays || !stays.length) {
+        stays = [
+            {
+                _id: 's101',
+                name: 'Ribeira Charming Duplex',
+                type: 'House',
+                imgUrls: ['https://e26e9b.jpg', 'otherImg.jpg'],
+                price: 80.0,
+                summary: 'Fantastic duplex apartment...',
+                capacity: 8,
+                amenities: ['TV', 'Wifi', 'Kitchen', 'Smoking allowed', 'Pets allowed', 'Cooking basics'],
+                labels: ['Top of the world', 'Trending', 'Play', 'Tropical'],
+                host: {
+                    _id: 'u101',
+                    fullname: 'Davit Pok',
+                    imgUrl: 'https://a0.muscache.com/im/pictures/fab79f25-2e10-4f0f-9711-663cb69dc7d8.jpg?aki_policy=profile_small',
+                },
+                loc: {
+                    country: 'Portugal',
+                    countryCode: 'PT',
+                    city: 'Lisbon',
+                    address: '17 Kombo st',
+                    lat: -8.61308,
+                    lng: 41.1413,
+                },
+                reviews: [
+                    {
+                        id: 'madeId',
+                        txt: 'Very helpful hosts. Cooked traditional...',
+                        rate: 4,
+                        by: {
+                            _id: 'u102',
+                            fullname: 'user2',
+                            imgUrl: '/img/img2.jpg',
+                        },
+                    },
+                ],
+                likedByUsers: ['mini-user'],
+            }
+        ]
+        
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(stays))
+    }
+}
 async function save(stay) {
     var savedStay
     if (stay._id) {
