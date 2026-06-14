@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { StayList } from '../cmps/StayList'
+import { CarIndex } from '../pages/CarIndex'
 import { TabNav } from '../cmps/TabNav'
 import { useSyncStayFilter } from '../customHooks/useSyncStayFilter'
 
@@ -22,6 +23,10 @@ export function HomesPage() {
             
             {currentTab === 'homes' && (
                 <StayList stays={stays} />
+            )}
+             
+            {currentTab === 'experiences' && (
+                <CarIndex/>
             )}
         </section>
     )
