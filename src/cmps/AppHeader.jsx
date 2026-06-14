@@ -23,14 +23,11 @@ export function AppHeader() {
 		<header className="app-header full">
 			<nav>
 				<NavLink to="/" className="logo">
-					E2E Demo
+					Skeleton Code
 				</NavLink>
-				<NavLink to="about">About</NavLink>
+				
 				<NavLink to="homes">Homes</NavLink>
 
-				<NavLink to="car">Cars</NavLink>
-				<NavLink to="chat">Chat</NavLink>
-				<NavLink to="review">Review</NavLink>
 
                 {user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
 

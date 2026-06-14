@@ -7,11 +7,13 @@ import { userService } from '../services/user/'
 import { stayService } from '../services/stays/'
 import { StayList } from '../cmps/StayList'
 import { CarFilter } from '../cmps/CarFilter'
+import { useSyncStayFilter } from '../customHooks/useSyncStayFilter'
 
 export function HomesPage() {
     const [searchParams] = useSearchParams()
     const currentTab = searchParams.get('tab') || 'homes'
     const [filterBy, setFilterBy] = useState(stayService.getDefaultFilter())
+    useSyncStayFilter(currentTab, searchParams)
     // const stays = useSelector(storeState => storeState.stayModule.stays)
 
     useEffect(() => {
@@ -68,19 +70,9 @@ export function HomesPage() {
             {/* <StayFilter filterBy={filterBy} setFilterBy={setFilterBy} /> */}
 
             {/* {currentTab === 'homes' && <StayList stays={stays} />} */}
-            {currentTab === 'homes' && <StayList  />}
-            
-            {currentTab === 'experiences' && (
-                <div className="experiences-placeholder">
-                    <h2>Experiences Component Goes Here</h2>
-                </div>
-            )}
-            
-            {currentTab === 'services' && (
-                <div className="services-placeholder">
-                    <h2>Services Component Goes Here</h2>
-                </div>
-            )}
+          {currentTab === 'homes' && <StayList />}
+            {currentTab === 'experiences' && <StayList />}
+            {currentTab === 'services' && <StayList />}
         </section>
     )
 }
