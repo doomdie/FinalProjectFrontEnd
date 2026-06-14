@@ -5,7 +5,7 @@ export function StayList({ stays }) {
     return (
         <section className="stay-list-container">
             {stays.map(stay => (
-                <div key={stay._id} className="stay-card" style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
+                <div key={stay._id} className="stay-card">
                     <h2>{stay.name}</h2>
                     <p>Type: {stay.type}</p>
                     <p>Price: ${stay.price} / night</p>
