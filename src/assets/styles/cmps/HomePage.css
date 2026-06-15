@@ -1,3 +1,30 @@
-.home {
-    
+.home {}
+
+.homes-page {
+    padding: 1.5rem;
+}
+
+.homes-page .section-title {
+    margin-bottom: 1rem;
+
+    font-size: 1.4rem;
+}
+
+.stay-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+
+    padding: 0;
+    margin: 0;
+
+    list-style: none;
+}
+
+.stay-card img {
+    width: 100%;
+    border-radius: 12px;
+
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
 }
