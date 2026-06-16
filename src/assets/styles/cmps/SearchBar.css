@@ -1,0 +1,172 @@
+/* ===== SEARCH BAR PILL ===== */
+.app-header .search-bar {
+    display: flex;
+    align-items: center;
+
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 40px;
+
+    box-shadow: var(--shadow-md);
+    background-color: var(--color-bg);
+}
+
+.app-header .search-section {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 0.9rem 1.5rem;
+    border-radius: 40px;
+
+    cursor: pointer;
+}
+
+.app-header .search-section:hover {
+    background-color: var(--color-bg-soft);
+}
+
+/* divider line on When and Who (left edge) */
+.app-header .search-section:not(:first-child)::before,
+.app-header .search-who .search-section::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+
+    height: 60%;
+    width: 1px;
+    background-color: var(--color-border);
+
+    transition: opacity 0.2s ease;
+}
+
+/* hide When's divider when Where or When is hovered */
+.app-header .search-section:first-child:hover~.search-section::before {
+    opacity: 0;
+}
+
+.app-header .search-bar .search-section:nth-child(2):hover::before {
+    opacity: 0;
+}
+
+/* hide Who's divider when When or Who is hovered */
+.app-header .search-section:nth-child(2):hover~.search-who .search-section::before {
+    opacity: 0;
+}
+
+.app-header .search-who:hover .search-section::before {
+    opacity: 0;
+}
+
+/* Who + button grouped */
+.app-header .search-who {
+    display: flex;
+    align-items: center;
+    border-radius: 40px;
+}
+
+.app-header .search-who:hover {
+    background-color: var(--color-bg-soft);
+}
+
+.app-header .search-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.app-header .search-value {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+}
+
+/* ===== SEARCH BUTTON ===== */
+.app-header .search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 3rem;
+    height: 3rem;
+    border: 0;
+    border-radius: 50%;
+    margin: 0.4rem;
+
+    flex-shrink: 0;
+    /* button never shrinks, stays a circle */
+
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+    font-size: 1.1rem;
+
+    cursor: pointer;
+}
+
+
+
+/* ===== SMALL SEARCH PILL (scrolled state) ===== */
+.app-header .search-bar-small {
+    display: flex;
+    align-items: center;
+
+    border: 1px solid var(--color-border);
+    border-radius: 40px;
+
+    box-shadow: var(--shadow-md);
+    background-color: var(--color-bg);
+
+    padding: 0.3rem 0.3rem 0.3rem 0;
+    cursor: pointer;
+}
+
+.app-header .small-section {
+    position: relative;
+
+    padding: 0.4rem 1rem;
+
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+/* divider between small sections */
+.app-header .small-section:not(:first-child)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+
+    height: 60%;
+    width: 1px;
+
+    background-color: var(--color-border);
+}
+
+.app-header .search-btn-small {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2rem;
+    height: 2rem;
+    border: 0;
+    border-radius: 50%;
+    margin: 0;
+    flex-shrink: 0;
+
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+    font-size: 0.9rem;
+    cursor: pointer;
+
+    transition: box-shadow 0.2s ease;
+}
+
+.app-header .search-bar-small:hover {
+    box-shadow: var(--shadow-lg);
+}

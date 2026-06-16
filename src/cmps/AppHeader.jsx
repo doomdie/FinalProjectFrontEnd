@@ -1,17 +1,31 @@
 import { useRef, useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { FiSearch } from 'react-icons/fi'
+
+import { SearchBarBig } from './SearchBarBig'
+import { SearchBarSmall } from './SearchBarSmall'
+
 
 export function AppHeader() {
 	const tabsContainerRef = useRef()
 	const location = useLocation()
 	const [underlinePos, setUnderlinePos] = useState({ left: 0, width: 0 })
+	const [isScrolled, setIsScrolled] = useState(false)
 
 	useEffect(() => {
 		moveUnderlineToActiveTab()
 	}, [location.pathname])
 
+	useEffect(() => {
+		function onScroll() {
+			setIsScrolled(window.scrollY > 50)
+		}
+		window.addEventListener('scroll', onScroll)
+		return () => window.removeEventListener('scroll', onScroll)
+	}, [])
+
+
 	function moveUnderlineToActiveTab() {
+		if (!tabsContainerRef.current) return
 		const activeTabEl = tabsContainerRef.current.querySelector('a.active')
 		if (!activeTabEl) return
 
@@ -22,48 +36,34 @@ export function AppHeader() {
 	}
 
 	return (
-		<header className="app-header full">
+		<header className={`app-header full ${isScrolled ? 'scrolled' : ''}`}>
 			<div className="header-top">
 				<NavLink to="/" className="logo">
 					OurBNB
 				</NavLink>
 
 				<div className="header-center">
-					<div className="header-tabs" ref={tabsContainerRef}>
-						<NavLink to="/" end>Homes</NavLink>
-						<NavLink to="/experiences">Experiences</NavLink>
-						<NavLink to="/services">Services</NavLink>
+					{!isScrolled && (
+						<div className="header-tabs" ref={tabsContainerRef}>
+							<NavLink to="/" end>Homes</NavLink>
+							<NavLink to="/experiences">Experiences</NavLink>
+							<NavLink to="/services">Services</NavLink>
 
-						<span
-							className="tab-indicator"
-							style={{
-								left: underlinePos.left + 'px',
-								width: underlinePos.width + 'px',
-							}}
-						/>
-					</div>
-
-					<div className="search-bar">
-						<div className="search-section">
-							<span className="search-label">Where</span>
-							<span className="search-value">Search destinations</span>
+							<span
+								className="tab-indicator"
+								style={{
+									left: underlinePos.left + 'px',
+									width: underlinePos.width + 'px',
+								}}
+							/>
 						</div>
+					)}
 
-						<div className="search-section">
-							<span className="search-label">When</span>
-							<span className="search-value">Add dates</span>
-						</div>
+					{!isScrolled && <SearchBarBig />}
 
-						<div className="search-who">
-							<div className="search-section">
-								<span className="search-label">Who</span>
-								<span className="search-value">Add guests</span>
-							</div>
-
-							<button className="search-btn"><FiSearch /></button>
-						</div>
-					</div>
 				</div>
+
+				{isScrolled && <SearchBarSmall />}
 
 				<div className="header-actions">
 					<a className="host-link">Switch to hosting</a>
