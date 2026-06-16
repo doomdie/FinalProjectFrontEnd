@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { StayList } from '../cmps/StayList'
 import { CarIndex } from '../pages/CarIndex'
 import { TabNav } from '../cmps/TabNav'
+import { Carousel } from 'react-responsive-carousel'
 import { useSyncStayFilter } from '../customHooks/useSyncStayFilter'
 
 export function HomesPage() {
