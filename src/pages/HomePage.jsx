@@ -20,6 +20,7 @@ export function HomesPage() {
     return (
         <section className="homes-page">
             <TabNav />
+            <TabNav />
 
             <header className="homes-header">
                 <h2>Explore {currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}</h2>
