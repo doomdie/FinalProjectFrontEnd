@@ -41,4 +41,9 @@
     margin: 0;
     line-height: 1.2;
 }
-/* REMEMBER TO ADD LIKE, SCREEN SIZE STUFF */
+.stay-card, 
+.stay-card:hover, 
+.stay-card:focus {
+    text-decoration: none !important;
+}
+/* REMEMBER TO ADD LIKE, SCREEN SIZE STUFF  AND A HEART THINGY. LACK OF TEXT HIGHLIGHT IS STRANGELY A FEATURE IN NORMAL AIRBNB SO I ADDED IT HERE LOL*/

@@ -9,6 +9,8 @@ import { ChatApp } from './pages/Chat.jsx'
 import { AdminIndex } from './pages/AdminIndex.jsx'
 
 import { CarDetails } from './pages/CarDetails'
+import { StayDetails } from './pages/StayDetails'
+
 import { UserDetails } from './pages/UserDetails'
 
 import { AppHeader } from './cmps/AppHeader'
@@ -28,6 +30,8 @@ export function RootCmp() {
 
                     <Route path="" element={<HomesPage />} />
                     <Route path="homes" element={<HomesPage />} />
+                    <Route path="homes/:stayId" element={<StayDetails />} />
+
                     <Route path="/experiences" element={<HomesPage />} />
                     <Route path="/services" element={<HomesPage />} />
                     <Route path="about" element={<AboutUs />}>

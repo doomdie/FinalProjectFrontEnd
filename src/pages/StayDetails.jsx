@@ -1,0 +1,30 @@
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+
+import { loadStay } from '../store/actions/stay.actions'
+
+export function StayDetails() {
+  const { stayId } = useParams()
+  const stay = useSelector(storeState => storeState.stayModule.stay)
+
+  useEffect(() => {
+    loadStay(stayId)
+  }, [stayId])
+
+  if (!stay) return <div>Loading stay details...</div>
+
+  return (
+    <section className="stay-details">
+      <Link to="/stays">Back to list</Link>
+      <h1>Stay Details</h1>
+      <div>
+        <h3>{stay.name}</h3>
+        {stay.host && <h3>Host: {stay.host.fullname}</h3>}
+        <h4>${stay.price} / night</h4>
+        <pre>{JSON.stringify(stay, null, 2)}</pre>
+      </div>
+    </section>
+  )
+}
