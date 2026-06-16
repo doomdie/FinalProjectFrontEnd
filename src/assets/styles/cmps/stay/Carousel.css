@@ -1,0 +1,10 @@
+.carousel-grid-slide {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+    gap: 5px; 
+    margin: 0 auto;
+} 
+.stay-card {
+    max-width: 250px;
+}
+/* REMEMBER TO ADD LIKE, SCREEN SIZE STUFF */

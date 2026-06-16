@@ -3,8 +3,8 @@ import { CustomCarousel } from './CustomCarousel'
 import { StayCard } from './StayCard'
 
 export function StayCarouselRow({ title, stays, filterFn, itemsPerSlide = 4 }) {
-    
-    const filteredStays = stays.filter(filterFn)
+    const actualFilter = filterFn || (() => true)
+    const filteredStays = stays.filter(actualFilter)
 
     if (!filteredStays.length) return null
 

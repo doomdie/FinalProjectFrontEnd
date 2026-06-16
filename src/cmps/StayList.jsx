@@ -19,9 +19,16 @@ export function StayList({ stays }) {
             <StayCarouselRow 
                 title="Highest Rated Stays" 
                 stays={stays} 
-                 itemsPerSlide={1}
+                 itemsPerSlide={7}
 
                filterFn={(stay) => stay.price < 120}
+            />
+             <StayCarouselRow 
+                title="All STAYS" 
+                stays={stays} 
+                 itemsPerSlide={7}
+
+              
             />
 
         </section>
