@@ -1,6 +1,9 @@
 import { Routes, Route } from 'react-router'
-
+import { Carousel } from 'react-responsive-carousel';
 import { HomesPage } from './pages/HomePage'
+import { StayDetails } from './pages/StayDetails'
+
+
 import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
 
@@ -14,6 +17,8 @@ export function RootCmp() {
 
                     <Route path="" element={<HomesPage />} />
                     <Route path="homes" element={<HomesPage />} />
+                    <Route path="homes/:stayId" element={<StayDetails />} />
+
                     <Route path="/experiences" element={<HomesPage />} />
                     <Route path="/services" element={<HomesPage />} />
                     {/* <Route path="about" element={<AboutUs />}>

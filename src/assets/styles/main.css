@@ -18,6 +18,7 @@
 @import "cmps/AppHeader";
 @import "cmps/AppFooter";
 @import "cmps/UserMsg";
+@import "cmps/stay/Carousel.css";
 
 @import "cmps/car/CarIndex";
 @import "cmps/car/CarList";
@@ -27,3 +28,5 @@
 @import "cmps/review/ReviewEdit";
 @import "cmps/review/ReviewList";
 @import "cmps/review/ReviewPreview";
+@import "/node_modules/react-responsive-carousel/lib/styles/carousel.min.css";
+/* Placeholder placement for the carousel ^ */
