@@ -17,7 +17,7 @@ export function StayDetails() {
 
   return (
     <section className="stay-details">
-      <Link to="/stays">Back to list</Link>
+      <Link to="/homes">Back to list</Link>
       <h1>Stay Details</h1>
       <div>
         <h3>{stay.name}</h3>
