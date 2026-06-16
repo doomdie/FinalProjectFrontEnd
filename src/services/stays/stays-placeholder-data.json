@@ -1,0 +1,300 @@
+[
+  {
+    "_id": "s101",
+    "name": "Ribeira Charming Duplex",
+    "type": "House",
+    "imgUrls": ["https://images.unsplash.com/photo-1513694203232-719a280e022f", "otherImg.jpg"],
+    "price": 80.0,
+    "summary": "Fantastic duplex apartment...",
+    "capacity": 8,
+    "amenities": ["TV", "Wifi", "Kitchen", "Smoking allowed", "Pets allowed", "Cooking basics"],
+    "labels": ["Top of the world", "Trending", "Play", "Tropical"],
+    "host": {
+      "_id": "u101",
+      "fullname": "Davit Pok",
+      "imgUrl": "https://a0.muscache.com/im/pictures/fab79f25-2e10-4f0f-9711-663cb69dc7d8.jpg"
+    },
+    "loc": {
+      "country": "Portugal",
+      "countryCode": "PT",
+      "city": "Lisbon",
+      "address": "17 Kombo st",
+      "lat": -8.61308,
+      "lng": 41.1413
+    },
+    "reviews": [
+      {
+        "id": "madeId",
+        "txt": "Very helpful hosts. Cooked traditional...",
+        "rate": 4,
+        "by": {
+          "_id": "u102",
+          "fullname": "user2",
+          "imgUrl": "/img/img2.jpg"
+        }
+      }
+    ],
+    "likedByUsers": ["mini-user"]
+  },
+  {
+    "_id": "s102",
+    "name": "Sunset Beachfront Villa",
+    "type": "Villa",
+    "imgUrls": ["https://images.unsplash.com/photo-1540555700478-4be289fbecef", "villa-inside.jpg"],
+    "price": 250.0,
+    "summary": "Stunning luxury villa right on the white sands. Enjoy private pool access and panoramic ocean views.",
+    "capacity": 6,
+    "amenities": ["TV", "Wifi", "Kitchen", "Air conditioning", "Pool", "Ocean view", "Gym"],
+    "labels": ["Beachfront", "Trending", "Luxury", "Islands"],
+    "host": {
+      "_id": "u103",
+      "fullname": "Elena Rostova",
+      "imgUrl": "https://a0.muscache.com/im/pictures/user/avatar1.jpg"
+    },
+    "loc": {
+      "country": "Greece",
+      "countryCode": "GR",
+      "city": "Mykonos",
+      "address": "42 Thalassa Way",
+      "lat": 37.4467,
+      "lng": 25.3289
+    },
+    "reviews": [
+      {
+        "id": "r201",
+        "txt": "An absolute paradise! Watching the sunset from the pool was unforgettable.",
+        "rate": 5,
+        "by": {
+          "_id": "u104",
+          "fullname": "John Doe",
+          "imgUrl": "/img/u104.jpg"
+        }
+      }
+    ],
+    "likedByUsers": ["mini-user", "travel-guru"]
+  },
+  {
+    "_id": "s103",
+    "name": "Cozy A-Frame Mountain Cabin",
+    "type": "Cabin",
+    "imgUrls": ["https://images.unsplash.com/photo-1510798831971-661eb04b3739", "cabin-snow.jpg"],
+    "price": 145.0,
+    "summary": "Escape to the woods in this rustic yet modern A-frame cabin. Perfect for ski season or hiking.",
+    "capacity": 4,
+    "amenities": ["Wifi", "Indoor fireplace", "Kitchen", "Heating", "Mountain view", "Pets allowed"],
+    "labels": ["National parks", "Off-the-grid", "Trending"],
+    "host": {
+      "_id": "u105",
+      "fullname": "Marc Dubois",
+      "imgUrl": "https://a0.muscache.com/im/pictures/user/avatar2.jpg"
+    },
+    "loc": {
+      "country": "France",
+      "countryCode": "FR",
+      "city": "Chamonix",
+      "address": "88 Rue des Sapins",
+      "lat": 45.9227,
+      "lng": 6.8685
+    },
+    "reviews": [
+      {
+        "id": "r301",
+        "txt": "Super cozy. The fireplace was amazing after a long day of skiing.",
+        "rate": 5,
+        "by": {
+          "_id": "u106",
+          "fullname": "Sarah Smith",
+          "imgUrl": "/img/u106.jpg"
+        }
+      }
+    ],
+    "likedByUsers": []
+  },
+  {
+    "_id": "s104",
+    "name": "Industrial Minimalist Loft",
+    "type": "Apartment",
+    "imgUrls": ["https://images.unsplash.com/photo-1502672260266-1c1ef2d93688", "loft-bed.jpg"],
+    "price": 110.0,
+    "summary": "Sleek, high-ceiling loft in the heart of the design district. Steps away from top restaurants and cafes.",
+    "capacity": 2,
+    "amenities": ["TV", "Wifi", "Kitchen", "Elevator", "Washing machine", "Dedicated workspace"],
+    "labels": ["Iconic cities", "Design", "Play"],
+    "host": {
+      "_id": "u107",
+      "fullname": "Kenji Sato",
+      "imgUrl": "https://a0.muscache.com/im/pictures/user/avatar3.jpg"
+    },
+    "loc": {
+      "country": "Japan",
+      "countryCode": "JP",
+      "city": "Tokyo",
+      "address": "3-Chome Shibuya",
+      "lat": 35.6580,
+      "lng": 139.7016
+    },
+    "reviews": [
+      {
+        "id": "r401",
+        "txt": "Very clean, ultra-modern, and incredibly close to the train station.",
+        "rate": 4,
+        "by": {
+          "_id": "u108",
+          "fullname": "Alex P.",
+          "imgUrl": "/img/u108.jpg"
+        }
+      }
+    ],
+    "likedByUsers": ["backpacker_99"]
+  },
+  {
+    "_id": "s105",
+    "name": "Kyoto Traditional Machiya Woodhouse",
+    "type": "House",
+    "imgUrls": ["https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e"],
+    "price": 195.0,
+    "summary": "Experience old Japan in this beautifully restored 100-year-old machiya townhouse featuring a private rock garden.",
+    "capacity": 5,
+    "amenities": ["Wifi", "Kitchen", "Heating", "Garden", "Tatami Mats"],
+    "labels": ["Design", "Iconic cities"],
+    "host": { "_id": "u109", "fullname": "Yuki Hiro", "imgUrl": "/img/yuki.jpg" },
+    "loc": { "country": "Japan", "countryCode": "JP", "city": "Kyoto", "address": "12 Gion-machi", "lat": 35.0037, "lng": 135.7782 },
+    "reviews": [],
+    "likedByUsers": []
+  },
+  {
+    "_id": "s106",
+    "name": "Luxury Safari Tent",
+    "type": "Tent",
+    "imgUrls": ["https://images.unsplash.com/photo-1533759413974-9e15f3b745ac"],
+    "price": 310.0,
+    "summary": "Glamping at its absolute finest. Sleep under the stars with full luxury amenities and morning wildlife spotting routes.",
+    "capacity": 2,
+    "amenities": ["Pool", "Wifi", "Air conditioning", "Outdoor shower", "All-inclusive breakfast"],
+    "labels": ["Off-the-grid", "Luxury", "Tropical"],
+    "host": { "_id": "u110", "fullname": "Kofi Mensah", "imgUrl": "/img/kofi.jpg" },
+    "loc": { "country": "Kenya", "countryCode": "KE", "city": "Maasai Mara", "address": "Camp site 4, Narok", "lat": -1.5271, "lng": 35.1523 },
+    "reviews": [],
+    "likedByUsers": []
+  },
+  {
+    "_id": "s107",
+    "name": "Modern Glass Treehouse Oasis",
+    "type": "Treehouse",
+    "imgUrls": ["https://images.unsplash.com/photo-1520250497591-112f2f40a3f4"],
+    "price": 185.0,
+    "summary": "Perched high in the canopy, this architectural masterpiece offers 360-degree views of the surrounding rainforest.",
+    "capacity": 2,
+    "amenities": ["Wifi", "Hot tub", "Kitchenette", "Balcony", "Coffee Maker"],
+    "labels": ["Top of the world", "Tropical", "Design"],
+    "host": { "_id": "u111", "fullname": "Mateo Silva", "imgUrl": "/img/mateo.jpg" },
+    "loc": { "country": "Costa Rica", "countryCode": "CR", "city": "La Fortuna", "address": "Arenal Canopy Trail Rd", "lat": 10.4678, "lng": -84.6427 },
+    "reviews": [],
+    "likedByUsers": []
+  },
+  {
+    "_id": "s108",
+    "name": "Santorini Caldera Cliffside Cave",
+    "type": "Apartment",
+    "imgUrls": ["https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff"],
+    "price": 290.0,
+    "summary": "Carved into the volcanic cliffs of Oia, this cave suite boasts a private infinity plunge pool facing the sea.",
+    "capacity": 3,
+    "amenities": ["Wifi", "Air conditioning", "Plunge pool", "Sea view", "Breakfast included"],
+    "labels": ["Beachfront", "Trending", "Top of the world"],
+    "host": { "_id": "u112", "fullname": "Dimitris P.", "imgUrl": "/img/dimitris.jpg" },
+    "loc": { "country": "Greece", "countryCode": "GR", "city": "Santorini", "address": "Oia Cliff Steps 9", "lat": 36.4618, "lng": 25.3753 },
+    "reviews": [],
+    "likedByUsers": ["mini-user"]
+  },
+  {
+    "_id": "s109",
+    "name": "Futuristic Desert Pod",
+    "type": "House",
+    "imgUrls": ["https://images.unsplash.com/photo-1533090161767-e6ffed986c88"],
+    "price": 210.0,
+    "summary": "Off-grid living with a space-age design. Powered entirely by solar, featuring high-end telescopes for stargazing.",
+    "capacity": 2,
+    "amenities": ["Wifi", "Air conditioning", "Telescope", "Fire pit", "Kitchen"],
+    "labels": ["Off-the-grid", "Design"],
+    "host": { "_id": "u113", "fullname": "Sarah Connor", "imgUrl": "/img/sarah.jpg" },
+    "loc": { "country": "United States", "countryCode": "US", "city": "Joshua Tree", "address": "Boulderdash Lane 101", "lat": 34.1347, "lng": -116.3131 },
+    "reviews": [],
+    "likedByUsers": []
+  },
+  {
+    "_id": "s110",
+    "name": "Secluded Scandinavian Lake Cabin",
+    "type": "Cabin",
+    "imgUrls": ["https://images.unsplash.com/photo-1504280390367-361c6d9f38f4"],
+    "price": 130.0,
+    "summary": "Resting right on the water edge with a private wood-fired sauna and a rowboat ready for your morning excursions.",
+    "capacity": 4,
+    "amenities": ["Sauna", "Indoor fireplace", "Rowboat", "Kitchen", "Wifi"],
+    "labels": ["Off-the-grid", "National parks"],
+    "host": { "_id": "u114", "fullname": "Lars Vidar", "imgUrl": "/img/lars.jpg" },
+    "loc": { "country": "Norway", "countryCode": "NO", "city": "Stryn", "address": "Fjordvegen 450", "lat": 61.9045, "lng": 6.7226 },
+    "reviews": [],
+    "likedByUsers": []
+  },
+  {
+    "_id": "s111",
+    "name": "Manhattan Penthouse with Skyline Terrace",
+    "type": "Apartment",
+    "imgUrls": ["https://images.unsplash.com/photo-1522708323590-d24dbb6b0267"],
+    "price": 450.0,
+    "summary": "Stunning duplex penthouse in Soho featuring an expansive wraparound terrace overlooking the Empire State building.",
+    "capacity": 4,
+    "amenities": ["TV", "Wifi", "Kitchen", "Elevator", "Gym", "Doorman"],
+    "labels": ["Iconic cities", "Luxury"],
+    "host": { "_id": "u115", "fullname": "Brooke Sterling", "imgUrl": "/img/brooke.jpg" },
+    "loc": { "country": "United States", "countryCode": "US", "city": "New York", "address": "452 West Broadway", "lat": 40.7262, "lng": -74.0005 },
+    "reviews": [],
+    "likedByUsers": []
+  },
+  {
+    "_id": "s112",
+    "name": "Eco-Bamboo Dome in the Rice Fields",
+    "type": "House",
+    "imgUrls": ["https://images.unsplash.com/photo-1546548970-71785318a17b"],
+    "price": 95.0,
+    "summary": "Immerse yourself completely in Bali's lush nature. This open-air bamboo dome hangs right above cascading river streams.",
+    "capacity": 2,
+    "amenities": ["Wifi", "Pool", "Hammock", "Mosquito net", "Daily housekeeping"],
+    "labels": ["Tropical", "Design", "Trending"],
+    "host": { "_id": "u116", "fullname": "Wayan Putra", "imgUrl": "/img/wayan.jpg" },
+    "loc": { "country": "Indonesia", "countryCode": "ID", "city": "Ubud", "address": "Jl. Raya Sayan No. 22", "lat": -8.5069, "lng": 115.2625 },
+    "reviews": [],
+    "likedByUsers": ["travel-guru"]
+  },
+  {
+    "_id": "s113",
+    "name": "Charming Amsterdam Canal Studio",
+    "type": "Apartment",
+    "imgUrls": ["https://images.unsplash.com/photo-1512917774080-9991f1c4c750"],
+    "price": 160.0,
+    "summary": "Quaint, historical lower-level flat located directly on the Prinsengracht Canal. Bicycles included!",
+    "capacity": 2,
+    "amenities": ["Wifi", "Kitchen", "Bicycles", "Heating", "Washing machine"],
+    "labels": ["Iconic cities", "Play"],
+    "host": { "_id": "u117", "fullname": "Anika de Jong", "imgUrl": "/img/anika.jpg" },
+    "loc": { "country": "Netherlands", "countryCode": "NL", "city": "Amsterdam", "address": "114 Prinsengracht", "lat": 52.3731, "lng": 4.8834 },
+    "reviews": [],
+    "likedByUsers": []
+  },
+  {
+    "_id": "s114",
+    "name": "High-Alpine Mirror Glass Chalet",
+    "type": "Cabin",
+    "imgUrls": ["https://images.unsplash.com/photo-1549693578-d683be217e58"],
+    "price": 380.0,
+    "summary": "A magnificent cabin built with premium reflective glass that seamlessly camouflages into the stunning Dolomites landscape.",
+    "capacity": 4,
+    "amenities": ["Wifi", "Indoor fireplace", "Hot tub", "Ski-in/Ski-out", "Kitchen"],
+    "labels": ["Top of the world", "Luxury", "National parks"],
+    "host": { "_id": "u118", "fullname": "Giovanni Rossi", "imgUrl": "/img/giovanni.jpg" },
+    "loc": { "country": "Italy", "countryCode": "IT", "city": "Cortina d'Ampezzo", "address": "Passo Falzarego 3", "lat": 46.5405, "lng": 12.1357 },
+    "reviews": [],
+    "likedByUsers": []
+  }
+]
