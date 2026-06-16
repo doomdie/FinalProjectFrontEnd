@@ -11,6 +11,7 @@
 
 @import "cmps/HomePage";
 
+@import "cmps/stay/Carousel";
 
 @import "cmps/AppHeader";
 @import "cmps/AppFooter";
