@@ -1,27 +1,13 @@
-import React from 'react'
 import { Routes, Route } from 'react-router'
 
 import { HomesPage } from './pages/HomePage'
-import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
-import { CarIndex } from './pages/CarIndex.jsx'
-import { ReviewIndex } from './pages/ReviewIndex.jsx'
-import { ChatApp } from './pages/Chat.jsx'
-import { AdminIndex } from './pages/AdminIndex.jsx'
-
-import { CarDetails } from './pages/CarDetails'
-import { UserDetails } from './pages/UserDetails'
-
 import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
-import { UserMsg } from './cmps/UserMsg.jsx'
-import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
-
 
 export function RootCmp() {
     return (
         <div className="main-container">
             <AppHeader />
-            <UserMsg />
 
             <main>
                 <Routes>
@@ -46,9 +32,8 @@ export function RootCmp() {
                     </Route>
                 </Routes>
             </main>
+
             <AppFooter />
         </div>
     )
 }
-
-

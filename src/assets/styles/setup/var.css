@@ -1,17 +1,64 @@
 :root {
-  --clr1: #ce2e6c;
+  /* ===== Brand ===== */
+  --color-primary: #FF385C;
+  /* Airbnb pink — search button, active states, accents */
+  --color-primary-dark: #E00B41;
+  /* darker pink — hover on primary */
+  --color-primary-gradient: linear-gradient(to right, #E61E4D, #E31C5F, #D70466);
+  /* the search button gradient */
+
+  /* ===== Text ===== */
+  --color-text: #222222;
+  /* main text, near-black */
+  --color-text-light: #717171;
+  /* secondary text — dates, subtitles, placeholders */
+  --color-text-muted: #B0B0B0;
+  /* faint text */
+
+  /* ===== Surfaces / backgrounds ===== */
+  --color-bg: #FFFFFF;
+  /* page + header background, white */
+  --color-bg-soft: #F7F7F7;
+  /* light gray section background */
+  --color-bg-hover: #F0F0F0;
+  /* hover background on buttons/links */
+  --header-bg: linear-gradient(to bottom, #FFFFFF, #F7F7F7);
+  --footer-bg: #F7F7F7;
+
+
+  /* ===== Borders / lines ===== */
+  --color-border: #DDDDDD;
+  /* card borders, search bar outline, dividers */
+  --color-border-dark: #B0B0B0;
+  /* stronger divider */
+
+  /* ===== Shadows ===== */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
+  /* subtle */
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.12);
+  /* search bar resting */
+  --shadow-lg: 0 3px 12px rgba(0, 0, 0, 0.18);
+  /* search bar / section when active */
+
+  /* ===== Status ===== */
+  --color-success: #008A05;
+  /* approved / success green */
+  --color-error: #C13515;
+  /* rejected / error red */
+  --color-rating: #222222;
+  /* star rating text */
+
+  /* ===== legacy names — kept so old CSS doesn't break ===== */
+  --clr1: var(--color-primary);
   --clr2: #4f3a65;
   --clr3: #574f7d;
-  --clr4: #95adbe;
+  --clr4: var(--color-bg);
   --clr5: #dff0ea;
-
-  --clr1-light: color-mix(in lab, var(--clr1), white 15%);
-
+  --clr1-light: var(--color-primary-dark);
   --gray1: #ddd;
   --gray2: #aaa;
   --gray3: #777;
   --gray4: #333;
-
-  --success: rgb(41, 189, 73);
-  --error: rgb(216, 59, 59);
+  --success: var(--color-success);
+  --error: var(--color-error);
 }
