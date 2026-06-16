@@ -21,7 +21,7 @@ export function HomesPage() {
                     </li>
                 ))}
             </ul>
-            
+
         </section>
     )
 }
