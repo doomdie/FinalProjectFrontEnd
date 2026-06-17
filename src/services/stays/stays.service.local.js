@@ -2,7 +2,7 @@
 import { storageService } from '../async-storage.service'
 import { makeId } from '../util.service'
 import { userService } from '../user'
-import gDefaultStays from './stays-placeholder-data'
+import gDefaultStays from './stay.json'
 const STORAGE_KEY = 'stay'
 _createStays()
 export const stayService = {

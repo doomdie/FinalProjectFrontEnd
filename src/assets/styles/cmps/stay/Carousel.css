@@ -5,6 +5,11 @@
     margin: 0 auto;
 } 
 
+.my-carousel-wrapper,
+.carousel-row-wrapper,
+.carousel.carousel-slider {
+    max-width: 100vw !important;
+}
 .stay-card {
     max-width: 250px;
     display: flex;
