@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 
-import { SearchBarBig } from './SearchBarBig'
-import { SearchBarSmall } from './SearchBarSmall'
+import { SearchBarBig } from './SearchBarBig.jsx'
+import { SearchBarSmall } from './SearchBarSmall.jsx'
 
 
 export function AppHeader() {
@@ -17,7 +17,11 @@ export function AppHeader() {
 
 	useEffect(() => {
 		function onScroll() {
-			setIsScrolled(window.scrollY > 50)
+			setIsScrolled(prev => {
+				if (!prev && window.scrollY > 200) return true
+				if (prev && window.scrollY < 10) return false
+				return prev
+			})
 		}
 		window.addEventListener('scroll', onScroll)
 		return () => window.removeEventListener('scroll', onScroll)
@@ -43,27 +47,33 @@ export function AppHeader() {
 				</NavLink>
 
 				<div className="header-center">
-					{!isScrolled && (
-						<div className="header-tabs" ref={tabsContainerRef}>
-							<NavLink to="/" end>Homes</NavLink>
-							<NavLink to="/experiences">Experiences</NavLink>
-							<NavLink to="/services">Services</NavLink>
+					<div className="header-tabs" ref={tabsContainerRef}>
+						<NavLink to="/" end>
+							<img src="/img/symbols/house.svg" alt="Homes" className="tab-icon" />
+							Homes
+						</NavLink>
+						<NavLink to="/experiences">
+							<img src="/img/symbols/balloon.svg" alt="Experiences" className="tab-icon" />
+							Experiences
+						</NavLink>
+						<NavLink to="/services">
+							<img src="/img/symbols/bell.svg" alt="Services" className="tab-icon" />
+							Services
+						</NavLink>
 
-							<span
-								className="tab-indicator"
-								style={{
-									left: underlinePos.left + 'px',
-									width: underlinePos.width + 'px',
-								}}
-							/>
-						</div>
-					)}
+						<span
+							className="tab-indicator"
+							style={{
+								left: underlinePos.left + 'px',
+								width: underlinePos.width + 'px',
+							}}
+						/>
+					</div>
 
-					{!isScrolled && <SearchBarBig />}
-
+					<SearchBarBig />
 				</div>
 
-				{isScrolled && <SearchBarSmall />}
+				<SearchBarSmall />
 
 				<div className="header-actions">
 					<a className="host-link">Switch to hosting</a>
