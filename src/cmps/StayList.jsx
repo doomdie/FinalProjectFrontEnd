@@ -23,13 +23,13 @@ export function StayList({ stays }) {
 
                filterFn={(stay) => stay.price < 120}
             />
-             {/* <StayCarouselRow 
+             <StayCarouselRow 
                 title="All STAYS" 
                 stays={stays} 
                  itemsPerSlide={7}
 
               
-            /> */}
+            />
 
         </section>
     )

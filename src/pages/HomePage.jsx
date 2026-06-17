@@ -1,27 +1,37 @@
-const stayImgs = [
-    '/img/stay1.jpeg',
-    '/img/stay2.jpeg',
-    '/img/stay3.jpeg',
-    '/img/stay4.jpeg',
-    '/img/stay5.jpeg',
-    '/img/stay6.jpeg',
-    '/img/stay7.jpeg',
-    '/img/stay8.jpeg',
-]
+import { useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
+import { StayList } from '../cmps/StayList'
+import { CarIndex } from '../pages/CarIndex'
+import { TabNav } from '../cmps/TabNav'
+import { useSyncStayFilter } from '../customHooks/useSyncStayFilter'
+
+
+
+
 
 export function HomesPage() {
+    const location = useLocation()
+
+    useSyncStayFilter()
+
+    const currentTab = location.pathname.substring(1) || 'homes'
+    const stays = useSelector(storeState => storeState.stayModule.stays)
+
     return (
         <section className="homes-page">
-            <h2 className="section-title">Popular homes</h2>
+           
 
-            <ul className="stay-list">
-                {stayImgs.map(imgUrl => (
-                    <li key={imgUrl} className="stay-card">
-                        <img src={imgUrl} alt="stay" />
-                    </li>
-                ))}
-            </ul>
+            <header className="homes-header">
+                <h2>Explore {currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}</h2>
+            </header>
 
+            {currentTab === 'homes' && (
+                <StayList stays={stays} />
+            )}
+
+            {currentTab === 'experiences' && (
+                <CarIndex />
+            )}
         </section>
     )
 }
