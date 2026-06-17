@@ -21,6 +21,7 @@ return (
     <h1>Stay Details</h1>
     <div>
       <h3>{stay.name}</h3>
+      <div className = "details-gallery">
      {stay.imgUrls.map((url, index) => (
     <img 
         key={index}
@@ -29,6 +30,7 @@ return (
         className="stay-card-img" 
     />
 ))}
+</div>
       {stay.host && <h3>Host: {stay.host.fullname}</h3>}
       <h4>${stay.price} / night</h4>
       {/* <pre>{JSON.stringify(stay, null, 2)}</pre> */}
