@@ -1,0 +1,15 @@
+.stay-details{
+     display: grid;
+    grid-template-columns: 1rem 1fr 1rem;
+    justify-items: center;
+    align-items: center;
+    >* {
+        grid-column: 2;
+        text-align: center;
+
+        &.full {
+            grid-column: 1 / -1;
+            width: 100%;
+        }
+    }
+}

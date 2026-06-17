@@ -14,17 +14,25 @@ export function StayDetails() {
   }, [stayId])
 
   if (!stay) return <div>Loading stay details...</div>
-
-  return (
-    <section className="stay-details">
-      <Link to="/homes">Back to list</Link>
-      <h1>Stay Details</h1>
-      <div>
-        <h3>{stay.name}</h3>
-        {stay.host && <h3>Host: {stay.host.fullname}</h3>}
-        <h4>${stay.price} / night</h4>
-        <pre>{JSON.stringify(stay, null, 2)}</pre>
-      </div>
-    </section>
-  )
+console.log(stay.imgUrls)
+return (
+  <section className="stay-details">
+    <Link to="/homes">Back to list</Link>
+    <h1>Stay Details</h1>
+    <div>
+      <h3>{stay.name}</h3>
+     {stay.imgUrls.map((url, index) => (
+    <img 
+        key={index}
+        src={url} 
+        alt={stay.name} 
+        className="stay-card-img" 
+    />
+))}
+      {stay.host && <h3>Host: {stay.host.fullname}</h3>}
+      <h4>${stay.price} / night</h4>
+      {/* <pre>{JSON.stringify(stay, null, 2)}</pre> */}
+    </div>
+  </section>
+)
 }
