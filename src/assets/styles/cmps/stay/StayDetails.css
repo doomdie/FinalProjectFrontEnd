@@ -46,6 +46,7 @@
 .stay-info-list {
         display: flex;
             flex-direction: row;
+            gap:5px;
 
 
 }

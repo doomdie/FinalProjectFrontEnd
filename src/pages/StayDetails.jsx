@@ -37,7 +37,7 @@ return (
         
         <header className="stay-overview-header">
           <h4>{stay.name}</h4>
-          <ul className = "stay-info-list"><li> {stay.bedrooms}</li><li>{stay.bathrooms}</li></ul>
+          <ul className = "stay-info-list"><li> Bedrooms: {stay.bedrooms}</li><li>Bathrooms: {stay.bathrooms}</li><li>Reviews: {stay.reviews.length}</li></ul>
           <h4>${stay.price} / night</h4>
         </header>
 
