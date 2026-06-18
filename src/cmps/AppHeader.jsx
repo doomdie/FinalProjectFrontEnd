@@ -10,12 +10,18 @@ export function AppHeader() {
 	const location = useLocation()
 	const [underlinePos, setUnderlinePos] = useState({ left: 0, width: 0 })
 	const [isScrolled, setIsScrolled] = useState(false)
+	const isDetailsPage = location.pathname.startsWith('/homes/') && location.pathname !== '/homes' && location.pathname !== '/homes/'
 
 	useEffect(() => {
 		moveUnderlineToActiveTab()
 	}, [location.pathname])
 
 	useEffect(() => {
+		if (isDetailsPage) {
+			setIsScrolled(true)
+			return
+		}
+
 		function onScroll() {
 			setIsScrolled(prev => {
 				if (!prev && window.scrollY > 200) return true
@@ -23,10 +29,12 @@ export function AppHeader() {
 				return prev
 			})
 		}
+
+		onScroll()
+
 		window.addEventListener('scroll', onScroll)
 		return () => window.removeEventListener('scroll', onScroll)
-	}, [])
-
+	}, [isDetailsPage, location.pathname])
 
 	function moveUnderlineToActiveTab() {
 		if (!tabsContainerRef.current) return

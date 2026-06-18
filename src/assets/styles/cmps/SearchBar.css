@@ -1,5 +1,7 @@
 /* ===== SEARCH BAR PILL ===== */
 .app-header .search-bar {
+    position: relative;
+
     display: flex;
     align-items: center;
 
@@ -24,8 +26,8 @@
     cursor: pointer;
 }
 
-.app-header .search-section:hover {
-    background-color: var(--color-bg-soft);
+.app-header .search-section:not(.active):hover {
+    background-color: var(--color-bg-hover);
 }
 
 /* divider line on When and Who (left edge) */
@@ -44,23 +46,35 @@
     transition: opacity 0.2s ease;
 }
 
-/* hide When's divider when Where or When is hovered */
-.app-header .search-section:first-child:hover~.search-section::before {
+/* a hovered section hides its own left divider and the next section's */
+.app-header .search-section:hover::before {
     opacity: 0;
 }
 
-.app-header .search-bar .search-section:nth-child(2):hover::before {
+.app-header .search-section:hover+.search-section::before,
+.app-header .search-section:hover+.search-who .search-section::before {
     opacity: 0;
 }
 
-/* hide Who's divider when When or Who is hovered */
-.app-header .search-section:nth-child(2):hover~.search-who .search-section::before {
-    opacity: 0;
-}
-
+/* hovering the Who group hides its own divider */
 .app-header .search-who:hover .search-section::before {
     opacity: 0;
 }
+
+
+/* hide dividers (stays hidden without hover) */
+.app-header .search-section.active::before {
+    opacity: 0;
+}
+
+.app-header .search-section.active+.search-section::before {
+    opacity: 0;
+}
+
+.app-header .search-section.active+.search-who .search-section::before {
+    opacity: 0;
+}
+
 
 /* Who + button grouped */
 .app-header .search-who {
@@ -69,8 +83,8 @@
     border-radius: 40px;
 }
 
-.app-header .search-who:hover {
-    background-color: var(--color-bg-soft);
+.app-header .search-who:not(:has(.search-section.active)):hover {
+    background-color: var(--color-bg-hover);
 }
 
 .app-header .search-label {
@@ -89,6 +103,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
 
     width: 3rem;
     height: 3rem;
@@ -104,6 +119,32 @@
     font-size: 1.1rem;
 
     cursor: pointer;
+
+    gap: 0.5rem;
+    transition: width 0.3s ease, border-radius 0.3s ease;
+}
+
+.app-header .search-btn.expanded {
+    width: 7rem;
+    padding: 0 1.2rem;
+    border-radius: 24px;
+}
+
+.app-header .search-btn-text {
+    max-width: 0;
+    overflow: hidden;
+    opacity: 0;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+
+    transition: max-width 0.3s ease, opacity 0.3s ease;
+}
+
+.app-header .search-btn.expanded .search-btn-text {
+    max-width: 5rem;
+    opacity: 1;
 }
 
 
@@ -134,7 +175,7 @@
 }
 
 /* divider between small sections */
-.app-header .small-section:not(:first-child)::before {
+.app-header .small-section~.small-section::before {
     content: '';
     position: absolute;
     left: 0;
@@ -175,4 +216,31 @@
     width: 1.3rem;
     height: 1.3rem;
     margin-left: 0.9rem;
+}
+
+
+/* ===== WHITE PILL RULES ===== */
+.app-header .search-pill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 0;
+
+    border-radius: 40px;
+    background-color: var(--color-bg);
+    box-shadow: var(--shadow-md);
+
+    transition: left 0.3s ease, width 0.3s ease;
+}
+
+/* keep section text above the pill */
+.app-header .search-section,
+.app-header .search-who {
+    position: relative;
+    z-index: 1;
+}
+
+/* dim the whole bar when a section is active */
+.app-header .search-bar:has(.search-section.active) {
+    background-color: var(--color-bg-soft);
 }
