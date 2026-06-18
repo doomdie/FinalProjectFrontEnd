@@ -8,16 +8,15 @@ import { loadStay } from '../store/actions/stay.actions'
 export function StayDetails() {
   const { stayId } = useParams()
   const stay = useSelector(storeState => storeState.stayModule.stay)
-
+  const placeholderAvatar = 'https://images.pexels.com/photos/18039300/pexels-photo-18039300.jpeg'
   useEffect(() => {
     loadStay(stayId)
   }, [stayId])
 
   if (!stay) return <div>Loading stay details...</div>
-console.log(stay.imgUrls)
+console.log(stay.host.pictureUrl)
 return (
   <section className="stay-details">
-    <Link to="/homes">Back to list</Link>
     <h1>Stay Details</h1>
     
     <div className="details-gallery">
@@ -38,16 +37,23 @@ return (
         <header className="stay-overview-header">
           <h4>{stay.name}</h4>
           <ul className = "stay-info-list"><li> Bedrooms: {stay.bedrooms}</li><li>Bathrooms: {stay.bathrooms}</li><li>Reviews: {stay.reviews.length}</li></ul>
-          <h4>${stay.price} / night</h4>
+          
         </header>
-
+ {/* Add review stuff */}
         <section className="further-details">
           
-          {/* <section className="host-profile">
-            <h3>Hosted by Kaylee</h3> 
+          <section className="host-profile">
+            <img 
+          src={placeholderAvatar} 
+          alt={stay.name} 
+          className="stay-card-img" 
+        />  
+        <div className = "hostText">
             {stay.host && <h3>Host: {stay.host.fullname}</h3>}
             <p>Superhost · 3 years hosting</p>
-          </section> */}
+            </div>
+          </section>
+
 
           <section className="stay-highlights">
             <h3>Home highlights</h3> 
@@ -69,7 +75,8 @@ return (
       </aside>
 
     </main>
-
+ 
   </section>
 )
 }
+// Find out how to make the header shorter on this page

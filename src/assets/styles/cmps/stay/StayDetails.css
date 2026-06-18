@@ -50,3 +50,23 @@
 
 
 }
+.further-details {
+     margin-top: 36px;
+     
+}
+.host-profile {
+    display:flex;
+    gap:24px;
+}
+.host-profile img {
+    height:40px;
+    width:40px;
+    border-radius:50%;
+    overflow:hidden;
+    position:relative;
+}
+.host-text {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
