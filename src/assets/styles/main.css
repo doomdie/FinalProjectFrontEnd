@@ -12,8 +12,10 @@
 @import "cmps/HomePage";
 
 @import "cmps/stay/Carousel";
+@import "cmps/stay/StayDetails";
 
-@import "cmps/AppHeader";
+
+@import "cmps/AppHeader.css";
 @import "cmps/AppFooter";
 @import "cmps/SearchBar";
 
