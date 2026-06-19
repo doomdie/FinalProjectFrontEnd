@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { AmenitiesList } from '../cmps/AmenitiesList'
 import { ReadMore } from '../cmps/ReadMore'
-
+import { store } from '../store/store'
 import { loadStay } from '../store/actions/stay.actions'
 
 export function StayDetails() {
@@ -12,12 +12,17 @@ export function StayDetails() {
   const [isExpanded, setIsExpanded] = useState(false)
   const stay = useSelector(storeState => storeState.stayModule.stay)
   const placeholderAvatar = 'https://images.pexels.com/photos/18039300/pexels-photo-18039300.jpeg'
+
   useEffect(() => {
     loadStay(stayId)
+
+    return () => {
+      store.dispatch({ type: 'SET_STAY', stay: null })
+    }
   }, [stayId])
 
   if (!stay) return <div>Loading stay details...</div>
-  console.log(stay)
+
   return (
     <section className="stay-details">
       <h1>Stay Details</h1>
@@ -39,10 +44,13 @@ export function StayDetails() {
 
           <header className="stay-overview-header">
             <h4>{stay.name}</h4>
-            <ul className="stay-info-list"><li> Bedrooms: {stay.bedrooms}</li><li>Bathrooms: {stay.bathrooms}</li><li>Reviews: {stay.reviews.length}</li></ul>
-
+            <ul className="stay-info-list">
+              <li> Bedrooms: {stay.bedrooms}</li>
+              <li>Bathrooms: {stay.bathrooms}</li>
+              <li>Reviews: {stay.reviews.length}</li>
+            </ul>
           </header>
-          {/* Add review stuff */}
+
           <section className="further-details">
 
             <section className="host-profile">
@@ -57,18 +65,14 @@ export function StayDetails() {
               </div>
             </section>
 
-           
-           {stay.amenities && <AmenitiesList amenities={stay.amenities} />}
+            {stay.amenities && <AmenitiesList amenities={stay.amenities} />}
+            
             <section className="stay-highlights">
               <h3>Summary</h3>
-             <ReadMore text={stay.summary} /> 
-             {/* NOT HOW IT WORKS ITS GOTTA BE AN DAMN MODAL */}
+              <ReadMore text={stay.summary} /> 
             </section>
 
-            <section className="stay-description">
-              <h3>Description</h3>
-              <p>Welcome to a luxurious family retreat...</p>
-            </section>
+           
 
           </section>
         </section>
@@ -81,4 +85,3 @@ export function StayDetails() {
     </section>
   )
 }
-// Find out how to make the header shorter on this page

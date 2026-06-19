@@ -1,23 +1,38 @@
 import { useState } from 'react'
 
 export function ReadMore({ text }) {
-    const [isExpanded, setIsExpanded] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     const summaryText = text || ''
     const shouldTrim = summaryText.length > 150
-    const displayedText = isExpanded || !shouldTrim ? summaryText : summaryText.slice(0, 150) + '...'
+    const displayedText = shouldTrim ? summaryText.slice(0, 150) + '...' : summaryText
 
     return (
-        <p>
-            {displayedText}
-            {shouldTrim && (
-                <button 
-                    onClick={() => setIsExpanded(!isExpanded)} 
-                    className="read-more-btn"
-                >
-                    {isExpanded ? 'Show less' : 'Read more'}
-                </button>
+        <>
+            <p>
+                {displayedText}
+                {shouldTrim && (
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="read-more-btn"
+        >
+                        Read more
+                    </button>
+                )}
+            </p>
+
+            {isModalOpen && (
+                <div className="modal-backdrop" onClick={() => setIsModalOpen(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="modal-close-btn" onClick={() => setIsModalOpen(false)}>
+                        
+                        </button>
+                        <div className="modal-body">
+                            <p>{summaryText}</p>
+                        </div>
+                    </div>
+                </div>
             )}
-        </p>
+        </>
     )
 }
