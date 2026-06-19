@@ -36,9 +36,9 @@ export function StickyCard({ stay }) {
             <p>Check-in: {dates.checkIn ? dates.checkIn.toLocaleDateString() : 'Add date'}</p>
             <p>Checkout: {dates.checkOut ? dates.checkOut.toLocaleDateString() : 'Add date'}</p>
         </div>
-        <div className = "guests-trigger"> Hi this is a test</div>
+         <GuestMenu   currentList = {guestCounts} onUpdateList = {setGuestCounts} ></GuestMenu>
         </div>
-        <GuestMenu currentList = {guestCounts} onUpdateList = {setGuestCounts} ></GuestMenu>
+       
         <Modal
             open={isDatePickerOpen}
             onClose={() => setIsDatePickerOpen(false)}

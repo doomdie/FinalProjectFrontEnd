@@ -29,7 +29,7 @@ function handleEditAction(keyName) {
 
 
   return (
-    <div>
+    <div className ="guest-triggers">
       <Button 
         variant="contained" 
         onClick={handleButtonClick}
@@ -41,6 +41,11 @@ function handleEditAction(keyName) {
         anchorEl={anchorEl}
         open={open}
         onClose={handleCloseMenu}
+        slotProps={{
+        paper: {
+          className: 'custom-guest-dropdown' 
+        }
+      }}
       >
         <MenuItem onClick={() => handleEditAction('adults')}>
           Edit Profile
