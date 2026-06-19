@@ -47,3 +47,36 @@
     
     width: 400px;
 }
+
+.sticky-part-one {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border: 1px solid #b0b0b0;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.sticky-part-one .date-pickers-trigger {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-bottom: 1px solid #b0b0b0;
+    cursor: pointer;
+}
+
+.sticky-part-one .date-pickers-trigger p {
+    margin: 0;
+    padding: 10px 12px;
+}
+
+.sticky-part-one .date-pickers-trigger p:first-child {
+    border-right: 1px solid #b0b0b0;
+}
+
+.sticky-part-one .guests-trigger {
+    grid-column: span 2;
+    padding: 10px 12px;
+    
+    text-align:center;
+}
