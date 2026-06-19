@@ -36,3 +36,4 @@ export function ReadMore({ text }) {
         </>
     )
 }
+//SWITCH THE MODAL HERE WITH THE MODAL MATERIAL UI THING!!!
