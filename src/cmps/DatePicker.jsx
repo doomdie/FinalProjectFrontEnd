@@ -4,6 +4,7 @@ import 'react-day-picker/dist/style.css'
 
 export function DatePicker({ onSelectDates }) {
     const [range, setRange] = useState({ from: null, to: null })
+        const [isModalOpen, setIsModalOpen] = useState(false)
 
     return (
         <div className="date-picker-dropdown">
