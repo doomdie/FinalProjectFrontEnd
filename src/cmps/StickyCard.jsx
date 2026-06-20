@@ -36,7 +36,7 @@ export function StickyCard({ stay }) {
             <p>Check-in: {dates.checkIn ? dates.checkIn.toLocaleDateString() : 'Add date'}</p>
             <p>Checkout: {dates.checkOut ? dates.checkOut.toLocaleDateString() : 'Add date'}</p>
         </div>
-         <GuestMenu   currentList = {guestCounts} onUpdateList = {setGuestCounts} ></GuestMenu>
+         <GuestMenu  stay = {stay} currentList = {guestCounts} onUpdateList = {setGuestCounts} ></GuestMenu>
         </div>
        
         <Modal

@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Button, Menu, MenuItem, IconButton, Typography, Box } from '@mui/material'; //Just incase.. Ugh
 
-export function GuestMenu({ currentList, onUpdateList }) {
+import RemoveIcon from '@mui/icons-material/Remove';
+
+export function GuestMenu({ currentList, onUpdateList, stay }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -18,14 +20,18 @@ export function GuestMenu({ currentList, onUpdateList }) {
 //     console.log("Edit function activated!");
 //     handleCloseMenu(); 
 //   };
-function handleEditAction(keyName) {
+function handleCountChange(e, keyName, amount) {
 
+        e.stopPropagation();
+        const newValue = (currentList[keyName] || 0) + amount;
+        if (newValue < 0) return;
         onUpdateList({
-            ...currentList,
-            [keyName]: currentList[keyName] + 1
-        });
+      ...currentList,
+      [keyName]: newValue
+    });
+  };
     
-}
+
 
 
   return (
@@ -47,8 +53,22 @@ function handleEditAction(keyName) {
         }
       }}
       >
-        <MenuItem onClick={() => handleEditAction('adults')}>
-          Edit Profile
+       <MenuItem component="div">
+          ADULTS
+          <IconButton 
+              size="small" 
+              onClick={(e) => handleCountChange(e, 'adults', -1)}
+              disabled={(currentList.adults || 0) <= 0}
+            >
+              <RemoveIcon fontSize="small" />
+            </IconButton>
+            <IconButton 
+              size="small" 
+              onClick={(e) => handleCountChange(e, 'adults', +1)}
+              disabled={(currentList.adults || 0) > stay.capacity}
+            >
+              <RemoveIcon fontSize="small" />
+            </IconButton>
         </MenuItem>
         
   
