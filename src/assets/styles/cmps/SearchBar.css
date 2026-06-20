@@ -33,7 +33,7 @@
 }
 
 .app-header .search-section:not(.active):hover {
-    background-color: var(--color-bg-hover);
+    background-color: var(--color-section-hover);
 }
 
 /* divider line on When and Who (left edge) */
@@ -95,7 +95,7 @@
 }
 
 .app-header .search-who:not(:has(.search-section.active)):hover {
-    background-color: var(--color-bg-hover);
+    background-color: var(--color-section-hover);
 }
 
 .app-header .search-label {
@@ -108,6 +108,25 @@
     font-size: 0.7rem;
     color: var(--color-text-light);
 }
+
+
+
+.app-header .search-input {
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    background: transparent;
+    outline: none;
+
+    font-size: 0.7rem;
+    color: var(--color-text);
+}
+
+.app-header .search-input::placeholder {
+    color: var(--color-text-light);
+}
+
 
 /* ===== SEARCH BUTTON ===== */
 .app-header .search-btn {

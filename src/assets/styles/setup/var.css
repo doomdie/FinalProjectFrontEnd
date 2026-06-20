@@ -22,6 +22,8 @@
   /* light gray section background */
   --color-bg-hover: #F0F0F0;
   /* hover background on buttons/links */
+  --color-section-hover: #E0E0E0;
+
   --header-bg: linear-gradient(to bottom, #FFFFFF, #F7F7F7);
   --footer-bg: #F7F7F7;
 

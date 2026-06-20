@@ -10,17 +10,20 @@ export const stayService = {
     getById,
     save,
     remove,
-    
+
 }
 window.cs = stayService
 
 
-async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: ''}) {
+async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: '' }) {
     var stays = await storageService.query(STORAGE_KEY)
-    const { txt, minPrice, sortField, sortDir, startDate, endDate } = filterBy
+    const { minPrice, sortField, sortDir, startDate, endDate } = filterBy
+
+    // the search bar sends 'search', older filters send 'txt' — accept either
+    const txt = filterBy.txt || filterBy.search
 
     if (txt) {
-        const regex = new RegExp(filterBy.txt, 'i')
+        const regex = new RegExp(txt, 'i')
         stays = stays.filter(stay => regex.test(stay.loc.country) || regex.test(stay.loc.city))
     }
     if (minPrice) {
@@ -36,41 +39,33 @@ async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: 
             return name1.localeCompare(name2) * +sortDir
         })
     }
-    if(sortField === 'price'){
-        stays.sort((stay1, stay2) => 
+    if (sortField === 'price') {
+        stays.sort((stay1, stay2) =>
             (stay1[sortField] - stay2[sortField]) * +sortDir)
     }
-    if(sortField === 'capacity'){
-        stays.sort((stay1, stay2) => 
+    if (sortField === 'capacity') {
+        stays.sort((stay1, stay2) =>
             (stay1[sortField] - stay2[sortField]) * +sortDir)
     }
-    stays = stays.map(({ 
-    _id, name, type, imgUrls, price, capacity, host, loc, labels, amenities, reviews 
-}) => {
-    const reviewCount = reviews?.length || 0
-    let avgRating = 'New'
 
-    if (reviewCount > 0) {
-        const totalScore = reviews.reduce((acc, rev) => acc + rev.rate, 0)
-        avgRating = Math.round((totalScore / reviewCount) * 100) / 100
-    }
+    stays = stays.map(({
+        _id, name, type, imgUrls, price, capacity, host, loc, labels, amenities, reviews
+    }) => {
+        const reviewCount = reviews?.length || 0
+        let avgRating = 'New'
 
-    return {
-        _id,
-        name,
-        type,
-        imgUrls,
-        price,
-        capacity,
-        host,
-        loc,
-        labels,
-        amenities,
-        avgRating,
-        reviewCount
-    }
-})
-return stays
+        if (reviewCount > 0) {
+            const totalScore = reviews.reduce((acc, rev) => acc + rev.rate, 0)
+            avgRating = Math.round((totalScore / reviewCount) * 100) / 100
+        }
+
+        return {
+            _id, name, type, imgUrls, price, capacity,
+            host, loc, labels, amenities, avgRating, reviewCount
+        }
+    })
+
+    return stays
 }
 
 function getById(stayId) {
@@ -88,7 +83,7 @@ function _createStays() {
     if (!stays || !stays.length) {
         console.log("sup - local storage empty, seeding from JSON")
         stays = gDefaultStays
-        
+
         localStorage.setItem(STORAGE_KEY, JSON.stringify(stays))
     }
 }
@@ -101,24 +96,24 @@ async function save(stay) {
             ...stay,
             host: userService.getLoggedinUser(),
             reviews: [],
-            
+
         }
         savedStay = await storageService.post(STORAGE_KEY, stayToSave)
     }
     return savedStay
 }
 //_id,
-        // name,
-        // type,
-        // imgUrls,
-        // price,
-        // capacity,
-        // host,
-        // loc,
-        // labels,
-        // amenities,
-        // avgRating,
-        // reviewCount
+// name,
+// type,
+// imgUrls,
+// price,
+// capacity,
+// host,
+// loc,
+// labels,
+// amenities,
+// avgRating,
+// reviewCount
 // async function addStayMsg(stayId, txt) {
 //     // Later, this is all done by the backend
 //     const stay = await getById(stayId)
