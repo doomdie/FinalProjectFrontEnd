@@ -17,20 +17,24 @@ export function AppHeader() {
 	}, [location.pathname])
 	
 	useEffect(() => {
-        if (isDetailsPage) {
-            setIsScrolled(true)
-            return
-        }
+		if (isDetailsPage) {
+			setIsScrolled(true)
+			return
+		}
 
-        function onScroll() {
-            setIsScrolled(window.scrollY > 50)
-        }
+		function onScroll() {
+			setIsScrolled(prev => {
+				if (!prev && window.scrollY > 200) return true
+				if (prev && window.scrollY < 10) return false
+				return prev
+			})
+		}
 
-        onScroll()
+		onScroll()
 
-        window.addEventListener('scroll', onScroll)
-        return () => window.removeEventListener('scroll', onScroll)
-    }, [isDetailsPage, location.pathname])
+		window.addEventListener('scroll', onScroll)
+		return () => window.removeEventListener('scroll', onScroll)
+	}, [isDetailsPage, location.pathname])
 
 	function moveUnderlineToActiveTab() {
 		if (!tabsContainerRef.current) return
