@@ -15,29 +15,29 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
     setAnchorEl(null);
   };
 
-  
-//   const handleEditAction = () => {
-//     console.log("Edit function activated!");
-//     handleCloseMenu(); 
-//   };
-function handleCountChange(e, keyName, amount) {
 
-        e.stopPropagation();
-        const newValue = (currentList[keyName] || 0) + amount;
-        if (newValue < 0) return;
-        onUpdateList({
+  //   const handleEditAction = () => {
+  //     console.log("Edit function activated!");
+  //     handleCloseMenu(); 
+  //   };
+  function handleCountChange(e, keyName, amount) {
+
+    e.stopPropagation();
+    const newValue = (currentList[keyName] || 0) + amount;
+    if (newValue < 0) return;
+    onUpdateList({
       ...currentList,
       [keyName]: newValue
     });
   };
-    
+
 
 
 
   return (
-    <div className ="guest-triggers">
-      <Button 
-        variant="contained" 
+    <div className="guest-triggers">
+      <Button
+        variant="contained"
         onClick={handleButtonClick}
       >
         GUEST AMOUNT
@@ -49,31 +49,44 @@ function handleCountChange(e, keyName, amount) {
         onClose={handleCloseMenu}
         disablePortal
         slotProps={{
-        paper: {
-          className: 'custom-guest-dropdown' 
-        }
-      }}
+          paper: {
+            className: 'custom-guest-dropdown'
+          }
+        }}
       >
-       <MenuItem component="div">
+        <MenuItem component="div"
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '16px',
+            width: '100%'
+          }}>
           ADULTS
-          <IconButton 
-              size="small" 
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <IconButton
+              size="small"
               onClick={(e) => handleCountChange(e, 'adults', -1)}
               disabled={(currentList.adults || 0) <= 0}
             >
               <RemoveIcon fontSize="small" />
             </IconButton>
-            <IconButton 
-              size="small" 
+            <span>{currentList['adults']}</span>
+
+            <IconButton
+              size="small"
               onClick={(e) => handleCountChange(e, 'adults', +1)}
               disabled={(currentList.adults || 0) > stay.capacity}
             >
-              <span>{currentList['adults']}</span>
               <RemoveIcon fontSize="small" />
             </IconButton>
+
+          </Box>
+
+
         </MenuItem>
-        
-  
+
+
       </Menu>
     </div>
   );
