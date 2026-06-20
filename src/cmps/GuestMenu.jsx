@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Button, Menu, MenuItem, IconButton, Typography, Box } from '@mui/material'; //Just incase.. Ugh
 
 import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
+
 
 export function GuestMenu({ currentList, onUpdateList, stay }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -85,7 +87,7 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
               onClick={(e) => handleCountChange(e, 'adults', +1)}
               disabled={(currentList.adults || 0) > stay.capacity}
             >
-              <RemoveIcon fontSize="small" />
+              <AddIcon fontSize="small" />
             </IconButton>
 
           </Box>
@@ -94,6 +96,115 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
         </MenuItem>
 
 
+        <MenuItem component="div"
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '16px',
+            width: '100%'
+          }}>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <span>KIDS</span>
+            <span style={{ fontSize: '0.75rem', color: '#666' }}>Ages 2-12</span>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <IconButton
+              size="small"
+              onClick={(e) => handleCountChange(e, 'children', -1)}
+              disabled={(currentList.children || 0) <= 0}
+            >
+              <RemoveIcon fontSize="small" />
+            </IconButton>
+            <span>{currentList['children']}</span>
+
+            <IconButton
+              size="small"
+              onClick={(e) => handleCountChange(e, 'children', +1)}
+              disabled={(currentList.children || 0) > stay.capacity}
+            >
+              <AddIcon fontSize="small" />
+            </IconButton>
+
+          </Box>
+
+
+        </MenuItem>
+
+
+        <MenuItem component="div"
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '16px',
+            width: '100%'
+          }}>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <span>INFANTS</span>
+            <span style={{ fontSize: '0.75rem', color: '#666' }}>Under 2</span>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <IconButton
+              size="small"
+              onClick={(e) => handleCountChange(e, 'infants', -1)}
+              disabled={(currentList.infants || 0) <= 0}
+            >
+              <RemoveIcon fontSize="small" />
+            </IconButton>
+            <span>{currentList['infants']}</span>
+
+            <IconButton
+              size="small"
+              onClick={(e) => handleCountChange(e, 'infants', +1)}
+              disabled={(currentList.infants || 0) > stay.capacity}
+            >
+              <AddIcon fontSize="small" />
+            </IconButton>
+
+          </Box>
+
+
+        </MenuItem>
+
+
+        <MenuItem component="div"
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '16px',
+            width: '100%'
+          }}>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <span>PETS</span>
+            <span style={{ fontSize: '0.75rem', color: '#666' }}>Woof! Lol</span>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <IconButton
+              size="small"
+              onClick={(e) => handleCountChange(e, 'pets', -1)}
+              disabled={(currentList.pets || 0) <= 0}
+            >
+              <RemoveIcon fontSize="small" />
+            </IconButton>
+            <span>{currentList['pets']}</span>
+
+            <IconButton
+              size="small"
+              onClick={(e) => handleCountChange(e, 'pets', +1)}
+              disabled={(currentList.pets || 0) > stay.capacity}
+            >
+              <AddIcon fontSize="small" />
+            </IconButton>
+
+          </Box>
+
+
+        </MenuItem>
       </Menu>
     </div>
   );
