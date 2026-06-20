@@ -50,14 +50,14 @@
     width: 400px;
 }
 .sticky-card-container {
-    position: sticky;
+  position: sticky;
     top: 20px;
-    
-    grid-column-start: 2;
-    grid-column-end: 2;
-     grid-row-start: 1;
-  grid-row-end: 3;   
-    margin-left: 22.33333333333333% !important;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    grid-column: 2;
 }
 .sticky-part-one {
     display: grid;
@@ -104,19 +104,31 @@
 }
 
 .custom-guest-dropdown {
-    
-    width: 350px;
     background-color: rgb(255, 0, 0);
     border: 2px solid black;
-    margin: 0;
+    
 }
 .stay-highlights {
     grid-column: 1 / span 1; 
     width:600px;
+    
    
 
 }
 .price-breakdown-summary {
     text-align:center;
+}
+.reserve-btn {
+    justify-content:center;
+}
+.firstColumn {
+    display:flex;
+    flex-direction:column;
+}
+.stay-content-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 36px;
+    align-items: start; 
 }
 /* PUT THESE IN THE PROPER PLACES IT CAN'T ALL JUST BE HERE YAIRRRRR */

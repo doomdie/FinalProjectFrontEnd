@@ -53,7 +53,7 @@ export function StayDetails() {
           </header>
 
           <section className="further-details">
-
+            <div className = "firstColumn">
             <section className="host-profile">
               <img
                 src={placeholderAvatar}
@@ -64,23 +64,25 @@ export function StayDetails() {
                 {stay.host && <h3>Host: {stay.host.fullname}</h3>}
                 <p>Superhost *Placeholder</p>
               </div>
+               
             </section>
-            {/* <div className = "miscInfo"> This is the host with the</div> */}
-            {/* {stay.amenities && <AmenitiesList amenities={stay.amenities} />} */}
-            
             <section className="stay-highlights">
               <h3>Summary</h3>
               <ReadMore text={stay.summary} /> 
             </section>
+            </div>
+            {/* <div className = "miscInfo"> This is the host with the</div> */}
+            {/* {stay.amenities && <AmenitiesList amenities={stay.amenities} />} */}
+            
+           
           
-           <StickyCard stay = {stay}></StickyCard>
+           
 
           </section>
         </section>
 
-        <aside className="booking-sidebar">
-        </aside>
-
+       
+        <StickyCard stay = {stay}></StickyCard>
       </main>
 
     </section>

@@ -40,15 +40,19 @@ export function StickyCard({ stay }) {
     }
     console.log("Current guest counts object:", guestCounts)
     return (
-        
+
         <div className="sticky-card-container">
-             {totalNights > 0 && (
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>THIS HOST SUCKS! </span>
+                
+            </Box>
+            {totalNights > 0 && (
                 <div className="price-breakdown-summary">
-                    
-                 
+
+
 
                     <div className="price-row total-row">
-                         <h3>₪{totalPrice}</h3>
+                        <h3>₪{totalPrice}</h3>
                     </div>
                 </div>
             )}
@@ -80,9 +84,13 @@ export function StickyCard({ stay }) {
                 </div>
             </Modal>
 
-           
+
 
             <button onClick={handleReserve} className="reserve-btn">Reserve</button>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>Hi </span>
+
+            </Box>
         </div>
     )
 }
