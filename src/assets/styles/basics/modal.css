@@ -52,7 +52,10 @@
 .sticky-card-container {
     position: sticky;
     top: 20px;
-    width: var(--sticky-card-width);
+    
+    grid-column: 2 / span 2; 
+    
+    width: 100%;
 }
 .sticky-part-one {
     display: grid;
@@ -88,19 +91,28 @@
     justify-items:center;
     justify-content:center;
     align-items:center;
-    margin-left: -8px;
     position: relative;
+    text-align:center;
     
+}
+.sticky-part-one .guest-triggers > button,
+.sticky-part-one .guest-triggers > div {
+    justify-self: stretch; 
+    width: 100%; 
 }
 
 .custom-guest-dropdown {
- position: absolute;
-    left: 30;
-    right: 0;
+    
     width: 350px;
     background-color: rgb(255, 0, 0);
     border: 2px solid black;
     margin: 0;
-    margin-left: -137px;
+}
+.stay-highlights {
+    grid-column: 1 / span 1; 
+    
+   
+  /* Starts at row line 1, ends at row line 3 */
+
 }
 /* PUT THESE IN THE PROPER PLACES IT CAN'T ALL JUST BE HERE YAIRRRRR */

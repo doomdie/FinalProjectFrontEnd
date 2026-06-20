@@ -65,8 +65,8 @@ export function StayDetails() {
                 <p>Superhost *Placeholder</p>
               </div>
             </section>
-
-            {stay.amenities && <AmenitiesList amenities={stay.amenities} />}
+            {/* <div className = "miscInfo"> This is the host with the</div> */}
+            {/* {stay.amenities && <AmenitiesList amenities={stay.amenities} />} */}
             
             <section className="stay-highlights">
               <h3>Summary</h3>

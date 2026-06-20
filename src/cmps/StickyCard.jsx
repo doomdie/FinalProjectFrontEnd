@@ -52,7 +52,6 @@ export function StickyCard({ stay }) {
                         <span >{dates.checkOut ? dates.checkOut.toLocaleDateString() : 'Add date'}</span>
                     </Box>
 
-                   
                 </div>
                 <GuestMenu stay={stay} currentList={guestCounts} onUpdateList={setGuestCounts} ></GuestMenu>
             </div>
