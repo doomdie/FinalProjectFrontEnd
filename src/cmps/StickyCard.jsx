@@ -40,7 +40,18 @@ export function StickyCard({ stay }) {
     }
     console.log("Current guest counts object:", guestCounts)
     return (
+        
         <div className="sticky-card-container">
+             {totalNights > 0 && (
+                <div className="price-breakdown-summary">
+                    
+                 
+
+                    <div className="price-row total-row">
+                         <h3>₪{totalPrice}</h3>
+                    </div>
+                </div>
+            )}
             <div className="sticky-part-one">
                 <div className="date-pickers-trigger" onClick={() => setIsDatePickerOpen(true)}>
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -69,35 +80,7 @@ export function StickyCard({ stay }) {
                 </div>
             </Modal>
 
-            {totalNights > 0 && (
-                <div className="price-breakdown-summary">
-                    <p className="disclaimer-text">You won't be charged yet</p>
-
-                    <div className="price-row">
-                        <span>₪{pricePerNight} x {totalNights} nights</span>
-                        <span>₪{accommodationBasePrice}</span>
-                    </div>
-
-                    {petFee > 0 && (
-                        <div className="price-row">
-                            <span>Pet fee</span>
-                            <span>₪{petFee}</span>
-                        </div>
-                    )}
-
-                    <div className="price-row">
-                        <span>Service fee</span>
-                        <span>₪{serviceFee}</span>
-                    </div>
-
-                    <hr />
-
-                    <div className="price-row total-row">
-                        <h3>Total before taxes</h3>
-                        <h3>₪{totalPrice}</h3>
-                    </div>
-                </div>
-            )}
+           
 
             <button onClick={handleReserve} className="reserve-btn">Reserve</button>
         </div>
