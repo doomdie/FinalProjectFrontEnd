@@ -15,7 +15,7 @@ export function AppHeader() {
 	useEffect(() => {
 		moveUnderlineToActiveTab()
 	}, [location.pathname])
-
+	
 	useEffect(() => {
 		if (isDetailsPage) {
 			setIsScrolled(true)

@@ -6,14 +6,17 @@
 @import "basics/layout";
 @import "basics/base";
 @import "basics/forms";
+@import "basics/modal.css";
 
 @import "RootCmp";
 
 @import "cmps/HomePage";
 
 @import "cmps/stay/Carousel";
+@import "cmps/stay/StayDetails";
 
-@import "cmps/AppHeader";
+
+@import "cmps/AppHeader.css";
 @import "cmps/AppFooter";
 @import "cmps/SearchBar";
 
