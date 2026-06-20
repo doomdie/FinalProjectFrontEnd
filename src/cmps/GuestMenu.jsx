@@ -62,7 +62,12 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
             gap: '16px',
             width: '100%'
           }}>
-          ADULTS
+          
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+    <span>ADULTS</span>
+    <span style={{ fontSize: '0.75rem', color: '#666' }}>Ages 13 or above</span> 
+  </Box>
+  {/* The styles within the code itself are probably frowned upon but I can't seem to get it to work in normal css.. Fuuuckk */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <IconButton
               size="small"
