@@ -1,10 +1,13 @@
 import { useState, useRef, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { FiSearch } from 'react-icons/fi'
 
 export function SearchBarBig() {
     // which section is open: 'where', 'when', 'who', or null
     const [activeSection, setActiveSection] = useState(null)
     const [pillPos, setPillPos] = useState({ left: 0, width: 0 })
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [whereValue, setWhereValue] = useState(searchParams.get('search') || '')
 
     const searchBarRef = useRef()   // the search-bar div, for click-outside check
     const whereRef = useRef()
@@ -31,6 +34,18 @@ export function SearchBarBig() {
         setPillPos({ left: activeEl.offsetLeft, width: activeEl.offsetWidth })
     }, [activeSection])
 
+    useEffect(() => {
+        // push the typed text into the URL ?search= param, debounced
+        const timer = setTimeout(() => {
+            const params = new URLSearchParams(searchParams)
+            if (whereValue) params.set('search', whereValue)
+            else params.delete('search')
+            setSearchParams(params)
+        }, 400)
+
+        return () => clearTimeout(timer)
+    }, [whereValue])
+
     return (
         <div className="search-bar" ref={searchBarRef}>
             {activeSection && (
@@ -46,7 +61,13 @@ export function SearchBarBig() {
                 onClick={() => setActiveSection('where')}
             >
                 <span className="search-label">Where</span>
-                <span className="search-value">Search destinations</span>
+                <input
+                    className="search-input"
+                    type="text"
+                    placeholder="Search destinations"
+                    value={whereValue}
+                    onChange={(ev) => setWhereValue(ev.target.value)}
+                />
             </div>
 
             <div
@@ -67,7 +88,7 @@ export function SearchBarBig() {
                     <span className="search-value">Add guests</span>
                 </div>
 
-               <button className={`search-btn ${activeSection ? 'expanded' : ''}`}>
+                <button className={`search-btn ${activeSection ? 'expanded' : ''}`}>
                     <FiSearch />
                     <span className="search-btn-text">Search</span>
                 </button>
