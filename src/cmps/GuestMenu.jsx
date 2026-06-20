@@ -47,6 +47,7 @@ function handleCountChange(e, keyName, amount) {
         anchorEl={anchorEl}
         open={open}
         onClose={handleCloseMenu}
+        disablePortal
         slotProps={{
         paper: {
           className: 'custom-guest-dropdown' 
@@ -67,6 +68,7 @@ function handleCountChange(e, keyName, amount) {
               onClick={(e) => handleCountChange(e, 'adults', +1)}
               disabled={(currentList.adults || 0) > stay.capacity}
             >
+              <span>{currentList['adults']}</span>
               <RemoveIcon fontSize="small" />
             </IconButton>
         </MenuItem>

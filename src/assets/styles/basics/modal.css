@@ -10,7 +10,9 @@
     align-items: center;
     z-index: 1000;
 }
-
+:root {
+    --sticky-card-width: 350px; 
+}
 .modal-content {
     background: white;
     padding: 24px;
@@ -47,7 +49,11 @@
     
     width: 400px;
 }
-
+.sticky-card-container {
+    position: sticky;
+    top: 20px;
+    width: var(--sticky-card-width);
+}
 .sticky-part-one {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -78,7 +84,6 @@
     grid-column: span 2;
     padding: 10px 24px 10px 12px;
     justify-items:center;
-   
     justify-content:center;
     align-items:center;
     margin-left: -8px;
@@ -86,5 +91,5 @@
 .custom-guest-dropdown {
     background-color: rgb(255, 0, 0);
     border: 2px solid black !important;
-    min-width: 250px;
+    width: var(--sticky-card-width) !important; 
 }
