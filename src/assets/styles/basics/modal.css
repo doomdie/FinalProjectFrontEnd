@@ -50,8 +50,9 @@
     width: 400px;
 }
 .sticky-card-container {
+    top: 68px;
+    z-index: 10;
   position: sticky;
-    top: 20px;
     padding: 20px;
     border-radius: 12px;
     display: flex;
