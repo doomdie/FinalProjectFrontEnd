@@ -59,8 +59,9 @@
     grid-template-columns: repeat(2, 1fr);
     border: 1px solid #b0b0b0;
     border-radius: 8px;
-    overflow: hidden;
+    overflow: visible;
     background-color: #fff;
+    position: relative;
 }
 
 .sticky-part-one .date-pickers-trigger {
@@ -69,6 +70,7 @@
     grid-template-columns: repeat(2, 1fr);
     border-bottom: 1px solid #b0b0b0;
     cursor: pointer;
+    
 }
 
 .sticky-part-one .date-pickers-trigger p {
@@ -76,7 +78,7 @@
     padding: 10px 12px;
 }
 
-.sticky-part-one .date-pickers-trigger p:first-child {
+.sticky-part-one .date-pickers-trigger div:first-child {
     border-right: 1px solid #b0b0b0;
 }
 
@@ -87,9 +89,18 @@
     justify-content:center;
     align-items:center;
     margin-left: -8px;
+    position: relative;
+    
 }
+
 .custom-guest-dropdown {
+ position: absolute;
+    left: 30;
+    right: 0;
+    width: 350px;
+    
     background-color: rgb(255, 0, 0);
-    border: 2px solid black !important;
-    width: var(--sticky-card-width) !important; 
+    border: 2px solid black;
+    margin: 0;
+    margin-left: -135px;
 }
