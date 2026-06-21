@@ -1,0 +1,157 @@
+/* two-column page: results left, map right */
+.search-page {
+    display: flex;
+    align-items: flex-start;
+}
+
+.search-results-panel {
+    flex: 1;
+    padding: 1.5rem 2.5rem;
+}
+
+.search-results-count {
+    margin-bottom: 1.5rem;
+
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* 3 columns of cards */
+.search-results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem 0.8rem;
+}
+
+.result-card {
+    display: flex;
+    flex-direction: column;
+
+    color: var(--color-text);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.result-card-img {
+    width: 100%;
+    border-radius: 12px;
+
+    aspect-ratio: 20 / 14;
+    overflow: hidden;
+}
+
+.result-card-img img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.result-card:hover .result-card-img img {
+    transform: scale(1.05);
+}
+
+.result-card-info {
+    padding-top: 0.6rem;
+}
+
+.result-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.result-card-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.result-card-rating {
+    font-size: 0.85rem;
+}
+
+.result-card-name,
+.result-card-type {
+    margin: 0.1rem 0;
+
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+}
+
+.result-card-price {
+    margin-top: 0.3rem;
+
+    font-size: 0.9rem;
+}
+
+/* map placeholder — right half, sticky so it stays while list scrolls */
+.search-map-placeholder {
+    position: sticky;
+    top: 5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 45%;
+    height: calc(100vh - 6rem);
+    margin: 1rem;
+    border-radius: 16px;
+
+    background-color: var(--color-bg-soft);
+    color: var(--color-text-light);
+}
+
+
+/* pagination bar */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    margin: 2rem 0;
+}
+
+.pagination .page-num,
+.pagination .page-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2.2rem;
+    height: 2.2rem;
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.pagination .page-num:hover,
+.pagination .page-arrow:hover {
+    background-color: var(--color-bg-soft);
+}
+
+.pagination .page-num.active {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+}
+
+.pagination .page-arrow:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.pagination .page-dots {
+    display: flex;
+    align-items: center;
+
+    padding: 0 0.3rem;
+    
+    color: var(--color-text-light);
+}

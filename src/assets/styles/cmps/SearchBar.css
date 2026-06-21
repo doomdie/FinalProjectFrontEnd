@@ -253,6 +253,14 @@
 }
 
 
+.app-header .small-location {
+    max-width: 14rem;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /* ===== WHITE PILL RULES ===== */
 .app-header .search-pill {
     position: absolute;
