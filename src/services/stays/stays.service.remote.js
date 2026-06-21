@@ -22,8 +22,14 @@ async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: 
 
     // filter by free text: match against country or city
     if (txt) {
-        const regex = new RegExp(txt, 'i')
-        stays = stays.filter(stay => regex.test(stay.loc.country) || regex.test(stay.loc.city))
+        const terms = txt.split(',').map(term => term.trim()).filter(term => term)
+
+        stays = stays.filter(stay => {
+            return terms.every(term => {
+                const regex = new RegExp(term, 'i')
+                return regex.test(stay.loc.country) || regex.test(stay.loc.city)
+            })
+        })
     }
 
     // filter by minimum price

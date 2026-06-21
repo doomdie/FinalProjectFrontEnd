@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import { FiSearch } from 'react-icons/fi'
 
 export function SearchBarBig() {
@@ -9,10 +9,15 @@ export function SearchBarBig() {
     const [searchParams, setSearchParams] = useSearchParams()
     const [whereValue, setWhereValue] = useState(searchParams.get('search') || '')
 
+    const navigate = useNavigate()
+
     const searchBarRef = useRef()   // the search-bar div, for click-outside check
     const whereRef = useRef()
     const whenRef = useRef()
     const whoRef = useRef()
+
+    const whereInputRef = useRef()
+
 
     useEffect(() => {
         // close when clicking outside the bar
@@ -34,17 +39,21 @@ export function SearchBarBig() {
         setPillPos({ left: activeEl.offsetLeft, width: activeEl.offsetWidth })
     }, [activeSection])
 
-    useEffect(() => {
-        // push the typed text into the URL ?search= param, debounced
-        const timer = setTimeout(() => {
-            const params = new URLSearchParams(searchParams)
-            if (whereValue) params.set('search', whereValue)
-            else params.delete('search')
-            setSearchParams(params)
-        }, 400)
+    // useEffect(() => {
+    //     // push the typed text into the URL ?search= param, debounced
+    //     const timer = setTimeout(() => {
+    //         const params = new URLSearchParams(searchParams)
+    //         if (whereValue) params.set('search', whereValue)
+    //         else params.delete('search')
+    //         setSearchParams(params)
+    //     }, 400)
 
-        return () => clearTimeout(timer)
-    }, [whereValue])
+    //     return () => clearTimeout(timer)
+    // }, [whereValue])
+
+    function onSearch() {
+        navigate(`/search?search=${encodeURIComponent(whereValue)}`)
+    }
 
     return (
         <div className="search-bar" ref={searchBarRef}>
@@ -58,10 +67,15 @@ export function SearchBarBig() {
             <div
                 ref={whereRef}
                 className={`search-section ${activeSection === 'where' ? 'active' : ''}`}
-                onClick={() => setActiveSection('where')}
+                onClick={() => {
+                    setActiveSection('where')
+                    whereInputRef.current?.focus()
+
+                }}
             >
                 <span className="search-label">Where</span>
                 <input
+                    ref={whereInputRef}
                     className="search-input"
                     type="text"
                     placeholder="Search destinations"
@@ -88,8 +102,10 @@ export function SearchBarBig() {
                     <span className="search-value">Add guests</span>
                 </div>
 
-                <button className={`search-btn ${activeSection ? 'expanded' : ''}`}>
-                    <FiSearch />
+                <button
+                    className={`search-btn ${activeSection ? 'expanded' : ''}`}
+                    onClick={onSearch}
+                >                    <FiSearch />
                     <span className="search-btn-text">Search</span>
                 </button>
 
