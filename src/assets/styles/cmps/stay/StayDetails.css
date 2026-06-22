@@ -26,11 +26,7 @@
     grid-column: span 2;
     grid-row: span 2;
 }
-.further-details {
-    display:grid;
-    grid-template-columns: 2fr 1fr;
-    gap:20px;
-}
+
 .stay-overview-header {
     margin-top: 36px;
 
@@ -49,7 +45,12 @@
             gap:5px;
 
 
+            
 }
+.stay-info-main {
+    padding-bottom: 300px;
+}
+/* 300 is perfect */
 .further-details {
      margin-top: 36px;
      
