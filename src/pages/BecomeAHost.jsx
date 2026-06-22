@@ -3,35 +3,69 @@ import { StayTypeList } from '../cmps/StayTypeList'
 import { AmenitiesPageList } from '../cmps/AmenitiesPageList'
 import { ChooseYourLoc } from '../cmps/ChooseYourLoc'
 import { GuestMenuPage } from '../cmps/GuestMenuPage'
+import { addStay } from '../store/actions/stay.actions'
+
 export function BecomeAHost() {
     const [currentStep, setCurrentStep] = useState(1)
     const [formData, setFormData] = useState({
         type: '',
         location: null,
-        typesList: []
+        typesList: [],
+        capacity: 1
     })
     const totalSteps = 4
 
     function updateFormData(key, value) {
         setFormData(prev => ({ ...prev, [key]: value }))
     }
+
     function handleToggleMultiType(val) {
         setFormData(prev => {
             const isAlreadySelected = prev.typesList.includes(val)
             const updatedList = isAlreadySelected
                 ? prev.typesList.filter(item => item !== val)
                 : [...prev.typesList, val]
-            console.log(formData)
             return { ...prev, typesList: updatedList }
         })
     }
+
     function handleNext() {
         if (currentStep < totalSteps) setCurrentStep(prev => prev + 1)
+        else {
+            handleSubmit()
+        }
+    }
+
+    async function handleSubmit() {
+        try {
+            const stayToSave = {
+                name: `${formData.type} stay`,
+                type: formData.type,
+                imgUrls: [],
+                price: 100,
+                summary: 'Beautiful stay managed by host...',
+                capacity: formData.capacity,
+                amenities: formData.typesList,
+                labels: [],
+                loc: formData.location || {
+                    country: '',
+                    countryCode: '',
+                    city: '',
+                    address: '',
+                    lat: 0,
+                    lng: 0
+                }
+            }
+            await addStay(stayToSave)
+        } catch (err) {
+            console.error('Failed to submit stay', err)
+        }
     }
 
     function handleBack() {
         if (currentStep > 1) setCurrentStep(prev => prev - 1)
     }
+
     return (
         <div className="flow-wrapper">
             <main className="flow-main">
@@ -39,29 +73,25 @@ export function BecomeAHost() {
                     <StayTypeList
                         selectedType={formData.type}
                         onSelectType={(val) => updateFormData('type', val)}
-
                     />
-
                 )}
                 {currentStep === 2 && (
                     <AmenitiesPageList
                         selectedTypes={formData.typesList}
                         onToggleType={handleToggleMultiType}
                     />
-
                 )}
                 {currentStep === 3 && (
                     <ChooseYourLoc
-
+                        onSelectLocation={(loc) => updateFormData('location', loc)}
                     />
-
                 )}
                 {currentStep === 4 && (
                     <GuestMenuPage
-
+                        onUpdateCapacity={(capacity) => updateFormData('capacity', capacity)}
                     />
-
-                )} </main>
+                )} 
+            </main>
             <footer className="flow-footer">
                 <div
                     className="progress-bar-fill"

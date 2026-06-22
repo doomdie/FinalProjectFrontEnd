@@ -10,6 +10,7 @@ export const stayService = {
     getById,
     save,
     remove,
+    save,
 
 }
 window.cs = stayService
@@ -88,15 +89,49 @@ function _createStays() {
     }
 }
 async function save(stay) {
-    var savedStay
+    let savedStay
     if (stay._id) {
-        savedStay = await storageService.put(STORAGE_KEY, stay)
+        const stayToSave = {
+            _id: stay._id,
+            name: stay.name,
+            type: stay.type,
+            imgUrls: stay.imgUrls || [],
+            price: stay.price,
+            summary: stay.summary,
+            capacity: stay.capacity,
+            amenities: stay.amenities || [],
+            labels: stay.labels || [],
+            host: stay.host,
+            loc: stay.loc,
+            reviews: stay.reviews || [],
+            likedByUsers: stay.likedByUsers || []
+        }
+        savedStay = await storageService.put(STORAGE_KEY, stayToSave)
     } else {
         const stayToSave = {
-            ...stay,
-            host: userService.getLoggedinUser(),
+            name: "Cozy Vacation Home",
+            type: stay.type,
+            imgUrls: stay.imgUrls || [],
+            price: stay.price,
+            summary: stay.summary,
+            capacity: stay.capacity,
+            amenities: stay.amenities || [],
+            labels: stay.labels || [],
+            host: {
+                _id: "u101",
+                fullname: "Davit Pok",
+                imgUrl: "https://a0.muscache.com/im/pictures/fab79f25-2e10-4f0f-9711-663cb69dc7d8.jpg"
+            },
+            loc: {
+                country: stay.loc?.country || '',
+                countryCode: stay.loc?.countryCode || '',
+                city: stay.loc?.city || '',
+                address: stay.loc?.address || '',
+                lat: stay.loc?.lat || 0,
+                lng: stay.loc?.lng || 0
+            },
             reviews: [],
-
+            likedByUsers: []
         }
         savedStay = await storageService.post(STORAGE_KEY, stayToSave)
     }
