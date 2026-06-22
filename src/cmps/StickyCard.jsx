@@ -23,9 +23,15 @@ export function StickyCard({ stay }) {
         ? Math.ceil((dates.checkOut - dates.checkIn) / (1000 * 60 * 60 * 24))
         : 0
 
-    const accommodationBasePrice = pricePerNight * totalNights
+    const totalPayingGuests = (guestCounts.adults || 0) + (guestCounts.children || 0) + (guestCounts.infants || 0) + (guestCounts.pets || 0);;
+
+   
+    const accommodationBasePrice = pricePerNight * totalNights * (totalPayingGuests || 1)
+
     const petFee = guestCounts.pets > 0 ? 150 : 0
+
     const serviceFee = accommodationBasePrice > 0 ? Math.round(accommodationBasePrice * 0.12) : 0
+
     const totalPrice = accommodationBasePrice + petFee + serviceFee
 
     function handleSelectDates(selectedRange) {
@@ -44,7 +50,7 @@ export function StickyCard({ stay }) {
         <div className="sticky-card-container">
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>THIS HOST SUCKS! </span>
-                
+
             </Box>
             {totalNights > 0 && (
                 <div className="price-breakdown-summary">
