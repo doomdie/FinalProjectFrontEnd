@@ -6,6 +6,7 @@ import { Carousel } from 'react-responsive-carousel';
 import { HomesPage } from './pages/HomePage.jsx'
 import { StayDetails } from './pages/StayDetails.jsx'
 import { SearchPage } from './pages/SearchPage.jsx'
+import { BecomeAHost } from './pages/BecomeAHost.jsx'
 
 
 /*=== CMPS ===*/
@@ -25,6 +26,8 @@ export function RootCmp() {
                     <Route path="/experiences" element={<HomesPage />} />
                     <Route path="/services" element={<HomesPage />} />
                     <Route path="/search" element={<SearchPage />} />
+                    <Route path="/become-a-host" element={<BecomeAHost />} />
+
                 </Routes>
             </main>
 
