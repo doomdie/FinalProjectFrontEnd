@@ -1,48 +1,77 @@
-import { LuHouse, LuBuilding, LuTreePalm, LuTent, LuTrees, LuCompass, LuCoffee, LuShip, LuCaravan, LuCastle, LuMountain, LuBox, LuSprout, LuBedDouble, LuHotel, LuWarehouse, LuLeaf, LuGlobe } from 'react-icons/lu'
-
-const TYPE_MAP = {
-    'house': { icon: LuHouse, title: 'House' },
-    'apartment': { icon: LuBuilding, title: 'Apartment' },
-    'villa': { icon: LuTreePalm, title: 'Villa' },
-    'cabin': { icon: LuCompass, title: 'Cabin' },
-    'tent': { icon: LuTent, title: 'Tent' },
-    'treehouse': { icon: LuTrees, title: 'Treehouse' },
-    'barn': { icon: LuWarehouse, title: 'Barn' },
-    'bed & breakfast': { icon: LuCoffee, title: 'Bed & breakfast' },
-    'boat': { icon: LuShip, title: 'Boat' },
-    'camper/rv': { icon: LuCaravan, title: 'Camper/RV' },
-    'casa particular': { icon: LuBuilding, title: 'Casa particular' },
-    'castle': { icon: LuCastle, title: 'Castle' },
-    'cave': { icon: LuMountain, title: 'Cave' },
-    'container': { icon: LuBox, title: 'Container' },
-    'cycladic home': { icon: LuTreePalm, title: 'Cycladic home' },
-    'dammuso': { icon: LuWarehouse, title: 'Dammuso' },
-    'dome': { icon: LuGlobe, title: 'Dome' },
-    'earth home': { icon: LuLeaf, title: 'Earth home' },
-    'farm': { icon: LuSprout, title: 'Farm' },
-    'guesthouse': { icon: LuBedDouble, title: 'Guesthouse' },
-    'hotel': { icon: LuHotel, title: 'Hotel' }
-}
-
+import { useState } from 'react'
+import { StayTypeList } from '../cmps/StayTypeList'
+import { AmenitiesPageList } from '../cmps/AmenitiesPageList'
 export function BecomeAHost() {
-    return (
-        <div className="type-section">
-            <h3>Which of these best describes your place?</h3>
-            
-            <div className="type-grid">
-                {Object.entries(TYPE_MAP).map(([key, config]) => {
-                    const Icon = config.icon
+    const [currentStep, setCurrentStep] = useState(1)
+    const [formData, setFormData] = useState({
+        type: '',
+        location: null,
+        typesList: []
+    })
+    const totalSteps = 3
 
-                    return (
-                        <div key={key} className="type-item">
-                            <span className="type-icon">
-                                <Icon />
-                            </span>
-                            <span className="type-text">{config.title}</span>
-                        </div>
-                    )
-                })}
-            </div>
+    function updateFormData(key, value) {
+        setFormData(prev => ({ ...prev, [key]: value }))
+    }
+    function handleToggleMultiType(val) {
+        console.log("1. Parent received toggle for:", val)
+        setFormData(prev => {
+            const isAlreadySelected = prev.typesList.includes(val)
+            const updatedList = isAlreadySelected
+                ? prev.typesList.filter(item => item !== val)
+                : [...prev.typesList, val]
+
+            console.log("2. New updated array state will be:", updatedList)
+            return { ...prev, typesList: updatedList }
+        })
+    }
+    function handleNext() {
+        if (currentStep < totalSteps) setCurrentStep(prev => prev + 1)
+    }
+
+    function handleBack() {
+        if (currentStep > 1) setCurrentStep(prev => prev - 1)
+    }
+    return (
+        <div className="flow-wrapper">
+            <main className="flow-main">
+                {currentStep === 1 && (
+                    <StayTypeList
+                        selectedType={formData.type}
+                        onSelectType={(val) => updateFormData('type', val)}
+
+                    />
+
+                )}
+                {currentStep === 2 && (
+                    <AmenitiesPageList
+                        selectedTypes={formData.typesList}
+                        onToggleType={handleToggleMultiType}
+                    />
+
+                )} </main>
+            <footer className="flow-footer">
+                <div
+                    className="progress-bar-fill"
+                    style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+                />
+                <div className="footer-controls">
+                    <button
+                        onClick={handleBack}
+                        className="back-btn"
+                        style={{ visibility: currentStep === 1 ? 'hidden' : 'visible' }}
+                    >
+                        Back
+                    </button>
+                    <button
+                        onClick={handleNext}
+                        className="next-btn"
+                        disabled={currentStep === 1 && !formData.type}
+                    >
+                        {currentStep === totalSteps ? 'Submit' : 'Next'}
+                    </button>
+                </div>
+            </footer>
         </div>
     )
 }
