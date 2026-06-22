@@ -32,7 +32,11 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
       [keyName]: newValue
     });
   };
+  const maxCapacity = stay.capacity || 5;
+  console.log(maxCapacity)
+  console.log(stay)
 
+  const totalHumans = (currentList.adults || 0) + (currentList.children || 0);
 
 
 
@@ -85,7 +89,7 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
             <IconButton
               size="small"
               onClick={(e) => handleCountChange(e, 'adults', +1)}
-              disabled={(currentList.adults || 0) > stay.capacity}
+              disabled={totalHumans >= maxCapacity}
             >
               <AddIcon fontSize="small" />
             </IconButton>
@@ -122,8 +126,7 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
             <IconButton
               size="small"
               onClick={(e) => handleCountChange(e, 'children', +1)}
-              disabled={(currentList.children || 0) > stay.capacity}
-            >
+              disabled={totalHumans >= maxCapacity}            >
               <AddIcon fontSize="small" />
             </IconButton>
 

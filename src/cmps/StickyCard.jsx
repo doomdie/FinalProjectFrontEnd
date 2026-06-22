@@ -15,7 +15,7 @@ export function StickyCard({ stay }) {
         }
     })
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
-    const [guestCounts, setGuestCounts] = useState({ adults: 1, children: 0, infants: 0, pets: 0 })
+    const [guestCounts, setGuestCounts] = useState({ adults: 0, children: 0, infants: 0, pets: 0 })
 
     const pricePerNight = stay.price || 1000
 
@@ -49,7 +49,7 @@ export function StickyCard({ stay }) {
 
         <div className="sticky-card-container">
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>THIS HOST SUCKS! </span>
+                <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>PLACEHOLDER TEXT!!!! </span>
 
             </Box>
             {totalNights > 0 && (
@@ -94,7 +94,7 @@ export function StickyCard({ stay }) {
 
             <button onClick={handleReserve} className="reserve-btn">Reserve</button>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>Hi </span>
+                <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>This Stay is Awesome! </span>
 
             </Box>
         </div>
