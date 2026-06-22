@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { StayTypeList } from '../cmps/StayTypeList'
 import { AmenitiesPageList } from '../cmps/AmenitiesPageList'
+import { ChooseYourLoc } from '../cmps/ChooseYourLoc'
+import { GuestMenuPage } from '../cmps/GuestMenuPage'
 export function BecomeAHost() {
     const [currentStep, setCurrentStep] = useState(1)
     const [formData, setFormData] = useState({
@@ -8,20 +10,18 @@ export function BecomeAHost() {
         location: null,
         typesList: []
     })
-    const totalSteps = 3
+    const totalSteps = 4
 
     function updateFormData(key, value) {
         setFormData(prev => ({ ...prev, [key]: value }))
     }
     function handleToggleMultiType(val) {
-        console.log("1. Parent received toggle for:", val)
         setFormData(prev => {
             const isAlreadySelected = prev.typesList.includes(val)
             const updatedList = isAlreadySelected
                 ? prev.typesList.filter(item => item !== val)
                 : [...prev.typesList, val]
-
-            console.log("2. New updated array state will be:", updatedList)
+            console.log(formData)
             return { ...prev, typesList: updatedList }
         })
     }
@@ -47,6 +47,18 @@ export function BecomeAHost() {
                     <AmenitiesPageList
                         selectedTypes={formData.typesList}
                         onToggleType={handleToggleMultiType}
+                    />
+
+                )}
+                {currentStep === 3 && (
+                    <ChooseYourLoc
+
+                    />
+
+                )}
+                {currentStep === 4 && (
+                    <GuestMenuPage
+
                     />
 
                 )} </main>

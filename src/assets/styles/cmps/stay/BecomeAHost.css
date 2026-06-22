@@ -46,7 +46,7 @@
     font-weight: 600;
     color: #222222;
 }
-.flow-wrapper {
+.flow-wrapper, .loc-chooser {
     display: flex;
     flex-direction: column;
     height: 100vh;

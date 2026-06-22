@@ -13,6 +13,8 @@
 @import "pages/SearchPage";
 
 @import "cmps/stay/Carousel";
+@import "cmps/stay/GuestPage";
+
 @import "cmps/stay/BecomeAHost";
 
 @import "cmps/stay/StayDetails";
