@@ -3,17 +3,21 @@ import { StayTypeList } from '../cmps/StayTypeList'
 import { AmenitiesPageList } from '../cmps/AmenitiesPageList'
 import { ChooseYourLoc } from '../cmps/ChooseYourLoc'
 import { GuestMenuPage } from '../cmps/GuestMenuPage'
+import { AddImages } from '../cmps/AddImages'
+import { useNavigate } from 'react-router-dom'
 import { addStay } from '../store/actions/stay.actions'
 
 export function BecomeAHost() {
+    const navigate = useNavigate()
     const [currentStep, setCurrentStep] = useState(1)
     const [formData, setFormData] = useState({
         type: '',
         location: null,
         typesList: [],
-        capacity: 1
+        capacity: 1,
+        imgUrls: []
     })
-    const totalSteps = 4
+    const totalSteps = 5
 
     function updateFormData(key, value) {
         setFormData(prev => ({ ...prev, [key]: value }))
@@ -37,11 +41,12 @@ export function BecomeAHost() {
     }
 
     async function handleSubmit() {
+        console.log(formData)
         try {
             const stayToSave = {
                 name: `${formData.type} stay`,
                 type: formData.type,
-                imgUrls: [],
+                imgUrls: formData.imgUrls,
                 price: 100,
                 summary: 'Beautiful stay managed by host...',
                 capacity: formData.capacity,
@@ -57,6 +62,7 @@ export function BecomeAHost() {
                 }
             }
             await addStay(stayToSave)
+            navigate('/')
         } catch (err) {
             console.error('Failed to submit stay', err)
         }
@@ -90,7 +96,13 @@ export function BecomeAHost() {
                     <GuestMenuPage
                         onUpdateCapacity={(capacity) => updateFormData('capacity', capacity)}
                     />
-                )} 
+                )}
+                {currentStep === 5 && (
+                    <AddImages
+                        imgUrls={formData.imgUrls}
+                        onUpdateImages={(urls) => updateFormData('imgUrls', urls)}
+                    />
+                )}
             </main>
             <footer className="flow-footer">
                 <div
