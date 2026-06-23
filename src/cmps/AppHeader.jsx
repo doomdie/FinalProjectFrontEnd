@@ -36,7 +36,7 @@ export function AppHeader() {
 		window.addEventListener('scroll', onScroll)
 		return () => window.removeEventListener('scroll', onScroll)
 	}, [isDetailsPage, isSearchPage, location.pathname])
-	
+
 	function moveUnderlineToActiveTab() {
 		if (!tabsContainerRef.current) return
 		const activeTabEl = tabsContainerRef.current.querySelector('a.active')
@@ -85,7 +85,10 @@ export function AppHeader() {
 				<SearchBarSmall />
 
 				<div className="header-actions">
-					<a className="host-link">Switch to hosting</a>
+					{/* <a className="host-link">Switch to hosting</a> */}
+					<NavLink to="/become-a-host">
+						hostmode
+					</NavLink>
 					<div className="user-avatar"></div>
 					<button className="menu-btn">☰</button>
 				</div>

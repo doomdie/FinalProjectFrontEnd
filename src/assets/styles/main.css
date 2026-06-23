@@ -13,7 +13,12 @@
 @import "pages/SearchPage";
 
 @import "cmps/stay/Carousel";
+@import "cmps/stay/GuestPage";
+
+@import "cmps/stay/BecomeAHost";
+
 @import "cmps/stay/StayDetails";
+@import "cmps/stay/AddImage.css";
 
 
 @import "cmps/AppHeader.css";

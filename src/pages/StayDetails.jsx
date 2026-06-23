@@ -12,6 +12,7 @@ export function StayDetails() {
   const { stayId } = useParams()
   const [isExpanded, setIsExpanded] = useState(false)
   const stay = useSelector(storeState => storeState.stayModule.stay)
+  console.log(stay)
   const placeholderAvatar = 'https://images.pexels.com/photos/18039300/pexels-photo-18039300.jpeg'
 
   useEffect(() => {

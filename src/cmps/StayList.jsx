@@ -30,6 +30,11 @@ export function StayList({ stays }) {
 
 
             />
+            <StayCarouselRow
+                title="Newest Stays"
+                stays={[...stays].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))}
+                itemsPerSlide={7}
+            />
 
         </section>
     )
