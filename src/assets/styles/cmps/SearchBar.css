@@ -468,6 +468,10 @@
     font-weight: 600;
 }
 
+.app-header .guest-row:last-child .guest-sub:hover {
+    color: var(--color-text-muted);
+}
+
 .app-header .guest-controls {
     display: flex;
     align-items: center;
@@ -504,4 +508,117 @@
     min-width: 1.5rem;
     text-align: center;
     font-size: 0.95rem;
+}
+
+/* ===== SERVICE ANIMAL MODAL ===== */
+.app-header .service-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--color-overlay);
+}
+
+.app-header .service-modal {
+    width: 24rem;
+    max-width: 90%;
+    padding: 0.75rem;
+    border-radius: 25px;
+
+    background-color: var(--color-bg);
+    box-shadow: var(--shadow-lg);
+}
+
+/* row 1: just the X, top-right */
+.app-header .service-modal-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0;
+}
+
+.app-header .service-modal-close {
+    position: relative;
+    /* anchor for the hover pseudo-circle */
+    isolation: isolate;
+    /* own stacking context so ::before -1 stays inside */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 0rem;
+    height: 0rem;
+    border: none;
+    margin-right: -0.60rem;
+    margin-top: -0.1rem;
+
+
+    background-color: transparent;
+    color: var(--color-text);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+/* hover circle as a pseudo-element so it's always round + not clipped */
+.app-header .service-modal-close::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+}
+
+.app-header .service-modal-close:hover::before {
+    background-color: var(--color-bg-soft);
+}
+
+/* row 2: the square image */
+.app-header .service-modal-img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+    max-height: 20rem;
+    padding: 0.5rem;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+/* row 3: the text */
+.app-header .service-modal-text {
+    padding: 1rem 0.25rem 0.25rem;
+}
+
+.app-header .service-modal-text h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.app-header .service-modal-text p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    line-height: 1.4;
+}
+
+.app-header .service-link {
+    color: var(--color-text);
+    text-decoration: underline;
 }

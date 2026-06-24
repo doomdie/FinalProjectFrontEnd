@@ -13,6 +13,7 @@ export function SearchBarBig() {
     const [whereValue, setWhereValue] = useState(searchParams.get('search') || '')
     const [dates, setDates] = useState({ from: null, to: null })
     const [guests, setGuests] = useState({ adults: 0, children: 0, infants: 0, pets: 0 })
+    const [showServiceModal, setShowServiceModal] = useState(false)
 
     const navigate = useNavigate()
 
@@ -173,7 +174,15 @@ export function SearchBarBig() {
                             <div className="guest-row" key={row.type}>
                                 <div className="guest-row-label">
                                     <span className="guest-type">{row.label}</span>
-                                    <span className="guest-sub">{row.sub}</span>
+                                    <span
+                                        className="guest-sub"
+                                        onClick={(ev) => {
+                                            if (row.type === 'pets') {
+                                                ev.stopPropagation()
+                                                setShowServiceModal(true)
+                                            }
+                                        }}
+                                    >{row.sub}</span>
                                 </div>
 
                                 <div className="guest-controls">
@@ -196,6 +205,29 @@ export function SearchBarBig() {
                 )}
 
             </div>
+
+            {showServiceModal && (
+                <div className="service-modal-overlay" onClick={() => setShowServiceModal(false)}>
+                    <div className="service-modal" onClick={(ev) => ev.stopPropagation()}>
+
+                        {/* row 1: X, top-right */}
+                        <div className="service-modal-header">
+                            <button className="service-modal-close" onClick={() => setShowServiceModal(false)}>×</button>
+                        </div>
+
+                        {/* row 2: square image */}
+                        <img src="/img/care-dog.jpg" alt="Service animal" className="service-modal-img" />
+
+                        {/* row 3: text */}
+                        <div className="service-modal-text">
+                            <h3>Service animals</h3>
+                            <p>Service animals aren't pets, so there's no need to add them here.</p>
+                            <p>Traveling with an emotional support animal? Check out our <a href="#" className="service-link">accessibility policy</a>.</p>
+                        </div>
+
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
