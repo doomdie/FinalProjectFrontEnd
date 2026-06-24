@@ -12,10 +12,12 @@ export function GuestMenuPage({ currentList, onChangeCount }) {
 
   return (
     <section className="guest-menu-container">
+      <header className = "capacityHeader"><h1>Share some basics about your place</h1> <h2>You'll add more details later, like bed types.
+</h2></header>
       <div className="guest-row">
         <div className="guest-label-group">
-          <span className="guest-title">CAPACITY</span>
-          <span className="guest-subtitle">Stay Capacity</span>
+          <span className="guest-title">Guests</span>
+         
         </div>
         <div className="guest-counter-group">
           <button
@@ -39,8 +41,7 @@ export function GuestMenuPage({ currentList, onChangeCount }) {
 
       <div className="guest-row">
         <div className="guest-label-group">
-          <span className="guest-title">BEDROOMS</span>
-          <span className="guest-subtitle">Number of bedrooms</span>
+          <span className="guest-title">Bedrooms</span>
         </div>
         <div className="guest-counter-group">
           <button
@@ -64,8 +65,7 @@ export function GuestMenuPage({ currentList, onChangeCount }) {
 
       <div className="guest-row">
         <div className="guest-label-group">
-          <span className="guest-title">BATHROOMS</span>
-          <span className="guest-subtitle">Number of bathrooms</span>
+          <span className="guest-title">Bathrooms</span>
         </div>
         <div className="guest-counter-group">
           <button

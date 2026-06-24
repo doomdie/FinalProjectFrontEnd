@@ -75,6 +75,7 @@
 .flow-footer {
     position: relative;
     height: 80px;
+    bottom:0;
     background: #fff;
     border-top: 1px solid #eaeaea;
     display: flex;
