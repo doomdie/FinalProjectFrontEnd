@@ -17,21 +17,21 @@ export function StayList({ stays }) {
             />
 
             <StayCarouselRow
-                title="Highest Rated Stays"
+                title="Highest rated stays"
                 stays={stays}
                 itemsPerSlide={7}
 
                 filterFn={(stay) => stay.price < 120}
             />
             <StayCarouselRow
-                title="All STAYS"
+                title="All stays"
                 stays={stays}
                 itemsPerSlide={7}
 
 
             />
             <StayCarouselRow
-                title="Newest Stays"
+                title="Newest stays"
                 stays={[...stays].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))}
                 itemsPerSlide={7}
             />

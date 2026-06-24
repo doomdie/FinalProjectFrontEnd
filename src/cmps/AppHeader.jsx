@@ -26,7 +26,10 @@ export function AppHeader() {
 		function onScroll() {
 			setIsScrolled(prev => {
 				if (!prev && window.scrollY > 200) return true
-				if (prev && window.scrollY < 10) return false
+				if (prev && window.scrollY < 10) {
+					window.scrollTo({ top: 0, behavior: 'smooth' })
+					return false
+				}
 				return prev
 			})
 		}
@@ -58,6 +61,10 @@ export function AppHeader() {
 				<div className="header-center">
 					<div className="header-tabs" ref={tabsContainerRef}>
 						<NavLink to="/" end>
+							<img src="/img/symbols/globe.svg" alt="All" className="tab-icon" />
+							All
+						</NavLink>
+						<NavLink to="/homes">
 							<img src="/img/symbols/house.svg" alt="Homes" className="tab-icon" />
 							Homes
 						</NavLink>

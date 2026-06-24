@@ -58,6 +58,7 @@
   --space-md: 1rem;
   --space-lg: 1.5rem;
   --space-xl: 2rem;
+  --page-gutter: 2.5rem;
 
   /* ===== legacy names — kept so old CSS doesn't break ===== */
   --clr1: var(--color-primary);

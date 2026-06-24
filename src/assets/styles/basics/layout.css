@@ -1,5 +1,5 @@
 
-.lain-container {
+/* .main-container {
     display: grid;
     grid-template-columns: 1rem 1fr 1rem;
 
@@ -10,7 +10,8 @@
             grid-column: 1 / -1;
         }
     }
-}
+} */
+
 
 .sample-grid-layout {
     display: grid;

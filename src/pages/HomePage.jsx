@@ -22,7 +22,7 @@ export function HomesPage() {
            
 
             <header className="homes-header">
-                <h2>Explore {currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}</h2>
+                {/* <h2>Explore {currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}</h2> */}
             </header>
 
             {currentTab === 'homes' && (

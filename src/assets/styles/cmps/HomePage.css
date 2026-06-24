@@ -1,7 +1,7 @@
 .home {}
 
 .homes-page {
-    padding: 1.5rem;
+    padding: 1.5rem var(--page-gutter);
 }
 
 .homes-page .section-title {

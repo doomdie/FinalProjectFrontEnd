@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
-import { FiSearch } from 'react-icons/fi'
+// import { FiSearch } from 'react-icons/fi'
+
+import { SvgIcon } from '../services/svg.service.jsx'
+
 
 import { DatePicker } from './DatePicker.jsx'
 
@@ -14,7 +17,11 @@ export function SearchBarBig() {
     const [dates, setDates] = useState({ from: null, to: null })
     const [guests, setGuests] = useState({ adults: 0, children: 0, infants: 0, pets: 0 })
     const [showServiceModal, setShowServiceModal] = useState(false)
-
+    // recent destinations the user searched, persisted across refreshes
+    const [recentSearches, setRecentSearches] = useState(() => {
+        const saved = localStorage.getItem('recentSearches')
+        return saved ? JSON.parse(saved) : []
+    })
     const navigate = useNavigate()
 
     const searchBarRef = useRef()   // the search-bar div, for click-outside check
@@ -71,6 +78,13 @@ export function SearchBarBig() {
     }
 
     function onSearch() {
+        // save the typed destination to recent searches (newest first, no duplicates, max 5)
+        if (whereValue.trim()) {
+            const updated = [whereValue, ...recentSearches.filter(item => item !== whereValue)].slice(0, 5)
+            setRecentSearches(updated)
+            localStorage.setItem('recentSearches', JSON.stringify(updated))
+        }
+
         navigate(`/search?search=${encodeURIComponent(whereValue)}`)
     }
 
@@ -122,6 +136,7 @@ export function SearchBarBig() {
                 >×</button>
             </div>
 
+
             <div
                 ref={whenRef}
                 className={`search-section ${activeSection === 'when' ? 'active' : ''}`}
@@ -147,6 +162,27 @@ export function SearchBarBig() {
                 </div>
             )}
 
+            {activeSection === 'where' && recentSearches.length > 0 && (
+                <div className="where-dropdown">
+                    <h4 className="where-dropdown-title">Recent searches</h4>
+                    {recentSearches.map(place => (
+                        <div
+                            className="recent-row"
+                            key={place}
+                            onClick={() => {
+                                setWhereValue(place)
+                                setActiveSection('when')
+                            }}
+                        >
+                            <span className="recent-pin">📍</span>
+                            <span className="recent-text">{place}</span>
+                        </div>
+                    ))}
+                </div>
+            )}
+
+
+
             <div className="search-who" ref={whoRef}>
                 <div
                     className={`search-section ${activeSection === 'who' ? 'active' : ''}`}
@@ -159,7 +195,8 @@ export function SearchBarBig() {
                 <button
                     className={`search-btn ${activeSection ? 'expanded' : ''}`}
                     onClick={onSearch}
-                >                    <FiSearch />
+                >
+                    <SvgIcon iconName="search" />
                     <span className="search-btn-text">Search</span>
                 </button>
 
