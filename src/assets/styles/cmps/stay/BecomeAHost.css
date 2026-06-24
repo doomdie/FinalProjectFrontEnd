@@ -171,3 +171,22 @@
     background-color: #f7f7f7;
     padding: 23px;
 }
+.host-reservations {
+    margin: 0 auto;
+    text-align:center;
+    align-items:center;
+    justify-content:center;
+    max-width:420px;
+    img {
+        justify-content:center;
+    }
+    h2 {
+        text-wrap: balance;
+    }
+
+}
+.image-flex-wrapper {
+    display:flex;
+    align-items:center;
+    justify-content: center;
+}

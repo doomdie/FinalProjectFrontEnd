@@ -15,7 +15,9 @@ export function BecomeAHost() {
         location: null,
         typesList: [],
         capacity: 1,
-        imgUrls: []
+        imgUrls: [],
+        bedrooms: 1,
+        bathrooms: 1,
     })
     const totalSteps = 5
 
@@ -48,6 +50,8 @@ export function BecomeAHost() {
                 type: formData.type,
                 imgUrls: formData.imgUrls,
                 price: 100,
+                bedrooms: formData.bedrooms,
+                bathrooms: formData.bathrooms,
                 summary: 'Beautiful stay managed by host...',
                 capacity: formData.capacity,
                 amenities: formData.typesList,
@@ -94,7 +98,12 @@ export function BecomeAHost() {
                 )}
                 {currentStep === 4 && (
                     <GuestMenuPage
-                        onUpdateCapacity={(capacity) => updateFormData('capacity', capacity)}
+                        currentList={{
+                            capacity: formData.capacity,
+                            bedrooms: formData.bedrooms,
+                            bathrooms: formData.bathrooms,
+                        }}
+                        onChangeCount={(key, value) => updateFormData(key, value)}
                     />
                 )}
                 {currentStep === 5 && (

@@ -25,19 +25,21 @@ const TYPE_MAP = {
 }
 
 export function StayTypeList({ selectedType, onSelectType, test }) {
-   
+
     return (
         <div className="type-section">
-            <h3>Which of these best describes your place?</h3>
-            
+            <header className="amenitiesHeader">
+                <h3>Which of these best describes your place?</h3>
+            </header>
+
             <div className="type-grid">
                 {Object.entries(TYPE_MAP).map(([key, config]) => {
                     const Icon = config.icon
                     const isSelected = key === selectedType
 
                     return (
-                        <div 
-                            key={key} 
+                        <div
+                            key={key}
                             onClick={() => onSelectType(key)}
                             className={`type-item ${isSelected ? 'selected' : ''}`}
                         >
