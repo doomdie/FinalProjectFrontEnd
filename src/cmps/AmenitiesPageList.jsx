@@ -14,7 +14,9 @@ export function AmenitiesPageList({ selectedTypes = [], onToggleType,}) {
  
     return (
         <div className="type-section">
+            <header className = "amenitiesHeader">
             <h3>Which of these best describes your place?</h3>
+            </header>
             
             <div className="type-grid">
                 {Object.entries(AMENITY_MAP).map(([key, config]) => {

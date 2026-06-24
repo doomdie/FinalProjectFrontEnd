@@ -1,7 +1,7 @@
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 
-export function CustomCarousel({ children, itemsPerSlide = 4 }) {
+export function CustomCarousel({ children, itemsPerSlide = 4, selectedItem, onChange }) {
     const childrenArray = React.Children.toArray(children);
     const chunkArray = (arr, size) => {
         const chunks = [];
@@ -15,7 +15,15 @@ export function CustomCarousel({ children, itemsPerSlide = 4 }) {
 
     return (
         <div className="my-carousel-wrapper">
-            <Carousel showThumbs={false} infiniteLoop={true}>
+            <Carousel 
+                selectedItem={selectedItem}
+                onChange={onChange}
+                showThumbs={false} 
+                infiniteLoop={true} 
+                showArrows={false} 
+                showIndicators={false} 
+                showStatus={false}
+            >
                 {slides.map((slideChunk, index) => (
                     <div key={index} className="carousel-grid-slide">
                         {slideChunk}

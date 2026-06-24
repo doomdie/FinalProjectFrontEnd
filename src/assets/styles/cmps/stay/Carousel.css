@@ -10,6 +10,15 @@
 .carousel.carousel-slider {
     max-width: 100vw !important;
 }
+.carouselHeader {
+    padding:10px;
+    display:flex;
+    justify-content:space-between;
+    color:red;
+    button {
+        border-radius: 50%;
+    }
+}
 .stay-card {
     max-width: 250px;
     display: flex;
@@ -51,4 +60,5 @@
 .stay-card:focus {
     text-decoration: none !important;
 }
+
 /* REMEMBER TO ADD LIKE, SCREEN SIZE STUFF  AND A HEART THINGY. LACK OF TEXT HIGHLIGHT IS STRANGELY A FEATURE IN NORMAL AIRBNB SO I ADDED IT HERE LOL*/

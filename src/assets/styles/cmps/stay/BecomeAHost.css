@@ -75,7 +75,6 @@
 .flow-footer {
     position: relative;
     height: 80px;
-    bottom:0;
     background: #fff;
     border-top: 1px solid #eaeaea;
     display: flex;
@@ -171,4 +170,20 @@
     border: 2px solid #222222;
     background-color: #f7f7f7;
     padding: 23px;
+}
+.host-reservations {
+    margin: 0 auto;
+    text-align:center;
+    align-items:center;
+    justify-content:center;
+    max-width:420px;
+    img {
+        justify-content:center;
+    }
+
+}
+.image-flex-wrapper {
+    display:flex;
+    align-items:center;
+    justify-content: center;
 }

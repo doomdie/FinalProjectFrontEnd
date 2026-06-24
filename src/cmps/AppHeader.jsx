@@ -86,7 +86,7 @@ export function AppHeader() {
 
 				<div className="header-actions">
 					{/* <a className="host-link">Switch to hosting</a> */}
-					<NavLink to="/become-a-host">
+					<NavLink to="/hosting">
 						hostmode
 					</NavLink>
 					<div className="user-avatar"></div>
