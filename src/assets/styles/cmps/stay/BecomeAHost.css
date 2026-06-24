@@ -180,6 +180,9 @@
     img {
         justify-content:center;
     }
+    h2 {
+        text-wrap: balance;
+    }
 
 }
 .image-flex-wrapper {
