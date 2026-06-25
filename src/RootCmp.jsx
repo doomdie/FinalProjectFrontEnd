@@ -7,7 +7,7 @@ import { StayDetails } from './pages/StayDetails.jsx'
 import { SearchPage } from './pages/SearchPage.jsx'
 import { BecomeAHost } from './pages/BecomeAHost.jsx'
 import { HostMenu } from './pages/HostMenu.jsx'
-
+import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
 /*=== CMPS ===*/
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
@@ -28,7 +28,10 @@ export function RootCmp() {
                     <Route path="/services" element={<HomesPage />} />
                     <Route path="/search" element={<SearchPage />} />
                     <Route path="/hosting" element={<HostMenu />} />
-
+                    <Route path="auth" element={<LoginSignup />}>
+                        <Route path="login" element={<Login />} />
+                        <Route path="signup" element={<Signup />} />
+                    </Route>
                     <Route path="/become-a-host" element={<BecomeAHost />} />
 
 

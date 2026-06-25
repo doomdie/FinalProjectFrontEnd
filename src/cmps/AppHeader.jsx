@@ -1,18 +1,28 @@
 import { useRef, useState, useEffect } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
-
+import { NavLink, useLocation, Link } from 'react-router-dom'
 import { SearchBarBig } from './SearchBarBig.jsx'
 import { SearchBarSmall } from './SearchBarSmall.jsx'
-
+import { useSelector } from 'react-redux'
+import { logout } from '../store/actions/user.actions.js'
 
 export function AppHeader() {
+	const user = useSelector(storeState => storeState.userModule.user)
+
 	const tabsContainerRef = useRef()
 	const location = useLocation()
 	const [underlinePos, setUnderlinePos] = useState({ left: 0, width: 0 })
 	const [isScrolled, setIsScrolled] = useState(false)
 	const isDetailsPage = location.pathname.startsWith('/homes/') && location.pathname !== '/homes' && location.pathname !== '/homes/'
 	const isSearchPage = location.pathname.startsWith('/search')
-
+	async function onLogout() {
+		try {
+			await logout()
+			navigate('/')
+			console.log("Yay!")
+		} catch (err) {
+			console.log("Famn!")
+		}
+	}
 	useEffect(() => {
 		moveUnderlineToActiveTab()
 	}, [location.pathname])
@@ -77,6 +87,7 @@ export function AppHeader() {
 							Services
 						</NavLink>
 
+
 						<span
 							className="tab-indicator"
 							style={{
@@ -94,8 +105,18 @@ export function AppHeader() {
 				<div className="header-actions">
 					{/* <a className="host-link">Switch to hosting</a> */}
 					<NavLink to="/hosting">
-						hostmode
+						Switch to hosting
 					</NavLink>
+					{user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
+
+					{!user && <NavLink to="auth/login" className="login-link">Login</NavLink>}
+					{user && (
+						<div className="user-info">
+							
+							
+							<button onClick={onLogout}>Logout</button>
+						</div>
+					)}
 					<div className="user-avatar"></div>
 					<button className="menu-btn">☰</button>
 				</div>

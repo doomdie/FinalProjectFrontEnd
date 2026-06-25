@@ -1,7 +1,6 @@
 import React from 'react'
 // import { useSyncStayFilter } from '../customHooks/useSyncStayFilter'
 import { StayCarouselRow } from '../cmps/StayCarouselRow.jsx'
-
 export function StayList({ stays }) {
 
 
@@ -9,7 +8,7 @@ export function StayList({ stays }) {
 
     return (
         <section className="stay-list-container">
-
+            
             <StayCarouselRow
                 title="Popular homes in Eilat"
                 stays={stays}
