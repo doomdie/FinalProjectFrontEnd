@@ -59,7 +59,9 @@
     flex-direction: column;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     grid-column: 2;
+    margin-top: 32px;
 }
+
 .sticky-part-one {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -116,11 +118,10 @@
    
 
 }
-.price-breakdown-summary {
-    text-align:center;
-}
+
 .reserve-btn {
     justify-content:center;
+    align-self: center;
 }
 .firstColumn {
     display:flex;

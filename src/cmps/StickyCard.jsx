@@ -25,7 +25,7 @@ export function StickyCard({ stay }) {
 
     const totalPayingGuests = (guestCounts.adults || 0) + (guestCounts.children || 0) + (guestCounts.infants || 0) + (guestCounts.pets || 0);;
 
-   
+
     const accommodationBasePrice = pricePerNight * totalNights * (totalPayingGuests || 1)
 
     const petFee = guestCounts.pets > 0 ? 150 : 0
@@ -48,55 +48,55 @@ export function StickyCard({ stay }) {
     return (
 
         <div className="sticky-card-container">
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>PLACEHOLDER TEXT!!!! </span>
-
-            </Box>
-            {totalNights > 0 && (
-                <div className="price-breakdown-summary">
-
-
-
-                    <div className="price-row total-row">
-                        <h3>₪{totalPrice}</h3>
-                    </div>
-                </div>
-            )}
-            <div className="sticky-part-one">
-                <div className="date-pickers-trigger" onClick={() => setIsDatePickerOpen(true)}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>Check-in </span>
-                        <span >{dates.checkIn ? dates.checkIn.toLocaleDateString() : 'Add date'}</span>
-                    </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>Check-out </span>
-                        <span >{dates.checkOut ? dates.checkOut.toLocaleDateString() : 'Add date'}</span>
-                    </Box>
-
-                </div>
-                <GuestMenu stay={stay} currentList={guestCounts} onUpdateList={setGuestCounts} ></GuestMenu>
+            <div className="rare-find-banner">
+                <span className="gem-icon">💎</span>
+                <span className="banner-text">Rare find! This place is usually booked</span>
             </div>
 
-            <Modal
-                open={isDatePickerOpen}
-                onClose={() => setIsDatePickerOpen(false)}
-            >
-                <div className="custom-modal-card">
-                    <h2>Select Dates</h2>
+            <div className="booking-box-content">
+                {totalNights > 0 && (
+                    <div className="price-breakdown-summary">
+                        <div className="price-row total-row">
+                            <h3>₪{totalPrice} total</h3>
+                        </div>
+                    </div>
+                )}
+                <div className="sticky-part-one">
+                    <div className="date-pickers-trigger" onClick={() => setIsDatePickerOpen(true)}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>Check-in </span>
+                            <span >{dates.checkIn ? dates.checkIn.toLocaleDateString() : 'Add date'}</span>
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>Check-out </span>
+                            <span >{dates.checkOut ? dates.checkOut.toLocaleDateString() : 'Add date'}</span>
+                        </Box>
 
-                    <DatePicker onSelectDates={handleSelectDates} />
-
-                    <button onClick={() => setIsDatePickerOpen(false)}>Close</button>
+                    </div>
+                    <GuestMenu stay={stay} currentList={guestCounts} onUpdateList={setGuestCounts} ></GuestMenu>
                 </div>
-            </Modal>
+
+                <Modal
+                    open={isDatePickerOpen}
+                    onClose={() => setIsDatePickerOpen(false)}
+                >
+                    <div className="custom-modal-card">
+                        <h2>Select Dates</h2>
+
+                        <DatePicker onSelectDates={handleSelectDates} />
+
+                        <button onClick={() => setIsDatePickerOpen(false)}>Close</button>
+                    </div>
+                </Modal>
 
 
 
-            <button onClick={handleReserve} className="reserve-btn">Reserve</button>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>This Stay is Awesome! </span>
+                <button onClick={handleReserve} className="reserve-btn">Reserve</button>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>This Stay is Awesome! </span>
 
-            </Box>
-        </div>
-    )
+                </Box>
+            </div>
+            </div>
+            )
 }
