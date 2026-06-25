@@ -10,9 +10,11 @@
     align-items: center;
     z-index: 1000;
 }
+
 :root {
-    --sticky-card-width: 350px; 
+    --sticky-card-width: 350px;
 }
+
 .modal-content {
     background: white;
     padding: 24px;
@@ -22,7 +24,7 @@
     position: relative;
     max-height: 80vh;
     overflow-y: auto;
-      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .modal-close-btn {
@@ -34,25 +36,27 @@
     font-size: 24px;
     cursor: pointer;
 }
+
 .custom-modal-card {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    
+
     background-color: #fff;
     padding: 24px;
     border-radius: 8px;
-    box-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2), 
-                0px 24px 38px 3b, 
-                0px 9px 46px 8px rgba(0,0,0,0.12);
-    
+    box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+        0px 24px 38px 3b,
+        0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+
     width: 400px;
 }
+
 .sticky-card-container {
     top: 68px;
     z-index: 10;
-  position: sticky;
+    position: sticky;
     padding: 20px;
     border-radius: 12px;
     display: flex;
@@ -78,7 +82,7 @@
     grid-template-columns: repeat(2, 1fr);
     border-bottom: 1px solid #b0b0b0;
     cursor: pointer;
-    
+
 }
 
 .sticky-part-one .date-pickers-trigger p {
@@ -93,43 +97,63 @@
 .sticky-part-one .guest-triggers {
     grid-column: span 2;
     padding: 10px 24px 10px 12px;
-    justify-items:center;
-    justify-content:center;
-    align-items:center;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
     position: relative;
-    text-align:center;
-    
+    text-align: center;
+
 }
-.sticky-part-one .guest-triggers > button,
-.sticky-part-one .guest-triggers > div {
-    justify-self: stretch; 
-    width: 100%; 
+
+.sticky-part-one .guest-triggers>button,
+.sticky-part-one .guest-triggers>div {
+    justify-self: stretch;
+    width: 100%;
 }
 
 .custom-guest-dropdown {
     background-color: rgb(255, 0, 0);
     border: 2px solid black;
-    
+
 }
+
 .stay-highlights {
-    grid-column: 1 / span 1; 
-    width:600px;
-    
-   
+    grid-column: 1 / span 1;
+    width: 600px;
+
+
 
 }
 
 .reserve-btn {
-    justify-content:center;
+    justify-content: center;
     align-self: center;
+    align-self: center;
+    width: 100%;
+    padding: 14px 24px;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
 }
+
 .firstColumn {
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
 }
+
 .stay-content-container {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 36px;
-    align-items: start; 
+    align-items: start;
+}
+.price-breakdown-summary {
+    text-decoration: underline;
 }
