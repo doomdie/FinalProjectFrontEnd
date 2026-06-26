@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { StayMiniList } from '../cmps/StayMiniList'
+import { PendingReservations } from '../cmps/PendingReservations'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { loadStays, removeStay } from '../store/actions/stay.actions'
 
@@ -73,7 +74,8 @@ export function UserDetails() {
         {activeTab === 'pending' && (
           <div className="tab-content">
             <h2>Pending Reservations</h2>
-            <p>No pending reservations to approve right now.</p>
+            <PendingReservations></PendingReservations>
+            {/* <p>No pending reservations to approve right now.</p> */}
           </div>
         )}
 
