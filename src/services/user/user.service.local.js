@@ -1,7 +1,7 @@
 import { storageService } from '../async-storage.service'
-
+import initialUsers from './users.json'
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
-
+_initUsers()
 export const userService = {
     login,
     logout,
@@ -12,6 +12,15 @@ export const userService = {
     update,
     getLoggedinUser,
     saveLoggedinUser,
+}
+async function _initUsers() {
+    const users = await storageService.query('user')
+    if (!users || !users.length) {
+        for (const user of initialUsers) {
+            await storageService.post('user', user)
+        }
+        console.log('Successfully loaded users from user.json!')
+    }
 }
 
 async function getUsers() {
@@ -35,7 +44,7 @@ async function update({ _id, score }) {
     user.score = score
     await storageService.put('user', user)
 
-	// When admin updates other user's details, do not update loggedinUser
+    // When admin updates other user's details, do not update loggedinUser
     const loggedinUser = getLoggedinUser()
     if (loggedinUser._id === user._id) saveLoggedinUser(user)
 
@@ -44,9 +53,10 @@ async function update({ _id, score }) {
 
 async function login(userCred) {
     const users = await storageService.query('user')
-    const user = users.find(user => user.username === userCred.username)
+    const user = users.find(user => user.username === userCred.username && user.password === userCred.password)
 
     if (user) return saveLoggedinUser(user)
+    throw new Error('Invalid username or password')
 }
 
 async function signup(userCred) {
@@ -66,15 +76,15 @@ function getLoggedinUser() {
 }
 
 function saveLoggedinUser(user) {
-	user = { 
-        _id: user._id, 
-        fullname: user.fullname, 
-        imgUrl: user.imgUrl, 
-        score: user.score, 
-        isAdmin: user.isAdmin 
+    user = {
+        _id: user._id,
+        fullname: user.fullname,
+        imgUrl: user.imgUrl,
+        score: user.score,
+        isAdmin: user.isAdmin
     }
-	sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
-	return user
+    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
+    return user
 }
 
 // To quickly create an admin user, uncomment the next line
