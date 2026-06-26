@@ -112,12 +112,18 @@ export function AppHeader() {
 					{!user && <NavLink to="auth/login" className="login-link">Login</NavLink>}
 					{user && (
 						<div className="user-info">
-							
-							
+
+
 							<button onClick={onLogout}>Logout</button>
 						</div>
 					)}
-					<div className="user-avatar"></div>
+					{user ? (
+						<Link to={`/user/${user._id}`}>
+							<div className="user-avatar"></div>
+						</Link>
+					) : (
+						<div className="user-avatar"></div>
+					)}
 					<button className="menu-btn">☰</button>
 				</div>
 			</div>

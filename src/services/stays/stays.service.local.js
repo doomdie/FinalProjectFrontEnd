@@ -17,12 +17,15 @@ window.cs = stayService
 
 
 async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: '' }) {
+    console.log('Incoming filterBy parameter:', filterBy)
     var stays = await storageService.query(STORAGE_KEY)
-    const { minPrice, sortField, sortDir, startDate, endDate } = filterBy
+    const { minPrice, sortField, sortDir, startDate, endDate, byUserId } = filterBy
 
-    // the search bar sends 'search', older filters send 'txt' — accept either
     const txt = filterBy.txt || filterBy.search
 
+    if (byUserId) {
+        stays = stays.filter(stay => stay.host?.id === byUserId || stay.host?._id === byUserId || stay.byUser?._id === byUserId)
+    }
     if (txt) {
         const regex = new RegExp(txt, 'i')
         stays = stays.filter(stay => regex.test(stay.loc.country) || regex.test(stay.loc.city))

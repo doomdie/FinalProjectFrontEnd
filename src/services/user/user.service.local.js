@@ -14,12 +14,14 @@ export const userService = {
     saveLoggedinUser,
 }
 async function _initUsers() {
-    const users = await storageService.query('user')
-    if (!users || !users.length) {
-        for (const user of initialUsers) {
-            await storageService.post('user', user)
-        }
-        console.log('Successfully loaded users from user.json!')
+    const localData = localStorage.getItem('user')
+    
+    if (!localData || localData === '[]') {
+        console.log('Seeding users from user.json...')
+        
+        localStorage.setItem('user', JSON.stringify(initialUsers))
+        
+        console.log('Successfully loaded users from user.json with correct IDs!')
     }
 }
 
@@ -44,13 +46,11 @@ async function update({ _id, score }) {
     user.score = score
     await storageService.put('user', user)
 
-    // When admin updates other user's details, do not update loggedinUser
     const loggedinUser = getLoggedinUser()
-    if (loggedinUser._id === user._id) saveLoggedinUser(user)
+    if (loggedinUser?._id === user._id) saveLoggedinUser(user)
 
     return user
 }
-
 async function login(userCred) {
     const users = await storageService.query('user')
     const user = users.find(user => user.username === userCred.username && user.password === userCred.password)

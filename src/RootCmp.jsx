@@ -11,6 +11,7 @@ import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
 /*=== CMPS ===*/
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
+import { UserDetails } from './pages/UserDetails'
 
 
 export function RootCmp() {
@@ -26,6 +27,7 @@ export function RootCmp() {
                     <Route path="homes/:stayId" element={<StayDetails />} />
                     <Route path="/experiences" element={<HomesPage />} />
                     <Route path="/services" element={<HomesPage />} />
+                    <Route path="user/:id" element={<UserDetails />} />
                     <Route path="/search" element={<SearchPage />} />
                     <Route path="/hosting" element={<HostMenu />} />
                     <Route path="auth" element={<LoginSignup />}>

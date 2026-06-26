@@ -1,44 +1,43 @@
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux' 
+import { useNavigate } from 'react-router-dom'
 
-import { loadUser } from '../store/actions/user.actions'
-import { store } from '../store/store'
-import { showSuccessMsg } from '../services/event-bus.service'
-import { socketService, SOCKET_EVENT_USER_UPDATED, SOCKET_EMIT_USER_WATCH } from '../services/socket.service'
+import { StayMiniList } from '../cmps/StayMiniList'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
+import { loadStays, removeStay } from '../store/actions/stay.actions'
 
 export function UserDetails() {
-
-  const params = useParams()
-  const user = useSelector(storeState => storeState.userModule.watchedUser)
+  const user = useSelector(storeState => storeState.userModule.user)
+  const stays = useSelector(storeState => storeState.stayModule.stays)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    loadUser(params.id)
-
-    socketService.emit(SOCKET_EMIT_USER_WATCH, params.id)
-    socketService.on(SOCKET_EVENT_USER_UPDATED, onUserUpdate)
-
-    return () => {
-      socketService.off(SOCKET_EVENT_USER_UPDATED, onUserUpdate)
+    if (!user) {
+      navigate('/')
+      console.log("FUCK YOU")
+      showErrorMsg('Please sign in first')
+      return
     }
+    
+    loadStays({ byUserId: user._id })
+  }, [user])
 
-  }, [params.id])
-
-  function onUserUpdate(user) {
-    showSuccessMsg(`This user ${user.fullname} just got updated from socket, new score: ${user.score}`)
-    store.dispatch({ type: 'SET_WATCHED_USER', user })
+  async function onRemoveStay(stayId) {
+    try {
+      await removeStay(stayId)
+      showSuccessMsg('Stay removed')
+    } catch (err) {
+      showErrorMsg('Cannot remove')
+    }
   }
+
+  if (!user) return null
 
   return (
     <section className="user-details">
-      <h1>User Details</h1>
-      {user && <div>
-        <h3>
-          {user.fullname}
-        </h3>
-        <img src={user.imgUrl} style={{ width: '100px' }} />
-        <pre> {JSON.stringify(user, null, 2)} </pre>
-      </div>}
+      <h1>Hello {user.fullname}</h1>
+      <StayMiniList stays={stays} onRemoveStay={onRemoveStay} />
+      {!stays.length && <span>you haven't posted any listings yet</span>}
     </section>
   )
 }
