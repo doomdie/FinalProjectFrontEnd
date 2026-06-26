@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux' 
 import { useNavigate } from 'react-router-dom'
 
@@ -10,11 +10,12 @@ export function UserDetails() {
   const user = useSelector(storeState => storeState.userModule.user)
   const stays = useSelector(storeState => storeState.stayModule.stays)
   const navigate = useNavigate()
+  
+  const [activeTab, setActiveTab] = useState('stays') 
 
   useEffect(() => {
     if (!user) {
       navigate('/')
-      console.log("FUCK YOU")
       showErrorMsg('Please sign in first')
       return
     }
@@ -34,10 +35,56 @@ export function UserDetails() {
   if (!user) return null
 
   return (
-    <section className="user-details">
-      <h1>Hello {user.fullname}</h1>
-      <StayMiniList stays={stays} onRemoveStay={onRemoveStay} />
-      {!stays.length && <span>you haven't posted any listings yet</span>}
+    <section className="user-details-full">
+      
+      <aside className="user-aside">
+        <h3>Profile</h3>
+        <button 
+          className={`tab-btn ${activeTab === 'stays' ? 'active' : ''}`}
+          onClick={() => setActiveTab('stays')}
+        >
+           My Stays
+        </button>
+        <button 
+          className={`tab-btn ${activeTab === 'pending' ? 'active' : ''}`}
+          onClick={() => setActiveTab('pending')}
+        >
+          ⏳ Pending Reservations
+        </button>
+        <button 
+          className={`tab-btn ${activeTab === 'reservations' ? 'active' : ''}`}
+          onClick={() => setActiveTab('reservations')}
+        >
+           Reservations
+        </button>
+      </aside>
+
+      <main className="user-details-main">
+        <h1>Hello {user.fullname}</h1>
+
+        {activeTab === 'stays' && (
+          <div className="tab-content">
+            <h2>My Stays</h2>
+            <StayMiniList stays={stays} onRemoveStay={onRemoveStay} />
+            {!stays.length && <span>you haven't posted any listings yet</span>}
+          </div>
+        )}
+
+        {activeTab === 'pending' && (
+          <div className="tab-content">
+            <h2>Pending Reservations</h2>
+            <p>No pending reservations to approve right now.</p>
+          </div>
+        )}
+
+        {activeTab === 'reservations' && (
+          <div className="tab-content">
+            <h2>Your Confirmed Reservations</h2>
+            <p>Your upcoming trip details will show up here.</p>
+          </div>
+        )}
+      </main>
+
     </section>
   )
 }
