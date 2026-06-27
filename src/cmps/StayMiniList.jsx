@@ -12,7 +12,7 @@ export function StayMiniList({ stays, onRemoveStay }) {
 
   return (
     <section>
-      <ul className="list stay-list clean-list">
+      <ul className="list stay-mini-list clean-list">
         {stays.map(stay => (
           <li className='stay-article' key={stay._id}>
             <StayCard stay={stay} />

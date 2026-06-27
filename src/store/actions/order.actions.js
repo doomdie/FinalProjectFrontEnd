@@ -7,7 +7,7 @@ export async function loadOrders(filterBy) {
         const orders = await orderService.query(filterBy)
         store.dispatch({ type: 'SET_ORDERS', orders })
     } catch  {
-        console.('Cannot load orders')
+        console.log('Cannot load orders')
     }
 }
 

@@ -13,6 +13,7 @@ import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
 import { UserDetails } from './pages/UserDetails'
 
+import { UserMsg } from './cmps/UserMsg'
 
 export function RootCmp() {
     const location = useLocation()
@@ -20,8 +21,10 @@ export function RootCmp() {
     return (
         <div className="main-container">
             {!isHostPage && <AppHeader />}
+            <UserMsg />
             <main>
                 <Routes>
+                    
                     <Route path="" element={<HomesPage />} />
                     <Route path="/homes" element={<HomesPage />} />
                     <Route path="homes/:stayId" element={<StayDetails />} />

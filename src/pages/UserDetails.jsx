@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux' 
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
+import { UserInfo } from '../cmps/UserInfo'
 import { StayMiniList } from '../cmps/StayMiniList'
 import { PendingReservations } from '../cmps/PendingReservations'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
@@ -11,8 +11,8 @@ export function UserDetails() {
   const user = useSelector(storeState => storeState.userModule.user)
   const stays = useSelector(storeState => storeState.stayModule.stays)
   const navigate = useNavigate()
-  
-  const [activeTab, setActiveTab] = useState('stays') 
+
+  const [activeTab, setActiveTab] = useState('stays')
 
   useEffect(() => {
     if (!user) {
@@ -20,7 +20,7 @@ export function UserDetails() {
       showErrorMsg('Please sign in first')
       return
     }
-    
+
     loadStays({ byUserId: user._id })
   }, [user])
 
@@ -37,27 +37,28 @@ export function UserDetails() {
 
   return (
     <section className="user-details-full">
-      
+
       <aside className="user-aside">
         <h3>Profile</h3>
-        <button 
+        <button
+          className={`tab-btn ${activeTab === 'details' ? 'active' : ''}`}
+          onClick={() => setActiveTab('details')}
+        >
+          My Details
+        </button>
+        <button
           className={`tab-btn ${activeTab === 'stays' ? 'active' : ''}`}
           onClick={() => setActiveTab('stays')}
         >
-           My Stays
+          My Stays
         </button>
-        <button 
+        <button
           className={`tab-btn ${activeTab === 'pending' ? 'active' : ''}`}
           onClick={() => setActiveTab('pending')}
         >
-          ⏳ Pending Reservations
+          Reservations Center
         </button>
-        <button 
-          className={`tab-btn ${activeTab === 'reservations' ? 'active' : ''}`}
-          onClick={() => setActiveTab('reservations')}
-        >
-           Reservations
-        </button>
+
       </aside>
 
       <main className="user-details-main">
@@ -70,21 +71,23 @@ export function UserDetails() {
             {!stays.length && <span>you haven't posted any listings yet</span>}
           </div>
         )}
-
+        {activeTab === 'details' && (
+          <div className="tab-content">
+            <h2>My Details</h2>
+            <UserInfo></UserInfo>
+            {!stays.length && <span>you haven't posted any listings yet</span>}
+          </div>
+        )}
         {activeTab === 'pending' && (
           <div className="tab-content">
-            <h2>Pending Reservations</h2>
+
             <PendingReservations></PendingReservations>
             {/* <p>No pending reservations to approve right now.</p> */}
+            {/*I  don't know if like, we're supposed to be able to sync stuff through different instances when we're still only front end. yair remember to ask */}
           </div>
         )}
 
-        {activeTab === 'reservations' && (
-          <div className="tab-content">
-            <h2>Your Confirmed Reservations</h2>
-            <p>Your upcoming trip details will show up here.</p>
-          </div>
-        )}
+
       </main>
 
     </section>

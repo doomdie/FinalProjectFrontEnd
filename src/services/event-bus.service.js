@@ -23,6 +23,7 @@ export function showUserMsg(msg) {
 }
 
 export function showSuccessMsg(txt) {
+    console.log("SUCCESS TEST")
     showUserMsg({txt, type: 'success'})
 }
 export function showErrorMsg(txt) {
