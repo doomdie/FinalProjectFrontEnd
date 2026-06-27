@@ -7,6 +7,8 @@ import { ReadMore } from '../cmps/ReadMore'
 import { store } from '../store/store'
 import { loadStay } from '../store/actions/stay.actions'
 import { StickyCard } from "../cmps/StickyCard"
+import { StayReview } from "../cmps/StayReview"
+
 
 export function StayDetails() {
   const { stayId } = useParams()
@@ -85,7 +87,7 @@ export function StayDetails() {
        
         <StickyCard stay = {stay}></StickyCard>
       </main>
-
+      <StayReview stay = {stay}></StayReview>
     </section>
   )
 }
