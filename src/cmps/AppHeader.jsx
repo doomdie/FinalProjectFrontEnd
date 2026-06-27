@@ -14,6 +14,7 @@ export function AppHeader() {
 	const [isScrolled, setIsScrolled] = useState(false)
 	const isDetailsPage = location.pathname.startsWith('/homes/') && location.pathname !== '/homes' && location.pathname !== '/homes/'
 	const isSearchPage = location.pathname.startsWith('/search')
+	const isHosting = location.pathname.startsWith('/hosting')
 	async function onLogout() {
 		try {
 			await logout()
@@ -104,8 +105,8 @@ export function AppHeader() {
 
 				<div className="header-actions">
 					{/* <a className="host-link">Switch to hosting</a> */}
-					<NavLink to="/hosting">
-						Switch to hosting
+					<NavLink to={isHosting ? "/" : "/hosting"}>
+						{isHosting ? "Switch to User Mode" : "Switch to hosting"}
 					</NavLink>
 					{user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
 
