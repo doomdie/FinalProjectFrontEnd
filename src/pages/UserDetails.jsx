@@ -1,44 +1,95 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-
-import { loadUser } from '../store/actions/user.actions'
-import { store } from '../store/store'
-import { showSuccessMsg } from '../services/event-bus.service'
-import { socketService, SOCKET_EVENT_USER_UPDATED, SOCKET_EMIT_USER_WATCH } from '../services/socket.service'
+import { useNavigate } from 'react-router-dom'
+import { UserInfo } from '../cmps/UserInfo'
+import { StayMiniList } from '../cmps/StayMiniList'
+import { PendingReservations } from '../cmps/PendingReservations'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
+import { loadStays, removeStay } from '../store/actions/stay.actions'
 
 export function UserDetails() {
+  const user = useSelector(storeState => storeState.userModule.user)
+  const stays = useSelector(storeState => storeState.stayModule.stays)
+  const navigate = useNavigate()
 
-  const params = useParams()
-  const user = useSelector(storeState => storeState.userModule.watchedUser)
+  const [activeTab, setActiveTab] = useState('stays')
 
   useEffect(() => {
-    loadUser(params.id)
-
-    socketService.emit(SOCKET_EMIT_USER_WATCH, params.id)
-    socketService.on(SOCKET_EVENT_USER_UPDATED, onUserUpdate)
-
-    return () => {
-      socketService.off(SOCKET_EVENT_USER_UPDATED, onUserUpdate)
+    if (!user) {
+      navigate('/')
+      showErrorMsg('Please sign in first')
+      return
     }
 
-  }, [params.id])
+    loadStays({ byUserId: user._id })
+  }, [user])
 
-  function onUserUpdate(user) {
-    showSuccessMsg(`This user ${user.fullname} just got updated from socket, new score: ${user.score}`)
-    store.dispatch({ type: 'SET_WATCHED_USER', user })
+  async function onRemoveStay(stayId) {
+    try {
+      await removeStay(stayId)
+      showSuccessMsg('Stay removed')
+    } catch (err) {
+      showErrorMsg('Cannot remove')
+    }
   }
 
+  if (!user) return null
+
   return (
-    <section className="user-details">
-      <h1>User Details</h1>
-      {user && <div>
-        <h3>
-          {user.fullname}
-        </h3>
-        <img src={user.imgUrl} style={{ width: '100px' }} />
-        <pre> {JSON.stringify(user, null, 2)} </pre>
-      </div>}
+    <section className="user-details-full">
+
+      <aside className="user-aside">
+        <h3>Profile</h3>
+        <button
+          className={`tab-btn ${activeTab === 'details' ? 'active' : ''}`}
+          onClick={() => setActiveTab('details')}
+        >
+          My Details
+        </button>
+        <button
+          className={`tab-btn ${activeTab === 'stays' ? 'active' : ''}`}
+          onClick={() => setActiveTab('stays')}
+        >
+          My Stays
+        </button>
+        <button
+          className={`tab-btn ${activeTab === 'pending' ? 'active' : ''}`}
+          onClick={() => setActiveTab('pending')}
+        >
+          Reservations Center
+        </button>
+
+      </aside>
+
+      <main className="user-details-main">
+        <h1>Hello {user.fullname}</h1>
+
+        {activeTab === 'stays' && (
+          <div className="tab-content">
+            <h2>My Stays</h2>
+            <StayMiniList stays={stays} onRemoveStay={onRemoveStay} />
+            {!stays.length && <span>you haven't posted any listings yet</span>}
+          </div>
+        )}
+        {activeTab === 'details' && (
+          <div className="tab-content">
+            <h2>My Details</h2>
+            <UserInfo></UserInfo>
+            {!stays.length && <span>you haven't posted any listings yet</span>}
+          </div>
+        )}
+        {activeTab === 'pending' && (
+          <div className="tab-content">
+
+            <PendingReservations></PendingReservations>
+            {/* <p>No pending reservations to approve right now.</p> */}
+            {/*I  don't know if like, we're supposed to be able to sync stuff through different instances when we're still only front end. yair remember to ask */}
+          </div>
+        )}
+
+
+      </main>
+
     </section>
   )
 }

@@ -17,12 +17,15 @@ window.cs = stayService
 
 
 async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: '' }) {
+    console.log('Incoming filterBy parameter:', filterBy)
     var stays = await storageService.query(STORAGE_KEY)
-    const { minPrice, sortField, sortDir, startDate, endDate } = filterBy
+    const { minPrice, sortField, sortDir, startDate, endDate, byUserId } = filterBy
 
-    // the search bar sends 'search', older filters send 'txt' — accept either
     const txt = filterBy.txt || filterBy.search
 
+    if (byUserId) {
+        stays = stays.filter(stay => stay.host?.id === byUserId || stay.host?._id === byUserId || stay.byUser?._id === byUserId)
+    }
     if (txt) {
         const regex = new RegExp(txt, 'i')
         stays = stays.filter(stay => regex.test(stay.loc.country) || regex.test(stay.loc.city))
@@ -50,19 +53,20 @@ async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: 
     }
 
     stays = stays.map(({
-        _id, name, type, imgUrls, price, capacity, host, loc, labels, amenities, reviews
+        _id, name, type, imgUrls, price, capacity, host, loc, labels, amenities, reviews, rating
     }) => {
         const reviewCount = reviews?.length || 0
-        let avgRating = 'New'
+        let avgRating = rating || 'New'
 
         if (reviewCount > 0) {
-            const totalScore = reviews.reduce((acc, rev) => acc + rev.rate, 0)
+            const totalScore = reviews.reduce((acc, rev) => acc + (rev.rate || 4.5), 0)
             avgRating = Math.round((totalScore / reviewCount) * 100) / 100
         }
 
         return {
             _id, name, type, imgUrls, price, capacity,
-            host, loc, labels, amenities, avgRating, reviewCount
+            host, loc, labels, amenities, avgRating, reviewCount,
+            rating: avgRating,
         }
     })
 

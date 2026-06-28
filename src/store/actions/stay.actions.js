@@ -1,4 +1,4 @@
-import { stayService } from '../../services/stays'
+import { stayService } from '../../services/stays/stays.service.local'
 import { store } from '../store'
 import { SET_STAYS, SET_STAY, ADD_STAY } from '../reducers/stay.reducer'
 
@@ -11,6 +11,9 @@ export async function loadStays(filterBy) {
         console.log('Cannot load stays', err)
         throw err
     }
+}
+export async function removeStay() {
+    console.log("ugh")
 }
 export async function loadStay(stayId) {
     try {

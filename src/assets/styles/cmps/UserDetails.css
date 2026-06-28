@@ -5,3 +5,31 @@
         background-size: contain;
     }
 }
+.user-details-full {
+   display:flex;
+   flex-direction: row;
+}
+.user-aside {
+    display: flex;
+    flex-direction:column;
+}
+.user-details-main {
+    flex: 1;
+    padding: 36px calc(8.5% + 32px);
+    justify-content: space-between;
+}
+.tab-content section {
+    display:flex;
+    flex-direction:column;
+    
+}
+.stay-mini-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1.5rem;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+
+    list-style: none;
+}

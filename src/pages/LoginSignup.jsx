@@ -14,7 +14,7 @@ export function LoginSignup() {
                 <NavLink to="login">Login</NavLink>
                 <NavLink to="signup">Signup</NavLink>
             </nav>
-            <Outlet/>
+            <Outlet />
         </div>
     )
 }
@@ -47,17 +47,30 @@ export function Login() {
         const value = ev.target.value
         setCredentials({ ...credentials, [field]: value })
     }
-    
+
     return (
         <form className="login-form" onSubmit={onLogin}>
-            <select
+            <h2>Login</h2>
+
+            <input
+                type="text"
                 name="username"
                 value={credentials.username}
-                onChange={handleChange}>
-                    <option value="">Select User</option>
-                    {users.map(user => <option key={user._id} value={user.username}>{user.fullname}</option>)}
-            </select>
-            <button>Login</button>
+                placeholder="Username"
+                onChange={handleChange}
+                required
+            />
+
+            <input
+                type="password"
+                name="password"
+                value={credentials.password}
+                placeholder="Password"
+                onChange={handleChange}
+                required
+            />
+
+            <button type="submit">Login</button>
         </form>
     )
 }
@@ -77,7 +90,7 @@ export function Signup() {
         const value = ev.target.value
         setCredentials({ ...credentials, [field]: value })
     }
-    
+
     async function onSignup(ev = null) {
         if (ev) ev.preventDefault()
 

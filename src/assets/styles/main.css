@@ -11,11 +11,16 @@
 
 @import "cmps/HomePage";
 @import "pages/SearchPage";
-
+@import "cmps/UserDetails.css";
 @import "cmps/stay/Carousel";
+@import "cmps/review/StayReview.css";
+
 @import "cmps/stay/GuestPage";
+@import "cmps/stay/StayReview.css";
+
 
 @import "cmps/stay/BecomeAHost";
+@import "cmps/UserMsg";
 
 @import "cmps/stay/StayDetails";
 @import "cmps/stay/AddImage.css";
