@@ -64,7 +64,6 @@ export function SearchBarBig() {
     //     return () => clearTimeout(timer)
     // }, [whereValue])
 
-    // format the picked range like "Jul 20 - 31"
     function formatDates() {
         if (!dates.from) return 'Add dates'
 
@@ -73,7 +72,11 @@ export function SearchBarBig() {
 
         if (!dates.to || dates.from.getTime() === dates.to.getTime()) return from
 
-        const to = dates.to.toLocaleDateString('en-US', { day: 'numeric' })
+        // show the month on the "to" side only when it differs from "from"
+        const sameMonth = dates.from.getMonth() === dates.to.getMonth()
+        const toOpts = sameMonth ? { day: 'numeric' } : opts
+        const to = dates.to.toLocaleDateString('en-US', toOpts)
+
         return `${from} - ${to}`
     }
 
@@ -158,7 +161,16 @@ export function SearchBarBig() {
 
             {activeSection === 'when' && (
                 <div className="when-dropdown">
-                    <DatePicker onSelectDates={setDates} numberOfMonths={2} value={dates} />
+                    <DatePicker
+                        onSelectDates={setDates}
+                        numberOfMonths={2}
+                        value={dates}
+                        enableHoverPreview
+                        formatters={{
+                            // single-letter weekday headers: S M T W T F S
+                            formatWeekdayName: (day) => day.toLocaleDateString('en-US', { weekday: 'narrow' }),
+                        }}
+                    />
                 </div>
             )}
 

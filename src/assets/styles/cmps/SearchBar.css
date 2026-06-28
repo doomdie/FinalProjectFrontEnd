@@ -1,4 +1,10 @@
-/* ===== SEARCH BAR PILL ===== */
+/* ============================================================
+   SEARCH BAR — big (hero) + small (scrolled) pills, dropdowns,
+   date picker, guests, and the service-animal modal.
+   ============================================================ */
+
+
+/* ===== BIG SEARCH BAR (pill) ===== */
 .app-header .search-bar {
     position: relative;
 
@@ -17,6 +23,7 @@
     background-color: var(--color-bg);
 }
 
+/* each clickable section: Where / When / Who */
 .app-header .search-section {
     position: relative;
     z-index: 1;
@@ -37,7 +44,8 @@
     background-color: var(--color-section-hover);
 }
 
-/* divider line on When and Who (left edge) */
+
+/* --- section divider lines (left edge of When and Who) --- */
 .app-header .search-section:not(:first-of-type)::before,
 .app-header .search-who .search-section::before {
     content: '';
@@ -53,7 +61,7 @@
     transition: opacity 0.2s ease;
 }
 
-/* a hovered section hides its own left divider and the next section's */
+/* a hovered section hides its own divider and the next section's */
 .app-header .search-section:hover::before {
     opacity: 0;
 }
@@ -68,8 +76,7 @@
     opacity: 0;
 }
 
-
-/* hide dividers (stays hidden without hover) */
+/* an active section hides its divider and the next one's (stays hidden, no hover needed) */
 .app-header .search-section.active::before {
     opacity: 0;
 }
@@ -83,7 +90,7 @@
 }
 
 
-/* Who + button grouped */
+/* --- Who group (the Who section + search button live together) --- */
 .app-header .search-who {
     position: relative;
     z-index: 1;
@@ -91,6 +98,9 @@
     display: flex;
     align-items: center;
     flex: 1;
+    align-self: stretch;
+
+
     border-radius: 40px;
     white-space: nowrap;
 }
@@ -99,6 +109,8 @@
     background-color: var(--color-section-hover);
 }
 
+
+/* --- section text + input --- */
 .app-header .search-label {
     font-size: 0.7rem;
     font-weight: 600;
@@ -109,8 +121,6 @@
     font-size: 0.7rem;
     color: var(--color-text-light);
 }
-
-
 
 .app-header .search-input {
     padding: 0;
@@ -129,12 +139,11 @@
 }
 
 
-/* ===== SEARCH BUTTON ===== */
+/* ===== SEARCH BUTTON (round, expands to a pill when a section is open) ===== */
 .app-header .search-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* gap: 0.25rem; */
 
     width: 2.5rem;
     height: 2.5rem;
@@ -143,7 +152,7 @@
     margin: 0.4rem;
 
     flex-shrink: 0;
-    /* button never shrinks, stays a circle */
+    /* never shrink — stays a circle */
 
     background-color: var(--color-primary);
     color: var(--color-bg);
@@ -169,6 +178,7 @@
     flex-shrink: 0;
 }
 
+/* "Search" label — slides open when the button expands */
 .app-header .search-btn-text {
     max-width: 0;
     overflow: hidden;
@@ -185,7 +195,6 @@
     max-width: 5rem;
     opacity: 1;
 }
-
 
 
 /* ===== SMALL SEARCH PILL (scrolled state) ===== */
@@ -255,7 +264,6 @@
     margin-left: 0.9rem;
 }
 
-
 .app-header .small-location {
     max-width: 14rem;
 
@@ -265,8 +273,7 @@
 }
 
 
-/* ===== X BUTTON ===== */
-
+/* ===== CLEAR (X) BUTTON — inside Where / When ===== */
 .app-header .clear-btn {
     position: absolute;
     right: 0.8rem;
@@ -283,7 +290,6 @@
     border: none;
     border-radius: 50%;
     margin: auto 0;
-
 
     background-color: transparent;
     color: var(--color-text);
@@ -303,7 +309,8 @@
     background-color: var(--color-bg-soft);
 }
 
-/* ===== WHITE PILL RULES ===== */
+
+/* ===== SLIDING WHITE PILL (highlights the active section) ===== */
 .app-header .search-pill {
     position: absolute;
     top: 0;
@@ -317,20 +324,20 @@
     transition: left 0.4s ease, width 0.4s ease;
 }
 
-/* keep section text above the pill */
+/* keep section text above the sliding pill */
 .app-header .search-section,
 .app-header .search-who {
     position: relative;
     z-index: 1;
 }
 
-/* dim the whole bar when a section is active */
+/* dim the whole bar while a section is active */
 .app-header .search-bar:has(.search-section.active) {
     background-color: var(--color-bg-soft);
 }
 
 
-/* ===== WHERE RECENT SEARCHES DROPDOWN ===== */
+/* ===== WHERE — RECENT SEARCHES DROPDOWN ===== */
 .app-header .where-dropdown {
     position: absolute;
     top: calc(100% + 1rem);
@@ -388,15 +395,22 @@
 }
 
 
-/* ===== DATE PICKER STYLING ===== */
+/* ============================================================
+   WHEN — DATE PICKER (react-day-picker)
+   Grouped: 1) layout  2) text  3) selected range  4) hover/preview
+   ============================================================ */
+
+/* --- 1. Layout: dropdown box + two-month grid --- */
+
+/* the dropdown panel — same width as the search bar, anchored left */
 .app-header .when-dropdown {
     position: absolute;
     top: calc(100% + 1rem);
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    transform: none;
     z-index: 50;
 
-    width: max-content;
+    width: 850px;
     padding: 1.5rem 2rem;
     border-radius: 24px;
 
@@ -404,36 +418,49 @@
     box-shadow: var(--shadow-lg);
 }
 
+/* day cell size + accent colors, set once on the calendar root */
 .app-header .when-dropdown .rdp-root {
     position: relative;
 
     --rdp-accent-color: var(--color-text);
     --rdp-accent-background-color: var(--color-bg-soft);
-    --rdp-day-width: 2.6rem;
-    --rdp-day-height: 2.6rem;
+    --rdp-day-width: 2.8rem;
+    --rdp-day-height: 2.8rem;
 }
 
-/* month name centered */
+/* spread the two months evenly across the full width */
+.app-header .when-dropdown .rdp-months {
+    width: 100%;
+    max-width: none;
+    /* override vendor's max-width: fit-content */
+    flex-wrap: nowrap;
+    /* override vendor's wrap — keep months side by side */
+    justify-content: space-around;
+}
+
+/* center each month's name */
 .app-header .when-dropdown .rdp-month_caption {
     justify-content: center;
 }
 
-/* split nav arrows to both edges */
+/* push the prev/next arrows to the left and right edges */
 .app-header .when-dropdown .rdp-nav {
     position: absolute;
     top: 0;
     left: 0;
-
     right: 0;
+    width: 100%;
+
     display: flex;
     justify-content: space-between;
-
-    width: 100%;
 }
 
 .app-header .when-dropdown .rdp-chevron {
     fill: var(--color-text);
 }
+
+
+/* --- 2. Day + weekday text --- */
 
 .app-header .when-dropdown .rdp-day {
     font-size: 0.9rem;
@@ -447,7 +474,16 @@
     text-transform: none;
 }
 
-/* ONLY start + end = black circle */
+/* no transition on day buttons — stops the square→circle morph on hover */
+.app-header .when-dropdown .rdp-day_button {
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+
+
+/* --- 3. Selected range (after both dates are chosen) --- */
+
+/* start + end days = solid black circle */
 .app-header .when-dropdown .rdp-range_start .rdp-day_button,
 .app-header .when-dropdown .rdp-range_end .rdp-day_button {
     background-color: var(--color-text);
@@ -456,28 +492,47 @@
     border-radius: 50%;
 }
 
-/* middle = grey background */
-.app-header .when-dropdown .rdp-range_middle {
+/* days in between = grey bar (covers the committed range AND the live hover preview) */
+.app-header .when-dropdown .rdp-range_middle,
+.app-header .when-dropdown .preview-middle {
     background-color: var(--color-bg-soft);
+
 }
 
-.app-header .when-dropdown .rdp-range_middle .rdp-day_button {
+.app-header .when-dropdown .rdp-range_middle .rdp-day_button,
+.app-header .when-dropdown .preview-middle .rdp-day_button {
+    position: relative;
     background-color: transparent;
     color: var(--color-text);
     border: none;
 }
 
 
-/* hover on any day = black circle preview */
-.app-header .when-dropdown .rdp-day:not(.rdp-disabled) .rdp-day_button:hover {
+/* --- 4. Hover + live preview (while picking dates) --- */
+
+/* plain hover = hollow black circle (skips chosen endpoints and the previewed end day) */
+.app-header .when-dropdown .rdp-day:not(.rdp-disabled):not(.rdp-range_start):not(.rdp-range_end):not(.preview-end) .rdp-day_button:hover {
+    background-color: transparent;
+    color: var(--color-text);
+    border: 1px solid var(--color-text);
+    border-radius: 50%;
+}
+
+/* the hovered day after the start = solid black circle (your future end date) */
+.app-header .when-dropdown .preview-end .rdp-day_button {
     background-color: var(--color-text);
     color: var(--color-bg);
     border: none;
     border-radius: 50%;
 }
 
+/* greyed-out days don't react to the mouse at all */
+.app-header .when-dropdown .rdp-day_button:disabled {
+    pointer-events: none;
+}
 
-/* ===== WHO / GUESTS DROPDOWN ===== */
+
+/* ===== WHO — GUESTS DROPDOWN ===== */
 .app-header .who-dropdown {
     position: absolute;
     top: calc(100% + 1rem);
@@ -521,7 +576,7 @@
     color: var(--color-text-light);
 }
 
-/* the link under Pets */
+/* the "Bringing a service animal?" link under Pets */
 .app-header .guest-row:last-child .guest-sub {
     text-decoration: underline;
     cursor: pointer;
@@ -532,6 +587,7 @@
     color: var(--color-text-muted);
 }
 
+/* --- the +/- stepper --- */
 .app-header .guest-controls {
     display: flex;
     align-items: center;
@@ -570,6 +626,7 @@
     font-size: 0.95rem;
 }
 
+
 /* ===== SERVICE ANIMAL MODAL ===== */
 .app-header .service-modal-overlay {
     position: fixed;
@@ -607,7 +664,7 @@
     position: relative;
     /* anchor for the hover pseudo-circle */
     isolation: isolate;
-    /* own stacking context so ::before -1 stays inside */
+    /* own stacking context so ::before z-index:-1 stays inside */
 
     display: flex;
     align-items: center;
@@ -618,7 +675,6 @@
     border: none;
     margin-right: -0.60rem;
     margin-top: -0.1rem;
-
 
     background-color: transparent;
     color: var(--color-text);
