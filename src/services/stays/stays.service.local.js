@@ -53,19 +53,20 @@ async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: 
     }
 
     stays = stays.map(({
-        _id, name, type, imgUrls, price, capacity, host, loc, labels, amenities, reviews
+        _id, name, type, imgUrls, price, capacity, host, loc, labels, amenities, reviews, rating
     }) => {
         const reviewCount = reviews?.length || 0
-        let avgRating = 'New'
+        let avgRating = rating || 'New'
 
         if (reviewCount > 0) {
-            const totalScore = reviews.reduce((acc, rev) => acc + rev.rate, 0)
+            const totalScore = reviews.reduce((acc, rev) => acc + (rev.rate || 4.5), 0)
             avgRating = Math.round((totalScore / reviewCount) * 100) / 100
         }
 
         return {
             _id, name, type, imgUrls, price, capacity,
-            host, loc, labels, amenities, avgRating, reviewCount
+            host, loc, labels, amenities, avgRating, reviewCount,
+            rating: avgRating,
         }
     })
 

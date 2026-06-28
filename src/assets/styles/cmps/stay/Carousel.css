@@ -110,17 +110,25 @@
     flex-direction: column;
     gap: 1px;
 }
+.bottom-card-content {
+    display:flex;
+    justify-content:flex-start
+}
 
 
 
 .stay-type,
-.stay-location,
-.stay-price {
-    font-size: 0.65rem;
+
+.stay-price,
+.bottom-card-content {
+    gap: 5px;
+    font-size: 0.75rem;
     margin: 0;
     line-height: 1.2;
 }
-
+.stay-location {
+    font-size: 0.45rem;
+}
 .stay-card,
 .stay-card:hover,
 .stay-card:focus {
