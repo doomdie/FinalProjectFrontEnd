@@ -3,12 +3,11 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { AmenitiesList } from '../cmps/AmenitiesList'
-import { ReadMore } from '../cmps/ReadMore'
 import { store } from '../store/store'
 import { loadStay } from '../store/actions/stay.actions'
 import { StickyCard } from "../cmps/StickyCard"
 import { StayReview } from "../cmps/StayReview"
-
+import { ReadMore } from '../cmps/ReadMore'
 
 export function StayDetails() {
   const { stayId } = useParams()
@@ -86,8 +85,10 @@ export function StayDetails() {
 
        
         <StickyCard stay = {stay}></StickyCard>
+        
       </main>
-      <StayReview stay = {stay}></StayReview>
+        <StayReview stay = {stay}></StayReview>
+
     </section>
   )
 }
