@@ -8,6 +8,7 @@ import { loadStay } from '../store/actions/stay.actions'
 import { StickyCard } from "../cmps/StickyCard"
 import { StayReview } from "../cmps/StayReview"
 import { ReadMore } from '../cmps/ReadMore'
+import Divider from '@mui/material/Divider';
 
 export function StayDetails() {
   const { stayId } = useParams()
@@ -59,6 +60,7 @@ export function StayDetails() {
 
           <section className="further-details">
             <div className = "firstColumn">
+              <Divider sx={{ borderColor: '#e0e0e0' }} />
             <section className="host-profile">
               <img
                 src={placeholderAvatar}
@@ -66,11 +68,13 @@ export function StayDetails() {
                 className="stay-card-img"
               />
               <div className="hostText">
-                {stay.host && <h3>Host: {stay.host.fullname}</h3>}
+                {stay.host && <span className = "host-name">Hosted by {stay.host.fullname}</span>}
                {stay.host.isSuperHost && <p>Superhost *Placeholder</p>} 
+               {!stay.host.isSuperHost && <span className = "host-undertext">Yo! This is a placeholder!</span>}
               </div>
                
             </section>
+             <Divider sx={{ borderColor: '#e0e0e0' }} />
             <section className="stay-highlights">
               <h3>Summary</h3>
               <ReadMore text={stay.summary} /> 

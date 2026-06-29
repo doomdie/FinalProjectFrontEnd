@@ -23,7 +23,8 @@ export function StayCard({ stay }) {
                     />
                 </div>
                 <div className="stay-card-content">
-                    <h2>{stay.loc.city}</h2>
+                    <span className = "stay-card-title">{stay.loc.city}</span>
+                    {/* <h2>{stay.loc.city}</h2> */}
                     {/* <p className="stay-type">Type: {stay.type}</p> */}
                     {/* <p className="stay-location">Location: {stay.loc.city}, {stay.loc.country}</p> */}
                     <div className = "bottom-card-content">

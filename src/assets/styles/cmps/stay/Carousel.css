@@ -105,16 +105,32 @@
 }
 
 .stay-card-content {
+    
     padding: 4px 2px;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    
     gap: 1px;
+}
+.stay-card-title {
+    font-size: 0.8125rem;
+    line-height: 1rem;
+    font-family:Airbnb;
+    text-align: left;
 }
 .bottom-card-content {
     display:flex;
     justify-content:flex-start
 }
-
+.hostText {
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    column-gap: 4px;
+}
+.host-name {
+    font-weight: 500;
+    font-family: Airbnb;
+}
 
 
 .stay-type,
