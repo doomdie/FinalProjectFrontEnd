@@ -48,10 +48,13 @@ export function StayDetails() {
           <header className="stay-overview-header">
             <h4>{stay.name}</h4>
             <ul className="stay-info-list">
+              <ol className = "stay-info-ol">
+              <li> {stay.capacity}+ Guests<span className = "listSeperator"> •</span></li> 
               <li> Bedrooms: {stay.bedrooms}</li>
               <li>Bathrooms: {stay.bathrooms}</li>
-              <li>Reviews: {stay.reviews.length}</li>
+              </ol>
             </ul>
+            <div className = "stay-header-reviews"></div>
           </header>
 
           <section className="further-details">
@@ -64,7 +67,7 @@ export function StayDetails() {
               />
               <div className="hostText">
                 {stay.host && <h3>Host: {stay.host.fullname}</h3>}
-                <p>Superhost *Placeholder</p>
+               {stay.host.isSuperHost && <p>Superhost *Placeholder</p>} 
               </div>
                
             </section>

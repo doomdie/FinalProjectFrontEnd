@@ -22,7 +22,7 @@ export function RootCmp() {
         <div className="main-container">
             {!isHostPage && <AppHeader />}
             <UserMsg />
-            <main>
+           
                 <Routes>
                     
                     <Route path="" element={<HomesPage />} />
@@ -41,7 +41,7 @@ export function RootCmp() {
 
 
                 </Routes>
-            </main>
+           
 
             {!isHostPage && <AppFooter />}
         </div>
