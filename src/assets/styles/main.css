@@ -1,5 +1,5 @@
 @import "setup/var";
-@import "setup/typography";
+@import "./setup/typography.css";
 
 @import "basics/helpers";
 @import "basics/layout";

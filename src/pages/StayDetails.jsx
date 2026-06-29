@@ -46,7 +46,7 @@ export function StayDetails() {
         <section className="stay-info-main">
 
           <header className="stay-overview-header">
-            <h4>{stay.name}</h4>
+            <h4>{stay.roomType} in {stay.loc.city}</h4>
             <ul className="stay-info-list">
               <ol className = "stay-info-ol">
               <li> {stay.capacity}+ Guests<span className = "listSeperator"> •</span></li> 
