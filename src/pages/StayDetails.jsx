@@ -28,7 +28,7 @@ export function StayDetails() {
 
   return (
     <section className="stay-details">
-      <h1>Stay Details</h1>
+      <h1>{stay.name}</h1>
 
       <div className="details-gallery">
         {stay.imgUrls.map((url, index) => (
@@ -49,9 +49,9 @@ export function StayDetails() {
             <h4>{stay.roomType} in {stay.loc.city}</h4>
             <ul className="stay-info-list">
               <ol className = "stay-info-ol">
-              <li> {stay.capacity}+ Guests<span className = "listSeperator"> •</span></li> 
-              <li> Bedrooms: {stay.bedrooms}</li>
-              <li>Bathrooms: {stay.bathrooms}</li>
+              <li> {stay.capacity}+  Guest{stay.capacity > 1 ? 's' : ''}</li> 
+              <li><span className = "listSeperator">·</span>{stay.bedrooms} Bedroom{stay.bedrooms > 1 ? 's' : ''}<span className = "listSeperator">·</span> </li>
+              <li> {stay.bathrooms} Bathrooms{stay.bathrooms > 1 ? 's' : ''}</li>
               </ol>
             </ul>
             <div className = "stay-header-reviews"></div>
