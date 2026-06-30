@@ -19,8 +19,8 @@ export function HostMenu() {
                     </div>
                     <h1>You don't have any reservations</h1>
                     <h2>To get booked, you'll need to complete and publish your listing.</h2>
-                    <NavLink to="/become-a-host">
-                        hostmode
+                    <NavLink to="/become-a-host" className="host-mode-link">
+                        Complete your listing
                     </NavLink>
                 </div>
             ) : (
