@@ -72,8 +72,7 @@ export function SearchPage() {
                     {staysToShow.map((stay, idx) => {
                         // ===== FAKE ADDED INFO TO LOOK LIKE AIRBNB =====
                         const fakeRating = (4.7 + (stay._id.charCodeAt(0) % 30) / 100).toFixed(2)  // FAKE: no rating in data
-
-                        const reviewCount = stay.reviews?.length || 0                  // real: review count
+                        const reviewCount = stay.reviewCount || 0                       // real: review count from service
                         const nights = 5                                               // FAKE: matches fakeDateRange
                         const fakeDateRange = 'Jul 3 – 8'                              // FAKE: no dates in data
                         const totalPrice = stay.price * nights                         // real nightly × fake nights
