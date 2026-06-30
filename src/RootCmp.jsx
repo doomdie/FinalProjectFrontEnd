@@ -22,22 +22,22 @@ export function RootCmp() {
         <div className="main-container">
             {!isHostPage && <AppHeader />}
             <UserMsg />
-           
-                <Routes>
-                    
-                    <Route path="" element={<HomesPage />} />
-                    <Route path="/homes" element={<HomesPage />} />
-                    <Route path="homes/:stayId" element={<StayDetails />} />
-                    <Route path="/experiences" element={<HomesPage />} />
-                    <Route path="/services" element={<HomesPage />} />
-                    <Route path="user/:id" element={<UserDetails />} />
-                    <Route path="/search" element={<SearchPage />} />
-                    <Route path="/hosting" element={<HostMenu />} />
-                    <Route path="/become-a-host" element={<BecomeAHost />} />
+
+            <Routes>
+
+                <Route path="" element={<HomesPage />} />
+                <Route path="/homes" element={<HomesPage />} />
+                <Route path="homes/:stayId" element={<StayDetails />} />
+                <Route path="/experiences" element={<HomesPage />} />
+                <Route path="/services" element={<HomesPage />} />
+                <Route path="user/:id" element={<UserDetails />} />
+                <Route path="/search" element={<SearchPage />} />
+                <Route path="/hosting" element={<HostMenu />} />
+                <Route path="/become-a-host" element={<BecomeAHost />} />
 
 
-                </Routes>
-           
+            </Routes>
+
 
             {!isHostPage && <AppFooter />}
         </div>
