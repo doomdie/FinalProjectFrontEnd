@@ -1,13 +1,17 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 import { NavLink, useLocation, Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+
+import { logout } from '../store/actions/user.actions.js'
+import { LoginSignupModal } from '../pages/LoginSignup.jsx'
+
+import { SvgIcon } from '../services/svg.service.jsx'
 import { SearchBarBig } from './SearchBarBig.jsx'
 import { SearchBarSmall } from './SearchBarSmall.jsx'
-import { useSelector } from 'react-redux'
-import { LoginSignupModal } from '../pages/LoginSignup.jsx'
-import { logout } from '../store/actions/user.actions.js'
 
 export function AppHeader() {
 	const user = useSelector(storeState => storeState.userModule.user)
+	const stays = useSelector(storeState => storeState.stayModule.stays)
 
 	const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
 	const tabsContainerRef = useRef()
@@ -17,6 +21,21 @@ export function AppHeader() {
 	const isDetailsPage = location.pathname.startsWith('/homes/') && location.pathname !== '/homes' && location.pathname !== '/homes/'
 	const isSearchPage = location.pathname.startsWith('/search')
 	const isHosting = location.pathname.startsWith('/hosting')
+
+	const amenityPills = useMemo(() => {
+		if (!stays?.length) return []
+		const amenityCounts = {}
+		for (const stay of stays) {
+			for (const amenity of stay.amenities || []) {
+				amenityCounts[amenity] = (amenityCounts[amenity] || 0) + 1
+			}
+		}
+		return Object.keys(amenityCounts)
+			.sort((a, b) => amenityCounts[b] - amenityCounts[a])
+			.slice(0, 9)
+	}, [stays])
+
+
 	async function onLogout() {
 		try {
 			await logout()
@@ -65,101 +84,120 @@ export function AppHeader() {
 	}
 
 	return (
-        <header className={`app-header full ${isScrolled ? 'scrolled' : ''}`}>
-            <div className="header-top">
-                <NavLink to="/" className="logo">
-                    OurBNB
-                </NavLink>
+		<header className={`app-header full ${isScrolled ? 'scrolled' : ''}`}>
+			<div className="header-top">
+				<NavLink to="/" className="logo">
+					OurBNB
+				</NavLink>
 
-                <div className="header-center">
-                    {isHosting ? (
-                        <div className="header-tabs host-tabs" ref={tabsContainerRef}>
-                            <NavLink to="/hosting" end>Today</NavLink>
-                            <NavLink to="/hosting/calendar">Calendar</NavLink>
-                            <NavLink to="/hosting/listings">Listings</NavLink>
-                            <NavLink to="/hosting/messages">Messages</NavLink>
-                            
-                            <span
-                                className="tab-indicator"
-                                style={{
-                                    left: underlinePos.left + 'px',
-                                    width: underlinePos.width + 'px',
-                                }}
-                            />
-                        </div>
-                    ) : (
-                        <>
-                            <div className="header-tabs" ref={tabsContainerRef}>
-                                <NavLink to="/" end>
-                                    <img src="/img/symbols/globe.svg" alt="All" className="tab-icon" />
-                                    All
-                                </NavLink>
-                                <NavLink to="/homes">
-                                    <img src="/img/symbols/house.svg" alt="Homes" className="tab-icon" />
-                                    Homes
-                                </NavLink>
-                                <NavLink to="/experiences">
-                                    <img src="/img/symbols/balloon.svg" alt="Experiences" className="tab-icon" />
-                                    Experiences
-                                </NavLink>
-                                <NavLink to="/services">
-                                    <img src="/img/symbols/bell.svg" alt="Services" className="tab-icon" />
-                                    Services
-                                </NavLink>
+				<div className="header-center">
+					{isHosting ? (
+						<div className="header-tabs host-tabs" ref={tabsContainerRef}>
+							<NavLink to="/hosting" end>Today</NavLink>
+							<NavLink to="/hosting/calendar">Calendar</NavLink>
+							<NavLink to="/hosting/listings">Listings</NavLink>
+							<NavLink to="/hosting/messages">Messages</NavLink>
 
-                                <span
-                                    className="tab-indicator"
-                                    style={{
-                                        left: underlinePos.left + 'px',
-                                        width: underlinePos.width + 'px',
-                                    }}
-                                />
-                            </div>
+							<span
+								className="tab-indicator"
+								style={{
+									left: underlinePos.left + 'px',
+									width: underlinePos.width + 'px',
+								}}
+							/>
+						</div>
+					) : (
+						<>
+							<div className="header-tabs" ref={tabsContainerRef}>
+								<NavLink to="/" end>
+									<img src="/img/symbols/globe.svg" alt="All" className="tab-icon" />
+									All
+								</NavLink>
+								<NavLink to="/homes">
+									<img src="/img/symbols/house.svg" alt="Homes" className="tab-icon" />
+									Homes
+								</NavLink>
+								<NavLink to="/experiences">
+									<img src="/img/symbols/balloon.svg" alt="Experiences" className="tab-icon" />
+									Experiences
+								</NavLink>
+								<NavLink to="/services">
+									<img src="/img/symbols/bell.svg" alt="Services" className="tab-icon" />
+									Services
+								</NavLink>
 
-                            <SearchBarBig />
-                        </>
-                    )}
-                </div>
+								<span
+									className="tab-indicator"
+									style={{
+										left: underlinePos.left + 'px',
+										width: underlinePos.width + 'px',
+									}}
+								/>
+							</div>
 
-                {!isHosting && <SearchBarSmall />}
+							<SearchBarBig />
+						</>
+					)}
+				</div>
 
-                <div className="header-actions">
-                    <NavLink to={isHosting ? "/" : "/hosting"}>
-                        {isHosting ? "Switch to User Mode" : "Switch to hosting"}
-                    </NavLink>
-                    {user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
-                    
-                    {!user && (
-                        <button
-                            className="login-link"
-                            onClick={() => setIsAuthModalOpen(true)}
-                        >
-                            Login
-                        </button>
-                    )}
-                    
-                    {user && (
-                        <div className="user-info">
-                            <button onClick={onLogout}>Logout</button>
-                        </div>
-                    )}
-                    
-                    {user ? (
-                        <Link to={`/user/${user._id}`}>
-                            <div className="user-avatar"></div>
-                        </Link>
-                    ) : (
-                        <div className="user-avatar"></div>
-                    )}
-                    
-                    <button className="menu-btn">☰</button>
-                </div>
-                
-                <LoginSignupModal 
-                    isOpen={isAuthModalOpen} 
-                    onClose={() => setIsAuthModalOpen(false)} 
-                />
-            </div>
-        </header>
-    )
+				{!isHosting && <SearchBarSmall />}
+
+				<div className="header-actions">
+					{/* <a className="host-link">Switch to hosting</a> */}
+					<NavLink to={isHosting ? "/" : "/hosting"}>
+						{isHosting ? "Switch to User Mode" : "Switch to hosting"}
+					</NavLink>
+					{user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
+
+					{!user && (
+						<button
+							className="login-link"
+							onClick={() => setIsAuthModalOpen(true)}
+						>
+							Login
+						</button>
+					)}
+					{user && (
+						<div className="user-info">
+
+
+							<button onClick={onLogout}>Logout</button>
+						</div>
+					)}
+					{user ? (
+						<Link to={`/user/${user._id}`}>
+							<div className="user-avatar"></div>
+						</Link>
+					) : (
+						<div className="user-avatar"></div>
+					)}
+					<button className="menu-btn">☰</button>
+				</div>
+
+				<LoginSignupModal
+					isOpen={isAuthModalOpen}
+					onClose={() => setIsAuthModalOpen(false)}
+				/>
+			</div>
+
+			{/* search-page amenity filter bar — pure cosmetics, no functionality */}
+			{isSearchPage && amenityPills.length > 0 && (
+				<div className="amenity-bar">
+					<button className="amenity-pill amenity-pill-filters">
+						<SvgIcon iconName="filter" />
+						Filters
+					</button>
+
+					<span className="amenity-divider" />
+
+					{amenityPills.map(amenity => (
+						<button className="amenity-pill" key={amenity}>
+							{amenity}
+						</button>
+					))}
+				</div>
+			)}
+
+		</header>
+	)
 }

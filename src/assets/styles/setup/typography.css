@@ -1,10 +1,15 @@
 @font-face {
-    /* font-family: caveat; */
-    /* src: url(../../fonts/Caveat/Caveat-Regular.ttf); */
+    font-family: 'Airbnb';
+    src: url('../../fonts/Airbnb/AirbnbCereal_W_Bk.otf') format('opentype');
+    font-weight: 400;
+    /* Book — normal text */
+    font-style: normal;
 }
+
 @font-face {
     font-family: 'Airbnb';
-    src: url('../../fonts/Airbnb/AirbnbCereal_W_Bd.otf') format('opentype');
-    font-weight: 600 700; /* Maps this file to semi-bold and bold requests */
+    src: url('../../fonts/Airbnb/AirbnbCereal_W_Md.otf') format('opentype');
+    font-weight: 500 600;
+    /* Medium — titles, semibold */
     font-style: normal;
 }
