@@ -145,3 +145,56 @@
 }
 
 
+.modal-content {
+    background-color: #ffffff;
+    padding: 32px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 568px;
+    position: relative;
+    box-sizing: border-box;
+}
+.modal-login-content {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #ebebeb;
+    padding-bottom: 12px;
+}
+.modal-login-content button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: grey;
+    cursor: pointer;
+    padding: 8px 12px;
+    position: relative;
+    transition: color 0.2s ease;
+}
+.login-form, .signup-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+.login-form h2, .signup-form h2 {
+    color: #222222;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.login-form input, .signup-form input {
+    width: 100%;
+    padding: 18px 12px;
+    font-size: 16px;
+    border: 1px solid #b0b0b0;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    outline: none;
+    box-sizing: border-box;
+}
