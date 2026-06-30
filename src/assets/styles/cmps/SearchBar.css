@@ -145,18 +145,18 @@
     align-items: center;
     justify-content: center;
 
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 3em;
+    height: 3em;
     border: 0;
     border-radius: 50%;
-    margin: 0.4rem;
+    margin: 0.5em;
 
     flex-shrink: 0;
     /* never shrink — stays a circle */
 
     background-color: var(--color-primary);
     color: var(--color-bg);
-    font-size: 1.1rem;
+    font-size: 1em;
 
     cursor: pointer;
     transition: width 0.3s ease, border-radius 0.3s ease;
@@ -171,10 +171,8 @@
 
 .app-header .search-btn svg {
     position: relative;
-    top: 1px;
-    left: 1px;
-    width: 1rem;
-    height: 1rem;
+    width: 1em;
+    height: 1em;
     flex-shrink: 0;
 }
 
@@ -389,6 +387,44 @@
     flex-shrink: 0;
 }
 
+
+/* sized SVG inside the pin */
+.app-header .recent-pin svg {
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+/* per-category colored tints (icon color + pale background) */
+.app-header .pin-blue {
+    background-color: var(--tint-blue-bg);
+    color: var(--tint-blue);
+}
+
+.app-header .pin-green {
+    background-color: var(--tint-green-bg);
+    color: var(--tint-green);
+}
+
+.app-header .pin-orange {
+    background-color: var(--tint-orange-bg);
+    color: var(--tint-orange);
+}
+
+.app-header .pin-purple {
+    background-color: var(--tint-purple-bg);
+    color: var(--tint-purple);
+}
+
+.app-header .pin-teal {
+    background-color: var(--tint-teal-bg);
+    color: var(--tint-teal);
+}
+
+.app-header .pin-red {
+    background-color: var(--tint-red-bg);
+    color: var(--tint-red);
+}
+
 .app-header .recent-text {
     font-size: 0.9rem;
     color: var(--color-text);
@@ -410,7 +446,7 @@
     transform: none;
     z-index: 50;
 
-    width: 850px;
+    width: 100%;
     padding: 1.5rem 2rem;
     border-radius: 24px;
 

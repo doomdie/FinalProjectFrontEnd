@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 // import { FiSearch } from 'react-icons/fi'
 
 import { SvgIcon } from '../services/svg.service.jsx'
@@ -23,6 +24,17 @@ export function SearchBarBig() {
         return saved ? JSON.parse(saved) : []
     })
     const navigate = useNavigate()
+    const stays = useSelector(storeState => storeState.stayModule.stays)
+
+    // one suggested destination per unique stay type, with its city — for the Where dropdown
+    const suggestions = []
+    const seenTypes = new Set()
+    for (const stay of stays || []) {
+        if (seenTypes.has(stay.type)) continue
+        seenTypes.add(stay.type)
+        suggestions.push({ type: stay.type, city: stay.loc.city })
+        if (suggestions.length === 6) break
+    }
 
     const searchBarRef = useRef()   // the search-bar div, for click-outside check
     const whereRef = useRef()
@@ -96,6 +108,18 @@ export function SearchBarBig() {
             const next = Math.max(0, prev[type] + delta)
             return { ...prev, [type]: next }
         })
+    }
+
+
+    // pick an icon + color class from a stay type — keyword match, defaults to house/red
+    function iconForType(type = '') {
+        const t = type.toLowerCase()
+        if (t.includes('beach') || t.includes('lake') || t.includes('island') || t.includes('pool')) return { icon: 'beach', color: 'blue' }
+        if (t.includes('park') || t.includes('cabin') || t.includes('cave')) return { icon: 'park', color: 'green' }
+        if (t.includes('camper')) return { icon: 'tent', color: 'orange' }
+        if (t.includes('castle')) return { icon: 'castle', color: 'purple' }
+        if (t.includes('view') || t.includes('omg') || t.includes('design')) return { icon: 'views', color: 'teal' }
+        return { icon: 'house', color: 'red' }
     }
 
     return (
@@ -174,9 +198,9 @@ export function SearchBarBig() {
                 </div>
             )}
 
-            {activeSection === 'where' && recentSearches.length > 0 && (
+            {activeSection === 'where' && (
                 <div className="where-dropdown">
-                    <h4 className="where-dropdown-title">Recent searches</h4>
+                    {recentSearches.length > 0 && <h4 className="where-dropdown-title">Recent searches</h4>}
                     {recentSearches.map(place => (
                         <div
                             className="recent-row"
@@ -186,10 +210,29 @@ export function SearchBarBig() {
                                 setActiveSection('when')
                             }}
                         >
-                            <span className="recent-pin">📍</span>
+                            <span className="recent-pin"><SvgIcon iconName="clock" /></span>
                             <span className="recent-text">{place}</span>
                         </div>
                     ))}
+
+                    {/* suggested destinations — built from stay types, each with its icon */}
+                    <h4 className="where-dropdown-title">Suggested destinations</h4>
+                    {suggestions.map(item => {
+                        const { icon, color } = iconForType(item.type)
+                        return (
+                            <div
+                                className="recent-row"
+                                key={item.type}
+                                onClick={() => {
+                                    setWhereValue(item.city)
+                                    setActiveSection('when')
+                                }}
+                            >
+                                <span className={`recent-pin pin-${color}`}><SvgIcon iconName={icon} /></span>
+                                <span className="recent-text">{item.type} in {item.city}</span>
+                            </div>
+                        )
+                    })}
                 </div>
             )}
 

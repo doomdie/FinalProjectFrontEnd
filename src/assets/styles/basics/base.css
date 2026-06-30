@@ -5,7 +5,7 @@
 body {
     margin: 0 auto;
 
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    font-family: 'Airbnb', 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
     color: var(--color-text);
 }
 

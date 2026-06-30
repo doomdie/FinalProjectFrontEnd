@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { logout } from '../store/actions/user.actions.js'
 import { LoginSignupModal } from '../pages/LoginSignup.jsx'
 
+import { SvgIcon } from '../services/svg.service.jsx'
 import { SearchBarBig } from './SearchBarBig.jsx'
 import { SearchBarSmall } from './SearchBarSmall.jsx'
 
@@ -182,7 +183,10 @@ export function AppHeader() {
 			{/* search-page amenity filter bar — pure cosmetics, no functionality */}
 			{isSearchPage && amenityPills.length > 0 && (
 				<div className="amenity-bar">
-					<button className="amenity-pill amenity-pill-filters">Filters</button>
+					<button className="amenity-pill amenity-pill-filters">
+						<SvgIcon iconName="filter" />
+						Filters
+					</button>
 
 					<span className="amenity-divider" />
 

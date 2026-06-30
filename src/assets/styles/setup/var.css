@@ -8,6 +8,10 @@
   /* the search button gradient */
 
   --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-heart: rgba(0, 0, 0, 0.5);
+  /* dimmed heart on card images */
+  --color-heart-hover: rgba(0, 0, 0, 0.7);
+  /* heart on hover */
 
   /* ===== Text ===== */
   --color-text: #222222;
@@ -52,6 +56,24 @@
   --color-rating: #222222;
   /* star rating text */
 
+  /* ===== Destination icon tints (Where suggestions) ===== */
+  --tint-blue: #3B82F6;
+  --tint-blue-bg: #EFF6FF;
+  --tint-green: #16A34A;
+  --tint-green-bg: #F0FDF4;
+  --tint-orange: #EA580C;
+  --tint-orange-bg: #FFF7ED;
+  --tint-purple: #7C3AED;
+  --tint-purple-bg: #F5F3FF;
+  --tint-teal: #0D9488;
+  --tint-teal-bg: #F0FDFA;
+  --tint-red: #DC2626;
+  --tint-red-bg: #FEF2F2;
+
+  /* ===== Search page ===== */
+  --search-header-height: 154px;
+  /* header height on the search page (always scrolled) */
+
   /* ===== Spacing scale ===== */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
@@ -59,6 +81,10 @@
   --space-lg: 1.5rem;
   --space-xl: 2rem;
   --page-gutter: 2.5rem;
+
+
+
+
 
   /* ===== legacy names — kept so old CSS doesn't break ===== */
   --clr1: var(--color-primary);
