@@ -8,8 +8,20 @@ import { loadOrders, saveOrder } from '../store/actions/order.actions'
 import myLocalImage from '../data/image.avif'; // Where the heck do i put the image folder professionally again like.. Remember to ask boris!! Or the teacher
 
 export function HostMenu() {
+    const user = useSelector(storeState => storeState.userModule.user)
     const orders = useSelector(storeState => storeState.orderModule.orders)
-    const approvedOrders = orders.filter(order => order.status === 'approved')
+    if (!user) {
+        return (
+            <div className="tab-content">
+                <div className="host-reservations">
+                    <h1>Please log in to view your hosting dashboard.</h1>
+                </div>
+            </div>
+        )   
+    }
+    const approvedOrders = orders.filter(order => 
+        order.status === 'approved' && order.hostId === user._id
+    )
     return (
         <div className="tab-content">
             {!approvedOrders.length ? (
@@ -28,7 +40,7 @@ export function HostMenu() {
                     {approvedOrders.map(order => (
                         <li key={order._id} className="order-item approved">
                             <div className="order-details">
-                                <p><strong>Stay:</strong> {order.stay.name}</p>
+                                <p><strong>Stay:</strong> {order.stay.name} </p>
                                 <p><strong>Guest:</strong> {order.buyer.fullname}</p>
                                 <p><strong>Dates:</strong> {order.startDate} – {order.endDate}</p>
                                 <p><strong>Total:</strong> ₪{order.totalPrice}</p>
