@@ -215,3 +215,27 @@
 .listing-btn:hover {
   background-color: grey;
 }
+.dashboard-orders-list {
+    list-style: none;
+    padding: 24px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid wheat;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.order-status-badge {
+    background-color: white;
+    color: green;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-weight: 600;
+}

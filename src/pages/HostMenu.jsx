@@ -40,10 +40,10 @@ export function HostMenu() {
                     {approvedOrders.map(order => (
                         <li key={order._id} className="order-item approved">
                             <div className="order-details">
-                                <p><strong>Stay:</strong> {order.stay.name} </p>
-                                <p><strong>Guest:</strong> {order.buyer.fullname}</p>
-                                <p><strong>Dates:</strong> {order.startDate} – {order.endDate}</p>
-                                <p><strong>Total:</strong> ₪{order.totalPrice}</p>
+                                <p><span>Stay:</span> {order.stay.name} </p>
+                                <p><span>Guest:</span> {order.buyer.fullname}</p>
+                                <p><span>Dates:</span> {order.startDate} – {order.endDate}</p>
+                                <p><span>Total:</span> ₪{order.totalPrice}</p>
                             </div>
                             <div className="order-status-badge approved">✓ Accepted</div>
                             
