@@ -3,6 +3,7 @@ import { NavLink, useLocation, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { logout } from '../store/actions/user.actions.js'
+import { LoginSignupModal } from '../pages/LoginSignup.jsx'
 
 import { SearchBarBig } from './SearchBarBig.jsx'
 import { SearchBarSmall } from './SearchBarSmall.jsx'
@@ -11,6 +12,7 @@ export function AppHeader() {
 	const user = useSelector(storeState => storeState.userModule.user)
 	const stays = useSelector(storeState => storeState.stayModule.stays)
 
+	const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
 	const tabsContainerRef = useRef()
 	const location = useLocation()
 	const [underlinePos, setUnderlinePos] = useState({ left: 0, width: 0 })
@@ -88,38 +90,56 @@ export function AppHeader() {
 				</NavLink>
 
 				<div className="header-center">
-					<div className="header-tabs" ref={tabsContainerRef}>
-						<NavLink to="/" end>
-							<img src="/img/symbols/globe.svg" alt="All" className="tab-icon" />
-							All
-						</NavLink>
-						<NavLink to="/homes">
-							<img src="/img/symbols/house.svg" alt="Homes" className="tab-icon" />
-							Homes
-						</NavLink>
-						<NavLink to="/experiences">
-							<img src="/img/symbols/balloon.svg" alt="Experiences" className="tab-icon" />
-							Experiences
-						</NavLink>
-						<NavLink to="/services">
-							<img src="/img/symbols/bell.svg" alt="Services" className="tab-icon" />
-							Services
-						</NavLink>
+					{isHosting ? (
+						<div className="header-tabs host-tabs" ref={tabsContainerRef}>
+							<NavLink to="/hosting" end>Today</NavLink>
+							<NavLink to="/hosting/calendar">Calendar</NavLink>
+							<NavLink to="/hosting/listings">Listings</NavLink>
+							<NavLink to="/hosting/messages">Messages</NavLink>
 
+							<span
+								className="tab-indicator"
+								style={{
+									left: underlinePos.left + 'px',
+									width: underlinePos.width + 'px',
+								}}
+							/>
+						</div>
+					) : (
+						<>
+							<div className="header-tabs" ref={tabsContainerRef}>
+								<NavLink to="/" end>
+									<img src="/img/symbols/globe.svg" alt="All" className="tab-icon" />
+									All
+								</NavLink>
+								<NavLink to="/homes">
+									<img src="/img/symbols/house.svg" alt="Homes" className="tab-icon" />
+									Homes
+								</NavLink>
+								<NavLink to="/experiences">
+									<img src="/img/symbols/balloon.svg" alt="Experiences" className="tab-icon" />
+									Experiences
+								</NavLink>
+								<NavLink to="/services">
+									<img src="/img/symbols/bell.svg" alt="Services" className="tab-icon" />
+									Services
+								</NavLink>
 
-						<span
-							className="tab-indicator"
-							style={{
-								left: underlinePos.left + 'px',
-								width: underlinePos.width + 'px',
-							}}
-						/>
-					</div>
+								<span
+									className="tab-indicator"
+									style={{
+										left: underlinePos.left + 'px',
+										width: underlinePos.width + 'px',
+									}}
+								/>
+							</div>
 
-					<SearchBarBig />
+							<SearchBarBig />
+						</>
+					)}
 				</div>
 
-				<SearchBarSmall />
+				{!isHosting && <SearchBarSmall />}
 
 				<div className="header-actions">
 					{/* <a className="host-link">Switch to hosting</a> */}
@@ -128,7 +148,14 @@ export function AppHeader() {
 					</NavLink>
 					{user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
 
-					{!user && <NavLink to="auth/login" className="login-link">Login</NavLink>}
+					{!user && (
+						<button
+							className="login-link"
+							onClick={() => setIsAuthModalOpen(true)}
+						>
+							Login
+						</button>
+					)}
 					{user && (
 						<div className="user-info">
 
@@ -145,6 +172,11 @@ export function AppHeader() {
 					)}
 					<button className="menu-btn">☰</button>
 				</div>
+
+				<LoginSignupModal
+					isOpen={isAuthModalOpen}
+					onClose={() => setIsAuthModalOpen(false)}
+				/>
 			</div>
 
 			{/* search-page amenity filter bar — pure cosmetics, no functionality */}

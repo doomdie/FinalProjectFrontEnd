@@ -1,19 +1,22 @@
 .stay-details {
-    max-width: 1120px; 
-    margin: 0 auto; 
-    padding: 0 24px; 
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
     box-sizing: border-box;
     width: 100%;
 }
 
 .details-gallery {
+    --gallery-row-height: 260px;
+    --gallery-gap: 8px;
+    --gallery-radius: 12px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 260px); 
-    gap: 8px;
-    border-radius: 12px;
+    grid-template-rows: repeat(2, var(--gallery-row-height));
+    gap: var(--gallery-gap);
+    border-radius: var(--gallery-radius);
     overflow: hidden;
-    margin-top: 24px; 
+    margin-top: 24px;
 }
 
 .details-gallery .stay-card-img {
@@ -21,7 +24,15 @@
     height: 100%;
     object-fit: cover;
 }
-
+.listSeperator {
+    font-weight:400;
+    line-height:20px;
+    font-size:16px;
+    letter-spacing:normal;
+    margin: 0 4px;
+    align-self:center;
+    color:rgb(34, 34, 34)
+}
 .details-gallery .stay-card-img:first-child {
     grid-column: span 2;
     grid-row: span 2;
@@ -29,45 +40,161 @@
 
 .stay-overview-header {
     margin-top: 36px;
-
-    gap: 4px; 
+    gap: 4px;
 }
 
+.stay-overview-header h4 {
+    font-size: 22px;
+    margin-top: 36px;
+    margin-bottom: 4px;
+    font-family: 'Airbnb', sans-serif; 
+    font-weight: 700;
+    color:black;
+}
+
+.stay-overview-header h2,
 .stay-overview-header h3,
-.stay-overview-header h4, h2 {
+.stay-overview-header h4 {
+    font-family: Airbnb Cereal VF, Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+}   
+.stay-info-list {
+    margin-top: 4px;
+    margin:0;
+    padding:0;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+
+
+
+}
+.stay-info-ol {
+    display: flex; 
+    flex-direction: row;
+
+    
+
+    gap: 6px ;
     margin: 0;
-    font-size: 1em;
+    padding: 0;
+    list-style-type: none;
 }
 
-.stay-info-list {
-        display: flex;
-            flex-direction: row;
-            gap:5px;
+
+.stay-info-list li {
+    display:inline-block;
+    font-size: 1rem;
+    
 
 
-            
 }
 .stay-info-main {
     padding-bottom: 300px;
 }
+
 /* 300 is perfect */
 .further-details {
-     margin-top: 36px;
-     
+    margin-top: 36px;
+
 }
+
 .host-profile {
-    display:flex;
-    gap:24px;
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+.host-undertext {
+    font-size: 14px;
 }
 .host-profile img {
-    height:40px;
-    width:40px;
-    border-radius:50%;
-    overflow:hidden;
-    position:relative;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
 }
+
 .host-text {
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+@media (max-width: 950px) {
+    .details-gallery {
+        --gallery-row-height: 180px;
+        --gallery-gap: 6px;
+    }
+}@media (max-width: 721px) {
+    .details-gallery {
+        --gallery-row-height: 220px;
+        --gallery-gap: 4px;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-auto-rows: var(--gallery-row-height); 
+    }
+
+    .details-gallery .stay-card-img:first-child {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .details-gallery .stay-card-img:not(:first-child) {
+        display: none;
+    }
+}
+
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 32px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 568px;
+    position: relative;
+    box-sizing: border-box;
+}
+.modal-login-content {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #ebebeb;
+    padding-bottom: 12px;
+}
+.modal-login-content button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: grey;
+    cursor: pointer;
+    padding: 8px 12px;
+    position: relative;
+    transition: color 0.2s ease;
+}
+.login-form, .signup-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+.login-form h2, .signup-form h2 {
+    color: #222222;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.login-form input, .signup-form input {
+    width: 100%;
+    padding: 18px 12px;
+    font-size: 16px;
+    border: 1px solid #b0b0b0;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    outline: none;
+    box-sizing: border-box;
 }

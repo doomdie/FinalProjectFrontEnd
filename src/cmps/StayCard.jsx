@@ -38,7 +38,7 @@ export function StayCard({ stay }) {
             <div className="stay-card-content">
                 {/* title: "<roomType> in <city>" — Airbnb style */}
                 <h2 className="stay-card-title">{stay.type || 'Stay'} in {stay.loc.city}</h2>
-                
+
                 {/* FAKE date range */}
                 <p className="stay-card-dates">{fakeDateRange}</p>
 

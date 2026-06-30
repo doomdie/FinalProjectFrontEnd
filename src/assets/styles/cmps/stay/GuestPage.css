@@ -72,6 +72,8 @@
 }
 
 .custom-guest-dropdown {
+      grid-column: span 2;
+
     position: absolute;
     top: 100%;
     left: 0;
