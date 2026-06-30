@@ -1,12 +1,15 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 import { NavLink, useLocation, Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+
+import { logout } from '../store/actions/user.actions.js'
+
 import { SearchBarBig } from './SearchBarBig.jsx'
 import { SearchBarSmall } from './SearchBarSmall.jsx'
-import { useSelector } from 'react-redux'
-import { logout } from '../store/actions/user.actions.js'
 
 export function AppHeader() {
 	const user = useSelector(storeState => storeState.userModule.user)
+	const stays = useSelector(storeState => storeState.stayModule.stays)
 
 	const tabsContainerRef = useRef()
 	const location = useLocation()
@@ -15,6 +18,21 @@ export function AppHeader() {
 	const isDetailsPage = location.pathname.startsWith('/homes/') && location.pathname !== '/homes' && location.pathname !== '/homes/'
 	const isSearchPage = location.pathname.startsWith('/search')
 	const isHosting = location.pathname.startsWith('/hosting')
+
+	const amenityPills = useMemo(() => {
+		if (!stays?.length) return []
+		const amenityCounts = {}
+		for (const stay of stays) {
+			for (const amenity of stay.amenities || []) {
+				amenityCounts[amenity] = (amenityCounts[amenity] || 0) + 1
+			}
+		}
+		return Object.keys(amenityCounts)
+			.sort((a, b) => amenityCounts[b] - amenityCounts[a])
+			.slice(0, 9)
+	}, [stays])
+
+
 	async function onLogout() {
 		try {
 			await logout()
@@ -128,6 +146,22 @@ export function AppHeader() {
 					<button className="menu-btn">☰</button>
 				</div>
 			</div>
+
+			{/* search-page amenity filter bar — pure cosmetics, no functionality */}
+			{isSearchPage && amenityPills.length > 0 && (
+				<div className="amenity-bar">
+					<button className="amenity-pill amenity-pill-filters">Filters</button>
+
+					<span className="amenity-divider" />
+
+					{amenityPills.map(amenity => (
+						<button className="amenity-pill" key={amenity}>
+							{amenity}
+						</button>
+					))}
+				</div>
+			)}
+
 		</header>
 	)
 }

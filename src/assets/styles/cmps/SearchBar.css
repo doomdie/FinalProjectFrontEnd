@@ -441,6 +441,8 @@
 /* center each month's name */
 .app-header .when-dropdown .rdp-month_caption {
     justify-content: center;
+    color: var(--color-text);
+
 }
 
 /* push the prev/next arrows to the left and right edges */

@@ -6,7 +6,7 @@ body {
     margin: 0 auto;
 
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-    color: var(--clr2);
+    color: var(--color-text);
 }
 
 h1,
