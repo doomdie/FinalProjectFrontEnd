@@ -1,0 +1,52 @@
+[
+    {
+        "_id": "o201",
+        "createdAt": "2025-06-10T14:32:00.000Z",
+        "startDate": "2025-07-01T16:00:00.000Z",
+        "endDate": "2025-07-07T11:00:00.000Z",
+        "totalPrice": 228,
+        "status": "completed",
+        "buyer": {
+            "_id": "622f3403e36c59e6164faf93",
+            "id": "36133410",
+            "fullname": "Patty And Beckett"
+        },
+        "stay": {
+            "_id": "622f337a75c7d36e498aab16",
+            "name": "Double room with private bathroom in Barcelona",
+            "price": 38,
+            "imgUrls": [
+                "http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436588/cxkvvaext8m0kjuaxcrk.jpg"
+            ],
+            "host": {
+                "_id": "622f3404e36c59e6164fb627",
+                "fullname": "Sonia"
+            }
+        }
+    },
+    {
+        "_id": "o202",
+        "createdAt": "2025-12-15T09:15:00.000Z",
+        "startDate": "2026-02-10T16:00:00.000Z",
+        "endDate": "2026-02-15T11:00:00.000Z",
+        "totalPrice": 505,
+        "status": "completed",
+        "buyer": {
+            "_id": "622f3403e36c59e6164faf93",
+            "id": "36133410",
+            "fullname": "Patty And Beckett"
+        },
+        "stay": {
+            "_id": "622f337a75c7d36e498aab17",
+            "name": "Quarto Taquara - Jacarepaguá",
+            "price": 101,
+            "imgUrls": [
+                "http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436255/nmccht42mpd6erdeqjhi.jpg"
+            ],
+            "host": {
+                "_id": "622f3404e36c59e6164fb58a",
+                "fullname": "Luana"
+            }
+        }
+    }
+]

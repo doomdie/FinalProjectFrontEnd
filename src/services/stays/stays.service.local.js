@@ -13,37 +13,31 @@ export const stayService = {
     remove,
 }
 window.cs = stayService
-
+//removed explanations to stay consistent
 
 async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: '' }) {
     var stays = await storageService.query(STORAGE_KEY)
     const { minPrice, sortField, sortDir, startDate, endDate, byUserId, amenities, guests } = filterBy
 
-    // the search bar sends 'search', older filters send 'txt' — accept either
     const txt = filterBy.txt || filterBy.search
 
-    // filter by owner
     if (byUserId) {
         stays = stays.filter(stay => stay.host?.id === byUserId || stay.host?._id === byUserId || stay.byUser?._id === byUserId)
     }
 
-    // filter by free text: match against country or city
     if (txt) {
         const regex = new RegExp(txt, 'i')
         stays = stays.filter(stay => regex.test(stay.loc.country) || regex.test(stay.loc.city))
     }
 
-    // filter by minimum price
     if (minPrice) {
         stays = stays.filter(stay => stay.price >= minPrice)
     }
 
-    // filter by date availability
     if (startDate && endDate) {
         stays = stays.filter(stay => _isStayAvailable(stay, startDate, endDate))
     }
 
-    // filter by amenities — stay must have ALL requested amenities (comma-separated)
     if (amenities) {
         const wanted = amenities.split(',').map(a => a.trim()).filter(a => a)
         stays = stays.filter(stay =>
@@ -51,7 +45,6 @@ async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: 
         )
     }
 
-    // filter by guests — stay capacity must fit the requested number
     if (guests) {
         const guestCount = +guests
         if (guestCount > 0) {
@@ -59,7 +52,6 @@ async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: 
         }
     }
 
-    // sorting
     if (sortField === 'owner') {
         stays.sort((stay1, stay2) => {
             const name1 = stay1.owner?.fullname || ''
@@ -74,7 +66,6 @@ async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: 
         stays.sort((stay1, stay2) => (stay1[sortField] - stay2[sortField]) * +sortDir)
     }
 
-    // trim each stay to the fields the list needs, and compute avg rating + review count
     stays = stays.map(({
         _id, name, type, imgUrls, price, capacity, bedrooms, bathrooms, host, loc, labels, amenities, reviews, rating
     }) => {

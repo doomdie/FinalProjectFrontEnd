@@ -1,6 +1,6 @@
 import { storageService } from '../async-storage.service.js'
 import { userService } from '../user/user.service.local.js'
-
+import gDefaultOrders from './orders.json'
 const STORAGE_KEY = 'order'
 
 export const orderService = {
@@ -10,7 +10,7 @@ export const orderService = {
     remove,
     getEmptyOrder
 }
-
+_createOrders()
 async function query(filterBy = {}) {
     var orders = await storageService.query(STORAGE_KEY)
     
@@ -67,5 +67,12 @@ function getEmptyOrder() {
         },
         totalPrice: 0,
         status: 'pending'
+    }
+}
+function _createOrders() {
+    let orders = JSON.parse(localStorage.getItem(STORAGE_KEY))
+    if (!orders || !orders.length) {
+        orders = gDefaultOrders
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(orders))
     }
 }

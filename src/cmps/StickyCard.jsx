@@ -93,11 +93,11 @@ export function StickyCard({ stay }) {
                 )}
                 <div className="sticky-part-one">
                     <div className="date-pickers-trigger" onClick={() => setIsDatePickerOpen(true)}>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', paddingLeft: '12px' }}>
                             <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>Check-in </span>
                             <span>{dates.checkIn ? dates.checkIn.toLocaleDateString() : 'Add date'}</span>
                         </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', paddingLeft: '12px' }}>
                             <span style={{ fontSize: '0.75rem', color: '#000000ff' }}>Check-out </span>
                             <span>{dates.checkOut ? dates.checkOut.toLocaleDateString() : 'Add date'}</span>
                         </Box>
@@ -109,7 +109,7 @@ export function StickyCard({ stay }) {
                     open={isDatePickerOpen}
                     onClose={() => setIsDatePickerOpen(false)}
                 >
-                    <div className="custom-modal-card">
+                    <div className="custom-modal-card"  >
                         <h2>Select Dates</h2>
                         <DatePicker onSelectDates={handleSelectDates} />
                         <button onClick={() => setIsDatePickerOpen(false)}>Close</button>

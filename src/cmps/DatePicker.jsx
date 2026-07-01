@@ -34,7 +34,9 @@ export function DatePicker({ onSelectDates, numberOfMonths = 1, value, formatter
     return (
         <div className="date-picker-dropdown">
             <DayPicker
+            
                 mode="range"
+                className="rdp-left-align"
                 numberOfMonths={numberOfMonths}
                 startMonth={new Date()}
                 month={range?.from || undefined}
