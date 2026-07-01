@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 
 import { useSyncStayFilter } from '../customHooks/useSyncStayFilter.js'
 import { SvgIcon } from '../services/svg.service.jsx'
@@ -14,6 +14,7 @@ export function SearchPage() {
     useSyncStayFilter()
 
     const stays = useSelector(storeState => storeState.stayModule.stays)
+    const [searchParams] = useSearchParams()
     const [currentPage, setCurrentPage] = useState(0)
     const [likedIds, setLikedIds] = useState([])  // which cards are hearted (visual only)
     const [imgIdxByStay, setImgIdxByStay] = useState({})  // current image index per card carousel
@@ -38,6 +39,14 @@ export function SearchPage() {
     const mapCenter = firstStay
         ? { lat: firstStay.loc.lan, lng: firstStay.loc.lat }
         : { lat: 20, lng: 0 }
+
+    // is the loaded data actually for the current search? if not, the map would
+    // flash the OLD location — so we hold it grey until they match
+    const searchTerm = (searchParams.get('search') || '').split(',')[0].trim().toLowerCase()
+    const mapReady = !searchTerm || (firstStay && (
+        firstStay.loc.city.toLowerCase().includes(searchTerm) ||
+        firstStay.loc.country.toLowerCase().includes(searchTerm)
+    ))
 
 
     // decide which page numbers to show; gaps become '...'
@@ -217,30 +226,33 @@ export function SearchPage() {
 
             {/* RIGHT: real Google map with a price pin per stay */}
             <div className="search-map">
-                <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_KEY}>
-                    <Map
-                        key={`${mapCenter.lat}-${mapCenter.lng}`}
-                        mapId={import.meta.env.VITE_GOOGLE_MAPS_MAP_ID}
-                        defaultZoom={11}
-                        defaultCenter={mapCenter}
-                        gestureHandling="greedy"
-                        disableDefaultUI={true}
-                        zoomControl={true}
-                        zoomControlOptions={{ position: 3 }}
+                {!mapReady && <div className="search-map-loading" />}
+                {mapReady && (
+                    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_KEY}>
+                        <Map
+                            key={`${mapCenter.lat}-${mapCenter.lng}`}
+                            mapId={import.meta.env.VITE_GOOGLE_MAPS_MAP_ID}
+                            defaultZoom={11}
+                            defaultCenter={mapCenter}
+                            gestureHandling="greedy"
+                            disableDefaultUI={true}
+                            zoomControl={true}
+                            zoomControlOptions={{ position: 3 }}
 
-                        style={{ width: '100%', height: '100%', borderRadius: '16px' }}
-                    >
-                        {staysToShow.map(stay => (
-                            <AdvancedMarker
-                                key={stay._id}
-                                position={{ lat: stay.loc.lan, lng: stay.loc.lat }}   // data has lat/lng swapped + 'lan' typo
-                                zIndex={hoveredStayId === stay._id ? 999 : 1}
-                            >
-                                <div className={`map-price-pin ${hoveredStayId === stay._id ? 'active' : ''}`}>₪{stay.price}</div>
-                            </AdvancedMarker>
-                        ))}
-                    </Map>
-                </APIProvider>
+                            style={{ width: '100%', height: '100%', borderRadius: '16px' }}
+                        >
+                            {staysToShow.map(stay => (
+                                <AdvancedMarker
+                                    key={stay._id}
+                                    position={{ lat: stay.loc.lan, lng: stay.loc.lat }}   // data has lat/lng swapped + 'lan' typo
+                                    zIndex={hoveredStayId === stay._id ? 999 : 1}
+                                >
+                                    <div className={`map-price-pin ${hoveredStayId === stay._id ? 'active' : ''}`}>₪{stay.price}</div>
+                                </AdvancedMarker>
+                            ))}
+                        </Map>
+                    </APIProvider>
+                )}
             </div>
         </section >
     )
