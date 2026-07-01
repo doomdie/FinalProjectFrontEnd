@@ -206,7 +206,7 @@
 }
 
 /* map placeholder — right half, sticky so it stays while list scrolls */
-.search-map-placeholder {
+.search-map {
     position: sticky;
     top: calc(var(--search-header-height) + 2rem);
 
@@ -217,12 +217,37 @@
     width: 45%;
     height: calc(100vh - var(--search-header-height) - 4rem);
     margin: 2rem;
-    border-radius: 16px;
+    border-radius: 20px;
 
     background-color: var(--color-bg-soft);
     color: var(--color-text-light);
+
+    overflow: hidden;
 }
 
+
+
+/* white price pin on the map */
+.map-price-pin {
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    background-color: var(--color-bg);
+    box-shadow: var(--shadow-md);
+
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text);
+
+    white-space: nowrap;
+    transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.map-price-pin.active {
+    color: var(--color-bg);
+    background-color: var(--color-text);
+    transform: scale(1.1);
+
+}
 
 /* pagination bar */
 .pagination {

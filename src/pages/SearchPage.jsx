@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 
 import { useSyncStayFilter } from '../customHooks/useSyncStayFilter.js'
 import { SvgIcon } from '../services/svg.service.jsx'
+import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps'
+
 
 const STAYS_PER_PAGE = 18  // 9 rows × 2 columns
 
@@ -15,6 +17,7 @@ export function SearchPage() {
     const [currentPage, setCurrentPage] = useState(0)
     const [likedIds, setLikedIds] = useState([])  // which cards are hearted (visual only)
     const [imgIdxByStay, setImgIdxByStay] = useState({})  // current image index per card carousel
+    const [hoveredStayId, setHoveredStayId] = useState(null)  // which card is hovered — highlights its map pin
 
     function toggleLike(stayId) {
         setLikedIds(prev => prev.includes(stayId)
@@ -29,6 +32,13 @@ export function SearchPage() {
     // the slice of stays for the current page
     const startIdx = currentPage * STAYS_PER_PAGE
     const staysToShow = stays.slice(startIdx, startIdx + STAYS_PER_PAGE)
+
+    // center the map on the first visible stay (falls back to a default)
+    const firstStay = staysToShow[0]
+    const mapCenter = firstStay
+        ? { lat: firstStay.loc.lan, lng: firstStay.loc.lat }
+        : { lat: 20, lng: 0 }
+
 
     // decide which page numbers to show; gaps become '...'
     function getPageList() {
@@ -91,7 +101,13 @@ export function SearchPage() {
                         }
 
                         return (
-                            <Link to={`/homes/${stay._id}`} className="result-card" key={stay._id}>
+                            <Link
+                                to={`/homes/${stay._id}`}
+                                className="result-card"
+                                key={stay._id}
+                                onMouseEnter={() => setHoveredStayId(stay._id)}
+                                onMouseLeave={() => setHoveredStayId(null)}
+                            >
                                 <div className="result-card-img">
                                     {/* sliding track — all images in a row, shifted by imgIdx */}
                                     <div
@@ -199,9 +215,32 @@ export function SearchPage() {
             </div>
 
 
-            {/* RIGHT: map placeholder */}
-            <div className="search-map-placeholder">
-                <span>Map goes here</span>
+            {/* RIGHT: real Google map with a price pin per stay */}
+            <div className="search-map">
+                <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_KEY}>
+                    <Map
+                        key={`${mapCenter.lat}-${mapCenter.lng}`}
+                        mapId={import.meta.env.VITE_GOOGLE_MAPS_MAP_ID}
+                        defaultZoom={11}
+                        defaultCenter={mapCenter}
+                        gestureHandling="greedy"
+                        disableDefaultUI={true}
+                        zoomControl={true}
+                        zoomControlOptions={{ position: 3 }}
+
+                        style={{ width: '100%', height: '100%', borderRadius: '16px' }}
+                    >
+                        {staysToShow.map(stay => (
+                            <AdvancedMarker
+                                key={stay._id}
+                                position={{ lat: stay.loc.lan, lng: stay.loc.lat }}   // data has lat/lng swapped + 'lan' typo
+                                zIndex={hoveredStayId === stay._id ? 999 : 1}
+                            >
+                                <div className={`map-price-pin ${hoveredStayId === stay._id ? 'active' : ''}`}>₪{stay.price}</div>
+                            </AdvancedMarker>
+                        ))}
+                    </Map>
+                </APIProvider>
             </div>
         </section >
     )
