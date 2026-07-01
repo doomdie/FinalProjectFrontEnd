@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useMemo } from 'react'
-import { NavLink, useLocation, Link } from 'react-router-dom'
+import { NavLink, useLocation, Link, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { logout } from '../store/actions/user.actions.js'
@@ -14,15 +14,26 @@ export function AppHeader() {
 	const stays = useSelector(storeState => storeState.stayModule.stays)
 
 	const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
-	const tabsContainerRef = useRef()
+	const [searchParams, setSearchParams] = useSearchParams()
+
+	// which amenities are currently active (from the URL ?amenities=Wifi,Kitchen)
+	const activeAmenities = (searchParams.get('amenities') || '').split(',').filter(a => a)
+
 	const location = useLocation()
 	const [underlinePos, setUnderlinePos] = useState({ left: 0, width: 0 })
 	const [isScrolled, setIsScrolled] = useState(false)
 	const isDetailsPage = location.pathname.startsWith('/homes/') && location.pathname !== '/homes' && location.pathname !== '/homes/'
 	const isSearchPage = location.pathname.startsWith('/search')
 	const isHosting = location.pathname.startsWith('/hosting')
+	const tabsContainerRef = useRef()
 
+
+
+	// build the amenity pills ONCE from the first loaded set, then freeze them
+	// (so filtering doesn't reshuffle the row)
+	const frozenPillsRef = useRef(null)
 	const amenityPills = useMemo(() => {
+		if (frozenPillsRef.current) return frozenPillsRef.current   // already frozen
 		if (!stays?.length) return []
 		const amenityCounts = {}
 		for (const stay of stays) {
@@ -30,9 +41,11 @@ export function AppHeader() {
 				amenityCounts[amenity] = (amenityCounts[amenity] || 0) + 1
 			}
 		}
-		return Object.keys(amenityCounts)
+		const pills = Object.keys(amenityCounts)
 			.sort((a, b) => amenityCounts[b] - amenityCounts[a])
 			.slice(0, 9)
+		frozenPillsRef.current = pills   // freeze for the rest of the session
+		return pills
 	}, [stays])
 
 
@@ -81,6 +94,20 @@ export function AppHeader() {
 			left: activeTabEl.offsetLeft,
 			width: activeTabEl.offsetWidth,
 		})
+	}
+
+
+	function toggleAmenity(amenity) {
+		const next = activeAmenities.includes(amenity)
+			? activeAmenities.filter(a => a !== amenity)
+			: [...activeAmenities, amenity]
+
+		const params = new URLSearchParams(searchParams)
+
+		if (next.length) params.set('amenities', next.join(','))
+		else params.delete('amenities')
+
+		setSearchParams(params)
 	}
 
 	return (
@@ -191,7 +218,11 @@ export function AppHeader() {
 					<span className="amenity-divider" />
 
 					{amenityPills.map(amenity => (
-						<button className="amenity-pill" key={amenity}>
+						<button
+							className={`amenity-pill ${activeAmenities.includes(amenity) ? 'active' : ''}`}
+							key={amenity}
+							onClick={() => toggleAmenity(amenity)}
+						>
 							{amenity}
 						</button>
 					))}
