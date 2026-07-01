@@ -42,7 +42,7 @@ export function UserDetails() {
   const userId = user._id || user.id
 
   const hostStays = stays ? stays.filter(stay => {
-    return stay.host._id === userId || stay.host.id === userId
+    return stay.host?._id === userId || stay.host?.id === userId
   }) : []
 
   const now = new Date()
