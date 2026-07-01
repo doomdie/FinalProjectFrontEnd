@@ -42,6 +42,23 @@ async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: 
         stays = stays.filter(stay => _isStayAvailable(stay, startDate, endDate))
     }
 
+    // filter by amenities — stay must have ALL requested amenities (comma-separated)
+    const { amenities, guests } = filterBy
+    if (amenities) {
+        const wanted = amenities.split(',').map(a => a.trim()).filter(a => a)
+        stays = stays.filter(stay =>
+            wanted.every(want => stay.amenities?.includes(want))
+        )
+    }
+
+    // filter by guests — stay capacity must fit the requested number
+    if (guests) {
+        const guestCount = +guests
+        if (guestCount > 0) {
+            stays = stays.filter(stay => stay.capacity >= guestCount)
+        }
+    }
+
     // sorting
     if (sortField === 'owner') {
         stays.sort((stay1, stay2) => {
