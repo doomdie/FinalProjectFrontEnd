@@ -17,9 +17,9 @@ export function UserInfo() {
     if (!user) return <div>Loading profile...</div>
 
     return (
+        <main className = "user-info-main">
         <div className="profile-right-side">
             <section className="profile-header">
-                <button className="btn-edit">Edit profile</button>
                 {isHost && <span className="host-badge">🛡️ Host</span>}
             </section>
 
@@ -33,5 +33,6 @@ export function UserInfo() {
                 <h2>⭐ Reviews Placeholder</h2>
             </section>
         </div>
+        </main>
     )
 }

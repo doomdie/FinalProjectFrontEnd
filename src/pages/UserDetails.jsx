@@ -34,52 +34,53 @@ export function UserDetails() {
   }
 
   if (!user) return null
-
+  const hostStays = stays ? stays.filter(stay => {
+    const userId = user._id || user.id;
+    return stay.host._id === userId || stay.host.id === userId;
+  }) : [];
   return (
     <section className="user-details-full">
 
       <aside className="user-aside">
-        <h3>Profile</h3>
-        <button
-          className={`tab-btn ${activeTab === 'details' ? 'active' : ''}`}
-          onClick={() => setActiveTab('details')}
-        >
-          My Details
-        </button>
-        <button
-          className={`tab-btn ${activeTab === 'stays' ? 'active' : ''}`}
-          onClick={() => setActiveTab('stays')}
-        >
-          My Stays
-        </button>
-        <button
-          className={`tab-btn ${activeTab === 'pending' ? 'active' : ''}`}
-          onClick={() => setActiveTab('pending')}
-        >
-          Reservations Center
-        </button>
-
+        <div className="aside-organizer">
+          <h3>Profile</h3>
+          <button
+            className={`tab-btn ${activeTab === 'details' ? 'active' : ''}`}
+            onClick={() => setActiveTab('details')}
+          >
+            My Details
+          </button>
+          <button
+            className={`tab-btn ${activeTab === 'stays' ? 'active' : ''}`}
+            onClick={() => setActiveTab('stays')}
+          >
+            My Stays
+          </button>
+          <button
+            className={`tab-btn ${activeTab === 'pending' ? 'active' : ''}`}
+            onClick={() => setActiveTab('pending')}
+          >
+            Reservations Center
+          </button>
+        </div>
       </aside>
 
-      <main className="user-details-main">
-        <h1>Hello {user.fullname}</h1>
+       
 
         {activeTab === 'stays' && (
-          <div className="tab-content">
-            <h2>My Stays</h2>
-            <StayMiniList stays={stays} onRemoveStay={onRemoveStay} />
+          <div className="tab-mini-content">
+            <StayMiniList stays={hostStays} onRemoveStay={onRemoveStay} />
             {!stays.length && <span>you haven't posted any listings yet</span>}
           </div>
         )}
         {activeTab === 'details' && (
-          <div className="tab-content">
-            <h2>My Details</h2>
+          <div className="tab-info-content">
             <UserInfo></UserInfo>
             {!stays.length && <span>you haven't posted any listings yet</span>}
           </div>
         )}
         {activeTab === 'pending' && (
-          <div className="tab-content">
+          <div className="tab-mini-content">
 
             <PendingReservations></PendingReservations>
             {/* <p>No pending reservations to approve right now.</p> */}
@@ -88,7 +89,6 @@ export function UserDetails() {
         )}
 
 
-      </main>
 
     </section>
   )

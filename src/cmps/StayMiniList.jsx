@@ -11,7 +11,7 @@ export function StayMiniList({ stays, onRemoveStay }) {
   }
 
   return (
-    <section>
+    <main className = "mini-main">
       <ul className="list stay-mini-list clean-list">
         {stays.map(stay => (
           <li className='stay-article' key={stay._id}>
@@ -24,6 +24,6 @@ export function StayMiniList({ stays, onRemoveStay }) {
           </li>
         ))}
       </ul>
-    </section>
+    </main>
   )
 }
