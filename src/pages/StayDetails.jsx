@@ -66,7 +66,7 @@ export function StayDetails() {
                   <Divider sx={{ borderColor: '#e0e0e0' }} />
                   <section className="host-profile">
                     <img
-                      src={placeholderAvatar}
+                      src={stay.host.pictureUrl}
                       alt={stay.name}
                       className="stay-card-img"
                     />

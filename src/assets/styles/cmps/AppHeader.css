@@ -258,3 +258,6 @@
     width: 1rem;
     height: 1rem;
 }
+.app-header .avatar-fallback {
+    background-color: #ff385c;
+}

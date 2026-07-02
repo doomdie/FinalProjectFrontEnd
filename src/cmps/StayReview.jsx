@@ -2,22 +2,33 @@ import { ReadMore } from '../cmps/ReadMore'
 import { useState } from 'react'
 import { Rating } from '@mui/material'
 import { ReviewModal } from "../cmps/ReviewModal"
+import { NavLink, useLocation, Link, useSearchParams, useNavigate } from 'react-router-dom'
+
 export function StayReview({ stay }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   if (!stay || !stay.reviews) return <div>Loading reviews...</div>
   const totalRating = stay.rating || 4.8
   console.log(stay.reviews)
-  return (
-    <div className="reviews-container">
-      <div className="reviews-grid">
-        {stay.reviews.map((review, idx) => (
+ return (
+  <div className="reviews-container">
+    <div className="reviews-grid">
+      {stay.reviews.map((review, idx) => {
+        // Use the correct user id string from our wrioonggg.jpg discovery
+        const targetUserId = review.by.id || review.by._id
+
+        return (
           <article key={review.by._id || idx} className="review-card">
             <header className="review-header">
-              <img
-                src={review.by.imgUrl}
-                alt={review.by.fullname}
-                className="reviewer-avatar"
-              />
+              
+              {/* Tight link wrapper around ONLY the avatar image */}
+              <Link to={`/profile/${targetUserId}`}>
+                <img
+                  src={review.by.imgUrl}
+                  alt={review.by.fullname}
+                  className="reviewer-avatar"
+                />
+              </Link> {/* <-- Closed immediately here so it doesn't break the layout link flows */}
+              
               <div className="reviewer-details">
                 <h3 className="reviewer-name">{review.by.fullname}</h3>
                 <p className="reviewer-location">{review.by.location}</p>
@@ -55,7 +66,6 @@ export function StayReview({ stay }) {
                   year: 'numeric'
                 })}
               </time>
-
             </div>
 
             <div className="review-content">
@@ -67,22 +77,9 @@ export function StayReview({ stay }) {
               )}
             </div>
           </article>
-        ))}
-      </div>
-      {stay.reviews.length > 6 && (
-        <button className="btn-show-all-reviews" onClick={() => setIsModalOpen(true)}>
-          Show all {stay.reviews.length} reviews
-        </button>
-      )}
-
-      <ReviewModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        stay={stay}
-        totalRating={totalRating}
-      />
-
+        )
+      })}
     </div>
-    //Get the damn read more function to work here
-  )
+  </div>
+)
 }
