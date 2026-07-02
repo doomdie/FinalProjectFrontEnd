@@ -6,7 +6,7 @@ export function StayReview({ stay }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   if (!stay || !stay.reviews) return <div>Loading reviews...</div>
   const totalRating = stay.rating || 4.8
-  console.log(stay)
+  console.log(stay.reviews)
   return (
     <div className="reviews-container">
       <div className="reviews-grid">
@@ -26,11 +26,27 @@ export function StayReview({ stay }) {
 
             <div className="review-metadata">
               <Rating
-                name="read-only-rating"
+                name="modal-rate"
                 value={review.rate || totalRating}
                 precision={0.1}
-                size="small"
                 readOnly
+                sx={{
+                  '& .MuiRating-icon': {
+                    height: '0.75rem',
+                    width: '0.75rem',
+                    marginRight: '1px',
+                  },
+                  '& .MuiRating-icon svg': {
+                    height: '100%',
+                    width: '100%',
+                  },
+                  '& .MuiRating-iconFilled': {
+                    color: '#222222',
+                  },
+                  '& .MuiRating-iconEmpty': {
+                    color: '#e3e3e3',
+                  }
+                }}
               />
               <span className="separator">•</span>
               <time className="review-date">
@@ -39,8 +55,7 @@ export function StayReview({ stay }) {
                   year: 'numeric'
                 })}
               </time>
-              <span className="separator">•</span>
-              <span className="trip-type">Stayed with kids</span>
+
             </div>
 
             <div className="review-content">
