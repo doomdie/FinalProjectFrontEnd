@@ -41,7 +41,3 @@ html, body, #root {
     min-height: calc(100dvh - 150px);
     padding: 24px;
 }
-body:has(.airbnb-freeze-indicator) footer {
-  display: none !important;
-  opacity: 0 !important;
-}
