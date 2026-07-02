@@ -12,8 +12,8 @@ import { loadOrders } from '../store/actions/order.actions'
 export function UserDetails() {
   const user = useSelector(storeState => storeState.userModule.user)
   const stays = useSelector(storeState => storeState.stayModule.stays)
-  const orders = useSelector(storeState => storeState.orderModule.orders)
-
+  const hostOrders = useSelector(storeState => storeState.orderModule.hostOrders) || []
+  const guestOrders = useSelector(storeState => storeState.orderModule.guestOrders) || []
   const navigate = useNavigate()
 
   const [activeTab, setActiveTab] = useState('stays')
@@ -26,7 +26,9 @@ export function UserDetails() {
     }
 
     loadStays({ byUserId: user._id })
-    loadOrders()
+    
+    loadOrders({ hostId: user._id })
+    loadOrders({ buyerId: user._id })
   }, [user])
 
   async function onRemoveStay(stayId) {
@@ -46,16 +48,17 @@ export function UserDetails() {
   }) : []
 
   const now = new Date()
-  console.log("All raw orders from state:", orders)
-  const pastTrips = orders ? orders.filter(order => {
+  
+  console.log("All raw guest orders from state:", guestOrders)
+  const pastTrips = guestOrders ? guestOrders.filter(order => {
     const isBuyer = order.buyer?._id === userId || order.buyer?.id === userId
     const tripEndDate = order.endDate ? new Date(order.endDate) : null
     const isPast = tripEndDate && tripEndDate < now
     return isBuyer && isPast
   }) : []
+
   return (
     <section className="user-details-full">
-
       <aside className="user-aside">
         <div className="aside-organizer">
           <h3>Profile</h3>
@@ -86,8 +89,6 @@ export function UserDetails() {
         </div>
       </aside>
 
-
-
       {activeTab === 'stays' && (
         <div className="tab-mini-content">
           <StayMiniList stays={hostStays} onRemoveStay={onRemoveStay} />
@@ -102,21 +103,14 @@ export function UserDetails() {
       )}
       {activeTab === 'pending' && (
         <div className="tab-mini-content">
-
           <PendingReservations></PendingReservations>
-          {/* <p>No pending reservations to approve right now.</p> */}
-          {/*I  don't know if like, we're supposed to be able to sync stuff through different instances when we're still only front end. yair remember to ask */}
         </div>
       )}
       {activeTab === 'past-trips' && (
         <div className="tab-past-content">
-          <PastTrips trips={pastTrips} ></PastTrips>
-
+          <PastTrips trips={pastTrips}></PastTrips>
         </div>
       )}
-
-
-
     </section>
   )
 }
