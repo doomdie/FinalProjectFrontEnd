@@ -20,7 +20,7 @@ export function StayReview({ stay }) {
               />
               <div className="reviewer-details">
                 <h3 className="reviewer-name">{review.by.fullname}</h3>
-                <p className="reviewer-location">User Location</p>
+                <p className="reviewer-location">{review.by.location}</p>
               </div>
             </header>
 
