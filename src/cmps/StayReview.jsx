@@ -79,6 +79,14 @@ export function StayReview({ stay }) {
           )
         })}
       </div>
+      {isModalOpen && (
+        <ReviewModal
+          isOpen={isModalOpen} 
+          stay={stay}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
+
   )
 }

@@ -1,4 +1,17 @@
 :root {
+  --palette-foggy: #717171;
+  --palette-charcoal: #222222;
+  --palette-primary: #ff385c;
+  --review-subtitle-line-height: 1.125rem;
+  --review-title-line-height: 1.25rem;
+  --review-title-font-size: 1rem;
+  --typography-weight-book400: 400;
+  --typography-weight-bold700: 700;
+  --review-text-line-height: 1.5rem;
+  --review-subtitle-font-size: 0.875rem;
+  /* Global layout shapes */
+  --border-radius-card: 24px;
+  --border-radius-button: 8px;
   /* ===== Brand ===== */
   --color-primary: #FF385C;
   /* Airbnb pink — search button, active states, accents */

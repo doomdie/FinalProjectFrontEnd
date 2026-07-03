@@ -11,6 +11,8 @@
 
 @import "cmps/HomePage";
 @import "pages/SearchPage";
+@import "cmps/user/PublicProfile.css";
+
 @import "cmps/UserDetails.css";
 @import "cmps/stay/Carousel";
 @import "cmps/review/StayReview.css";

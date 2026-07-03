@@ -39,19 +39,20 @@ export function PublicProfile() {
 
   
 
-  return (
+return (
     <section className="public-profile">
 
       <header className="profile-header">
-        {/*        
-        <h1>About {displayedUser.fullname}</h1>
-        <p>📍 {displayedUser.location || "Tel Aviv-Yafo, Israel"}</p> */}
-
-
-        <div className="user-card"> <header className="usercard-header"> <img src={displayedUser.imgUrl} alt={displayedUser.fullname} className="profile-avatar" />
-          <div className="usercard-text"> <span className="usercard-text-one">{displayedUser.fullname}</span><span className="usercard-text-two"> Guest</span></div>
-
-        </header>
+  
+        <div className="user-card"> 
+          <header className="usercard-header"> 
+            <img src={displayedUser.imgUrl} alt={displayedUser.fullname} className="profile-avatar" />
+            <div className="usercard-text"> 
+              <span className="usercard-text-one">{displayedUser.fullname}</span>
+              <span className="usercard-text-two"> Guest</span>
+            </div>
+          </header>
+          
           <div className="usercard-info">
             <div className="usercard-info-card one">
               <span className="usercard-card-header">{trips.length}</span>
@@ -65,7 +66,9 @@ export function PublicProfile() {
               <span className="usercard-card-header">{trips.length}</span>
               <span className="usercard-card-bottom">Trips</span>
             </div>
-          </div> </div>
+          </div> 
+        </div>
+        <div className = "user-paragraph-two"><span className ="aboutcard one"> About {displayedUser.fullname}</span><span className = "aboutcard two">Valued User</span></div>
       </header>
       <div className="footer-placeholder" />
       {displayedUser.isHost && hostStays.length > 0 && (
@@ -76,5 +79,5 @@ export function PublicProfile() {
       )}
 
     </section>
-  )
+  ) 
 }
