@@ -204,7 +204,7 @@ export function AppHeader() {
 											className="menu-item"
 											onClick={() => { setIsAuthModalOpen(true); setIsMenuOpen(false) }}
 										>
-											Login
+											Log in or sign up
 										</button>
 									)}
 									{user && (
