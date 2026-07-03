@@ -108,6 +108,23 @@ export function SearchBarBig() {
         navigate(`/search?${params.toString()}`)
     }
 
+    const hasGuests = guests.adults + guests.children + guests.infants + guests.pets > 0
+
+    function resetGuests(ev) {
+        ev.stopPropagation()
+        setGuests({ adults: 0, children: 0, infants: 0, pets: 0 })
+    }
+
+    function getGuestSummary() {
+        const guestCount = guests.adults + guests.children
+        const parts = []
+        if (guestCount > 0) parts.push(`${guestCount} guest${guestCount > 1 ? 's' : ''}`)
+        if (guests.infants > 0) parts.push(`${guests.infants} infant${guests.infants > 1 ? 's' : ''}`)
+        if (guests.pets > 0) parts.push(`${guests.pets} pet${guests.pets > 1 ? 's' : ''}`)
+        return parts.length ? parts.join(', ') : 'Add guests'
+    }
+
+
     function changeGuestCount(type, delta) {
         setGuests(prev => {
             const next = Math.max(0, prev[type] + delta)
@@ -249,7 +266,12 @@ export function SearchBarBig() {
                     onClick={() => setActiveSection('who')}
                 >
                     <span className="search-label">Who</span>
-                    <span className="search-value">Add guests</span>
+                    <span className="search-value">{getGuestSummary()}</span>
+
+                    <button
+                        className={`clear-btn ${hasGuests && activeSection === 'who' ? 'visible' : ''}`}
+                        onClick={resetGuests}
+                    >×</button>
                 </div>
 
                 <button
