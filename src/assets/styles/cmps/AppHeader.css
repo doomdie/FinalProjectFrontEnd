@@ -258,6 +258,122 @@
     width: 1rem;
     height: 1rem;
 }
+
 .app-header .avatar-fallback {
     background-color: #ff385c;
+}
+
+.user-card {
+    display: flex;
+    position: absolute;
+    flex-wrap: nowrap
+}
+
+.profile-header {
+    display: grid;
+    gap: 40px;
+}
+
+.profile-avatar {
+    border-radius: 50%;
+}
+
+.public-profile {
+    display: flex;
+    flex-direction: column;
+}
+
+.usercard-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-placeholder {
+    height: 50vh;
+    width: 100%;
+}
+
+.user-card {
+    margin: 0;
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.02), 0px 8px 24px 0px rgba(0, 0, 0, 0.10);
+    padding-right: 24px;
+    padding-left: 24px;
+    padding-bottom: 32px;
+    padding-top: 32px;
+    gap: 50px;
+    border-radius: 24px;
+}
+
+.usercard-info {
+    display: flex;
+    min-width: min-content;
+    flex: 0 1 96px;
+    flex-direction: column;
+    flex-basis: 96px;
+    column-gap: 12px;
+    flex-grow: 1;
+}
+
+.usercard-text {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.usercard-info-one {
+    display: flex;
+    flex-direction: column;
+}
+
+.usercard-text-one {
+    font-size: 31.5px;
+    line-height: 35.8718px;
+    letter-spacing: 0px;
+    display: inline-block;
+    font-weight: 700;
+    font-family: Airbnb Cereal VF, Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+}
+
+.usercard-card-bottom {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 12px;
+  text-transform: uppercase;
+  color: #717171;
+  margin-top: 2px;
+}
+.usercard-info-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 120px;
+    padding: 10px 0;
+}
+.usercard-info-card:not(:last-child) {
+  border-bottom: 1px solid #e0e0e0;
+}
+.usercard-card-header {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 26px;
+}
+
+
+@media (min-width: 1128px) {
+    .profile-header {
+        grid-template-columns: 345px 1fr;
+    }
+
+    .public-profile {
+        padding: 64px 48px;
+    }
+}
+
+@media (min-width: 744px) {
+    .public-profile {
+        padding: 64px 32px;
+    }
 }
