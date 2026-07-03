@@ -17,9 +17,9 @@ export function HostMenu() {
                     <h1>Please log in to view your hosting dashboard.</h1>
                 </div>
             </div>
-        )   
+        )
     }
-    const approvedOrders = orders.filter(order => 
+    const approvedOrders = (orders || []).filter(order =>
         order.status === 'approved' && order.hostId === user._id
     )
     return (
@@ -46,7 +46,7 @@ export function HostMenu() {
                                 <p><span>Total:</span> ₪{order.totalPrice}</p>
                             </div>
                             <div className="order-status-badge approved">✓ Accepted</div>
-                            
+
                         </li>
                     ))}
                 </ul>
