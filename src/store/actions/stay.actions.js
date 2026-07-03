@@ -1,15 +1,24 @@
 // import { stayService } from '../../services/stays/stays.service.local'
 import { stayService } from '../../services/stays'
 import { store } from '../store'
-import { SET_STAYS, SET_STAY, ADD_STAY } from '../reducers/stay.reducer'
+import { SET_STAYS, SET_STAY, ADD_STAY, SET_HOST_STAYS } from '../reducers/stay.reducer'
 
 export async function loadStays(filterBy) {
     try {
         const stays = await stayService.query(filterBy)
-        // console.log(stays)
         store.dispatch(getCmdSetStays(stays))
     } catch (err) {
         console.log('Cannot load stays', err)
+        throw err
+    }
+} 
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+export async function loadHostStays(hostId) {
+    try {
+        const stays = await stayService.query({ byUserId: hostId, hostId: hostId, userId: hostId })
+        store.dispatch(getCmdSetHostStays(stays))
+    } catch (err) {
+        console.error('Cannot load host stays', err)
         throw err
     }
 }
@@ -53,5 +62,11 @@ function getCmdAddStay(stay) {
     return {
         type: ADD_STAY,
         stay
+    }
+}
+function getCmdSetHostStays(hostStays) {
+    return {
+        type: SET_HOST_STAYS,
+        hostStays
     }
 }

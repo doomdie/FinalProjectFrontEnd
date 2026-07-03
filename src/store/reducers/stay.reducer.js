@@ -1,17 +1,22 @@
 export const SET_STAYS = 'SET_STAYS'
 export const SET_STAY = 'SET_STAY'
 export const ADD_STAY = 'ADD_STAY'
+export const SET_HOST_STAYS = 'SET_HOST_STAYS'
 
 
 const initialState = {
     stays: [],
-    stay: null
+    stay: null,
+    hostStays: [],
 }
 
 export function stayReducer(state = initialState, action) {
     var newState = state
     var stays
     switch (action.type) {
+        case SET_HOST_STAYS:
+            newState = { ...state, hostStays: action.hostStays }
+            break
         case SET_STAYS:
             newState = { ...state, stays: action.stays }
             break

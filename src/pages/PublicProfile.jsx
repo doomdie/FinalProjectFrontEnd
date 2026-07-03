@@ -9,8 +9,8 @@ import { loadOrders } from '../store/actions/order.actions'
 export function PublicProfile() {
   const { id } = useParams()
   const [displayedUser, setDisplayedUser] = useState(null)
-  const stays = useSelector(storeState => storeState.stayModule.stays)
   const trips = useSelector(storeState => storeState.orderModule.guestOrders) || []
+  const hostStays = useSelector(storeState => storeState.stayModule.hostStays) || []
 
   useEffect(() => {
     async function loadUser() {
@@ -37,9 +37,7 @@ export function PublicProfile() {
 
   if (!displayedUser) return <p>Loading...</p>
 
-  const hostStays = stays ? stays.filter(stay => {
-    return stay.host?._id === id || stay.host?.id === id
-  }) : []
+  
 
   return (
     <section className="public-profile">
