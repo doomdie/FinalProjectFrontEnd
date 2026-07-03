@@ -1,34 +1,40 @@
+export const SET_HOST_ORDERS = 'SET_HOST_ORDERS'
+export const SET_GUEST_ORDERS = 'SET_GUEST_ORDERS'
 export const ADD_ORDER = 'ADD_ORDER'
 export const REMOVE_ORDER = 'REMOVE_ORDER'
 export const UPDATE_ORDER = 'UPDATE_ORDER'
-export const SET_ORDERS = 'SET_ORDERS'
 
 const initialState = {
-    orders: []
+    hostOrders: [], 
+    guestOrders: []  
 }
 
 export function orderReducer(state = initialState, action) {
-    var newState = state
     switch (action.type) {
-        case SET_ORDERS:
-            newState = { ...state, orders: action.orders }
-            break
+        case SET_HOST_ORDERS:
+            return { ...state, hostOrders: action.orders }
+            
+        case SET_GUEST_ORDERS:
+            return { ...state, guestOrders: action.orders }
+
         case ADD_ORDER:
-            newState = { ...state, orders: [...state.orders, action.order] }
-            break
+            return { ...state, guestOrders: [...state.guestOrders, action.order] }
+
         case UPDATE_ORDER:
-            newState = {
+            return {
                 ...state,
-                orders: state.orders.map(order => order._id === action.order._id ? action.order : order)
+                hostOrders: state.hostOrders.map(order => order._id === action.order._id ? action.order : order),
+                guestOrders: state.guestOrders.map(order => order._id === action.order._id ? action.order : order)
             }
-            break
+
         case REMOVE_ORDER:
-            newState = {
+            return {
                 ...state,
-                orders: state.orders.filter(order => order._id !== action.orderId)
+                hostOrders: state.hostOrders.filter(order => order._id !== action.orderId),
+                guestOrders: state.guestOrders.filter(order => order._id !== action.orderId)
             }
-            break
+
         default:
+            return state
     }
-    return newState
 }

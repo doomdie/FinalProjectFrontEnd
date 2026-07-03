@@ -1,5 +1,6 @@
 import { storageService } from '../async-storage.service'
 import initialUsers from './users.json'
+
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 _initUsers()
 export const userService = {
@@ -36,6 +37,22 @@ async function getUsers() {
 async function getById(userId) {
     return await storageService.get('user', userId)
 }
+// async function getById(userId) {
+//     try {
+//         const user = await storageService.get('user', userId)
+//         if (user) return user
+//     } catch (err) {
+//         const user = initialUsers.find(u => (u._id === userId || u.id === userId))
+        
+//         if (user) {
+            
+//             return user
+//         }
+//     }
+
+    // Ultimate fallback if it doesn't exist anywhere
+  
+
 
 function remove(userId) {
     return storageService.remove('user', userId)

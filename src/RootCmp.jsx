@@ -12,6 +12,7 @@ import { HostMenu } from './pages/HostMenu.jsx'
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
 import { UserDetails } from './pages/UserDetails'
+import { PublicProfile } from './pages/PublicProfile.jsx'
 
 import { UserMsg } from './cmps/UserMsg'
 
@@ -31,6 +32,7 @@ export function RootCmp() {
                 <Route path="/experiences" element={<HomesPage />} />
                 <Route path="/services" element={<HomesPage />} />
                 <Route path="user/:id" element={<UserDetails />} />
+                <Route path="profile/:id" element={<PublicProfile />} />
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/hosting" element={<HostMenu />} />
                 <Route path="/become-a-host" element={<BecomeAHost />} />

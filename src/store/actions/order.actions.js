@@ -1,13 +1,18 @@
 import { orderService } from '../../services/orders/orders.service.local'
 import { store } from '../store'
-
-export async function loadOrders(filterBy) {
+import { SET_HOST_ORDERS, SET_GUEST_ORDERS } from '../reducers/order.reducer'
+export async function loadOrders(filterBy = {}) {
     try {
-        console.log("HI")
         const orders = await orderService.query(filterBy)
-        store.dispatch({ type: 'SET_ORDERS', orders })
-    } catch  {
-        console.log('Cannot load orders')
+        
+        if (filterBy?.hostId) {
+            store.dispatch({ type: SET_HOST_ORDERS, orders })
+        } else if (filterBy?.buyerId) {
+            store.dispatch({ type: SET_GUEST_ORDERS, orders })
+        }
+    } catch (err) {
+        console.error('Cannot load orders', err)
+        throw err
     }
 }
 

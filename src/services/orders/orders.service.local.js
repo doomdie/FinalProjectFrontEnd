@@ -13,66 +13,69 @@ export const orderService = {
 _createOrders()
 async function query(filterBy = {}) {
     var orders = await storageService.query(STORAGE_KEY)
-    
+
     if (filterBy.hostId) {
         orders = orders.filter(order => order.hostId === filterBy.hostId)
     }
-    if (filterBy.buyerId) {
-        orders = orders.filter(order => order.buyer?._id === filterBy.buyerId)
-    }
-    if (filterBy.status) {
-        orders = orders.filter(order => order.status === filterBy.status)
-    }
-    
-    return orders
-}
+        if (filterBy.buyerId) {
+            orders = orders.filter(order =>
+                order.buyer?._id === filterBy.buyerId ||
+                order.buyer?.id === filterBy.buyerId
+            )
+        }
+        if (filterBy.status) {
+            orders = orders.filter(order => order.status === filterBy.status)
+        }
 
-function getById(orderId) {
-    return storageService.get(STORAGE_KEY, orderId)
-}
-
-async function remove(orderId) {
-    return storageService.remove(STORAGE_KEY, orderId)
-}
-
-async function save(order) {
-    var savedOrder
-    if (order._id) {
-        savedOrder = await storageService.put(STORAGE_KEY, order)
-    } else {
-        savedOrder = await storageService.post(STORAGE_KEY, order)
+        return orders
     }
-    return savedOrder
-}
 
-function getEmptyOrder() {
-    return {
-        hostId: '',
-        buyer: {
-            _id: '',
-            fullname: ''
-        },
-        stay: {
-            _id: '',
-            name: '',
-            price: 0
-        },
-        startDate: '',
-        endDate: '',
-        guests: {
-            adults: 1,
-            children: 0,
-            infants: 0,
-            pets: 0
-        },
-        totalPrice: 0,
-        status: 'pending'
+    function getById(orderId) {
+        return storageService.get(STORAGE_KEY, orderId)
     }
-}
-function _createOrders() {
-    let orders = JSON.parse(localStorage.getItem(STORAGE_KEY))
-    if (!orders || !orders.length) {
-        orders = gDefaultOrders
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(orders))
+
+    async function remove(orderId) {
+        return storageService.remove(STORAGE_KEY, orderId)
     }
-}
+
+    async function save(order) {
+        var savedOrder
+        if (order._id) {
+            savedOrder = await storageService.put(STORAGE_KEY, order)
+        } else {
+            savedOrder = await storageService.post(STORAGE_KEY, order)
+        }
+        return savedOrder
+    }
+
+    function getEmptyOrder() {
+        return {
+            hostId: '',
+            buyer: {
+                _id: '',
+                fullname: ''
+            },
+            stay: {
+                _id: '',
+                name: '',
+                price: 0
+            },
+            startDate: '',
+            endDate: '',
+            guests: {
+                adults: 1,
+                children: 0,
+                infants: 0,
+                pets: 0
+            },
+            totalPrice: 0,
+            status: 'pending'
+        }
+    }
+    function _createOrders() {
+        let orders = JSON.parse(localStorage.getItem(STORAGE_KEY))
+        if (!orders || !orders.length) {
+            orders = gDefaultOrders
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(orders))
+        }
+    }

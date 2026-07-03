@@ -4,7 +4,7 @@ import { loadOrders, saveOrder } from '../store/actions/order.actions'
 
 export function PendingReservations() {
   const user = useSelector(storeState => storeState.userModule.user)
-  const orders = useSelector(storeState => storeState.orderModule.orders)
+  const orders = useSelector(storeState => storeState.orderModule.hostOrders)
   const approvedOrders = orders.filter(order => order.status === 'approved')
   useEffect(() => {
     if (!user) return

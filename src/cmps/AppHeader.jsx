@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useMemo } from 'react'
-import { NavLink, useLocation, Link, useSearchParams } from 'react-router-dom'
+import { NavLink, useLocation, Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { logout } from '../store/actions/user.actions.js'
@@ -191,13 +191,20 @@ export function AppHeader() {
 							<button onClick={onLogout}>Logout</button>
 						</div>
 					)}
+
 					{user ? (
 						<Link to={`/user/${user._id}`}>
-							<div className="user-avatar"></div>
+							<img
+								src={user.imgUrl}
+								alt={user.fullname || "User profile"}
+								className="user-avatar"
+
+							/>
 						</Link>
 					) : (
-						<div className="user-avatar"></div>
+						<div className="user-avatar avatar-fallback"></div>
 					)}
+					
 					<button className="menu-btn">☰</button>
 				</div>
 
