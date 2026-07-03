@@ -100,7 +100,12 @@ export function SearchBarBig() {
             localStorage.setItem('recentSearches', JSON.stringify(updated))
         }
 
-        navigate(`/search?search=${encodeURIComponent(whereValue)}`)
+        const guestCount = guests.adults + guests.children
+        const params = new URLSearchParams()
+
+        if (whereValue.trim()) params.set('search', whereValue)
+        if (guestCount > 0) params.set('guests', guestCount)
+        navigate(`/search?${params.toString()}`)
     }
 
     function changeGuestCount(type, delta) {
