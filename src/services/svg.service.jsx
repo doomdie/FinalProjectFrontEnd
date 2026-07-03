@@ -78,6 +78,11 @@ const icons = {
             <path d="M8 .5C4.96.5 2.5 3 2.5 6s1.83 6.08 5.5 9.25C11.67 12.08 13.5 9 13.5 6A5.5 5.5 0 0 0 8 .5zM8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"></path>
         </svg>
     ),
+    hamburger: (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{ display: 'block', fill: 'none', height: '1em', width: '1em', stroke: 'currentcolor', strokeWidth: 3, overflow: 'visible' }}>
+            <g fill="none"><path d="M2 16h28M2 24h28M2 8h28"></path></g>
+        </svg>
+    ),
 }
 
 export function SvgIcon({ iconName }) {

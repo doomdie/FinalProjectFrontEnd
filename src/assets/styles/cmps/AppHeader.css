@@ -46,9 +46,14 @@
 
 /* ===== LOGO ===== */
 .app-header .logo {
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+}
+
+.app-header .logo-img {
+    height: 3rem;
+    width: auto;
+    display: block;
 }
 
 /* ===== CENTER TABS ===== */
@@ -98,7 +103,7 @@
     display: flex;
     align-items: center;
     justify-self: end;
-    gap: 1rem;
+    gap: .5rem;
 }
 
 .app-header .host-link {
@@ -118,29 +123,115 @@
 }
 
 .app-header .user-avatar {
-    width: 2.2rem;
-    height: 2.2rem;
-    border: 1px solid var(--color-border);
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
     border-radius: 50%;
 
+    flex-shrink: 0;
+
+    object-fit: cover;
     background-color: var(--color-primary);
     cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.app-header .user-avatar:active {
+    transform: scale(0.9);
+}
+
+/* hamburger — same-size grey circle as the avatar */
+.app-header .menu-wrapper {
+    position: relative;
 }
 
 .app-header .menu-btn {
-    padding: .5rem .8rem;
-    border: 1px solid var(--color-border);
-    background-color: var(--color-bg);
-    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+
+    font-size: 1rem;
     color: var(--color-text);
+    background-color: var(--color-bg-soft);
+    cursor: pointer;
+    transition: background-color 0.1s ease, transform 0.1s ease;
+}
+
+.app-header .menu-btn:hover,
+.app-header .menu-btn.open {
+    background-color: var(--color-section-hover);
+}
+
+.app-header .menu-btn:hover:active,
+.app-header .menu-btn:active {
+    background-color: var(--color-section-hover);
+    transform: scale(0.9);
+}
+
+/* dropdown menu under the hamburger */
+.app-header .menu-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    z-index: 200;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+
+    background-color: var(--color-bg);
+    box-shadow: var(--shadow-md);
+}
+
+.app-header .menu-item {
+    padding: 0.7rem 1rem;
+    border: none;
+    background: transparent;
+
+    font-size: 0.9rem;
+    color: var(--color-text);
+    text-align: left;
     cursor: pointer;
 }
 
-.app-header .menu-btn:hover {
+.app-header .menu-item:hover {
     background-color: var(--color-bg-soft);
 }
 
+/* invisible full-screen layer that closes the menu on outside click */
+.app-header .menu-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 199;
+}
+
+
+.app-header .host-switch-link {
+    margin-right: 0.8rem;
+    padding: 0.7rem 1rem;
+    border-radius: 999px;
+
+    font-weight: 500;
+    color: var(--color-text);
+    white-space: nowrap;
+
+    transition: background-color 0.15s ease;
+}
+
+.app-header .host-switch-link:hover {
+    background-color: var(--color-bg-soft);
+}
 
 /* ===== SMOOTH BIG/SMALL TRANSITION ===== */
 
@@ -262,4 +353,3 @@
 .app-header .avatar-fallback {
     background-color: #ff385c;
 }
-

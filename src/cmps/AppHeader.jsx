@@ -14,7 +14,9 @@ export function AppHeader() {
 	const stays = useSelector(storeState => storeState.stayModule.stays)
 
 	const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+	const [isMenuOpen, setIsMenuOpen] = useState(false)   // hamburger dropdown
 	const [searchParams, setSearchParams] = useSearchParams()
+	const navigate = useNavigate()
 
 	// which amenities are currently active (from the URL ?amenities=Wifi,Kitchen)
 	const activeAmenities = (searchParams.get('amenities') || '').split(',').filter(a => a)
@@ -114,7 +116,7 @@ export function AppHeader() {
 		<header className={`app-header full ${isScrolled ? 'scrolled' : ''}`}>
 			<div className="header-top">
 				<NavLink to="/" className="logo">
-					OurBNB
+					<img src="/img/symbols/logo.svg" alt="OurBNB" className="logo-img" />
 				</NavLink>
 
 				<div className="header-center">
@@ -170,42 +172,53 @@ export function AppHeader() {
 				{!isHosting && <SearchBarSmall />}
 
 				<div className="header-actions">
-					{/* <a className="host-link">Switch to hosting</a> */}
-					<NavLink to={isHosting ? "/" : "/hosting"}>
-						{isHosting ? "Switch to User Mode" : "Switch to hosting"}
+					<NavLink to={isHosting ? "/" : "/hosting"} className="host-switch-link">
+						{isHosting ? "Switch to traveling" : "Switch to hosting"}
 					</NavLink>
 					{user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
 
-					{!user && (
-						<button
-							className="login-link"
-							onClick={() => setIsAuthModalOpen(true)}
-						>
-							Login
-						</button>
-					)}
 					{user && (
-						<div className="user-info">
-
-
-							<button onClick={onLogout}>Logout</button>
-						</div>
-					)}
-
-					{user ? (
 						<Link to={`/user/${user._id}`}>
 							<img
 								src={user.imgUrl}
 								alt={user.fullname || "User profile"}
 								className="user-avatar"
-
 							/>
 						</Link>
-					) : (
-						<div className="user-avatar avatar-fallback"></div>
 					)}
-					
-					<button className="menu-btn">☰</button>
+
+					{/* hamburger menu with dropdown */}
+					<div className="menu-wrapper">
+						<button className={`menu-btn ${isMenuOpen ? 'open' : ''}`} onClick={() => setIsMenuOpen(prev => !prev)}>
+							<SvgIcon iconName="hamburger" />
+						</button>
+
+						{isMenuOpen && (
+							<>
+								{/* click-away layer to close the menu */}
+								<div className="menu-backdrop" onClick={() => setIsMenuOpen(false)} />
+
+								<div className="menu-dropdown">
+									{!user && (
+										<button
+											className="menu-item"
+											onClick={() => { setIsAuthModalOpen(true); setIsMenuOpen(false) }}
+										>
+											Login
+										</button>
+									)}
+									{user && (
+										<button
+											className="menu-item"
+											onClick={() => { onLogout(); setIsMenuOpen(false) }}
+										>
+											Log out
+										</button>
+									)}
+								</div>
+							</>
+						)}
+					</div>
 				</div>
 
 				<LoginSignupModal
