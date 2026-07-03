@@ -16,7 +16,20 @@ export function UserDetails() {
   const guestOrders = useSelector(storeState => storeState.orderModule.guestOrders) || []
   const navigate = useNavigate()
 
-  const [activeTab, setActiveTab] = useState('stays')
+  const userId = user?._id || user?.id
+
+  const hostStays = stays ? stays.filter(stay => {
+    return stay.host?._id === userId || stay.host?.id === userId
+  }) : []
+
+  const isUserHost = hostStays.length > 0
+  const [activeTab, setActiveTab] = useState('details')
+
+  useEffect(() => {
+    if (isUserHost) {
+      setActiveTab('stays')
+    }
+  }, [isUserHost])
 
   useEffect(() => {
     if (!user) {
@@ -25,10 +38,9 @@ export function UserDetails() {
       return
     }
 
-    loadStays({ byUserId: user._id })
-    
-    loadOrders({ hostId: user._id })
-    loadOrders({ buyerId: user._id })
+    loadStays({ byUserId: userId })
+    loadOrders({ hostId: userId })
+    loadOrders({ buyerId: userId })
   }, [user])
 
   async function onRemoveStay(stayId) {
@@ -41,15 +53,9 @@ export function UserDetails() {
   }
 
   if (!user) return null
-  const userId = user._id || user.id
-
-  const hostStays = stays ? stays.filter(stay => {
-    return stay.host?._id === userId || stay.host?.id === userId
-  }) : []
 
   const now = new Date()
   
-  console.log("All raw guest orders from state:", guestOrders)
   const pastTrips = guestOrders ? guestOrders.filter(order => {
     const isBuyer = order.buyer?._id === userId || order.buyer?.id === userId
     const tripEndDate = order.endDate ? new Date(order.endDate) : null
@@ -68,18 +74,24 @@ export function UserDetails() {
           >
             My Details
           </button>
-          <button
-            className={`tab-btn ${activeTab === 'stays' ? 'active' : ''}`}
-            onClick={() => setActiveTab('stays')}
-          >
-            My Stays
-          </button>
-          <button
-            className={`tab-btn ${activeTab === 'pending' ? 'active' : ''}`}
-            onClick={() => setActiveTab('pending')}
-          >
-            Reservations Center
-          </button>
+
+          {isUserHost && (
+            <>
+              <button
+                className={`tab-btn ${activeTab === 'stays' ? 'active' : ''}`}
+                onClick={() => setActiveTab('stays')}
+              >
+                My Stays
+              </button>
+              <button
+                className={`tab-btn ${activeTab === 'pending' ? 'active' : ''}`}
+                onClick={() => setActiveTab('pending')}
+              >
+                Reservations Center
+              </button>
+            </>
+          )}
+
           <button
             className={`tab-btn ${activeTab === 'past-trips' ? 'active' : ''}`}
             onClick={() => setActiveTab('past-trips')}
@@ -89,23 +101,24 @@ export function UserDetails() {
         </div>
       </aside>
 
-      {activeTab === 'stays' && (
+      {isUserHost && activeTab === 'stays' && (
         <div className="tab-mini-content">
           <StayMiniList stays={hostStays} onRemoveStay={onRemoveStay} />
-          {!stays.length && <span>you haven't posted any listings yet</span>}
         </div>
       )}
-      {activeTab === 'details' && (
-        <div className="tab-info-content">
-          <UserInfo></UserInfo>
-          {!stays.length && <span>you haven't posted any listings yet</span>}
-        </div>
-      )}
-      {activeTab === 'pending' && (
+
+      {isUserHost && activeTab === 'pending' && (
         <div className="tab-mini-content">
           <PendingReservations></PendingReservations>
         </div>
       )}
+
+      {activeTab === 'details' && (
+        <div className="tab-info-content">
+          <UserInfo></UserInfo>
+        </div>
+      )}
+
       {activeTab === 'past-trips' && (
         <div className="tab-past-content">
           <PastTrips trips={pastTrips}></PastTrips>
