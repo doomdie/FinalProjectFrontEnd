@@ -2,15 +2,15 @@ export function AppFooter() {
     const footerColumns = [
         {
             title: 'Support',
-            links: ['Help Center', 'Get help with a safety issue', 'AirCover', 'Travel insurance', 'Anti-discrimination', 'Disability support', 'Cancellation options', 'Report neighborhood concern'],
+            links: ['Help Center', 'Get help with a safety issue', 'OurCover', 'Travel insurance', 'Anti-discrimination', 'Disability support', 'Cancellation options', 'Report neighborhood concern'],
         },
         {
             title: 'Hosting',
-            links: ['Airbnb your home', 'Airbnb your experience', 'Airbnb your service', 'AirCover for Hosts', 'Hosting resources', 'Community forum', 'Hosting responsibly', 'Airbnb-friendly apartments', 'Join a free hosting class', 'Find a co-host', 'Refer a host'],
+            links: ['Ourbnb your home', 'Ourbnb your experience', 'Ourbnb your service', 'OurCover for Hosts', 'Hosting resources', 'Community forum', 'Hosting responsibly', 'Ourbnb-friendly apartments', 'Join a free hosting class', 'Find a co-host', 'Refer a host'],
         },
         {
-            title: 'OurBNB',
-            links: ['2026 Summer Release', 'Newsroom', 'Careers', 'Investors', 'Gift cards', 'OurBNB.org emergency stays'],
+            title: 'Ourbnb',
+            links: ['2026 Summer Release', 'Newsroom', 'Careers', 'Investors', 'Gift cards', 'Ourbnb.org emergency stays'],
         },
     ]
 
@@ -30,7 +30,7 @@ export function AppFooter() {
             </div>
 
             <div className="footer-bottom">
-                <span>© 2026 OurBNB, Inc. · Privacy · Terms · Your Privacy Choices</span>
+                <span>© 2026 Ourbnb, Inc. · Privacy · Terms · Your Privacy Choices</span>
                 <span className="footer-locale">🌐 English (US) · ₪ ILS</span>
             </div>
         </footer>
