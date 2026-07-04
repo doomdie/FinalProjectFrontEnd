@@ -70,7 +70,7 @@ export function StayDetails() {
                       alt={stay.name}
                       className="stay-card-img"
                     />
-                    <div className="hostText">
+                    <div className="host-text">
                       {stay.host && <span className="host-name">Hosted by {stay.host.fullname}</span>}
                       {stay.host?.isSuperHost && <p>Superhost *Placeholder</p>} 
                       {stay.host && !stay.host.isSuperHost && <span className="host-undertext">Yo! This is a placeholder!</span>}

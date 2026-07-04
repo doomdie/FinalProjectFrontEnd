@@ -65,6 +65,7 @@ html, body, #root {
   line-height: var(--typography-body-text_16_20-line-height);
   font-weight: var(--typography-weight-medium500);
   font-family: Airbnb;
+  
 }
 .read-more-btn:hover {
   background-color: var(--palette-grey300);
