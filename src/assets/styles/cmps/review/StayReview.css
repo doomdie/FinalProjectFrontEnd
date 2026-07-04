@@ -31,7 +31,11 @@
     gap: 32px;
     overflow-y: auto;
 }
-
+.review-date {
+        font-weight: var(--typography-weight-book400);
+        font-size: var(--review-subtitle-font-size);
+          color: var(--palette-foggy);
+}       
 html, body, #root {
   height: 100%;
   margin: 0;
@@ -44,6 +48,44 @@ html, body, #root {
 
 }
 
+.read-more-btn {
+ display: inline-block;
+  padding: 10px 24px; /* Lowered vertical padding from 14px to 10px */
+  min-width: 112px;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: 12px;
+  border: none;
+  background-color: var(--palette-grey200);
+  color: var(--palette-grey1000);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.read-more-text {
+  font-size: var(--typography-body-text_16_20-font-size);
+  line-height: var(--typography-body-text_16_20-line-height);
+  font-weight: var(--typography-weight-medium500);
+  font-family: Airbnb;
+}
+.read-more-btn:hover {
+  background-color: var(--palette-grey300);
+  color: var(--palette-grey1000);
+}
+
+.read-more-btn:focus-visible {
+  outline: 2px solid var(--palette-grey1000);
+  background-color: var(--palette-grey200);
+}
+
+.read-more-btn:active {
+  background-color: var(--palette-grey300);
+  color: var(--palette-grey1000);
+}
+
+.read-more-btn:disabled {
+  background-color: var(--palette-grey200);
+  color: var(--palette-grey500);
+  cursor: not-allowed;
+}
 .loading-state {
     min-height: calc(100dvh - 150px);
     padding: 24px;
