@@ -15,7 +15,7 @@ export function AmenitiesPageList({ selectedTypes = [], onToggleType,}) {
     return (
         <div className="type-section">
             <header className = "amenitiesHeader">
-            <h3>Which of these best describes your place?</h3>
+            <h3>Which amenities does your stay provide?</h3>
             </header>
             
             <div className="type-grid">

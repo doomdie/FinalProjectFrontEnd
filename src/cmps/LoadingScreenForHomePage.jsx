@@ -16,7 +16,7 @@ export function LoadingScreenForHomePage({ isLoading }) {
           <div key={rowIdx} className="shimmer-home-row">
             <div className="shimmer-home-title"></div>
             <div className="shimmer-home-cards-container">
-              {[1, 2, 3, 4, 5].map((cardIdx) => (
+              {[1, 2, 3, 4, 5, 6, 7].map((cardIdx) => (
                 <div key={cardIdx} className="shimmer-home-card">
                   <div className="shimmer-home-img-wrapper"></div>
                   <div className="shimmer-home-content">

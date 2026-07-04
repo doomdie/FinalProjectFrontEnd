@@ -1,31 +1,30 @@
 import { LuHouse, LuBuilding, LuTreePalm, LuTent, LuTrees, LuCompass, LuCoffee, LuShip, LuCaravan, LuCastle, LuMountain, LuBox, LuSprout, LuBedDouble, LuHotel, LuWarehouse, LuLeaf, LuGlobe } from 'react-icons/lu'
 
 const TYPE_MAP = {
-    'house': { icon: LuHouse, title: 'House' },
-    'apartment': { icon: LuBuilding, title: 'Apartment' },
-    'villa': { icon: LuTreePalm, title: 'Villa' },
-    'cabin': { icon: LuCompass, title: 'Cabin' },
-    'tent': { icon: LuTent, title: 'Tent' },
-    'treehouse': { icon: LuTrees, title: 'Treehouse' },
-    'barn': { icon: LuWarehouse, title: 'Barn' },
-    'bed & breakfast': { icon: LuCoffee, title: 'Bed & breakfast' },
-    'boat': { icon: LuShip, title: 'Boat' },
-    'camper/rv': { icon: LuCaravan, title: 'Camper/RV' },
-    'casa particular': { icon: LuBuilding, title: 'Casa particular' },
-    'castle': { icon: LuCastle, title: 'Castle' },
-    'cave': { icon: LuMountain, title: 'Cave' },
-    'container': { icon: LuBox, title: 'Container' },
-    'cycladic home': { icon: LuTreePalm, title: 'Cycladic home' },
-    'dammuso': { icon: LuWarehouse, title: 'Dammuso' },
-    'dome': { icon: LuGlobe, title: 'Dome' },
-    'earth home': { icon: LuLeaf, title: 'Earth home' },
-    'farm': { icon: LuSprout, title: 'Farm' },
-    'guesthouse': { icon: LuBedDouble, title: 'Guesthouse' },
-    'hotel': { icon: LuHotel, title: 'Hotel' }
+    'house': { icon: LuHouse, title: 'House', description: 'A residential building that stands alone.' },
+    'apartment': { icon: LuBuilding, title: 'Apartment', description: 'A rental unit inside a larger building.' },
+    'villa': { icon: LuTreePalm, title: 'Villa', description: 'A luxurious estate with open spaces.' },
+    'cabin': { icon: LuCompass, title: 'Cabin', description: 'A rustic getaway surrounded by nature.' },
+    'tent': { icon: LuTent, title: 'Tent', description: 'An outdoor shelter for a classic camping experience.' },
+    'treehouse': { icon: LuTrees, title: 'Treehouse', description: 'An elevated stay built among branches.' },
+    'barn': { icon: LuWarehouse, title: 'Barn', description: 'A converted traditional agricultural structure.' },
+    'bed & breakfast': { icon: LuCoffee, title: 'Bed & breakfast', description: 'A cozy room including hosting hospitality.' },
+    'boat': { icon: LuShip, title: 'Boat', description: 'A floating living space anchored on water.' },
+    'camper/rv': { icon: LuCaravan, title: 'Camper/RV', description: 'A mobile home ready for vehicular travel.' },
+    'casa particular': { icon: LuBuilding, title: 'Casa particular', description: 'A private room hosted in a local home.' },
+    'castle': { icon: LuCastle, title: 'Castle', description: 'A grand historic and fortified palace architecture.' },
+    'cave': { icon: LuMountain, title: 'Cave', description: 'A unique natural subterranean living environment.' },
+    'container': { icon: LuBox, title: 'Container', description: 'An eco-friendly space created from shipping frames.' },
+    'cycladic home': { icon: LuTreePalm, title: 'Cycladic home', description: 'A traditional white-washed stone architecture.' },
+    'dammuso': { icon: LuWarehouse, title: 'Dammuso', description: 'A stone home with distinct curved roofing.' },
+    'dome': { icon: LuGlobe, title: 'Dome', description: 'A modern geometric or spherical eco-structure.' },
+    'earth home': { icon: LuLeaf, title: 'Earth home', description: 'A home built into sustainable natural foundations.' },
+    'farm': { icon: LuSprout, title: 'Farm', description: 'A home located alongside active rural lands.' },
+    'guesthouse': { icon: LuBedDouble, title: 'Guesthouse', description: 'A private detatched outbuilding setup.' },
+    'hotel': { icon: LuHotel, title: 'Hotel', description: 'A professional commercial hospitality suite.' }
 }
 
-export function StayTypeList({ selectedType, onSelectType, test }) {
-
+export function StayTypeList({ selectedType, onSelectType }) {
     return (
         <div className="type-section">
             <header className="amenitiesHeader">
@@ -47,6 +46,7 @@ export function StayTypeList({ selectedType, onSelectType, test }) {
                                 <Icon />
                             </span>
                             <span className="type-text">{config.title}</span>
+                            <span className="type-caption">{config.description}</span>
                         </div>
                     )
                 })}
