@@ -4,7 +4,7 @@ import { StayCarouselRow } from '../cmps/StayCarouselRow.jsx'
 export function StayList({ stays }) {
 
 
-    if (!stays || !stays.length) return <section><h1>Loading stays...</h1></section>
+    // if (!stays || !stays.length) return <section><h1>Loading stays...</h1></section>
 
     return (
         <section className="stay-list-container">

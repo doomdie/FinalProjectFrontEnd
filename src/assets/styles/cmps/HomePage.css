@@ -28,3 +28,118 @@
     aspect-ratio: 1 / 1;
     object-fit: cover;
 }
+body:has(.airbnb-home-shield) footer {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+body:has(.airbnb-home-shield) .app-header .header-center {
+    height: auto !important;
+    overflow: visible !important;
+}
+
+body:has(.airbnb-home-shield) .app-header .header-tabs,
+body:has(.airbnb-home-shield) .app-header .search-bar {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    pointer-events: auto !important;
+}
+
+body:has(.airbnb-home-shield) .app-header .search-bar-small {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+/* ===== HOMEPAGE SKELETON BASE LAYOUT ===== */
+.airbnb-home-shield {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--header-bg, #ffffff); 
+    padding: 24px var(--page-gutter, 40px);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.skeleton-home-grid {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.shimmer-home-row {
+    margin-bottom: 2.5rem;
+    width: 100%;
+}
+
+/* ===== CORE BOXES AND SHIMMER EFFECTS ===== */
+.shimmer-home-title, 
+.shimmer-home-img-wrapper, 
+.shimmer-home-line {
+    background: #f5f5f5 !important;
+    animation: airbnb-home-pulse 1.5s infinite ease-in-out !important;
+}
+
+@keyframes airbnb-home-pulse {
+    0%   { opacity: 0.5; }
+    50%  { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+/* ===== ELEMENT GEOMETRY ===== */
+.shimmer-home-title { 
+    width: 220px; 
+    height: 1.4rem; 
+    margin-bottom: 1rem; 
+    border-radius: 4px;
+}
+
+.shimmer-home-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.shimmer-home-card {
+    max-width: 250px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.shimmer-home-img-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 25px; /* Matches live stay-card img radius */
+}
+
+.shimmer-home-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 2px;
+}
+
+.shimmer-home-line {
+    height: 12px;
+    border-radius: 4px;
+}
+
+.shimmer-home-line.title-line { width: 75%; height: 14px; }
+.shimmer-home-line.date-line  { width: 55%; }
+.shimmer-home-line.price-line { width: 40%; }
+
+/* Responsive break matching live layout scales */
+@media (max-width: 721px) {
+    .shimmer-home-cards-container {
+        grid-template-columns: 1fr;
+    }
+    .shimmer-home-card {
+        max-width: 100%;
+    }
+}
+/* I can probably reuse the class for the other loading screen for this.. Find out how to make a more universal loading screen*/
