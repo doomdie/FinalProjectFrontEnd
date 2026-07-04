@@ -9,7 +9,7 @@ import { SvgIcon } from '../services/svg.service.jsx'
 import { DatePicker } from './DatePicker.jsx'
 
 
-export function SearchBarBig() {
+export function SearchBarBig({ forcedSection = null, onOpenChange = () => { } }) {
     // which section is open: 'where', 'when', 'who', or null
     const [activeSection, setActiveSection] = useState(null)
     const [pillPos, setPillPos] = useState({ left: 0, width: 0 })
@@ -43,6 +43,15 @@ export function SearchBarBig() {
 
     const whereInputRef = useRef()
 
+    // small bar told us which section to open
+    useEffect(() => {
+        if (forcedSection) setActiveSection(forcedSection)
+    }, [forcedSection])
+
+    // report open/closed so the header can show the overlay + re-collapse
+    useEffect(() => {
+        onOpenChange(!!activeSection)
+    }, [activeSection])
 
     useEffect(() => {
         // close when clicking outside the bar
@@ -106,6 +115,8 @@ export function SearchBarBig() {
         if (whereValue.trim()) params.set('search', whereValue)
         if (guestCount > 0) params.set('guests', guestCount)
         navigate(`/search?${params.toString()}`)
+
+        setActiveSection(null)   // close the section — triggers onOpenChange(false) → header re-collapses
     }
 
     const hasGuests = guests.adults + guests.children + guests.infants + guests.pets > 0
@@ -282,48 +293,49 @@ export function SearchBarBig() {
                     <span className="search-btn-text">Search</span>
                 </button>
 
-                {activeSection === 'who' && (
-                    <div className="who-dropdown">
-                        {[
-                            { type: 'adults', label: 'Adults', sub: 'Ages 13 or above' },
-                            { type: 'children', label: 'Children', sub: 'Ages 2 – 12' },
-                            { type: 'infants', label: 'Infants', sub: 'Under 2' },
-                            { type: 'pets', label: 'Pets', sub: 'Bringing a service animal?' },
-                        ].map(row => (
-                            <div className="guest-row" key={row.type}>
-                                <div className="guest-row-label">
-                                    <span className="guest-type">{row.label}</span>
-                                    <span
-                                        className="guest-sub"
-                                        onClick={(ev) => {
-                                            if (row.type === 'pets') {
-                                                ev.stopPropagation()
-                                                setShowServiceModal(true)
-                                            }
-                                        }}
-                                    >{row.sub}</span>
-                                </div>
-
-                                <div className="guest-controls">
-                                    <button
-                                        className="guest-btn"
-                                        disabled={guests[row.type] === 0}
-                                        onClick={(ev) => { ev.stopPropagation(); changeGuestCount(row.type, -1) }}
-                                    >−</button>
-
-                                    <span className="guest-count">{guests[row.type]}</span>
-
-                                    <button
-                                        className="guest-btn"
-                                        onClick={(ev) => { ev.stopPropagation(); changeGuestCount(row.type, 1) }}
-                                    >+</button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
-
             </div>
+
+            {/* Who dropdown lives at bar level so width:50% measures against the whole bar */}
+            {activeSection === 'who' && (
+                <div className="who-dropdown">
+                    {[
+                        { type: 'adults', label: 'Adults', sub: 'Ages 13 or above' },
+                        { type: 'children', label: 'Children', sub: 'Ages 2 – 12' },
+                        { type: 'infants', label: 'Infants', sub: 'Under 2' },
+                        { type: 'pets', label: 'Pets', sub: 'Bringing a service animal?' },
+                    ].map(row => (
+                        <div className="guest-row" key={row.type}>
+                            <div className="guest-row-label">
+                                <span className="guest-type">{row.label}</span>
+                                <span
+                                    className="guest-sub"
+                                    onClick={(ev) => {
+                                        if (row.type === 'pets') {
+                                            ev.stopPropagation()
+                                            setShowServiceModal(true)
+                                        }
+                                    }}
+                                >{row.sub}</span>
+                            </div>
+
+                            <div className="guest-controls">
+                                <button
+                                    className="guest-btn"
+                                    disabled={guests[row.type] === 0}
+                                    onClick={(ev) => { ev.stopPropagation(); changeGuestCount(row.type, -1) }}
+                                >−</button>
+
+                                <span className="guest-count">{guests[row.type]}</span>
+
+                                <button
+                                    className="guest-btn"
+                                    onClick={(ev) => { ev.stopPropagation(); changeGuestCount(row.type, 1) }}
+                                >+</button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
 
             {showServiceModal && (
                 <div className="service-modal-overlay" onClick={() => setShowServiceModal(false)}>

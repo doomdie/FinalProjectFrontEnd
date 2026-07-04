@@ -1,5 +1,8 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Rating } from '@mui/material'
+
+import { SvgIcon } from '../services/svg.service.jsx'
 
 export function StayCard({ stay }) {
     // --- YAIR'S VERSION ---
@@ -17,12 +20,26 @@ export function StayCard({ stay }) {
     // ===== FAKE ADDED INFO TO LOOK LIKE AIRBNB =====
     // Our stay data has no per-listing availability dates or numeric rating,
     // so these are faked for display only. Replace with real data if it ever exists.
-    const fakeDateRange = 'Jul 3 – 8'                                  // FAKE: no real availability dates in data
-    const fakeRating = (4.7 + (stay._id.charCodeAt(0) % 30) / 100)     // FAKE: derive a stable 4.70–4.99 from id
-        .toFixed(2)
+    // FAKE dates — no availability data, so derive a stable, varied range from the id
+    // FAKE dates + rating — derived from the END of the id (start chars are identical across stays)
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    const idLen = stay._id.length
+    // scramble id chars so dates vary; keep them in Jul–Aug (near-future, like real Airbnb)
+    const dateSeed = stay._id.charCodeAt(idLen - 1) * 13 + stay._id.charCodeAt(idLen - 2) * 29 + stay._id.charCodeAt(idLen - 3) * 5
+    const startDay = 1 + (dateSeed % 27)                              // 1–27
+    const span = 3 + ((dateSeed >> 2) % 6)                           // 3–8 nights
+    const monthIdx = 6 + ((dateSeed >> 4) % 2)                        // 6=Jul or 7=Aug only
+    const endDay = Math.min(startDay + span, 30)                     // cap end at 28 so no invalid days
+    const fakeDateRange = `${months[monthIdx]} ${startDay} – ${endDay}`
+    // scramble several id chars so ratings look random, not sequential; parseFloat drops trailing zeros (4.80 → 4.8)
+    const ratingSeed = stay._id.charCodeAt(idLen - 1) * 31 + stay._id.charCodeAt(idLen - 2) * 17 + stay._id.charCodeAt(idLen - 3) * 7
+    const fakeRating = parseFloat((4.6 + (ratingSeed % 40) / 100).toFixed(2))  // FAKE: 4.60–4.99, scrambled, no trailing zero
     const nights = 5                                                   // FAKE: matches fakeDateRange span
     const totalPrice = stay.price * nights                             // total = real nightly price × fake nights
     // ===============================================
+
+    const [isLiked, setIsLiked] = useState(false)
+
 
     return (
         <Link to={`/homes/${stay._id}`} className="stay-card">
@@ -33,6 +50,14 @@ export function StayCard({ stay }) {
                     className="stay-card-img"
                     loading="lazy"
                 />
+
+                <span
+                    className={`stay-card-heart ${isLiked ? 'liked' : ''}`}
+                    onClick={(ev) => {
+                        ev.preventDefault()   // don't follow the card's Link
+                        setIsLiked(prev => !prev)
+                    }}
+                ><SvgIcon iconName="heart" /></span>
             </div>
 
             <div className="stay-card-content">

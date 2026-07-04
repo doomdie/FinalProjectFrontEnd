@@ -25,12 +25,14 @@
     flex-direction: column;
     align-items: center;
     gap: 1.2rem;
+
+    /* animate the collapse so the big-bar morph has time to play */
+    max-height: 200px;
+    transition: max-height 0.35s ease;
 }
 
-
-
 .app-header.scrolled .header-center {
-    height: 0;
+    max-height: 0;
     overflow: hidden;
 }
 
@@ -241,14 +243,19 @@
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.app-header.scrolled .header-tabs,
 .app-header.scrolled .search-bar {
     pointer-events: none;
-
     opacity: 0;
 
-    transform: translateY(-10px);
+    /* collapse toward the small bar's spot: up ~75px + shrink narrower */
+    transform: translateY(-75px) scaleX(0.43) scaleY(0.6);
+    transform-origin: top center;
+}
+
+.app-header.scrolled .header-tabs {
     pointer-events: none;
+    opacity: 0;
+    transform: translateY(-10px);
 }
 
 /* Small search: fade in when scrolled */
@@ -270,6 +277,17 @@
     pointer-events: auto;
 }
 
+
+/* dark overlay under the header while the big search is open */
+.app-header .page-overlay {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 100vh;
+
+    background-color: var(--color-overlay);
+}
 
 /* ===== SEARCH-PAGE AMENITY BAR (pills under small search) ===== */
 .amenity-bar {

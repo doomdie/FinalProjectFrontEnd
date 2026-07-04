@@ -14,10 +14,38 @@
 }
 
 .stay-card .stay-card-img-wrapper {
+    position: relative;
+    /* anchor for the heart */
+
     width: 100%;
     aspect-ratio: 1 / 1;
     overflow: hidden;
 }
+
+/* heart, top-right of the image — same look as the search page */
+.stay-card .stay-card-heart {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.9rem;
+
+    font-size: 1.3rem;
+    color: var(--color-heart);
+    cursor: pointer;
+
+    transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.stay-card .stay-card-heart:hover {
+    transform: scale(1.1);
+    color: var(--color-heart-hover);
+}
+
+.stay-card .stay-card-heart.liked {
+    color: var(--color-primary);
+}
+
+
+
 
 .stay-card img {
     width: 100%;

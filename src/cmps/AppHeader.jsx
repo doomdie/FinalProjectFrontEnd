@@ -18,6 +18,11 @@ export function AppHeader() {
 	const [searchParams, setSearchParams] = useSearchParams()
 	const navigate = useNavigate()
 
+	// small-bar click → re-expand the big bar with that section open + dark page overlay
+	const [forcedSection, setForcedSection] = useState(null)
+	const [isSearchOpen, setIsSearchOpen] = useState(false)
+
+
 	// which amenities are currently active (from the URL ?amenities=Wifi,Kitchen)
 	const activeAmenities = (searchParams.get('amenities') || '').split(',').filter(a => a)
 
@@ -65,6 +70,8 @@ export function AppHeader() {
 	}, [location.pathname])
 
 	useEffect(() => {
+		if (forcedSection) return   // big bar is forced open from the small bar — don't re-collapse
+
 		if (isDetailsPage || isSearchPage) {
 			setIsScrolled(true)
 			return
@@ -85,7 +92,9 @@ export function AppHeader() {
 
 		window.addEventListener('scroll', onScroll)
 		return () => window.removeEventListener('scroll', onScroll)
-	}, [isDetailsPage, isSearchPage, location.pathname])
+	}, [isDetailsPage, isSearchPage, location.pathname, forcedSection])
+
+
 
 	function moveUnderlineToActiveTab() {
 		if (!tabsContainerRef.current) return
@@ -110,6 +119,20 @@ export function AppHeader() {
 		else params.delete('amenities')
 
 		setSearchParams(params)
+	}
+
+	function onOpenSectionFromSmall(section) {
+		setForcedSection(section)
+		setIsScrolled(false)
+	}
+
+	function onSearchOpenChange(isOpen) {
+		setIsSearchOpen(isOpen)
+		if (!isOpen) {
+			setForcedSection(null)
+			// collapse back if we're on a page that keeps the small bar
+			if (isDetailsPage || isSearchPage || window.scrollY > 200) setIsScrolled(true)
+		}
 	}
 
 	return (
@@ -164,12 +187,15 @@ export function AppHeader() {
 								/>
 							</div>
 
-							<SearchBarBig />
-						</>
+							<SearchBarBig forcedSection={forcedSection} onOpenChange={onSearchOpenChange} />						</>
 					)}
 				</div>
 
-				{!isHosting && <SearchBarSmall />}
+				{!isHosting && <SearchBarSmall onOpenSection={onOpenSectionFromSmall} />}
+
+				{/* dark overlay on the page below the header while the big search is open */}
+				{isSearchOpen && <div className="page-overlay" />}
+
 
 				<div className="header-actions">
 					<NavLink to={isHosting ? "/" : "/hosting"} className="host-switch-link">
@@ -228,7 +254,7 @@ export function AppHeader() {
 			</div>
 
 			{/* search-page amenity filter bar — pure cosmetics, no functionality */}
-			{isSearchPage && amenityPills.length > 0 && (
+			{isSearchPage && amenityPills.length > 0 && !isSearchOpen && (
 				<div className="amenity-bar">
 					<button className="amenity-pill amenity-pill-filters">
 						<SvgIcon iconName="filter" />
