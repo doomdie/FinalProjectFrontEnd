@@ -13,7 +13,6 @@
     text-decoration: none !important;
 }
 
-/* image */
 .stay-card .stay-card-img-wrapper {
     width: 100%;
     aspect-ratio: 1 / 1;
@@ -28,19 +27,17 @@
     object-fit: cover;
 }
 
-/* text block under the image */
 .stay-card-content {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;   /* add — pushes text to the left */
+    align-items: flex-start;
     gap: 2px;
 
     padding: 8px 2px;
 
-    text-align: left;          /* add — left-aligns the text */
+    text-align: left;
 }
 
-/* title — bold, near-black, truncates with … if too long */
 .stay-card-title {
     margin: 0;
 
@@ -53,22 +50,17 @@
     white-space: nowrap;
 }
 
-/* FAKE date range — grey sub-line, also truncates */
 .stay-card-dates {
     margin: 0;
-
     font-size: 0.75rem;
     color: var(--color-text-light);
-
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-/* price + rating line */
 .stay-card-price {
     margin: 0;
-
     font-size: 0.75rem;
     font-weight: 400;
     color: var(--color-text-light);

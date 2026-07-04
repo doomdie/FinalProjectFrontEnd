@@ -9,23 +9,23 @@ export function ReadMore({ text }) {
 
     return (
         <>
-            <p>
+            <p className="summary-text">
                 {displayedText}
-                {shouldTrim && (
-                    <button
-                        onClick={() => setIsModalOpen(true)}
-                        className="read-more-btn"
-        >
-                        Read more
-                    </button>
-                )}
             </p>
+
+            {shouldTrim && (
+                <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="read-more-btn"
+                >
+                   <span className = "read-more-text">Show more</span> 
+                </button>
+            )}
 
             {isModalOpen && (
                 <div className="modal-backdrop" onClick={() => setIsModalOpen(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <button className="modal-close-btn" onClick={() => setIsModalOpen(false)}>
-                        
                         </button>
                         <div className="modal-body">
                             <p>{summaryText}</p>
@@ -36,4 +36,3 @@ export function ReadMore({ text }) {
         </>
     )
 }
-//SWITCH THE MODAL HERE WITH THE MODAL MATERIAL UI THING!!!

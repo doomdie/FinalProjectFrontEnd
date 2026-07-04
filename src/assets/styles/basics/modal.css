@@ -84,7 +84,20 @@
     flex-direction: column;
     gap: 16px;
 }
-
+.sticky-datee {
+    line-height: var(--typography-body-text_14_18-line-height);
+    font-size: var(--typography-body-text_14_18-font-size);
+    min-height: 56px;
+    color: var(--palette-text-secondary);
+    padding-top: 26px;
+    padding-bottom: 10px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+.card-checkin {
+    font-size: 0.75rem;
+  color: #000000;
+}
 .sticky-part-one {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
