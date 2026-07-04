@@ -2,7 +2,7 @@ import { FiSearch } from 'react-icons/fi'
 import { useLocation, useSearchParams } from 'react-router-dom'
 
 
-export function SearchBarSmall() {
+export function SearchBarSmall({ onOpenSection = () => { } }) {
     const location = useLocation()
     const [searchParams] = useSearchParams()
 
@@ -21,11 +21,10 @@ export function SearchBarSmall() {
 
     return (
         <div className="search-bar-small">
-            <img src={`/img/symbols/${iconName}.svg`} alt="" className="small-icon" />
-            <span className="small-section small-location">{locationLabel}</span>
-            <span className="small-section">Anytime</span>
-            <span className="small-section">Add guests</span>
-            <button className="search-btn-small"><FiSearch /></button>
+            <span className="small-section small-location" onClick={() => onOpenSection('where')}>{locationLabel}</span>
+            <span className="small-section" onClick={() => onOpenSection('when')}>Anytime</span>
+            <span className="small-section" onClick={() => onOpenSection('who')}>Add guests</span>
+            <button className="search-btn-small" onClick={() => onOpenSection('where')}><FiSearch /></button>
         </div>
     )
 }

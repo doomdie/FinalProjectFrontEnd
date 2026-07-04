@@ -67,7 +67,7 @@
 }
 
 .app-header .search-section:hover+.search-section::before,
-.app-header .search-section:hover+.search-who .search-section::before {
+.app-header .search-section:nth-of-type(2):hover~.search-who .search-section::before {
     opacity: 0;
 }
 
@@ -150,6 +150,9 @@
 
 /* ===== SEARCH BUTTON (round, expands to a pill when a section is open) ===== */
 .app-header .search-btn {
+    position: relative;
+    z-index: 2;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -168,14 +171,18 @@
     font-size: 1em;
 
     cursor: pointer;
-    transition: width 0.3s ease, border-radius 0.3s ease;
+    transition: width 0.3s ease, margin-left 0.3s ease, border-radius 0.3s ease;
 }
 
 .app-header .search-btn.expanded {
-    width: 5rem;
-    padding: 0 0.5rem;
-    gap: 0.25rem;
+    gap: 6px;
+
+    width: 6rem;
+    padding: 0 1rem;
     border-radius: 24px;
+
+    margin-left: calc(0.5em - 3rem);
+
 }
 
 .app-header .search-btn svg {
@@ -351,7 +358,9 @@
     left: 0;
     z-index: 50;
 
-    width: 25rem;
+    width: 50%;
+    max-height: 27rem;
+    overflow-y: auto;
     padding: 1.5rem;
     border-radius: 24px;
 
@@ -359,11 +368,31 @@
     box-shadow: var(--shadow-lg);
 }
 
+/* grey scrollbar inside the Where dropdown */
+.app-header .where-dropdown::-webkit-scrollbar {
+    width: 10px;
+}
+
+.app-header .where-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 24px 0;
+    /* stop the thumb before the rounded corners (matches border-radius) */
+}
+
+.app-header .where-dropdown::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    border: 3px solid var(--color-bg);
+    background-color: var(--color-border-dark);
+    background-clip: content-box;
+}
+
 .app-header .where-dropdown-title {
-    margin: 0 0 0.75rem;
+    padding-left: 0.5rem;
+    /* margin: 0 0 0.75rem; */
+
     font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--color-text);
+    font-weight: 400;
+    color: var(--color-text-light);
 }
 
 .app-header .recent-row {
@@ -387,8 +416,8 @@
     align-items: center;
     justify-content: center;
 
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 56px;
+    height: 56px;
     border-radius: 12px;
 
     background-color: var(--color-bg-soft);
@@ -586,7 +615,7 @@
     right: 0;
     z-index: 50;
 
-    width: 22rem;
+    width: 50%;
     padding: 0.5rem 1.5rem;
     border-radius: 24px;
 
