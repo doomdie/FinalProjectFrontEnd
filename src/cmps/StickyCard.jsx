@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { DatePicker } from "./DatePicker"
 import { Modal, Box } from '@mui/material'
@@ -7,7 +7,7 @@ import { saveOrder } from '../store/actions/order.actions'
 import { socketService } from '../services/socket.service'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 
-export function StickyCard({ stay }) {
+export function StickyCard({ stay, onUpdateFooter }) {
     const user = useSelector(storeState => storeState.userModule.user)
 
     const [dates, setDates] = useState(() => {
@@ -76,6 +76,21 @@ export function StickyCard({ stay }) {
         }
     }
 
+    function getFormattedDateRange() {
+        if (!dates.checkIn || !dates.checkOut) return 'Add dates'
+        const startOpt = { month: 'short', day: 'numeric' }
+        const endOpt = dates.checkIn.getMonth() === dates.checkOut.getMonth()
+            ? { day: 'numeric' }
+            : { month: 'short', day: 'numeric' }
+
+        return `${dates.checkIn.toLocaleDateString('en-US', startOpt)} – ${dates.checkOut.toLocaleDateString('en-US', endOpt)}`
+    }
+
+    useEffect(() => {
+        if (onUpdateFooter) {
+            onUpdateFooter(totalPrice, getFormattedDateRange())
+        }
+    }, [totalPrice, dates.checkIn, dates.checkOut])
     return (
         <div className="sticky-card-container">
             <div className="rare-find-banner">
@@ -98,8 +113,8 @@ export function StickyCard({ stay }) {
                             <span className='sticky-date'>{dates.checkIn ? dates.checkIn.toLocaleDateString() : 'Add date'}</span>
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', paddingLeft: '12px' }}>
-                            <span className = 'card-checkin'>Check-out </span>
-                            <span className ='sticky-date'>{dates.checkOut ? dates.checkOut.toLocaleDateString() : 'Add date'}</span>
+                            <span className='card-checkin'>Check-out </span>
+                            <span className='sticky-date'>{dates.checkOut ? dates.checkOut.toLocaleDateString() : 'Add date'}</span>
                         </Box>
                     </div>
                     <GuestMenu stay={stay} currentList={guestCounts} onUpdateList={setGuestCounts}></GuestMenu>
