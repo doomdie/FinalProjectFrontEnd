@@ -25,7 +25,7 @@ export function StayList({ stays }) {
 
     return (
         <section className="stay-list-container">
-            <StayCarouselRow title="Popular shared homes" stays={sharedHomes} itemsPerSlide={6} />
+            <StayCarouselRow title="Popular shared homes" stays={sharedHomes} itemsPerSlide={7} />
             <StayCarouselRow title="Highest rated stays" stays={budgetStays} itemsPerSlide={6} />
             <StayCarouselRow title="All stays" stays={allStays} itemsPerSlide={6} />
             <StayCarouselRow title="Newest stays" stays={newestStays} itemsPerSlide={6} />
