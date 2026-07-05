@@ -208,14 +208,14 @@
 /* map placeholder — right half, sticky so it stays while list scrolls */
 .search-map {
     position: sticky;
-    top: calc(var(--search-header-height) + 2rem);
+    top: calc(var(--search-header-height) + 3rem);
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     width: 45%;
-    height: calc(100vh - var(--search-header-height) - 4rem);
+    height: calc(100vh - var(--search-header-height) - 5rem);
     margin: 2rem;
     border-radius: 20px;
 

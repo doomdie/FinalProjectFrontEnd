@@ -32,7 +32,8 @@
     flex-direction: column;
     align-self: stretch;
     justify-content: center;
-    flex: 1;
+    flex: 1 1 0;
+    min-width: 0;
 
     padding: 0.5rem 1.6rem;
     border-radius: 40px;
@@ -97,7 +98,10 @@
 
     display: flex;
     align-items: center;
-    flex: 1;
+    flex: 1 1 4rem;
+    min-width: 0;
+    /* without this, the flex item refuses to shrink below its content's
+       full width — the guest text then pushes "When" instead of ellipsizing */
     align-self: stretch;
 
 
@@ -112,17 +116,18 @@
 
 /* --- section text + input --- */
 .app-header .search-label {
-    font-size: 0.7rem;
+    margin-bottom: 4px;
+    font-size: 0.8rem;
     font-weight: 600;
     color: var(--color-text);
 }
 
 .app-header .search-value {
     display: block;
-    width: 6rem;
-    max-width: 6rem;
+    max-width: 100%;
+    /* flex to the section, truncate only when truly out of room */
 
-    font-size: 0.7rem;
+    font-size: 0.875rem;
     color: var(--color-text-light);
 
     white-space: nowrap;
@@ -139,12 +144,20 @@
     background: transparent;
     outline: none;
 
-    font-size: 0.7rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+
     color: var(--color-text);
 }
 
 .app-header .search-input::placeholder {
     color: var(--color-text-light);
+    font-weight: 400;   
+}
+/* a filled (non-placeholder) value = bold + dark, like the labels */
+.app-header .search-value.filled {
+    font-weight: 600;
+    color: var(--color-text);
 }
 
 
@@ -171,7 +184,7 @@
     font-size: 1em;
 
     cursor: pointer;
-    transition: width 0.3s ease, margin-left 0.3s ease, border-radius 0.3s ease;
+    transition: width 0.3s ease, border-radius 0.3s ease;
 }
 
 .app-header .search-btn.expanded {
@@ -180,9 +193,6 @@
     width: 6rem;
     padding: 0 1rem;
     border-radius: 24px;
-
-    margin-left: calc(0.5em - 3rem);
-
 }
 
 .app-header .search-btn svg {
@@ -319,10 +329,34 @@
     transform: scale(1);
 }
 
-.app-header .clear-btn:hover {
-    background-color: var(--color-bg-soft);
+/* flow-layout section: text column + inline × share the row, flex handles the space */
+.app-header .search-section-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
+
+    padding-right: 0.6rem;
+    /* pull the inline × closer to the search pill (overrides the 1.6rem section padding) */
+
+    min-width: 0;
+    /* let this section shrink when the search button expands — neighbors never move */
 }
 
+.app-header .search-section-row .search-section-text {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    /* lets the value text ellipsize inside flex */
+}
+
+.app-header .clear-btn-inline {
+    position: static;
+    flex-shrink: 0;
+
+    color: var(--color-text);
+    background-color: transparent;
+}
 
 /* ===== SLIDING WHITE PILL (highlights the active section) ===== */
 .app-header .search-pill {

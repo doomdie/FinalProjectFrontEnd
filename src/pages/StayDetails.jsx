@@ -9,7 +9,7 @@ import { StickyCard } from "../cmps/StickyCard"
 import { StayReview } from "../cmps/StayReview"
 import { ReadMore } from '../cmps/ReadMore'
 import Divider from '@mui/material/Divider';
-import { LoadingScreenForDetails } from '../cmps/LoadingScreenForDetails'
+import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 
 export function StayDetails() {
   const { stayId } = useParams()
@@ -32,7 +32,7 @@ export function StayDetails() {
 
   return (
     <section className="stay-details">
-      <LoadingScreenForDetails isLoading={isLoading} />
+      <SkeletonLoader variant="details" isLoading={isLoading} />
 
       {stay && (
         <>

@@ -16,6 +16,8 @@
 @import "cmps/UserDetails.css";
 @import "cmps/stay/Carousel";
 @import "cmps/stay/Loading.css";
+@import "cmps/SkeletonLoader.css";
+
 
 @import "cmps/review/StayReview.css";
 
