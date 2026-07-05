@@ -93,3 +93,76 @@
     font-weight: 400;
     color: var(--color-text-light);
 }
+.see-all-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-align: center;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+}
+
+.see-all-image-stack {
+    position: relative;
+    width: 65%;
+    aspect-ratio: 1 / 1;
+    margin-bottom: 20px;
+}
+
+.stack-img {
+    position: absolute;
+    width: 75%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: #f7f7f7;
+    transition: transform 0.2s ease;
+}
+
+.img-back {
+    top: 0;
+    left: 15%;
+    transform: rotate(-8deg);
+    z-index: 1;
+}
+
+.img-right {
+    top: 8%;
+    right: 0;
+    transform: rotate(12deg);
+    z-index: 2;
+}
+
+.img-front {
+    bottom: 0;
+    left: 5%;
+    transform: rotate(-5deg);
+    z-index: 3;
+}
+
+.see-all-card:hover .img-back {
+    transform: translate(-4px, -4px) rotate(-12deg);
+}
+
+.see-all-card:hover .img-right {
+    transform: translate(6px, -2px) rotate(16deg);
+}
+
+.see-all-card:hover .img-front {
+    transform: translate(-2px, 4px) rotate(-2deg);
+}
+
+.see-all-text {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #222222;
+    margin: 0;
+}
+/* Will replace with variables later just too much for now trying to get this shit workingggg*/

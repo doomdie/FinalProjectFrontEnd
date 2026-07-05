@@ -1,51 +1,40 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { CustomCarousel } from './CustomCarousel'
-import { SvgIcon } from '../services/svg.service.jsx'
-
 import { StayCard } from './StayCard'
 
-
-export function StayCarouselRow({ title, stays, filterFn, itemsPerSlide = 4 }) {
-    const [currentIndex, setCurrentIndex] = useState(0)
-    const actualFilter = filterFn || (() => true)
-    const filteredStays = stays.filter(actualFilter)
+export function StayCarouselRow({ title, stays, filterFn, itemsPerSlide = 6 }) {
+    const navigate = useNavigate()
+    
+    const filteredStays = stays.filter(stay => {
+        if (stay.isLinkCard) return true
+        return filterFn ? filterFn(stay) : true
+    })
 
     if (!filteredStays.length) return null
 
-    const totalSlides = Math.ceil(filteredStays.length / itemsPerSlide)
-
-    const handlePrev = () => {
-        setCurrentIndex((prev) => Math.max(0, prev - 1))
-    }
-
-    const handleNext = () => {
-        setCurrentIndex((prev) => Math.min(totalSlides - 1, prev + 1))
-    }
-
     return (
         <div className="carousel-row-wrapper">
-            <header className="carouselHeader">
-                <h2 className="carousel-title">
-                    {title}
-                    <span className="title-arrow"><SvgIcon iconName="titleArrow" /></span>
-                </h2>
-                <div className="carousel-buttons">
-                    <button onClick={handlePrev} disabled={currentIndex === 0}>
-                        <SvgIcon iconName="chevronLeft" />
-                    </button>
-                    <button onClick={handleNext} disabled={currentIndex === totalSlides - 1}>
-                        <SvgIcon iconName="chevronRight" />
-                    </button>
-                </div>
-            </header>
-            <CustomCarousel
-                itemsPerSlide={itemsPerSlide}
-                selectedItem={currentIndex}
-                onChange={setCurrentIndex}
-            >
-                {filteredStays.map(stay => (
-                    <StayCard key={stay._id} stay={stay} />
-                ))}
+            <CustomCarousel title={title}>
+                {filteredStays.map((stay, idx) => {
+                    if (stay.isLinkCard) {
+                        return (
+                            <div 
+                                key="see-all" 
+                                className="stay-card see-all-card" 
+                                onClick={() => navigate(stay.linkTo)}
+                            >
+                                <div className="see-all-image-stack">
+                                    <img src={filteredStays[2]?.imgUrls?.[0] || filteredStays[0]?.imgUrls?.[0]} alt="" className="stack-img img-back" />
+                                    <img src={filteredStays[1]?.imgUrls?.[0] || filteredStays[0]?.imgUrls?.[0]} alt="" className="stack-img img-right" />
+                                    <img src={filteredStays[0]?.imgUrls?.[0]} alt="" className="stack-img img-front" />
+                                </div>
+                                <div className="see-all-text">See all</div>
+                            </div>
+                        )
+                    }
+                    return <StayCard key={stay._id || idx} stay={stay} />
+                })}
             </CustomCarousel>
         </div>
     )
