@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Rating } from '@mui/material'
 
 import { SvgIcon } from '../services/svg.service.jsx'
+import { HeartButton } from './HeartButton.jsx'
 
 export function StayCard({ stay }) {
     // --- YAIR'S VERSION ---
@@ -38,7 +39,6 @@ export function StayCard({ stay }) {
     const totalPrice = stay.price * nights                             // total = real nightly price × fake nights
     // ===============================================
 
-    const [isLiked, setIsLiked] = useState(false)
 
 
     return (
@@ -51,13 +51,7 @@ export function StayCard({ stay }) {
                     loading="lazy"
                 />
 
-                <span
-                    className={`stay-card-heart ${isLiked ? 'liked' : ''}`}
-                    onClick={(ev) => {
-                        ev.preventDefault()   // don't follow the card's Link
-                        setIsLiked(prev => !prev)
-                    }}
-                ><SvgIcon iconName="heart" /></span>
+                <HeartButton stayId={stay._id} className="stay-card-heart" />
             </div>
 
             <div className="stay-card-content">

@@ -6,6 +6,8 @@ import { useSyncStayFilter } from '../customHooks/useSyncStayFilter.js'
 import { SvgIcon } from '../services/svg.service.jsx'
 import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps'
+import { wishlistService } from '../services/stays/wishlist.service.js'
+import { HeartButton } from '../cmps/HeartButton.jsx'
 
 const STAYS_PER_PAGE = 18  // 9 rows × 2 columns
 
@@ -16,7 +18,6 @@ export function SearchPage() {
     const stays = useSelector(storeState => storeState.stayModule.stays)
     const [searchParams] = useSearchParams()
     const [currentPage, setCurrentPage] = useState(0)
-    const [likedIds, setLikedIds] = useState([])  // which cards are hearted (visual only)
     const [imgIdxByStay, setImgIdxByStay] = useState({})  // current image index per card carousel
     const [hoveredStayId, setHoveredStayId] = useState(null)  // which card is hovered — highlights its map pin
 
@@ -55,11 +56,7 @@ export function SearchPage() {
         setCurrentPage(0)
     }, [searchParams])
 
-    function toggleLike(stayId) {
-        setLikedIds(prev => prev.includes(stayId)
-            ? prev.filter(id => id !== stayId)
-            : [...prev, stayId])
-    }
+
 
     const isLoading = !stays || !stays.length   // still fetching — show skeletons
     const noResults = !isLoading && !filteredStays.length   // loaded, but filters match nothing
@@ -133,13 +130,33 @@ export function SearchPage() {
                     {!isLoading && mapReady && staysToShow.map((stay, idx) => {
 
                         // ===== FAKE ADDED INFO TO LOOK LIKE AIRBNB =====
-                        const fakeRating = (4.7 + (stay._id.charCodeAt(0) % 30) / 100).toFixed(2)  // FAKE: no rating in data
-                        const reviewCount = stay.reviewCount || 0                       // real: review count from service
-                        const nights = 5                                               // FAKE: matches fakeDateRange
-                        const fakeDateRange = 'Jul 3 – 8'                              // FAKE: no dates in data
-                        const totalPrice = stay.price * nights                         // real nightly × fake nights
-                        // FAKE: ~1 in 4 stays show free cancellation (stable per id)
-                        const hasFreeCancellation = idx % 4 === 0   // every 4th card on the page
+                        // same scramble as StayCard: derive from the END of the id (start chars identical)
+                        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                        const idLen = stay._id.length
+                        const dateSeed = stay._id.charCodeAt(idLen - 1) * 13 + stay._id.charCodeAt(idLen - 2) * 29 + stay._id.charCodeAt(idLen - 3) * 5
+                        const startDay = 1 + (dateSeed % 27)
+                        const span = 3 + ((dateSeed >> 2) % 6)
+                        const monthIdx = 6 + ((dateSeed >> 4) % 2)                      // Jul or Aug
+                        const endDay = Math.min(startDay + span, 30)
+                        // if the user searched specific dates, show THOSE instead of fakes
+                        const urlFrom = searchParams.get('from') ? new Date(searchParams.get('from')) : null
+                        const urlTo = searchParams.get('to') ? new Date(searchParams.get('to')) : null
+                        let fakeDateRange
+                        let nights
+                        if (urlFrom && urlTo) {
+                            const opts = { month: 'short', day: 'numeric' }
+                            const sameMonth = urlFrom.getMonth() === urlTo.getMonth()
+                            fakeDateRange = `${urlFrom.toLocaleDateString('en-US', opts)} – ${urlTo.toLocaleDateString('en-US', sameMonth ? { day: 'numeric' } : opts)}`
+                            nights = Math.max(1, Math.round((urlTo - urlFrom) / (1000 * 60 * 60 * 24)))
+                        } else {
+                            fakeDateRange = `${months[monthIdx]} ${startDay} – ${endDay}`   // FAKE
+                            nights = span                                                     // matches the fake range
+                        }
+                        const ratingSeed = stay._id.charCodeAt(idLen - 1) * 31 + stay._id.charCodeAt(idLen - 2) * 17 + stay._id.charCodeAt(idLen - 3) * 7
+                        const fakeRating = parseFloat((4.6 + (ratingSeed % 40) / 100).toFixed(2))  // FAKE: 4.60–4.99
+                        const reviewCount = stay.reviewCount || 0                       // real
+                        const totalPrice = stay.price * nights                          // real nightly × nights
+                        const hasFreeCancellation = idx % 4 === 0                       // FAKE: every 4th card
                         // ===============================================
 
                         const imgs = stay.imgUrls || []
@@ -159,6 +176,9 @@ export function SearchPage() {
                                 onMouseLeave={() => setHoveredStayId(null)}
                             >
                                 <div className="result-card-img">
+                                    {/* real superhost flag from the data */}
+                                    {stay.host?.isSuperhost && <span className="card-badge">Superhost</span>}
+
                                     {/* sliding track — all images in a row, shifted by imgIdx */}
                                     <div
                                         className="card-track"
@@ -169,14 +189,7 @@ export function SearchPage() {
                                         ))}
                                     </div>
 
-                                    <span
-                                        className={`result-card-heart ${likedIds.includes(stay._id) ? 'liked' : ''}`}
-                                        onClick={(ev) => {
-                                            ev.preventDefault()
-                                            ev.stopPropagation()
-                                            toggleLike(stay._id)
-                                        }}
-                                    ><SvgIcon iconName="heart" /></span>
+                                    <HeartButton stayId={stay._id} className="result-card-heart" />
 
                                     {/* prev arrow — hidden on first image */}
                                     {imgIdx > 0 && (
@@ -218,13 +231,13 @@ export function SearchPage() {
                                     {/* listing name */}
                                     <p className="result-card-name">{stay.name}</p>
 
-                                    {/* FAKE rating + real review count + real beds/baths */}
+                                    {/* FAKE rating + real review count (bold) + real beds/baths (grey) */}
                                     <p className="result-card-meta">
-                                        ★ {fakeRating} ({reviewCount}) · {stay.bedrooms ?? stay.capacity} bed{(stay.bedrooms ?? stay.capacity) !== 1 ? 's' : ''} · {stay.bathrooms ?? 1} bath{(stay.bathrooms ?? 1) !== 1 ? 's' : ''}
+                                        <span className="card-rating">★ {fakeRating} ({reviewCount})</span> · {stay.bedrooms ?? stay.capacity} bed{(stay.bedrooms ?? stay.capacity) !== 1 ? 's' : ''} · {stay.bathrooms ?? 1} bath{(stay.bathrooms ?? 1) !== 1 ? 's' : ''}
                                     </p>
 
-                                    {/* FAKE dates */}
-                                    <p className="result-card-dates">{fakeDateRange}</p>
+                                    {/* dates line — hidden when the user searched specific dates (they're in the header) */}
+                                    {!urlFrom && <p className="result-card-dates">{fakeDateRange}</p>}
 
                                     {/* real nightly × fake nights */}
                                     <p className="result-card-price"><strong>₪{totalPrice.toLocaleString()}</strong> total</p>

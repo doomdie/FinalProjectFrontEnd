@@ -1,0 +1,88 @@
+/* ============================================================
+   HAMBURGER MENU — button, dropdown, backdrop
+   ============================================================ */
+
+/* hamburger — same-size grey circle as the avatar */
+.app-header .menu-wrapper {
+    position: relative;
+}
+
+.app-header .menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+
+    font-size: 1rem;
+    color: var(--color-text);
+    background-color: var(--color-bg-soft);
+    cursor: pointer;
+    transition: background-color 0.1s ease, transform 0.1s ease;
+}
+
+.app-header .menu-btn:hover,
+.app-header .menu-btn.open {
+    background-color: var(--color-section-hover);
+}
+
+.app-header .menu-btn:hover:active,
+.app-header .menu-btn:active {
+    background-color: var(--color-section-hover);
+    transform: scale(0.9);
+}
+
+/* dropdown menu under the hamburger */
+.app-header .menu-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    z-index: 200;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 15rem;
+    padding: 0.5rem 0;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+
+    background-color: var(--color-bg);
+    box-shadow: var(--shadow-md);
+}
+
+/* dropdown rows — Link and button rendered identically */
+.app-header .menu-item {
+    display: block;
+    box-sizing: border-box;
+
+    width: 100%;
+    padding: 0.6rem 3rem 0.6rem 1rem;
+    background: none;
+    border: none;
+    margin: 0;
+
+    text-align: left;
+    font-size: 0.9rem;
+    font-family: inherit;
+    color: var(--color-text);
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.app-header .menu-item:hover {
+    background-color: var(--color-bg-soft);
+}
+
+/* invisible full-screen layer that closes the menu on outside click */
+.app-header .menu-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 199;
+}

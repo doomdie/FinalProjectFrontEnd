@@ -114,6 +114,11 @@ export function SearchBarBig({ forcedSection = null, onOpenChange = () => { } })
 
         if (whereValue.trim()) params.set('search', whereValue)
         if (guestCount > 0) params.set('guests', guestCount)
+        // save the picked dates so the small bar can show them
+        // (format LOCALLY — toISOString converts to UTC and shifts the day back in UTC+ timezones)
+        const toLocalYMD = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+        if (dates.from) params.set('from', toLocalYMD(dates.from))
+        if (dates.to) params.set('to', toLocalYMD(dates.to))
         navigate(`/search?${params.toString()}`)
         window.scrollTo(0, 0)   // land at the top of the results
 

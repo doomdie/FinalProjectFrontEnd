@@ -80,14 +80,24 @@
 .carousel-buttons button:disabled:hover {
     background-color: var(--color-bg);
 }
-.my-carousel-wrapper .slick-list { margin: 0 -12px; }
-.my-carousel-wrapper .slick-slide > div { padding: 0 12px; box-sizing: border-box; }
-.inline-carousel-container {
-    width: 100%;
+
+.my-carousel-wrapper .slick-list {
+    margin: 0 -12px;
+    /* the negative margin widens the track by 24px to hide outer gutters;
+       clip it here so the last slide isn't cut at the container edge */
     overflow: hidden;
 }
 
-.my-carousel-wrapper .slick-slide > div {
+.my-carousel-wrapper .slick-slide>div {
+    padding: 0 12px;
+    box-sizing: border-box;
+}
+
+.inline-carousel-container {
+    width: 100%;
+}
+
+.my-carousel-wrapper .slick-slide>div {
     width: 100%;
     box-sizing: border-box;
 }
