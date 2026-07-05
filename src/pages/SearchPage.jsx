@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useSearchParams } from 'react-router-dom'
 
@@ -6,7 +6,6 @@ import { useSyncStayFilter } from '../customHooks/useSyncStayFilter.js'
 import { SvgIcon } from '../services/svg.service.jsx'
 import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps'
-
 
 const STAYS_PER_PAGE = 18  // 9 rows × 2 columns
 
@@ -21,20 +20,55 @@ export function SearchPage() {
     const [imgIdxByStay, setImgIdxByStay] = useState({})  // current image index per card carousel
     const [hoveredStayId, setHoveredStayId] = useState(null)  // which card is hovered — highlights its map pin
 
+    const activeAmenities = (searchParams.get('amenities') || '').split(',').filter(a => a)
+    const activeType = searchParams.get('type') || ''
+    const txt = searchParams.get('search') || ''
+
+    const filteredStays = stays ? stays.filter(stay => {
+        if (stay.isLinkCard) return true
+
+        if (txt) {
+            const regex = new RegExp(txt, 'i')
+            const matchText = regex.test(stay.loc.country) || regex.test(stay.loc.city)
+            if (!matchText) return false
+        }
+
+        if (activeType) {
+            const stayType = stay.type?.toLowerCase() || ''
+            const filterType = activeType.toLowerCase()
+            const matchType = stayType === filterType ||
+                stayType.startsWith(filterType.replace(/s$/, '')) ||
+                filterType.startsWith(stayType.replace(/s$/, ''))
+            if (!matchType) return false
+        }
+
+        if (activeAmenities.length > 0) {
+            const stayAmenities = (stay.amenities || []).map(a => a.toLowerCase())
+            const hasAllActive = activeAmenities.every(amenity => stayAmenities.includes(amenity.toLowerCase()))
+            if (!hasAllActive) return false
+        }
+
+        return true
+    }) : []
+
+    useEffect(() => {
+        setCurrentPage(0)
+    }, [searchParams])
+
     function toggleLike(stayId) {
         setLikedIds(prev => prev.includes(stayId)
             ? prev.filter(id => id !== stayId)
             : [...prev, stayId])
     }
 
-    const isLoading = !stays || !stays.length
+    const isLoading = !stays || !stays.length   // still fetching — show skeletons
+    const noResults = !isLoading && !filteredStays.length   // loaded, but filters match nothing
 
-    // how many pages total (stays may still be null while loading)
-    const pageCount = Math.ceil((stays?.length || 0) / STAYS_PER_PAGE)
+    // how many pages total (based on the filtered list)
+    const pageCount = Math.ceil(filteredStays.length / STAYS_PER_PAGE)
     // the slice of stays for the current page
     const startIdx = currentPage * STAYS_PER_PAGE
-    const staysToShow = (stays || []).slice(startIdx, startIdx + STAYS_PER_PAGE)
-
+    const staysToShow = filteredStays.slice(startIdx, startIdx + STAYS_PER_PAGE)
 
     // center the map on the first visible stay (falls back to a default)
     const firstStay = staysToShow[0]
@@ -44,12 +78,11 @@ export function SearchPage() {
 
     // is the loaded data actually for the current search? if not, the map would
     // flash the OLD location — so we hold it grey until they match
-    const searchTerm = (searchParams.get('search') || '').split(',')[0].trim().toLowerCase()
+    const searchTerm = txt.split(',')[0].trim().toLowerCase()
     const mapReady = !searchTerm || (firstStay && (
         firstStay.loc.city.toLowerCase().includes(searchTerm) ||
         firstStay.loc.country.toLowerCase().includes(searchTerm)
     ))
-
 
     // decide which page numbers to show; gaps become '...'
     function getPageList() {
@@ -87,9 +120,11 @@ export function SearchPage() {
                     ? <div className="skeleton skeleton-count-line" />
                     : (
                         <h1 className="search-results-count">
-                            {stays.length > 1000
-                                ? 'Over 1,000 homes within map area'
-                                : `${stays.length} homes within map area`}
+                            {noResults
+                                ? 'No stays found'
+                                : filteredStays.length > 1000
+                                    ? 'Over 1,000 homes within map area'
+                                    : `${filteredStays.length} homes within map area`}
                         </h1>
                     )}
 
@@ -106,8 +141,6 @@ export function SearchPage() {
                         // FAKE: ~1 in 4 stays show free cancellation (stable per id)
                         const hasFreeCancellation = idx % 4 === 0   // every 4th card on the page
                         // ===============================================
-
-
 
                         const imgs = stay.imgUrls || []
                         const imgIdx = imgIdxByStay[stay._id] || 0
@@ -140,6 +173,7 @@ export function SearchPage() {
                                         className={`result-card-heart ${likedIds.includes(stay._id) ? 'liked' : ''}`}
                                         onClick={(ev) => {
                                             ev.preventDefault()
+                                            ev.stopPropagation()
                                             toggleLike(stay._id)
                                         }}
                                     ><SvgIcon iconName="heart" /></span>
@@ -222,7 +256,6 @@ export function SearchPage() {
                         )
                     )}
 
-
                     <button
                         className="page-arrow"
                         disabled={currentPage === pageCount - 1}
@@ -230,7 +263,6 @@ export function SearchPage() {
                     >›</button>
                 </div>
             </div>
-
 
             {/* RIGHT: real Google map with a price pin per stay */}
             <div className="search-map">
@@ -246,7 +278,6 @@ export function SearchPage() {
                             disableDefaultUI={true}
                             zoomControl={true}
                             zoomControlOptions={{ position: 3 }}
-
                             style={{ width: '100%', height: '100%', borderRadius: '16px' }}
                         >
                             {staysToShow.map(stay => (

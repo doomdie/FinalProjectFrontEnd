@@ -6,9 +6,6 @@ import { TabNav } from '../cmps/TabNav'
 import { useSyncStayFilter } from '../customHooks/useSyncStayFilter'
 import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 
-
-
-
 export function HomesPage() {
     const location = useLocation()
 
@@ -17,16 +14,16 @@ export function HomesPage() {
     const currentTab = location.pathname.substring(1) || 'homes'
     const stays = useSelector(storeState => storeState.stayModule.stays)
     const isLoading = !stays || !stays.length
+
     return (
         <section className="homes-page">
-
             <SkeletonLoader variant="home" isLoading={isLoading} />
 
             <header className="homes-header">
                 {/* <h2>Explore {currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}</h2> */}
             </header>
 
-            {currentTab === 'homes' && (
+            {currentTab === 'homes' && !isLoading && (
                 <StayList stays={stays} />
             )}
 

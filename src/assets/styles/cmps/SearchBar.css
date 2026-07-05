@@ -151,9 +151,9 @@
 }
 
 .app-header .search-input::placeholder {
-    font-weight: 600;
+    color: var(--color-text-light);
+    font-weight: 400;   
 }
-
 /* a filled (non-placeholder) value = bold + dark, like the labels */
 .app-header .search-value.filled {
     font-weight: 600;

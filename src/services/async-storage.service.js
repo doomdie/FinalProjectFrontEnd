@@ -6,8 +6,14 @@ export const storageService = {
     remove,
 }
 
-function query(entityType, delay = 500) {
+function query(entityType, filterBy = {}, delay = 500) {
     var entities = JSON.parse(localStorage.getItem(entityType)) || []
+    
+    const { limit } = filterBy
+    if (limit && entities.length > limit) {
+        entities = entities.slice(0, limit)
+    }
+    
     return new Promise(resolve => setTimeout(() => resolve(entities), delay))
 }
 
