@@ -115,6 +115,7 @@ export function SearchBarBig({ forcedSection = null, onOpenChange = () => { } })
         if (whereValue.trim()) params.set('search', whereValue)
         if (guestCount > 0) params.set('guests', guestCount)
         navigate(`/search?${params.toString()}`)
+        window.scrollTo(0, 0)   // land at the top of the results
 
         setActiveSection(null)   // close the section — triggers onOpenChange(false) → header re-collapses
     }

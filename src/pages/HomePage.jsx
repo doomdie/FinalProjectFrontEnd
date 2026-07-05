@@ -4,7 +4,7 @@ import { StayList } from '../cmps/StayList'
 import { CarIndex } from '../pages/CarIndex'
 import { TabNav } from '../cmps/TabNav'
 import { useSyncStayFilter } from '../customHooks/useSyncStayFilter'
-import { LoadingScreenForHomePage } from '../cmps/LoadingScreenForHomePage'
+import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 
 
 
@@ -19,8 +19,9 @@ export function HomesPage() {
     const isLoading = !stays || !stays.length
     return (
         <section className="homes-page">
-           
-        <LoadingScreenForHomePage isLoading={isLoading} />
+
+            <SkeletonLoader variant="home" isLoading={isLoading} />
+
             <header className="homes-header">
                 {/* <h2>Explore {currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}</h2> */}
             </header>

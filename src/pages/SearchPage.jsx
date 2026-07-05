@@ -4,6 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 
 import { useSyncStayFilter } from '../customHooks/useSyncStayFilter.js'
 import { SvgIcon } from '../services/svg.service.jsx'
+import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps'
 
 
@@ -26,13 +27,14 @@ export function SearchPage() {
             : [...prev, stayId])
     }
 
-    if (!stays || !stays.length) return <section><h1>No stays found</h1></section>
+    const isLoading = !stays || !stays.length
 
-    // how many pages total
-    const pageCount = Math.ceil(stays.length / STAYS_PER_PAGE)
+    // how many pages total (stays may still be null while loading)
+    const pageCount = Math.ceil((stays?.length || 0) / STAYS_PER_PAGE)
     // the slice of stays for the current page
     const startIdx = currentPage * STAYS_PER_PAGE
-    const staysToShow = stays.slice(startIdx, startIdx + STAYS_PER_PAGE)
+    const staysToShow = (stays || []).slice(startIdx, startIdx + STAYS_PER_PAGE)
+
 
     // center the map on the first visible stay (falls back to a default)
     const firstStay = staysToShow[0]
@@ -81,14 +83,20 @@ export function SearchPage() {
         <section className="search-page">
             {/* LEFT: results list */}
             <div className="search-results-panel">
-                <h1 className="search-results-count">
-                    {stays.length > 1000
-                        ? 'Over 1,000 homes within map area'
-                        : `${stays.length} homes within map area`}
-                </h1>
+                {(isLoading || !mapReady)
+                    ? <div className="skeleton skeleton-count-line" />
+                    : (
+                        <h1 className="search-results-count">
+                            {stays.length > 1000
+                                ? 'Over 1,000 homes within map area'
+                                : `${stays.length} homes within map area`}
+                        </h1>
+                    )}
 
                 <div className="search-results-grid">
-                    {staysToShow.map((stay, idx) => {
+                    {(isLoading || !mapReady) && <SkeletonLoader variant="card-grid" count={8} />}
+                    {!isLoading && mapReady && staysToShow.map((stay, idx) => {
+
                         // ===== FAKE ADDED INFO TO LOOK LIKE AIRBNB =====
                         const fakeRating = (4.7 + (stay._id.charCodeAt(0) % 30) / 100).toFixed(2)  // FAKE: no rating in data
                         const reviewCount = stay.reviewCount || 0                       // real: review count from service
