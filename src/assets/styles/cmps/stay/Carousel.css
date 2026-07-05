@@ -80,3 +80,5 @@
 .carousel-buttons button:disabled:hover {
     background-color: var(--color-bg);
 }
+.my-carousel-wrapper .slick-list { margin: 0 -12px; }
+.my-carousel-wrapper .slick-slide > div { padding: 0 12px; box-sizing: border-box; }
