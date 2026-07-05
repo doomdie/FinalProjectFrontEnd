@@ -4,6 +4,7 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 /*=== PAGES ===*/
 import { HomesPage } from './pages/HomePage.jsx'
 import { StayDetails } from './pages/StayDetails.jsx'
+import { WishlistPage } from './pages/WishlistPage.jsx'
 import { SearchPage } from './pages/SearchPage.jsx'
 import { BecomeAHost } from './pages/BecomeAHost.jsx'
 import { HostMenu } from './pages/HostMenu.jsx'
@@ -34,6 +35,7 @@ export function RootCmp() {
                 <Route path="user/:id" element={<UserDetails />} />
                 <Route path="profile/:id" element={<PublicProfile />} />
                 <Route path="/search" element={<SearchPage />} />
+                <Route path="/wishlist" element={<WishlistPage />} />
                 <Route path="/hosting" element={<HostMenu />} />
                 <Route path="/become-a-host" element={<BecomeAHost />} />
 

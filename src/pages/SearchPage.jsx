@@ -6,6 +6,8 @@ import { useSyncStayFilter } from '../customHooks/useSyncStayFilter.js'
 import { SvgIcon } from '../services/svg.service.jsx'
 import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps'
+import { wishlistService } from '../services/stays/wishlist.service.js'
+import { HeartButton } from '../cmps/HeartButton.jsx'
 
 const STAYS_PER_PAGE = 18  // 9 rows × 2 columns
 
@@ -16,7 +18,6 @@ export function SearchPage() {
     const stays = useSelector(storeState => storeState.stayModule.stays)
     const [searchParams] = useSearchParams()
     const [currentPage, setCurrentPage] = useState(0)
-    const [likedIds, setLikedIds] = useState([])  // which cards are hearted (visual only)
     const [imgIdxByStay, setImgIdxByStay] = useState({})  // current image index per card carousel
     const [hoveredStayId, setHoveredStayId] = useState(null)  // which card is hovered — highlights its map pin
 
@@ -55,11 +56,7 @@ export function SearchPage() {
         setCurrentPage(0)
     }, [searchParams])
 
-    function toggleLike(stayId) {
-        setLikedIds(prev => prev.includes(stayId)
-            ? prev.filter(id => id !== stayId)
-            : [...prev, stayId])
-    }
+
 
     const isLoading = !stays || !stays.length   // still fetching — show skeletons
     const noResults = !isLoading && !filteredStays.length   // loaded, but filters match nothing
@@ -192,14 +189,7 @@ export function SearchPage() {
                                         ))}
                                     </div>
 
-                                    <span
-                                        className={`result-card-heart ${likedIds.includes(stay._id) ? 'liked' : ''}`}
-                                        onClick={(ev) => {
-                                            ev.preventDefault()
-                                            ev.stopPropagation()
-                                            toggleLike(stay._id)
-                                        }}
-                                    ><SvgIcon iconName="heart" /></span>
+                                    <HeartButton stayId={stay._id} className="result-card-heart" />
 
                                     {/* prev arrow — hidden on first image */}
                                     {imgIdx > 0 && (

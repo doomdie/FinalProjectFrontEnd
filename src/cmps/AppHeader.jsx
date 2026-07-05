@@ -8,13 +8,13 @@ import { LoginSignupModal } from '../pages/LoginSignup.jsx'
 import { SvgIcon } from '../services/svg.service.jsx'
 import { SearchBarBig } from './SearchBarBig.jsx'
 import { SearchBarSmall } from './SearchBarSmall.jsx'
+import { HamburgerMenu } from './HamburgerMenu.jsx'
 
 export function AppHeader() {
 	const user = useSelector(storeState => storeState.userModule.user)
 	const stays = useSelector(storeState => storeState.stayModule.stays)
 
 	const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
-	const [isMenuOpen, setIsMenuOpen] = useState(false)   // hamburger dropdown
 	const [searchParams, setSearchParams] = useSearchParams()
 	const navigate = useNavigate()
 
@@ -109,17 +109,17 @@ export function AppHeader() {
 
 
 	function toggleAmenity(amenity) {
-    const next = activeAmenities.includes(amenity)
-        ? activeAmenities.filter(a => a !== amenity)
-        : [...activeAmenities, amenity]
+		const next = activeAmenities.includes(amenity)
+			? activeAmenities.filter(a => a !== amenity)
+			: [...activeAmenities, amenity]
 
-    const params = new URLSearchParams(searchParams)
+		const params = new URLSearchParams(searchParams)
 
-    if (next.length) params.set('amenities', next.join(','))
-    else params.delete('amenities')
+		if (next.length) params.set('amenities', next.join(','))
+		else params.delete('amenities')
 
-    navigate(`/search?${params.toString()}`)
-}
+		navigate(`/search?${params.toString()}`)
+	}
 
 	function onOpenSectionFromSmall(section) {
 		setForcedSection(section)
@@ -187,8 +187,8 @@ export function AppHeader() {
 								/>
 							</div>
 
-							<SearchBarBig forcedSection={forcedSection} onOpenChange={onSearchOpenChange} />						</>
-					)}
+							<SearchBarBig forcedSection={forcedSection} onOpenChange={onSearchOpenChange} />
+						</>)}
 				</div>
 
 				{!isHosting && <SearchBarSmall onOpenSection={onOpenSectionFromSmall} />}
@@ -213,39 +213,13 @@ export function AppHeader() {
 						</Link>
 					)}
 
-					{/* hamburger menu with dropdown */}
-					<div className="menu-wrapper">
-						<button className={`menu-btn ${isMenuOpen ? 'open' : ''}`} onClick={() => setIsMenuOpen(prev => !prev)}>
-							<SvgIcon iconName="hamburger" />
-						</button>
-
-						{isMenuOpen && (
-							<>
-								{/* click-away layer to close the menu */}
-								<div className="menu-backdrop" onClick={() => setIsMenuOpen(false)} />
-
-								<div className="menu-dropdown">
-									{!user && (
-										<button
-											className="menu-item"
-											onClick={() => { setIsAuthModalOpen(true); setIsMenuOpen(false) }}
-										>
-											Log in or sign up
-										</button>
-									)}
-									{user && (
-										<button
-											className="menu-item"
-											onClick={() => { onLogout(); setIsMenuOpen(false) }}
-										>
-											Log out
-										</button>
-									)}
-								</div>
-							</>
-						)}
-					</div>
+					<HamburgerMenu
+						user={user}
+						onLogout={onLogout}
+						onOpenLogin={() => setIsAuthModalOpen(true)}
+					/>
 				</div>
+
 
 				<LoginSignupModal
 					isOpen={isAuthModalOpen}
@@ -253,7 +227,6 @@ export function AppHeader() {
 				/>
 			</div>
 
-			{/* search-page amenity filter bar — pure cosmetics, no functionality */}
 			{isSearchPage && amenityPills.length > 0 && !isSearchOpen && (
 				<div className="amenity-bar">
 					<button className="amenity-pill amenity-pill-filters">
