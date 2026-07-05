@@ -8,7 +8,6 @@ export function CustomCarousel({ children, title }) {
     const sliderRef = useRef(null);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [slideCount, setSlideCount] = useState(0);
-    const [slidesToShow, setSlidesToShow] = useState(7);
 
     const getSlidesToShowForWidth = (width) => {
         if (width <= 450) return 1;
@@ -20,9 +19,10 @@ export function CustomCarousel({ children, title }) {
         return 7;
     };
 
+    const [slidesToShow, setSlidesToShow] = useState(() => getSlidesToShowForWidth(window.innerWidth));
+
     useEffect(() => {
         setSlideCount(React.Children.count(children));
-        setSlidesToShow(getSlidesToShowForWidth(window.innerWidth));
 
         const handleResize = () => {
             setSlidesToShow(getSlidesToShowForWidth(window.innerWidth));
@@ -36,7 +36,7 @@ export function CustomCarousel({ children, title }) {
         dots: false,
         infinite: false,
         speed: 500,
-        slidesToShow: 7,
+        slidesToShow: slidesToShow, 
         slidesToScroll: 1,
         draggable: false,
         swipe: false,
@@ -84,9 +84,15 @@ export function CustomCarousel({ children, title }) {
                 </div>
             </header>
 
-            <Slider ref={sliderRef} {...settings}>
-                {children}
-            </Slider>
+            <div className="inline-carousel-container">
+                <Slider ref={sliderRef} {...settings}>
+                    {React.Children.map(children, child => (
+                        <div>
+                            {child}
+                        </div>
+                    ))}
+                </Slider>
+            </div>
         </div>
     );
 }

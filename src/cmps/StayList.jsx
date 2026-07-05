@@ -2,7 +2,6 @@ import React from 'react'
 import { StayCarouselRow } from '../cmps/StayCarouselRow.jsx'
 
 export function StayList({ stays }) {
-    if (!stays || !stays.length) return <section><h1>Loading stays...</h1></section>
 
     const sharedHomes = [
         ...stays.filter(s => s.type === 'Shared homes').slice(0, 7),

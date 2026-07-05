@@ -1,9 +1,8 @@
 /* ===== STAY CARD ===== */
 .stay-card {
-    max-width: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-
     box-sizing: border-box;
 }
 
@@ -44,9 +43,6 @@
     color: var(--color-primary);
 }
 
-
-
-
 .stay-card img {
     width: 100%;
     height: 100%;
@@ -60,6 +56,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 2px;
+
     padding: 10px 0;
 
     text-align: left;
@@ -68,12 +65,13 @@
 .stay-card-title {
     margin: 0;
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--color-text);
 
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .stay-card-dates {
@@ -88,13 +86,14 @@
 .stay-card-price {
     margin: 0;
     font-size: 0.85rem;
-    font-weight: 400;
+    font-weight: 500;
     color: var(--color-text-light);
 }
 
 .see-all-card {
     background: #ffffff;
-    border-radius: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--color-bg-soft);
     padding: 24px 16px;
     display: flex;
     flex-direction: column;
@@ -104,6 +103,7 @@
     text-align: center;
     aspect-ratio: 1 / 1;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .see-all-image-stack {
@@ -118,9 +118,9 @@
     width: 75%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    border-radius: 16px;
+    border-radius: 12px;
     border: 3px solid #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     background-color: #f7f7f7;
     transition: transform 0.2s ease;
 }
@@ -164,5 +164,3 @@
     color: var(--color-text);
     margin: 0;
 }
-
-/* Will replace with variables later just too much for now trying to get this shit workingggg*/
