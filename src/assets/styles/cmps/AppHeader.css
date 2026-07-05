@@ -4,7 +4,7 @@
     top: 0;
     z-index: 100;
 
-    padding: var(--space-md) var(--page-gutter) var(--space-xl);
+    padding: var(--space-md) var(--page-gutter);
     border-bottom: 1px solid var(--color-border);
 
     background: var(--header-bg);

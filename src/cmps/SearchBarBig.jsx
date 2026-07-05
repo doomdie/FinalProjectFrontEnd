@@ -204,7 +204,7 @@ export function SearchBarBig({ forcedSection = null, onOpenChange = () => { } })
                 onClick={() => setActiveSection('when')}
             >
                 <span className="search-label">When</span>
-                <span className="search-value">{formatDates()}</span>
+                <span className={`search-value ${dates.from ? 'filled' : ''}`}>{formatDates()}</span>
 
 
                 <button
@@ -274,14 +274,17 @@ export function SearchBarBig({ forcedSection = null, onOpenChange = () => { } })
 
             <div className="search-who" ref={whoRef}>
                 <div
-                    className={`search-section ${activeSection === 'who' ? 'active' : ''}`}
+                    className={`search-section search-section-row ${activeSection === 'who' ? 'active' : ''}`}
                     onClick={() => setActiveSection('who')}
                 >
-                    <span className="search-label">Who</span>
-                    <span className="search-value">{getGuestSummary()}</span>
+                    <div className="search-section-text">
+                        <span className="search-label">Who</span>
+                        <span className={`search-value ${hasGuests ? 'filled' : ''}`}>{getGuestSummary()}</span>
+
+                    </div>
 
                     <button
-                        className={`clear-btn ${hasGuests && activeSection === 'who' ? 'visible' : ''}`}
+                        className={`clear-btn clear-btn-inline ${hasGuests && activeSection === 'who' ? 'visible' : ''}`}
                         onClick={resetGuests}
                     >×</button>
                 </div>
