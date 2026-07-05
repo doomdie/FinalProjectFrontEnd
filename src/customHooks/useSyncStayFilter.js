@@ -1,14 +1,17 @@
 import { useEffect } from 'react'
 import { useLocation, useSearchParams } from 'react-router-dom'
 import { loadStays } from '../store/actions/stay.actions'
+
 export function useSyncStayFilter() {
     const location = useLocation()
     const [searchParams] = useSearchParams()
 
-    const searchParamsString = searchParams ? searchParams.toString() : ''
-
     useEffect(() => {
-        if (!searchParams || typeof searchParams.get !== 'function') return
+        console.log('=== HOOK TRIGGERED ===')
+        console.log('Current URL Search String:', location.search)
+        if (!searchParams || typeof searchParams.get !== 'function') { 
+            console.log('Search params missing or malformed')
+            return }
 
         const currentTab = location.pathname.substring(1) || 'homes'
 
@@ -23,5 +26,5 @@ export function useSyncStayFilter() {
 
         loadStays(filterBy)
 
-    }, [location.pathname, searchParamsString])
+    }, [location.pathname, location.search])
 }

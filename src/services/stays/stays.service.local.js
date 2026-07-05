@@ -17,7 +17,7 @@ window.cs = stayService
 
 async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: '' }) {
     var stays = await storageService.query(STORAGE_KEY)
-    const { minPrice, sortField, sortDir, startDate, endDate, byUserId, amenities, guests } = filterBy
+    const { type, minPrice, sortField, sortDir, startDate, endDate, byUserId, amenities, guests } = filterBy
 
     const txt = filterBy.txt || filterBy.search
 
@@ -37,12 +37,35 @@ async function query(filterBy = { txt: '', minPrice: 0, startDate: '', endDate: 
     if (startDate && endDate) {
         stays = stays.filter(stay => _isStayAvailable(stay, startDate, endDate))
     }
+    if (type) {
+        stays = stays.filter(stay => stay.type?.toLowerCase() === type.toLowerCase())
+    }
 
+    // if (amenities) {
+    //     const wanted = amenities.split(',').map(a => a.trim().toLowerCase()).filter(a => a)
+    //     stays = stays.filter(stay => {
+    //         const stayAmenities = (stay.amenities || []).map(a => a.toLowerCase())
+    //         return wanted.every(want => stayAmenities.includes(want))
+    //     })
+    // }
     if (amenities) {
-        const wanted = amenities.split(',').map(a => a.trim()).filter(a => a)
-        stays = stays.filter(stay =>
-            wanted.every(want => stay.amenities?.includes(want))
-        )
+        console.log('--- AMENITIES FILTER TRIGGERED ---')
+        console.log('Raw string from URL filterBy:', amenities)
+
+        const wanted = amenities.split(',').map(a => a.trim().toLowerCase()).filter(a => a)
+        console.log('Parsed wanted array (lowercase):', wanted)
+
+        stays = stays.filter(stay => {
+            const stayAmenities = (stay.amenities || []).map(a => a.toLowerCase())
+            const matchesAll = wanted.every(want => stayAmenities.includes(want))
+
+            // This will log every single home and whether it passes or fails
+            console.log(`Stay: ${stay.name} | Has: [${stayAmenities}] | Matches all? ${matchesAll}`)
+            return matchesAll
+        })
+
+        console.log('Stays left after amenities filter:', stays.length)
+        console.log('---------------------------------')
     }
 
     if (guests) {

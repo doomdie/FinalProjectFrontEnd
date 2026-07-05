@@ -109,17 +109,17 @@ export function AppHeader() {
 
 
 	function toggleAmenity(amenity) {
-		const next = activeAmenities.includes(amenity)
-			? activeAmenities.filter(a => a !== amenity)
-			: [...activeAmenities, amenity]
+    const next = activeAmenities.includes(amenity)
+        ? activeAmenities.filter(a => a !== amenity)
+        : [...activeAmenities, amenity]
 
-		const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParams)
 
-		if (next.length) params.set('amenities', next.join(','))
-		else params.delete('amenities')
+    if (next.length) params.set('amenities', next.join(','))
+    else params.delete('amenities')
 
-		setSearchParams(params)
-	}
+    navigate(`/search?${params.toString()}`)
+}
 
 	function onOpenSectionFromSmall(section) {
 		setForcedSection(section)
