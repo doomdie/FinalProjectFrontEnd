@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux'
 import { StayMiniList } from '../cmps/StayMiniList'
 import { loadStays, removeStay } from '../store/actions/stay.actions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { userService } from '../services/user/user.service.local.js'
+import { userService } from '../services/user'
+
 import { loadOrders } from '../store/actions/order.actions'
 export function PublicProfile() {
   const { id } = useParams()

@@ -19,15 +19,18 @@ export async function loadUsers() {
 }
 export async function checkLoggedinUser() {
     try {
-        const user = await userService.getById('session') 
+        const user = await userService.checkLoggedinUser() 
         
         if (user) {
             store.dispatch({ type: SET_USER, user })
             socketService.login(user._id)
+            return user
+        } else {
+            store.dispatch({ type: SET_USER, user: null })
         }
     } catch (err) {
-        console.log('No active session found on backend wrapper boot.')
-        store.dispatch({ type: SET_USER, user: null }) 
+        console.log('No active session handshake found on backend boot.', err)
+        store.dispatch({ type: SET_USER, user: null })
     }
 }
 export async function removeUser(userId) {

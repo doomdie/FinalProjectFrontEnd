@@ -1,6 +1,6 @@
 const { DEV, VITE_LOCAL } = import.meta.env
 
-import { userService as local } from './user.service.local'
+// import { userService as local } from './user.service.local'
 import { userService as remote } from './user.service.remote'
 
 function getEmptyUser() {
@@ -13,8 +13,9 @@ function getEmptyUser() {
     }
 }
 
-const service = (VITE_LOCAL === 'true')? local : remote
+// const service = (VITE_LOCAL === 'true')? local : remote
 // const service = local
+const service = remote
 export const userService = { ...service, getEmptyUser }
 
 // Easy access to this service from the dev tools console

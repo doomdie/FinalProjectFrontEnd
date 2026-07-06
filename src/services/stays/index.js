@@ -1,6 +1,6 @@
 const { DEV, VITE_LOCAL } = import.meta.env
 
-import { stayService as local } from './stays.service.local'
+// import { stayService as local } from './stays.service.local'
 import { stayService as remote } from './stays.service.remote'
 
 

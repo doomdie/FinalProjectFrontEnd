@@ -1,4 +1,5 @@
-import { userService } from '../services/user/user.service.local.js'
+// import { userService } from '../services/user/user.service.local.js'
+import { userService } from '../services/user'
 
 import { StayCard } from './StayCard.jsx'
 
