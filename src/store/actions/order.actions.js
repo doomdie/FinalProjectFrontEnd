@@ -1,4 +1,4 @@
-import { orderService } from '../../services/orders/orders.service.local'
+import { orderService } from '../../services/orders'
 import { store } from '../store'
 import { SET_HOST_ORDERS, SET_GUEST_ORDERS } from '../reducers/order.reducer'
 export async function loadOrders(filterBy = {}) {

@@ -8,16 +8,20 @@ import { WishlistPage } from './pages/WishlistPage.jsx'
 import { SearchPage } from './pages/SearchPage.jsx'
 import { BecomeAHost } from './pages/BecomeAHost.jsx'
 import { HostMenu } from './pages/HostMenu.jsx'
+import { useEffect } from 'react'
 
 /*=== CMPS ===*/
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
 import { UserDetails } from './pages/UserDetails'
 import { PublicProfile } from './pages/PublicProfile.jsx'
-
+import { checkLoggedinUser } from './store/actions/user.actions'
 import { UserMsg } from './cmps/UserMsg'
 
 export function RootCmp() {
+    useEffect(() => {
+        checkLoggedinUser()
+    }, [])
     const location = useLocation()
     const isHostPage = location.pathname === '/become-a-host'
     return (
@@ -29,10 +33,12 @@ export function RootCmp() {
 
                 <Route path="" element={<HomesPage />} />
                 <Route path="/homes" element={<HomesPage />} />
-                <Route path="homes/:stayId" element={<StayDetails />} />
+                {/* <Route path="homes/:stayId" element={<StayDetails />} /> */}
+                <Route path="/homes/:stayId" element={<StayDetails />} />
                 <Route path="/experiences" element={<HomesPage />} />
                 <Route path="/services" element={<HomesPage />} />
-                <Route path="user/:id" element={<UserDetails />} />
+                {/* <Route path="user/:id" element={<UserDetails />} /> */}
+                <Route path="/user/:id" element={<UserDetails />} />
                 <Route path="profile/:id" element={<PublicProfile />} />
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/wishlist" element={<WishlistPage />} />

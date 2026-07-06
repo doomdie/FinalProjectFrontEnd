@@ -17,7 +17,19 @@ export async function loadUsers() {
         store.dispatch({ type: LOADING_DONE })
     }
 }
-
+export async function checkLoggedinUser() {
+    try {
+        const user = await userService.getById('session') 
+        
+        if (user) {
+            store.dispatch({ type: SET_USER, user })
+            socketService.login(user._id)
+        }
+    } catch (err) {
+        console.log('No active session found on backend wrapper boot.')
+        store.dispatch({ type: SET_USER, user: null }) 
+    }
+}
 export async function removeUser(userId) {
     try {
         await userService.remove(userId)

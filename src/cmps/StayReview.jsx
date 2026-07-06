@@ -16,7 +16,7 @@ export function StayReview({ stay }) {
           const targetUserId = review.by.id || review.by._id
 
           return (
-            <article key={review.by._id || idx} className="review-card">
+            <article key={`${review.by._id || 'rev'}-${idx}`} className="review-card">
               <header className="review-header">
 
 

@@ -13,7 +13,7 @@ export async function loadStays(filterBy) {
         store.dispatch({ type: 'SET_IS_LOADING', isLoading: false })
         throw err
     }
-} 
+}
 //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 // export async function loadHostStays(hostId) {
 //     try {
@@ -41,10 +41,15 @@ export async function removeStay() {
 }
 export async function loadStay(stayId) {
     try {
+        store.dispatch({ type: 'SET_IS_LOADING', isLoading: true })
+
         const stay = await stayService.getById(stayId)
         store.dispatch(getCmdSetStay(stay))
+
+        store.dispatch({ type: 'SET_IS_LOADING', isLoading: false })
     } catch (err) {
-        console.log('Cannot load car', err)
+        console.log('Cannot load stay', err) 
+        store.dispatch({ type: 'SET_IS_LOADING', isLoading: false })
         throw err
     }
 }

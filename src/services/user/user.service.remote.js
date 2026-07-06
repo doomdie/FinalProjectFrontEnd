@@ -12,6 +12,7 @@ export const userService = {
 	update,
     getLoggedinUser,
     saveLoggedinUser,
+	checkSessionUser
 }
 
 function getUsers() {
@@ -58,7 +59,9 @@ async function logout() {
 function getLoggedinUser() {
     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
 }
-
+async function checkSessionUser() {
+    return await httpService.get('auth/check') 
+}
 function saveLoggedinUser(user) {
 	user = { 
         _id: user._id, 

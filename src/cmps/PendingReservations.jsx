@@ -1,81 +1,83 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { loadOrders, saveOrder } from '../store/actions/order.actions'
+import { loadOrders } from '../store/actions/order.actions'
 
 export function PendingReservations() {
-  const user = useSelector(storeState => storeState.userModule.user)
-  const orders = useSelector(storeState => storeState.orderModule.hostOrders)
-  const approvedOrders = orders.filter(order => order.status === 'approved')
-  useEffect(() => {
-    if (!user) return
+    const user = useSelector(storeState => storeState.userModule.user)
+    const orders = useSelector(storeState => storeState.orderModule.hostOrders) || []
 
-    loadOrders({ hostId: user._id })
+    useEffect(() => {
+        if (!user?._id) return
 
-    function onTabFocus() {
-      loadOrders({ hostId: user._id })
+        loadOrders({ hostId: user._id })
+
+        function onTabFocus() {
+            loadOrders({ hostId: user._id })
+        }
+
+        window.addEventListener('focus', onTabFocus)
+        return () => {
+            window.removeEventListener('focus', onTabFocus)
+        }
+    }, [user?._id])
+
+    const today = new Date()
+
+    const activeReservations = orders.filter(order => {
+        const checkoutDate = new Date(order.endDate)
+        return checkoutDate >= today
+    })
+
+    const completedReservations = orders.filter(order => {
+        const checkoutDate = new Date(order.endDate)
+        return checkoutDate < today
+    })
+
+    if (!orders.length) {
+        return <main className="pending-main"><p>No reservations booked for your listings yet.</p></main>
     }
 
-    window.addEventListener('focus', onTabFocus)
-    return () => {
-      window.removeEventListener('focus', onTabFocus)
-    }
-  }, [user])
+    return (
+        <main className="pending-main">
+            <h2>Active & Upcoming Reservations</h2>
+            {!activeReservations.length ? (
+                <p>No active or upcoming reservations.</p>
+            ) : (
+                <ul className="clean-list dashboard-orders-list">
+                    {activeReservations.map(order => (
+                        <li key={order._id} className="order-item upcoming">
+                            <div className="order-details">
+                                <p><strong>Stay:</strong> {order.stay.name}</p>
+                                <p><strong>Guest:</strong> {order.buyer.fullname}</p>
+                                <p><strong>Dates:</strong> {order.startDate} – {order.endDate}</p>
+                                <p><strong>Total Earnings:</strong> ₪{order.totalPrice}</p>
+                            </div>
+                            <span className="trip-status-badge upcoming">Confirmed</span>
+                        </li>
+                    ))}
+                </ul>
+            )}
 
-  async function onUpdateStatus(order, status) {
-    try {
-      const updatedOrder = { ...order, status }
-      await saveOrder(updatedOrder)
-    } catch {
-      console.log("UGH")
-    }
-  }
+            <hr />
 
-  const pendingOrders = orders.filter(order => order.status === 'pending')
-
- return (
-    <main className="pending-main">
-      <h2>Pending Reservations</h2>
-      {!pendingOrders.length ? (
-        <p>No pending reservations to approve right now.</p>
-      ) : (
-        <ul className="clean-list dashboard-orders-list">
-          {pendingOrders.map(order => (
-            <li key={order._id} className="order-item">
-              <div className="order-details">
-                <p><strong>Stay:</strong> {order.stay.name}</p>
-                <p><strong>Guest:</strong> {order.buyer.fullname}</p>
-                <p><strong>Dates:</strong> {order.startDate} – {order.endDate}</p>
-                <p><strong>Total:</strong> ₪{order.totalPrice}</p>
-              </div>
-              <div className="order-actions">
-                <button className="btn-approve" onClick={() => onUpdateStatus(order, 'approved')}>Accept</button>
-                <button className="btn-decline" onClick={() => onUpdateStatus(order, 'declined')}>Decline</button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <hr />
-
-      <h2>Approved Reservations</h2>
-      {!approvedOrders.length ? (
-        <p>No approved reservations yet.</p>
-      ) : (
-        <ul className="clean-list dashboard-orders-list">
-          {approvedOrders.map(order => (
-            <li key={order._id} className="order-item approved">
-              <div className="order-details">
-                <p><strong>Stay:</strong> {order.stay.name}</p>
-                <p><strong>Guest:</strong> {order.buyer.fullname}</p>
-                <p><strong>Dates:</strong> {order.startDate} – {order.endDate}</p>
-                <p><strong>Total:</strong> ₪{order.totalPrice}</p>
-              </div>
-              <div className="order-status-badge approved">✓ Accepted</div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </main>
-  )
+            <h2>Completed Reservations</h2>
+            {!completedReservations.length ? (
+                <p>No completed historic reservations yet.</p>
+            ) : (
+                <ul className="clean-list dashboard-orders-list">
+                    {completedReservations.map(order => (
+                        <li key={order._id} className="order-item completed">
+                            <div className="order-details">
+                                <p><strong>Stay:</strong> {order.stay.name}</p>
+                                <p><strong>Guest:</strong> {order.buyer.fullname}</p>
+                                <p><strong>Dates:</strong> {order.startDate} – {order.endDate}</p>
+                                <p><strong>Total Earned:</strong> ₪{order.totalPrice}</p>
+                            </div>
+                            <span className="trip-status-badge completed">Finished</span>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </main>
+    )
 }

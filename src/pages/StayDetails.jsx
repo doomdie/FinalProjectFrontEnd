@@ -12,11 +12,15 @@ import Divider from '@mui/material/Divider';
 import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 
 export function StayDetails() {
+  
   const { stayId } = useParams()
+  console.log('--- STAY DETAILS MOUNT/RENDER ---')
+  console.log('Extracted stayId from URL params:', stayId)
   const navigate = useNavigate()
   const [mobileFooterData, setMobileFooterData] = useState({ price: 0, dateRange: 'Add dates' })
   const [isExpanded, setIsExpanded] = useState(false)
   const stay = useSelector(storeState => storeState.stayModule.stay)
+  console.log('Current stay value from Redux store:', stay)
   console.log(stay)
   const placeholderAvatar = 'https://images.pexels.com/photos/18039300/pexels-photo-18039300.jpeg'
 
@@ -24,12 +28,10 @@ export function StayDetails() {
     loadStay(stayId)
 
     return () => {
-      store.dispatch({ type: 'SET_STAY', stay: null })
     }
   }, [stayId])
 
-  const isLoading = !stay;
-
+  const isLoading = !stay || stay._id !== stayId;
   return (
     <section className="stay-details">
       <SkeletonLoader variant="details" isLoading={isLoading} />

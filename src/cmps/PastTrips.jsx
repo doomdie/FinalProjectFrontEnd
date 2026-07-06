@@ -12,17 +12,24 @@ export function PastTrips() {
     }, [user?._id])
 
     if (!trips.length) {
-        return <p className="no-trips-text">No past trips found.</p>
+        return <p className="no-trips-text">No trips found.</p>
     }
 
     return (
         <section className="past-trips-section">
-            <h2>Past Trips</h2>
+            <h2>Your Trips</h2>
 
             <div className="trips-grid">
                 {trips.map((trip) => {
                     const startDisplay = trip.startDate ? new Date(trip.startDate).toLocaleDateString() : ''
                     const endDisplay = trip.endDate ? new Date(trip.endDate).toLocaleDateString() : ''
+
+                    const today = new Date()
+                    const checkoutDate = new Date(trip.endDate)
+                    
+                    const isCompleted = checkoutDate < today
+                    const tripStatus = isCompleted ? 'Completed' : 'Upcoming'
+                    const statusClass = isCompleted ? 'completed' : 'upcoming'
 
                     return (
                         <div key={trip._id || trip.id || Math.random()} className="trip-card">
@@ -39,8 +46,9 @@ export function PastTrips() {
                                     {startDisplay} - {endDisplay}
                                 </p>
                                 <p className="trip-price">Total Paid: ₪{trip.totalPrice || trip.price || '0'}</p>
-                                <span className="trip-status-badge">
-                                    {trip.status || 'Completed'}
+                                
+                                <span className={`trip-status-badge ${statusClass}`}>
+                                    {tripStatus}
                                 </span>
                             </div>
                         </div>
