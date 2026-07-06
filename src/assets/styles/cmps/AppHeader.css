@@ -14,10 +14,9 @@
 }
 
 .app-header.scrolled {
-    padding-top: 0.7rem;
-    padding-bottom: 0.3rem;
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-md);
 }
-
 
 /* ===== CENTER COLUMN (tabs + search stacked) ===== */
 .app-header .header-center {

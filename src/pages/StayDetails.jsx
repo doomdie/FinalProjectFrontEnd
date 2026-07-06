@@ -10,6 +10,10 @@ import { StayReview } from "../cmps/StayReview"
 import { ReadMore } from '../cmps/ReadMore'
 import Divider from '@mui/material/Divider';
 import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
+import { SvgIcon } from '../services/svg.service.jsx'
+import { HeartButton } from '../cmps/HeartButton.jsx'
+import { getFakeRating, getFakeHostingYears } from '../services/util.service.js'
+
 
 export function StayDetails() {
   const { stayId } = useParams()
@@ -66,7 +70,22 @@ export function StayDetails() {
               </button>
             </div>
           </header>
-          <h1>{stay.name}</h1>
+
+
+          <div className="details-title-row">
+            <h1>{stay.name}</h1>
+
+            <div className="details-title-actions">
+              <button className="details-action-btn">
+                <SvgIcon iconName="share" />
+                <span>Share</span>
+              </button>
+              <button className="details-action-btn details-save-btn">
+                <HeartButton stayId={stay._id} className="save-heart" />
+                <span>Save</span>
+              </button>
+            </div>
+          </div>
 
           <div className="details-gallery">
             {stay.imgUrls.map((url, index) => (
@@ -83,14 +102,22 @@ export function StayDetails() {
             <section className="stay-info-main">
               <header className="stay-overview-header">
                 <h4>{stay.roomType} in {stay.loc.city}</h4>
-                <ul className="stay-info-list">
-                  <ol className="stay-info-ol">
-                    <li> {stay.capacity}+  Guest{stay.capacity > 1 ? 's' : ''}</li>
-                    <li><span className="listSeperator">·</span>{stay.bedrooms} Bedroom{stay.bedrooms > 1 ? 's' : ''}<span className="listSeperator">·</span> </li>
-                    <li> {stay.bathrooms} Bathrooms{stay.bathrooms > 1 ? 's' : ''}</li>
-                  </ol>
-                </ul>
-                <div className="stay-header-reviews"></div>
+
+                <div className="stay-info-line">
+                  {stay.capacity} guest{stay.capacity > 1 ? 's' : ''}
+                  <span className="listSeperator">·</span>
+                  {stay.bedrooms} bedroom{stay.bedrooms > 1 ? 's' : ''}
+                  <span className="listSeperator">·</span>
+                  {stay.bathrooms} bathroom{stay.bathrooms > 1 ? 's' : ''}
+                </div>
+
+
+                <div className="stay-header-reviews">
+                  ★ {getFakeRating(stay)}
+                  <span className="listSeperator">·</span>
+                  {stay.reviews?.length || 0} review{stay.reviews?.length === 1 ? '' : 's'}
+                </div>
+
               </header>
 
               <section className="further-details">
@@ -102,11 +129,16 @@ export function StayDetails() {
                       alt={stay.name}
                       className="stay-card-img"
                     />
+
+
                     <div className="host-text">
                       {stay.host && <span className="host-name">Hosted by {stay.host.fullname}</span>}
-                      {stay.host?.isSuperHost && <p>Superhost *Placeholder</p>}
-                      {stay.host && !stay.host.isSuperHost && <span className="host-undertext">Yo! This is a placeholder!</span>}
+                      <span className="host-undertext">
+                        {stay.host?.isSuperhost && <>Superhost<span className="listSeperator">·</span></>}
+                        {getFakeHostingYears(stay)} years hosting
+                      </span>
                     </div>
+
                   </section>
                   <Divider sx={{ borderColor: '#e0e0e0' }} />
                   <section className="stay-highlights">

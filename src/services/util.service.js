@@ -51,3 +51,22 @@ export function loadFromStorage(key) {
     const data = localStorage.getItem(key)
     return (data) ? JSON.parse(data) : undefined
 }
+
+
+// FAKE rating — no numeric rating in data, derived from END of _id.
+// ONE source of truth: every page imports this.
+export function getFakeRating(stay) {
+    if (!stay?._id || stay._id.length < 3) return 4.8
+    const idLen = stay._id.length
+    const ratingSeed = stay._id.charCodeAt(idLen - 1) * 31 + stay._id.charCodeAt(idLen - 2) * 17 + stay._id.charCodeAt(idLen - 3) * 7
+    return parseFloat((4.6 + (ratingSeed % 40) / 100).toFixed(2))
+}
+
+
+// FAKE hosting years — no such data, derived from END of _id like the rating. Stable per stay, 2–11 years.
+export function getFakeHostingYears(stay) {
+    if (!stay?._id || stay._id.length < 3) return 5
+    const idLen = stay._id.length
+    const seed = stay._id.charCodeAt(idLen - 1) * 23 + stay._id.charCodeAt(idLen - 2) * 11
+    return 2 + (seed % 10)
+}

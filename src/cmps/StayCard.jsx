@@ -4,6 +4,8 @@ import { Rating } from '@mui/material'
 
 import { SvgIcon } from '../services/svg.service.jsx'
 import { HeartButton } from './HeartButton.jsx'
+import { getFakeRating } from '../services/util.service.js'
+
 
 export function StayCard({ stay }) {
     // --- YAIR'S VERSION ---
@@ -32,9 +34,8 @@ export function StayCard({ stay }) {
     const monthIdx = 6 + ((dateSeed >> 4) % 2)                        // 6=Jul or 7=Aug only
     const endDay = Math.min(startDay + span, 30)                     // cap end at 28 so no invalid days
     const fakeDateRange = `${months[monthIdx]} ${startDay} – ${endDay}`
-    // scramble several id chars so ratings look random, not sequential; parseFloat drops trailing zeros (4.80 → 4.8)
-    const ratingSeed = stay._id.charCodeAt(idLen - 1) * 31 + stay._id.charCodeAt(idLen - 2) * 17 + stay._id.charCodeAt(idLen - 3) * 7
-    const fakeRating = parseFloat((4.6 + (ratingSeed % 40) / 100).toFixed(2))  // FAKE: 4.60–4.99, scrambled, no trailing zero
+    // FAKE rating — shared via util.service, one source of truth
+    const fakeRating = getFakeRating(stay)
     const nights = 5                                                   // FAKE: matches fakeDateRange span
     const totalPrice = stay.price * nights                             // total = real nightly price × fake nights
     // ===============================================

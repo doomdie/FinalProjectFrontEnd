@@ -1,10 +1,84 @@
 .stay-details {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 24px;
     box-sizing: border-box;
     width: 100%;
+    max-width: 1120px;
+    padding: 0 24px;
+    margin: 0 auto;
 }
+
+.details-title-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+
+.details-title-row h1 {
+    font-size: 26px;
+    line-height: 30px;
+    font-weight: var(--typography-weight-medium500);
+    margin: 0;
+    color: var(--color-text);
+}
+
+.details-title-actions {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+
+    margin-bottom: -8px;
+    margin-right: -8px;
+}
+
+.details-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 6px;
+    background: none;
+    border: none;
+    border-radius: 8px;
+
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: var(--typography-weight-medium500);
+    color: var(--color-text);
+
+    cursor: pointer;
+
+}
+
+.details-action-btn span {
+    text-decoration: underline;
+}
+
+.details-action-btn:hover {
+    background-color: var(--palette-grey100);
+}
+
+/* heart inside Save: kill the inline filled style from svg.service */
+.details-save-btn .save-heart {
+    display: flex;
+}
+
+.details-save-btn .save-heart svg {
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2 !important;
+    height: 16px !important;
+    width: 16px !important;
+}
+
+.details-save-btn .save-heart.liked svg {
+    fill: var(--color-primary) !important;
+    stroke: var(--color-primary) !important;
+}
+
 
 .details-gallery {
     --gallery-row-height: 260px;
@@ -24,15 +98,22 @@
     height: 100%;
     object-fit: cover;
 }
-.listSeperator {
-    font-weight:400;
-    line-height:20px;
-    font-size:16px;
-    letter-spacing:normal;
-    margin: 0 4px;
-    align-self:center;
-    color:rgb(34, 34, 34)
+
+.details-gallery .stay-card-img:hover {
+    filter: brightness(0.85);
+    cursor: pointer;
 }
+
+.listSeperator {
+    font-weight: 400;
+    line-height: 20px;
+    font-size: 16px;
+    letter-spacing: normal;
+    margin: 0 4px;
+    align-self: center;
+    color: inherit;
+}
+
 .details-gallery .stay-card-img:first-child {
     grid-column: span 2;
     grid-row: span 2;
@@ -47,47 +128,32 @@
     font-size: 22px;
     margin-top: 36px;
     margin-bottom: 4px;
-    font-family: 'Airbnb', sans-serif; 
+    font-family: 'Airbnb', sans-serif;
     font-weight: 700;
-    color:black;
+    color: black;
 }
 
 .stay-overview-header h2,
 .stay-overview-header h3,
 .stay-overview-header h4 {
     font-family: Airbnb Cereal VF, Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
-}   
-.stay-info-list {
-    margin-top: 4px;
-    margin:0;
-    padding:0;
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-
-
-
-}
-.stay-info-ol {
-    display: flex; 
-    flex-direction: row;
-
-    
-
-    gap: 6px ;
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
 }
 
-
-.stay-info-list li {
-    display:inline-block;
-    font-size: 1rem;
-    
-
-
+.stay-info-line {
+    font-size: var(--typography-body-text_16_20-font-size);
+    line-height: var(--typography-body-text_16_20-line-height);
+    color: var(--palette-grey800);
 }
+
+.stay-header-reviews {
+    margin-top: 8px;
+
+    font-size: 17px;
+    line-height: 20px;
+    font-weight: var(--typography-weight-medium500);
+    color: var(--color-text);
+}
+
 .stay-info-main {
     padding-bottom: 300px;
 }
@@ -104,12 +170,13 @@
     margin-top: 24px;
     margin-bottom: 24px;
 }
+
 .host-name {
     font-weight: var(--typography-weight-medium500);
     line-height: var(--typography-body-text_16_20-line-height);
     font-size: var(--typography-body-text_16_20-font-size);
     letter-spacing: var(--typography-body-text_16_20-letter-spacing);
-    color:black;
+    color: black;
 }
 
 .host-undertext {
@@ -118,6 +185,7 @@
     color: var(--palette-foggy);
 
 }
+
 .host-profile img {
     height: 40px;
     width: 40px;
@@ -131,18 +199,21 @@
     flex-direction: column;
     justify-content: center;
 }
+
 @media (max-width: 950px) {
     .details-gallery {
         --gallery-row-height: 180px;
         --gallery-gap: 6px;
     }
-}@media (max-width: 721px) {
+}
+
+@media (max-width: 721px) {
     .details-gallery {
         --gallery-row-height: 220px;
         --gallery-gap: 4px;
         grid-template-columns: 1fr;
         grid-template-rows: auto;
-        grid-auto-rows: var(--gallery-row-height); 
+        grid-auto-rows: var(--gallery-row-height);
     }
 
     .details-gallery .stay-card-img:first-child {
@@ -165,6 +236,7 @@
     position: relative;
     box-sizing: border-box;
 }
+
 .modal-login-content {
     display: flex;
     justify-content: center;
@@ -173,6 +245,7 @@
     border-bottom: 1px solid #ebebeb;
     padding-bottom: 12px;
 }
+
 .modal-login-content button {
     background: none;
     border: none;
@@ -184,13 +257,17 @@
     position: relative;
     transition: color 0.2s ease;
 }
-.login-form, .signup-form {
+
+.login-form,
+.signup-form {
     display: flex;
     flex-direction: column;
     width: 100%;
     box-sizing: border-box;
 }
-.login-form h2, .signup-form h2 {
+
+.login-form h2,
+.signup-form h2 {
     color: #222222;
     font-size: 22px;
     font-weight: 600;
@@ -199,7 +276,8 @@
     text-align: left;
 }
 
-.login-form input, .signup-form input {
+.login-form input,
+.signup-form input {
     width: 100%;
     padding: 18px 12px;
     font-size: 16px;
@@ -209,19 +287,20 @@
     outline: none;
     box-sizing: border-box;
 }
+
 html {
-    scrollbar-gutter: stable !important; 
+    scrollbar-gutter: stable !important;
 }
 
 
-.sticky-part-one .date-pickers-trigger > div {
+.sticky-part-one .date-pickers-trigger>div {
     padding: 10px 12px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
 }
 
-.sticky-part-one .date-pickers-trigger > div:first-of-type {
+.sticky-part-one .date-pickers-trigger>div:first-of-type {
     border-right: 1px solid #b0b0b0;
 }
 
@@ -240,12 +319,14 @@ html {
     color: var(--palette-text-secondary);
     font-weight: var(--typography-weight-book400);
 }
+
 .mobile-only-header {
     display: none;
 }
 
 @media (max-width: 950px) {
-    .app-header, 
+
+    .app-header,
     header:not(.stay-overview-header):not(.mobile-only-header) {
         display: none !important;
     }
@@ -290,7 +371,7 @@ html {
         gap: 32px;
     }
 
-    .stay-content-container > :last-child {
+    .stay-content-container> :last-child {
         position: static !important;
         width: 100%;
     }
@@ -298,8 +379,9 @@ html {
     .stay-info-main {
         padding-bottom: 0 !important;
     }
-    
+
 }
+
 @media (max-width: 721px) {
     .stay-details .details-gallery {
         margin-top: 0 !important;
@@ -319,6 +401,7 @@ html {
         padding: 0 4px !important;
     }
 }
+
 @media (max-width: 450px) {
     .stay-details {
         padding: 0 12px !important;
@@ -364,12 +447,13 @@ html {
         flex-shrink: 0 !important;
     }
 }
+
 .mobile-sticky-footer {
     display: none;
 }
 
 @media (max-width: 950px) {
-    .stay-content-container > :last-child {
+    .stay-content-container> :last-child {
         display: none !important;
     }
 

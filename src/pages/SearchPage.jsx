@@ -8,6 +8,7 @@ import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps'
 import { wishlistService } from '../services/stays/wishlist.service.js'
 import { HeartButton } from '../cmps/HeartButton.jsx'
+import { getFakeRating } from '../services/util.service.js'
 
 const STAYS_PER_PAGE = 18  // 9 rows × 2 columns
 
@@ -152,8 +153,7 @@ export function SearchPage() {
                             fakeDateRange = `${months[monthIdx]} ${startDay} – ${endDay}`   // FAKE
                             nights = span                                                     // matches the fake range
                         }
-                        const ratingSeed = stay._id.charCodeAt(idLen - 1) * 31 + stay._id.charCodeAt(idLen - 2) * 17 + stay._id.charCodeAt(idLen - 3) * 7
-                        const fakeRating = parseFloat((4.6 + (ratingSeed % 40) / 100).toFixed(2))  // FAKE: 4.60–4.99
+                        const fakeRating = getFakeRating(stay)  // FAKE — shared via util.service, one source of truth
                         const reviewCount = stay.reviewCount || 0                       // real
                         const totalPrice = stay.price * nights                          // real nightly × nights
                         const hasFreeCancellation = idx % 4 === 0                       // FAKE: every 4th card

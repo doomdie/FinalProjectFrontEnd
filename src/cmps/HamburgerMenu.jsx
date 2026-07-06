@@ -28,11 +28,14 @@ export function HamburgerMenu({ user, onLogout, onOpenLogin }) {
                             <>
                                 <Link
                                     to="/wishlist"
-                                    className="menu-item"
+                                    className="menu-item menu-item-primary"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
-                                    Wishlist
+                                    <SvgIcon iconName="heart" />
+                                    Wishlists
                                 </Link>
+
+                                <div className="menu-divider" />
 
                                 <button
                                     className="menu-item"
