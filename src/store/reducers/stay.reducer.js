@@ -5,9 +5,10 @@ export const SET_HOST_STAYS = 'SET_HOST_STAYS'
 
 
 const initialState = {
-    stays: [],
+    stays: null,
     stay: null,
     hostStays: [],
+    isLoading: true
 }
 
 export function stayReducer(state = initialState, action) {
@@ -18,7 +19,7 @@ export function stayReducer(state = initialState, action) {
             newState = { ...state, hostStays: action.hostStays }
             break
         case SET_STAYS:
-            newState = { ...state, stays: action.stays }
+            newState = { ...state, stays: action.stays, isLoading: false }
             break
         case ADD_STAY:
             newState = { ...state, stays: [...state.stays, action.stay] }

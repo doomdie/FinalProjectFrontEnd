@@ -32,8 +32,9 @@ export function SearchBarBig({ forcedSection = null, onOpenChange = () => { } })
     for (const stay of stays || []) {
         if (seenTypes.has(stay.type)) continue
         seenTypes.add(stay.type)
-        suggestions.push({ type: stay.type, city: stay.loc.city })
-        if (suggestions.length === 6) break
+        if (stay && stay.loc) {
+            suggestions.push({ type: stay?.type || '', city: stay?.loc?.city || '' })
+        } if (suggestions.length === 6) break
     }
 
     const searchBarRef = useRef()   // the search-bar div, for click-outside check

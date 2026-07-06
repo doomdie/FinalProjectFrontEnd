@@ -18,7 +18,7 @@ export function UserDetails() {
 
   const userId = user?._id || user?.id
 
-  const hostStays = stays ? stays.filter(stay => {
+  const hostStays = Array.isArray(stays) ? stays.filter(stay => {
     return stay.host?._id === userId || stay.host?.id === userId
   }) : []
 
@@ -55,7 +55,7 @@ export function UserDetails() {
   if (!user) return null
 
   const now = new Date()
-  
+
   const pastTrips = guestOrders ? guestOrders.filter(order => {
     const isBuyer = order.buyer?._id === userId || order.buyer?.id === userId
     const tripEndDate = order.endDate ? new Date(order.endDate) : null

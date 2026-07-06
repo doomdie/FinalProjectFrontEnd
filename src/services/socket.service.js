@@ -11,20 +11,18 @@ export const SOCKET_EVENT_REVIEW_ADDED = 'review-added'
 export const SOCKET_EVENT_REVIEW_REMOVED = 'review-removed'
 export const SOCKET_EVENT_REVIEW_ABOUT_YOU = 'review-about-you'
 
-export const SOCKET_EMIT_ORDER_SUBMITTED = 'order-submitted'
-export const SOCKET_EMIT_ORDER_STATUS_CHANGED = 'order-status-changed'
-export const SOCKET_EVENT_ORDER_ADDED = 'order-added'
-export const SOCKET_EVENT_ORDER_UPDATED = 'order-updated'
-
 const SOCKET_EMIT_LOGIN = 'set-user-socket'
 const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
 
+
 const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
 
-export const socketService = createDummySocketService()
+export const socketService = (VITE_LOCAL === 'true')? createDummySocketService() : createSocketService()
+
 if (DEV) window.socketService = socketService
 
 socketService.setup()
+
 
 function createSocketService() {
   var socket = null
@@ -54,6 +52,7 @@ function createSocketService() {
     terminate() {
       socket = null
     },
+
   }
   return socketService
 }
@@ -87,12 +86,6 @@ function createDummySocketService() {
       if (eventName === SOCKET_EMIT_SEND_MSG) {
         listeners = listenersMap[SOCKET_EVENT_ADD_MSG]
       }
-      if (eventName === SOCKET_EMIT_ORDER_SUBMITTED) {
-        listeners = listenersMap[SOCKET_EVENT_ORDER_ADDED]
-      }
-      if (eventName === SOCKET_EMIT_ORDER_STATUS_CHANGED) {
-        listeners = listenersMap[SOCKET_EVENT_ORDER_UPDATED]
-      }
 
       if (!listeners) return
 
@@ -105,11 +98,18 @@ function createDummySocketService() {
     },
     testUserUpdate() {
       this.emit(SOCKET_EVENT_USER_UPDATED, { ...userService.getLoggedinUser(), score: 555 })
-    },
-    testIncomingOrder(orderPayload) {
-      this.emit(SOCKET_EVENT_ORDER_ADDED, orderPayload)
     }
   }
   window.listenersMap = listenersMap
   return socketService
 }
+
+
+// Basic Tests
+// function cb(x) {console.log('Socket Test - Expected Puk, Actual:', x)}
+// socketService.on('baba', cb)
+// socketService.on('baba', cb)
+// socketService.on('baba', cb)
+// socketService.on('mama', cb)
+// socketService.emit('baba', 'Puk')
+// socketService.off('baba', cb)

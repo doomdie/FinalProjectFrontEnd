@@ -6,33 +6,34 @@ export function UserInfo() {
 
     const loggedInUserId = user?._id || user?.id
 
-    const myStay = stays?.find(stay => {
-        const stayHostId = stay.host?.id || stay.host?._id
+    const safeStays = Array.isArray(stays) ? stays : []
+
+    const myStay = safeStays.find(stay => {
+        const stayHostId = stay?.host?.id || stay?.host?._id
         return stayHostId && loggedInUserId && stayHostId === loggedInUserId
     })
-
     const isHost = !!myStay
     const hostAbout = myStay?.host?.about || ''
 
     if (!user) return <div>Loading profile...</div>
 
     return (
-        <main className = "user-info-main">
-        <div className="profile-right-side">
-            <section className="profile-header">
-                {isHost && <span className="host-badge">🛡️ Host</span>}
-            </section>
+        <main className="user-info-main">
+            <div className="profile-right-side">
+                <section className="profile-header">
+                    {isHost && <span className="host-badge">🛡️ Host</span>}
+                </section>
 
-            <section className="about-section">
-                <h2>About</h2>
-                <p className="about-text">Hello, my name is {user.fullname || user.fullName}</p>
-                {isHost && hostAbout && <p className="host-about-text">{hostAbout}</p>}
-            </section>
+                <section className="about-section">
+                    <h2>About</h2>
+                    <p className="about-text">Hello, my name is {user.fullname || user.fullName}</p>
+                    {isHost && hostAbout && <p className="host-about-text">{hostAbout}</p>}
+                </section>
 
-            <section className="reviews-section">
-                <h2>⭐ Reviews Placeholder</h2>
-            </section>
-        </div>
+                <section className="reviews-section">
+                    <h2>⭐ Reviews Placeholder</h2>
+                </section>
+            </div>
         </main>
     )
 }
