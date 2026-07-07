@@ -130,7 +130,6 @@ export function StayDetails() {
                       className="stay-card-img"
                     />
 
-
                     <div className="host-text">
                       {stay.host && <span className="host-name">Hosted by {stay.host.fullname}</span>}
                       <span className="host-undertext">
@@ -140,11 +139,18 @@ export function StayDetails() {
                     </div>
 
                   </section>
+
                   <Divider sx={{ borderColor: '#e0e0e0' }} />
+
                   <section className="stay-highlights">
-                    <h3>Summary</h3>
                     <ReadMore text={stay.summary} />
                   </section>
+
+                  <Divider sx={{ borderColor: '#e0e0e0' }} />
+
+                  <AmenitiesList amenities={stay.amenities} />
+
+                  <Divider sx={{ borderColor: '#e0e0e0' }} />
                 </div>
               </section>
             </section>

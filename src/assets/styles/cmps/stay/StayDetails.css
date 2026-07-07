@@ -507,3 +507,71 @@ html {
         padding-bottom: 120px !important;
     }
 }
+
+
+
+
+/* ===== amenities — "What this place offers", Airbnb 2-col grid ===== */
+.amenities-section {
+    padding: 32px 0;
+}
+
+.amenities-section h3 {
+    margin: 0 0 24px;
+
+    font-size: 22px;
+    line-height: 26px;
+    font-weight: var(--typography-weight-medium500);
+    color: var(--color-text);
+}
+
+.amenities-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 48px;
+}
+
+.amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    min-height: 48px;
+}
+
+.amenity-icon {
+    display: flex;
+    flex-shrink: 0;
+    color: var(--color-text);
+}
+
+.amenity-text {
+    font-size: var(--typography-body-text_16_20-font-size);
+    line-height: var(--typography-body-text_16_20-line-height);
+    color: var(--color-text);
+}
+
+.amenities-show-all {
+    padding: 13px 23px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-text);
+    border-radius: var(--border-radius-button);
+    margin-top: 24px;
+
+    font-family: inherit;
+    font-size: var(--typography-body-text_16_20-font-size);
+    font-weight: var(--typography-weight-medium500);
+    color: var(--color-text);
+    
+    cursor: pointer;
+}
+
+.amenities-show-all:hover {
+    background: var(--color-bg-soft);
+}
+
+@media (max-width: 721px) {
+    .amenities-grid {
+        grid-template-columns: 1fr;
+    }
+}

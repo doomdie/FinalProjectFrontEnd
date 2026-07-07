@@ -1,38 +1,73 @@
-import { LuWifi, LuTv, LuChefHat, LuWaves, LuCar, LuLaptop, LuCigarette, LuShieldAlert } from 'react-icons/lu'
+import { SvgIcon } from '../services/svg.service.jsx'
 
-const AMENITY_MAP = {
-    'wifi': { icon: LuWifi, title: 'Wifi' },
-    'tv': { icon: LuTv, title: 'TV' },
-    'kitchen': { icon: LuChefHat, title: 'Kitchen' },
-    'pool': { icon: LuWaves, title: 'Pool' },
-    'free street parking': { icon: LuCar, title: 'Free street parking' },
-    'dedicated workspace': { icon: LuLaptop, title: 'Dedicated workspace' },
-    'washer': { icon: LuCigarette, title: 'Washer' }, 
-    'carbon monoxide alarm': { icon: LuShieldAlert, title: 'Carbon monoxide alarm' }
+// amenity name (lowercase) → icon key in svg.service. Real Airbnb SVGs.
+const AMENITY_ICON_MAP = {
+    'wifi': 'amWifi',
+    'internet': 'amWifi',
+    'pocket wifi': 'amWifi',
+    'kitchen': 'amKitchen',
+    'kitchenette': 'amKitchen',
+    'full kitchen': 'amKitchen',
+    'tv': 'amTv',
+    'cable tv': 'amTv',
+    'washer': 'amWasher',
+    'dryer': 'amWasher',
+    'smoke detector': 'amSmokeAlarm',
+    'smoke alarm': 'amSmokeAlarm',
+    'dedicated workspace': 'amWorkspace',
+    'laptop friendly workspace': 'amWorkspace',
+    'air conditioning': 'amAirConditioning',
+    'essentials': 'amEssentials',
+    'hangers': 'amHangers',
+    'carbon monoxide detector': 'amCarbonMonoxideAlarm',
+    'carbon monoxide alarm': 'amCarbonMonoxideAlarm',
+    'patio or balcony': 'amPatio',
+    'balcony': 'amPatio',
+    'iron': 'amIron',
+    'heating': 'amHeating',
+    'luggage dropoff allowed': 'amLuggage',
+    'luggage dropoff allowed': 'amLuggage',
+    'free parking on premises': 'amFreeParking',
+    'free street parking': 'amFreeParking',
+    'paid parking off premises': 'amFreeParking',
+    'paid parking on premises': 'amFreeParking',
+    'hair dryer': 'amHairDryer',
 }
-//I'll finish this after I just ''finish" the details page
-export function AmenitiesList({ amenities = [] }) {
+
+const PREVIEW_COUNT = 10   // Airbnb shows 10 in the grid, rest behind "Show all"
+
+export function AmenitiesList({ amenities = [], onShowAll }) {
+    // guard: drop empty strings and junk like "translation missing: en.hosting_amenity_49"
+    const cleanAmenities = amenities.filter(a => a && a.trim() && !a.startsWith('translation missing'))
+
+    if (!cleanAmenities.length) return null
+
+    const previewAmenities = cleanAmenities.slice(0, PREVIEW_COUNT)
+
     return (
-        <div className="amenities-section">
+        <section className="amenities-section">
             <h3>What this place offers</h3>
-            
+
             <div className="amenities-grid">
-                {amenities.map(amenityKey => {
-                    const config = AMENITY_MAP[amenityKey.toLowerCase().trim()]
-                    if (!config) return null
-
-                    const Icon = config.icon
-
+                {previewAmenities.map(amenity => {
+                    const iconKey = AMENITY_ICON_MAP[amenity.toLowerCase().trim()]
                     return (
-                        <div key={amenityKey} className="amenity-item">
+                        <div key={amenity} className="amenity-item">
                             <span className="amenity-icon">
-                                <Icon />
+                                {/* mapped amenities get the real Airbnb SVG, the rest a generic fallback — nothing is dropped */}
+                                <SvgIcon iconName={iconKey || 'house'} />
                             </span>
-                            <span className="amenity-text">{config.title}</span>
+                            <span className="amenity-text">{amenity}</span>
                         </div>
                     )
                 })}
             </div>
-        </div>
+
+            {cleanAmenities.length > PREVIEW_COUNT && (
+                <button className="amenities-show-all" onClick={onShowAll}>
+                    Show all {cleanAmenities.length} amenities
+                </button>
+            )}
+        </section>
     )
 }
