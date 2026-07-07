@@ -67,7 +67,7 @@ export function UserDetails() {
     <section className="user-details-full">
       <aside className="user-aside">
         <div className="aside-organizer">
-          <h3>Profile</h3>
+          <h3 className = "user-profile-title">Profile</h3>
           <button
             className={`tab-btn ${activeTab === 'details' ? 'active' : ''}`}
             onClick={() => setActiveTab('details')}
