@@ -32,6 +32,8 @@ export function AppHeader() {
 	const isDetailsPage = location.pathname.startsWith('/homes/') && location.pathname !== '/homes' && location.pathname !== '/homes/'
 	const isSearchPage = location.pathname.startsWith('/search')
 	const isHosting = location.pathname.startsWith('/hosting')
+	const isUser = location.pathname.startsWith('/user')
+
 	const tabsContainerRef = useRef()
 
 
@@ -158,7 +160,12 @@ export function AppHeader() {
 								}}
 							/>
 						</div>
-					) : (
+					) :  isUser ? <div className = "header-tabs host-tabs"></div>
+					
+					
+					
+					
+				:(
 						<>
 							<div className="header-tabs" ref={tabsContainerRef}>
 								<NavLink to="/" end>
@@ -191,7 +198,7 @@ export function AppHeader() {
 						</>)}
 				</div>
 
-				{!isHosting && <SearchBarSmall onOpenSection={onOpenSectionFromSmall} />}
+				{(!isHosting && !isUser) && <SearchBarSmall onOpenSection={onOpenSectionFromSmall} />}
 
 				{/* dark overlay on the page below the header while the big search is open */}
 				{isSearchOpen && <div className="page-overlay" />}
