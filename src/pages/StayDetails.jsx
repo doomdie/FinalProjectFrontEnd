@@ -13,6 +13,8 @@ import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 import { SvgIcon } from '../services/svg.service.jsx'
 import { HeartButton } from '../cmps/HeartButton.jsx'
 import { StayDetailsMap } from '../cmps/StayDetailsMap.jsx'
+import { StayDetailsNav } from '../cmps/StayDetailsNav.jsx'
+
 import { getFakeRating, getFakeHostingYears } from '../services/util.service.js'
 
 
@@ -41,6 +43,8 @@ export function StayDetails() {
 
       {stay && (
         <>
+          <StayDetailsNav />
+
           <header className="mobile-only-header">
             <button className="mobile-back-btn" onClick={() => navigate(-1)}>
               ‹
@@ -88,7 +92,7 @@ export function StayDetails() {
             </div>
           </div>
 
-          <div className="details-gallery">
+          <div className="details-gallery" id="photos">
             {stay.imgUrls.map((url, index) => (
               <img
                 key={index}
@@ -149,7 +153,9 @@ export function StayDetails() {
 
                   <Divider sx={{ borderColor: '#e0e0e0' }} />
 
-                  <AmenitiesList amenities={stay.amenities} />
+                  <div id="amenities">
+                    <AmenitiesList amenities={stay.amenities} />
+                  </div>
 
                 </div>
               </section>
@@ -176,10 +182,15 @@ export function StayDetails() {
               Reserve
             </button>
           </footer>
-          <StayReview stay={stay}></StayReview>
+
+          <div id="reviews">
+            <StayReview stay={stay}></StayReview>
+          </div>
           <Divider sx={{ borderColor: '#e0e0e0' }} />
 
-          <StayDetailsMap stay={stay} />
+          <div id="location">
+            <StayDetailsMap stay={stay} />
+          </div>
         </>
       )}
     </section>

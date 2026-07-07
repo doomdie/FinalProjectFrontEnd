@@ -1,0 +1,77 @@
+.details-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transform: translateY(-100%);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.details-nav.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.details-nav-inner {
+    display: flex;
+    gap: 24px;
+
+    box-sizing: border-box;
+    max-width: 1120px;
+    padding: 0 24px;
+    margin: 0 auto;
+}
+
+.details-nav-link {
+    position: relative;
+
+    padding: 20px 2px;
+    background: none !important;
+    border: none;
+
+    font-family: inherit;
+    font-size: var(--typography-body-text_14_18-font-size);
+    font-weight: var(--typography-weight-medium500);
+    color: var(--color-text);
+
+    cursor: pointer;
+}
+
+.details-nav-link:focus {
+    outline: none;
+}
+
+.details-nav-link::after {
+    content: '';
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    bottom: -8px;
+    height: 5px;
+
+    background: var(--color-text);
+
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.details-nav-link:hover::after {
+    opacity: 1;
+}
+
+/* jump targets stop below the fixed nav instead of underneath it */
+#photos,
+#amenities,
+#reviews,
+#location {
+    scroll-margin-top: 73px;
+}
