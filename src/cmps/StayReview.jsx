@@ -1,5 +1,6 @@
 import { ReadMore } from '../cmps/ReadMore'
 import { useState } from 'react'
+import { getFakeRating } from '../services/util.service.js'
 import { Rating } from '@mui/material'
 import { ReviewModal } from "../cmps/ReviewModal"
 import { NavLink, useLocation, Link, useSearchParams, useNavigate } from 'react-router-dom'
@@ -8,18 +9,23 @@ export function StayReview({ stay }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   if (!stay || !stay.reviews) return <div>Loading reviews...</div>
   const totalRating = stay.rating || 4.8
-  console.log(stay.reviews)
+  // console.log(stay.reviews)
+
+  const reviewCount = stay.reviews.length
+
   return (
     <div className="reviews-container">
+      <h2 className="reviews-title">
+        ★ {getFakeRating(stay)} · {reviewCount} review{reviewCount === 1 ? '' : 's'}
+      </h2>
+
       <div className="reviews-grid">
         {stay.reviews.map((review, idx) => {
           const targetUserId = review.by.id || review.by._id
 
           return (
-            <article key={review.by._id || idx} className="review-card">
+            <article key={idx} className="review-card">
               <header className="review-header">
-
-
                 <Link to={`/profile/${targetUserId}`}>
                   <img
                     src={review.by.imgUrl}
@@ -69,19 +75,19 @@ export function StayReview({ stay }) {
 
               <div className="review-content">
                 <p className="review-text">{review.txt}</p>
-                {review.txt.length > 150 && (
-                  <button className="btn-show-more" onClick={() => setIsModalOpen(true)}>
-                    Show more &gt;
-                  </button>
-                )}
               </div>
             </article>
           )
         })}
       </div>
+
+      <button className="reviews-show-all">
+        Show all {reviewCount} reviews
+      </button>
+
       {isModalOpen && (
         <ReviewModal
-          isOpen={isModalOpen} 
+          isOpen={isModalOpen}
           stay={stay}
           onClose={() => setIsModalOpen(false)}
         />

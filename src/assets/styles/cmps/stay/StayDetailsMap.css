@@ -1,0 +1,36 @@
+.details-map-section {
+    padding: 48px 0;
+}
+
+.details-map-title {
+    margin: 0 0 24px;
+
+    font-size: 26px;
+    line-height: 30px;
+    font-weight: var(--typography-weight-medium500);
+    color: var(--color-text);
+}
+
+
+
+.details-map-container {
+    width: 100%;
+    height: 480px;
+
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.details-map-pin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+    background: var(--color-text);
+    border-radius: 50%;
+
+    color: var(--color-bg);
+    font-size: 22px;
+}

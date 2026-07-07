@@ -12,6 +12,7 @@ import Divider from '@mui/material/Divider';
 import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 import { SvgIcon } from '../services/svg.service.jsx'
 import { HeartButton } from '../cmps/HeartButton.jsx'
+import { StayDetailsMap } from '../cmps/StayDetailsMap.jsx'
 import { getFakeRating, getFakeHostingYears } from '../services/util.service.js'
 
 
@@ -150,7 +151,6 @@ export function StayDetails() {
 
                   <AmenitiesList amenities={stay.amenities} />
 
-                  <Divider sx={{ borderColor: '#e0e0e0' }} />
                 </div>
               </section>
             </section>
@@ -160,7 +160,10 @@ export function StayDetails() {
               onUpdateFooter={(price, dateRange) => setMobileFooterData({ price, dateRange })}
             />
 
+
           </main>
+          <Divider sx={{ borderColor: '#e0e0e0' }} />
+
           <footer className="mobile-sticky-footer">
             <div className="footer-price-info">
               <span className="price-total">₪{mobileFooterData.price} total</span>
@@ -174,6 +177,9 @@ export function StayDetails() {
             </button>
           </footer>
           <StayReview stay={stay}></StayReview>
+          <Divider sx={{ borderColor: '#e0e0e0' }} />
+
+          <StayDetailsMap stay={stay} />
         </>
       )}
     </section>
