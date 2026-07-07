@@ -6,6 +6,14 @@
     margin: 0 auto;
 }
 
+/* details page: header scrolls away instead of sticking */
+body:has(.stay-details) .app-header {
+    position: relative;
+
+    background: var(--color-bg);
+
+}
+
 .details-title-row {
     display: flex;
     align-items: flex-end;
@@ -542,6 +550,11 @@ html {
     display: flex;
     flex-shrink: 0;
     color: var(--color-text);
+}
+
+.amenity-icon svg {
+    width: 24px !important;
+    height: 24px !important;
 }
 
 .amenity-text {
