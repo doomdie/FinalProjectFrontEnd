@@ -12,7 +12,74 @@
 
 }
 
+.user-card-about {
+    
+    line-height: var(--typography-titles-semibold_32_36-line-height);
+    font-size: var(--typography-titles-semibold_32_36-font-size);
+    font-weight: var(--typography-weight-semibold600);
+    letter-spacing: var(--typography-titles-semibold_32_36-letter-spacing);
+    font-family: Airbnb
+}
 
+.user-private-card {
+    max-width: 345px;
+
+}
+
+.user-private-card-section {
+        border-radius: 24px;
+
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex: 1 1 153px;
+    gap: 8px;
+    padding-right: 24px;
+    padding-left: 24px;
+    padding-bottom: 32px;
+    padding-top: 32px;
+    min-height: 230px;
+    box-shadow: var(--id-card_box-shadow, var(--elevation-elevation3-box-shadow));
+}
+
+.user-private-card-mini-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+}
+
+.user-private-text-section {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.user-subtitle {
+    line-height: var(--typography-body-text_12_16-line-height);
+    font-size: var(--typography-body-text_12_16-font-size);
+    font-weight: var(--typography-weight-book400);
+    color: var(--palette-text-secondary);
+}
+
+
+.user-private-text-span {
+    font-size: 1.5em;
+    line-height: var(--typography-titles-semibold_32_36-line-height);
+    font-weight: var(--typography-weight-semibold600);
+    display: inline-block;
+        height: auto;
+    width: 297px;
+    font-family: Airbnb;
+    letter-spacing: var(--typography-body-text_16_20-letter-spacing);
+}
+
+.user-card-avatar {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+}
 
 .tab-content {
     display: flex;
@@ -63,7 +130,7 @@
 }
 
 .aside-organizer {
-     padding: 0 17%; 
+    padding: 0 17%;
 }
 
 .trips-timeline-grid {
@@ -156,7 +223,7 @@
     display: flex;
     padding: 10px 16px;
     color: rgb(34, 34, 34);
-    background-color: var( --palette-grey0);
+    background-color: var(--palette-grey0);
     width: 100%;
     max-width: 240px;
     align-items: center;
@@ -197,7 +264,7 @@
 .profile-right-side {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 24px;
     font-family: sans-serif;
     max-width: 100%;
 
@@ -219,7 +286,11 @@
 .user-aside {
     max-width: 475px;
 }
-
+.about-section {
+    display: grid;
+    grid-template-columns: 345px 1fr;
+    gap: 40px;
+}
 .about-text {
     font-size: 1.1rem;
     color: #484848;
@@ -231,7 +302,7 @@
 
 .host-badge {
     background-color: var(--palette-grey100);
-    border: 1px solid  var(--palette-grey400);
+    border: 1px solid var(--palette-grey400);
     border-radius: 8px;
     padding: 0.5rem 0.75rem;
     font-size: 0.9rem;

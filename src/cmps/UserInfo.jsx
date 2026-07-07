@@ -2,6 +2,8 @@ import { useSelector } from 'react-redux'
 
 export function UserInfo() {
     const user = useSelector(storeState => storeState.userModule.user)
+    console.log(user)
+
     const stays = useSelector(storeState => storeState.stayModule.stays)
 
     const loggedInUserId = user?._id || user?.id
@@ -13,19 +15,32 @@ export function UserInfo() {
         return stayHostId && loggedInUserId && stayHostId === loggedInUserId
     })
     const isHost = !!myStay
-    const hostAbout = myStay?.host?.about || ''
 
     if (!user) return <div>Loading profile...</div>
-
+    // My variable names are really bad Apologies in advance will hopefully fix later
     return (
         <main className="user-info-main">
             <div className="profile-right-side">
 
+                <h2 className="user-card-about">About me</h2>
 
                 <section className="about-section">
-                    <h2>About</h2>
-                    <p className="about-text">Hello, my name is {user.fullname || user.fullName}</p>
-                    {isHost && hostAbout && <p className="host-about-text">{hostAbout}</p>}
+
+                    <div className="user-private-card">
+                        <section className="user-private-card-section">
+                            <div className="user-private-card-mini-section">  <img src={user.imgUrl} className="user-card-avatar" />
+
+                                <div className="user-private-text-section">
+                                    <span className="user-private-text-span">{user.fullname}</span><span className="user-subtitle">
+                                        {isHost ? 'Host' : 'Guest'}
+                                    </span></div>
+                            </div>
+                        </section>
+
+                    </div>
+                    <span className ="about-user-card">Placeholder</span>
+
+
                 </section>
 
                 <section className="reviews-section">

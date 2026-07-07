@@ -278,8 +278,32 @@
 
   --header-bg: linear-gradient(to bottom, #FFFFFF, #F7F7F7);
   --footer-bg: #F7F7F7;
-
-
+--palette-text-secondary: #6A6A6A;
+  --corner-radius-tiny4px-border-radius: 4px;
+  --corner-radius-small8px-border-radius: 8px;
+  --corner-radius-medium12px-border-radius: 12px;
+  --corner-radius-large16px-border-radius: 16px;
+  --corner-radius-xlarge20px-border-radius: 20px;
+  --corner-radius-xxlarge24px-border-radius: 24px;
+  --corner-radius-xxlarge28px-border-radius: 28px;
+  --corner-radius-xxxlarge32px-border-radius: 32px;
+  --elevation-high-box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+  --elevation-high-border: 1px solid rgba(0, 0, 0, 0.04);
+  --elevation-primary-box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  --elevation-primary-border: 1px solid rgba(0, 0, 0, 0.04);
+  --elevation-secondary-box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  --elevation-secondary-border: 1px solid rgba(0, 0, 0, 0.04);
+  --elevation-sharp-edge-background: rgba(0, 0, 0, 0.08);
+  --elevation-tertiary-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+  --elevation-tertiary-border: 1px solid rgba(0, 0, 0, 0.08);
+  --elevation-elevation0-box-shadow: 0px 0px 0px 1px #DDDDDD inset;
+  --elevation-elevation1-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.02), 0px 2px 4px 0px rgba(0, 0, 0, 0.16);
+  --elevation-elevation2-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.02), 0px 2px 6px 0px rgba(0, 0, 0, 0.04), 0px 4px 8px 0px rgba(0, 0, 0, 0.10);
+  --elevation-elevation3-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.02), 0px 8px 24px 0px rgba(0, 0, 0, 0.10);
+  --elevation-elevation4-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.02), 0px 4px 8px 0px rgba(0, 0, 0, 0.08), 0px 12px 30px 0px rgba(0, 0, 0, 0.12);
+  --elevation-elevation5-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.02), 0px 6px 8px 0px rgba(0, 0, 0, 0.10), 0px 16px 56px 0px rgba(0, 0, 0, 0.18);
+  --motion-springs-fast-duration: 451.75438596491193ms;
+  --motion-springs-fast-easing: linear(0, 0.18557241650572898, 0.46530560393651493, 0.682);
   /* ===== Borders / lines ===== */
   --color-border: #DDDDDD;
   /* card borders, search bar outline, dividers */
