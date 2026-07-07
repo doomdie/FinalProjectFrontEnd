@@ -608,3 +608,9 @@ html {
 .read-more-btn:hover {
     background: var(--palette-grey300);
 }
+
+
+.amenities-modal-list .amenity-item {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-border);
+}

@@ -122,3 +122,9 @@
 .reviews-show-all:hover {
     background: var(--palette-grey300);
 }
+
+.reviews-modal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}

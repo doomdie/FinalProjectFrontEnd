@@ -1,8 +1,9 @@
 import { ReadMore } from '../cmps/ReadMore'
 import { useState } from 'react'
 import { getFakeRating } from '../services/util.service.js'
+import { SeeMoreModal } from './SeeMoreModal.jsx'
 import { Rating } from '@mui/material'
-import { ReviewModal } from "../cmps/ReviewModal"
+// import { ReviewModal } from "../cmps/ReviewModal"
 import { NavLink, useLocation, Link, useSearchParams, useNavigate } from 'react-router-dom'
 
 export function StayReview({ stay }) {
@@ -81,16 +82,32 @@ export function StayReview({ stay }) {
         })}
       </div>
 
-      <button className="reviews-show-all">
+      <button className="reviews-show-all" onClick={() => setIsModalOpen(true)}>
         Show all {reviewCount} reviews
       </button>
 
-      {isModalOpen && (
-        <ReviewModal
-          isOpen={isModalOpen}
-          stay={stay}
-          onClose={() => setIsModalOpen(false)}
-        />
+{isModalOpen && (
+        <SeeMoreModal title={`${reviewCount} reviews`} onClose={() => setIsModalOpen(false)}>
+          <div className="reviews-modal-list">
+            {stay.reviews.map((review, idx) => (
+              <article key={idx} className="review-card">
+                <header className="review-header">
+                  <img src={review.by.imgUrl} alt={review.by.fullname} className="reviewer-avatar" />
+                  <div className="reviewer-details">
+                    <h3 className="reviewer-name">{review.by.fullname}</h3>
+                    <p className="reviewer-location">{review.by.location}</p>
+                  </div>
+                </header>
+                <div className="review-metadata">
+                  <span className="review-date">
+                    {new Date(review.at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                  </span>
+                </div>
+                <p className="review-text">{review.txt}</p>
+              </article>
+            ))}
+          </div>
+        </SeeMoreModal>
       )}
     </div>
 

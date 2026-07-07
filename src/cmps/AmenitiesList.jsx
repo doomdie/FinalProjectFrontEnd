@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { SvgIcon } from '../services/svg.service.jsx'
+import { SeeMoreModal } from './SeeMoreModal.jsx'
 
 // amenity name (lowercase) → icon key in svg.service. Real Airbnb SVGs.
 const AMENITY_ICON_MAP = {
@@ -35,8 +37,8 @@ const AMENITY_ICON_MAP = {
 }
 
 const PREVIEW_COUNT = 10   // Airbnb shows 10 in the grid, rest behind "Show all"
-
-export function AmenitiesList({ amenities = [], onShowAll }) {
+export function AmenitiesList({ amenities = [] }) {
+    const [isOpen, setIsOpen] = useState(false)
     // guard: drop empty strings and junk like "translation missing: en.hosting_amenity_49"
     const cleanAmenities = amenities.filter(a => a && a.trim() && !a.startsWith('translation missing'))
 
@@ -64,9 +66,27 @@ export function AmenitiesList({ amenities = [], onShowAll }) {
             </div>
 
             {cleanAmenities.length > PREVIEW_COUNT && (
-                <button className="amenities-show-all" onClick={onShowAll}>
+                <button className="amenities-show-all" onClick={() => setIsOpen(true)}>
                     Show all {cleanAmenities.length} amenities
                 </button>
+            )}
+
+            {isOpen && (
+                <SeeMoreModal title="What this place offers" onClose={() => setIsOpen(false)}>
+                    <div className="amenities-modal-list">
+                        {cleanAmenities.map(amenity => {
+                            const iconKey = AMENITY_ICON_MAP[amenity.toLowerCase().trim()]
+                            return (
+                                <div key={amenity} className="amenity-item">
+                                    <span className="amenity-icon">
+                                        <SvgIcon iconName={iconKey || 'house'} />
+                                    </span>
+                                    <span className="amenity-text">{amenity}</span>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </SeeMoreModal>
             )}
         </section>
     )
