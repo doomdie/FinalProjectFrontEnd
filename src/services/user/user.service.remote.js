@@ -12,7 +12,7 @@ export const userService = {
     update,
     getLoggedinUser,
     saveLoggedinUser,
-    checkLoggedinUser // 🚀 Keep ONLY this single explicit key name
+    checkLoggedinUser 
 }
 
 function getUsers() {
@@ -28,8 +28,8 @@ function remove(userId) {
     return httpService.delete(`user/${userId}`)
 }
 
-async function update({ _id, score }) {
-    const user = await httpService.put(`user/${_id}`, { _id, score })
+async function update({ _id, score, description }) {
+    const user = await httpService.put(`user/${_id}`, { _id, score, description })
 
     const loggedinUser = getLoggedinUser()
     if (loggedinUser && loggedinUser._id === user._id) saveLoggedinUser(user)
@@ -79,7 +79,8 @@ function saveLoggedinUser(user) {
         fullname: user.fullname, 
         imgUrl: user.imgUrl, 
         score: user.score, 
-        isAdmin: user.isAdmin 
+        isAdmin: user.isAdmin ,
+        description: user.description
     }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
     return user

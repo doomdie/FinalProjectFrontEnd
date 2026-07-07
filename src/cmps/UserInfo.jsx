@@ -38,7 +38,7 @@ export function UserInfo() {
                         </section>
 
                     </div>
-                    <span className ="about-user-card">Placeholder</span>
+                    <span className ="about-user-card">{user.description}</span>
 
 
                 </section>
