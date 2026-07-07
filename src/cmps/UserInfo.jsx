@@ -20,9 +20,7 @@ export function UserInfo() {
     return (
         <main className="user-info-main">
             <div className="profile-right-side">
-                <section className="profile-header">
-                    {isHost && <span className="host-badge">🛡️ Host</span>}
-                </section>
+
 
                 <section className="about-section">
                     <h2>About</h2>

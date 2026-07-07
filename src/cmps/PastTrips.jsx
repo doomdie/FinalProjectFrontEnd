@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { loadOrders } from '../store/actions/order.actions'
 
@@ -11,50 +11,82 @@ export function PastTrips() {
         loadOrders({ buyerId: user._id })
     }, [user?._id])
 
-    if (!trips.length) {
-        return <p className="no-trips-text">No trips found.</p>
+    const completedTrips = useMemo(() => {
+        const today = new Date()
+        return trips
+            .filter(trip => trip.endDate && new Date(trip.endDate) < today)
+            .sort((a, b) => new Date(b.endDate) - new Date(a.endDate))
+    }, [trips])
+
+    const tripsByYear = useMemo(() => {
+        const groups = {}
+        completedTrips.forEach(trip => {
+            const year = new Date(trip.endDate).getFullYear()
+            if (!groups[year]) groups[year] = []
+            groups[year].push(trip)
+        })
+        return groups
+    }, [completedTrips])
+
+    const sortedYears = useMemo(() => {
+        return Object.keys(tripsByYear).sort((a, b) => b - a)
+    }, [tripsByYear])
+
+    if (!completedTrips.length) {
+        return (
+            <div className="no-trips-container">
+                <p className="no-trips-text">No past trips found.</p>
+            </div>
+        )
     }
 
-    return (
-        <section className="past-trips-section">
-            <h2>Your Trips</h2>
+  return (
+    <section className="past-trips-section">
+        <h2 className="trips-section-title">Past trips</h2>
 
-            <div className="trips-grid">
-                {trips.map((trip) => {
-                    const startDisplay = trip.startDate ? new Date(trip.startDate).toLocaleDateString() : ''
-                    const endDisplay = trip.endDate ? new Date(trip.endDate).toLocaleDateString() : ''
-
-                    const today = new Date()
-                    const checkoutDate = new Date(trip.endDate)
+        <div className="timeline-container">
+            {sortedYears.map((year, yearIdx) => (
+                <React.Fragment key={year}>
                     
-                    const isCompleted = checkoutDate < today
-                    const tripStatus = isCompleted ? 'Completed' : 'Upcoming'
-                    const statusClass = isCompleted ? 'completed' : 'upcoming'
+                    <div className="timeline-year-divider">
+                        {yearIdx > 0 && <span className="timeline-line-node" />}
+                        
+                        <span className="timeline-year-text">{year}</span>
+                        
+                        <span className="timeline-line-node" />
+                    </div>
 
-                    return (
-                        <div key={trip._id || trip.id || Math.random()} className="trip-card">
-                            <img
-                                src={trip.stay?.imgUrls?.[0] || 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500'}
-                                alt={trip.stay?.name || 'Stay'}
-                                className="trip-image"
-                            />
+                    <div className="trips-timeline-grid">
+                        {tripsByYear[year].map((trip) => {
+                            const stay = trip.stay || {}
+                            const startDisplay = trip.startDate 
+                                ? new Date(trip.startDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) 
+                                : ''
+                            const endDisplay = trip.endDate 
+                                ? new Date(trip.endDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) 
+                                : ''
 
-                            <div className="trip-details">
-                                <h3>{trip.stay?.name || 'Previous Stay'}</h3>
-                                <p className="trip-host">Hosted by {trip.stay?.host?.fullname || 'Host'}</p>
-                                <p className="trip-dates">
-                                    {startDisplay} - {endDisplay}
-                                </p>
-                                <p className="trip-price">Total Paid: ₪{trip.totalPrice || trip.price || '0'}</p>
-                                
-                                <span className={`trip-status-badge ${statusClass}`}>
-                                    {tripStatus}
-                                </span>
-                            </div>
-                        </div>
-                    )
-                })}
-            </div>
-        </section>
-    )
+                            const displayTitle = stay.name || `${stay.type || 'Stay'} in ${stay.loc?.city || 'Destination'}`
+                            const displayImg = stay.imgUrls?.[0] || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750'
+
+                            return (
+                                <div key={trip._id || trip.id || Math.random()} className="timeline-trip-card">
+                                    <div className="timeline-card-img-wrapper">
+                                        <img src={displayImg} alt={displayTitle} className="timeline-card-img" />
+                                    </div>
+
+                                    <div className="timeline-card-info">
+                                        <h3 className="timeline-card-title">{displayTitle}</h3>
+                                        <p className="timeline-card-dates">{startDisplay} - {endDisplay}</p>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    
+                </React.Fragment>
+            ))}
+        </div>
+    </section>
+)
 }

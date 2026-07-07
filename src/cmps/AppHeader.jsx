@@ -73,7 +73,10 @@ export function AppHeader() {
 
 	useEffect(() => {
 		if (forcedSection) return   // big bar is forced open from the small bar — don't re-collapse
-
+		if (isDetailsPage || isSearchPage || isUser) {
+			setIsScrolled(true) 
+			return
+		}
 		if (isDetailsPage || isSearchPage) {
 			setIsScrolled(true)
 			return
@@ -94,7 +97,7 @@ export function AppHeader() {
 
 		window.addEventListener('scroll', onScroll)
 		return () => window.removeEventListener('scroll', onScroll)
-	}, [isDetailsPage, isSearchPage, location.pathname, forcedSection])
+	}, [isDetailsPage, isSearchPage, location.pathname, forcedSection, isUser])
 
 
 
@@ -160,42 +163,42 @@ export function AppHeader() {
 								}}
 							/>
 						</div>
-					) :  isUser ? <div className = "header-tabs host-tabs"></div>
-					
-					
-					
-					
-				:(
-						<>
-							<div className="header-tabs" ref={tabsContainerRef}>
-								<NavLink to="/" end>
-									<img src="/img/symbols/globe.svg" alt="All" className="tab-icon" />
-									All
-								</NavLink>
-								<NavLink to="/homes">
-									<img src="/img/symbols/house.svg" alt="Homes" className="tab-icon" />
-									Homes
-								</NavLink>
-								<NavLink to="/experiences">
-									<img src="/img/symbols/balloon.svg" alt="Experiences" className="tab-icon" />
-									Experiences
-								</NavLink>
-								<NavLink to="/services">
-									<img src="/img/symbols/bell.svg" alt="Services" className="tab-icon" />
-									Services
-								</NavLink>
+					) : isUser ? <div className="header-tabs host-tabs"></div>
 
-								<span
-									className="tab-indicator"
-									style={{
-										left: underlinePos.left + 'px',
-										width: underlinePos.width + 'px',
-									}}
-								/>
-							</div>
 
-							<SearchBarBig forcedSection={forcedSection} onOpenChange={onSearchOpenChange} />
-						</>)}
+
+
+						: (
+							<>
+								<div className="header-tabs" ref={tabsContainerRef}>
+									<NavLink to="/" end>
+										<img src="/img/symbols/globe.svg" alt="All" className="tab-icon" />
+										All
+									</NavLink>
+									<NavLink to="/homes">
+										<img src="/img/symbols/house.svg" alt="Homes" className="tab-icon" />
+										Homes
+									</NavLink>
+									<NavLink to="/experiences">
+										<img src="/img/symbols/balloon.svg" alt="Experiences" className="tab-icon" />
+										Experiences
+									</NavLink>
+									<NavLink to="/services">
+										<img src="/img/symbols/bell.svg" alt="Services" className="tab-icon" />
+										Services
+									</NavLink>
+
+									<span
+										className="tab-indicator"
+										style={{
+											left: underlinePos.left + 'px',
+											width: underlinePos.width + 'px',
+										}}
+									/>
+								</div>
+
+								<SearchBarBig forcedSection={forcedSection} onOpenChange={onSearchOpenChange} />
+							</>)}
 				</div>
 
 				{(!isHosting && !isUser) && <SearchBarSmall onOpenSection={onOpenSectionFromSmall} />}

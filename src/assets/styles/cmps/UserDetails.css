@@ -9,12 +9,9 @@
 .user-details-full {
     display: flex;
     flex-direction: row;
+
 }
 
-.user-aside {
-    display: flex;
-    flex-direction: column;
-}
 
 
 .tab-content {
@@ -44,6 +41,8 @@
 .tab-mini-content {
     width: 100%;
     margin-top: 1.5rem;
+    display: flex;
+    flex: 1;
 }
 
 .tab-mini-content h2 {
@@ -64,7 +63,68 @@
 }
 
 .aside-organizer {
-    padding: 0 17%;
+     padding: 0 17%; 
+}
+
+.trips-timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 24px;
+    width: 100%;
+}
+
+.timeline-trip-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--palette-grey0);
+    border: 1px solid var(--palette-grey300);
+    border-radius: 16px;
+    padding: 12px;
+    gap: 16px;
+    box-shadow: 0 4px 12px var(--palette-shadow50);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.timeline-card-img-wrapper {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.timeline-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.timeline-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.timeline-card-title {
+    font-size: var(--typography-body-paragraphs-text_14_20-font-size);
+    font-weight: var(--typography-special-display-medium_40_44-font-weight);
+    color: var(--color-text);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.timeline-card-dates {
+    font-size: var(--typography-body-paragraphs-text_14_20-font-size);
+
+    font-weight: var(--typography-subtitles-book_14_18-font-weight);
+    color: var(--palette-foggy);
+    margin: 0;
 }
 
 @media (min-width: 1440px) {
@@ -81,12 +141,13 @@
     .user-aside {
         flex-shrink: 0;
         width: auto;
+
     }
 
     .aside-organizer {
-        width: 33.33vw;
-        display: flex;
 
+        display: flex;
+        width: 33.33vw;
         flex-direction: column
     }
 }
@@ -95,25 +156,27 @@
     display: flex;
     padding: 10px 16px;
     color: rgb(34, 34, 34);
-    background-color: white;
-    align-items:center;
+    background-color: var( --palette-grey0);
+    width: 100%;
+    max-width: 240px;
+    align-items: center;
     line-height: var(--typography-body-text_16_20-line-height);
     font-weight: var(--typography-weight-medium500);
     font-size: var(--typography-body-text_16_20-font-size);
     letter-spacing: var(--typography-body-text_16_20-letter-spacing);
     font-family: Airbnb;
-    
+
 
 }
 
 .user-aside .tab-btn.active {
     background-color: var(--palette-grey200);
     border-radius: 16px;
-    color: #000000;
+    color: var(--palette-grey1100);
 }
 
 .user-aside .tab-btn:hover {
-        background-color: var(--palette-grey200);
+    background-color: var(--palette-grey200);
 
     border-radius: 10px;
 }
@@ -136,21 +199,39 @@
     flex-direction: column;
     gap: 2.5rem;
     font-family: sans-serif;
-    max-width: 600px;
+    max-width: 100%;
+
+}
+
+.past-trips-section {
+    width: 100%;
+    max-width: 1252px;
+
+}
+
+.timeline-container {
+    max-width: 1252px;
+}
+
+/* .timeline-container {
+    width: 100%
+} */
+.user-aside {
+    max-width: 475px;
 }
 
 .about-text {
     font-size: 1.1rem;
     color: #484848;
     line-height: 1.5;
-    border: 1px solid #ebebeb;
+    border: 1px solid var(--palette-grey300);
     border-radius: 12px;
     padding: 1.5rem;
 }
 
 .host-badge {
-    background-color: #f7f7f7;
-    border: 1px solid #dddddd;
+    background-color: var(--palette-grey100);
+    border: 1px solid  var(--palette-grey400);
     border-radius: 8px;
     padding: 0.5rem 0.75rem;
     font-size: 0.9rem;
@@ -174,7 +255,31 @@
         padding-top: 36px;
         flex-direction: column;
         min-height: calc(100vh - 80px);
+        width: auto;
         border-right: var(--profile-nav-border, 1px solid var(--palette-grey400));
 
+    }
+
+    .tab-mini-content {
+        flex-direction: column;
+        min-height: calc(100vh - var(--header_v2_height-px, 80px) px);
+        padding: 36px calc(8.5% + 32px);
+
+
+
+    }
+
+}
+
+
+@media (max-width: 949px) {
+    .trips-timeline-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 0 4px;
+    }
+
+    .timeline-trip-card {
+        padding: 12px;
     }
 }

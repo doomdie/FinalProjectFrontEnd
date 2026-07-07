@@ -12,24 +12,18 @@ import { loadOrders } from '../store/actions/order.actions'
 export function UserDetails() {
   const user = useSelector(storeState => storeState.userModule.user)
   const stays = useSelector(storeState => storeState.stayModule.stays)
-  const hostOrders = useSelector(storeState => storeState.orderModule.hostOrders) || []
+
   const guestOrders = useSelector(storeState => storeState.orderModule.guestOrders) || []
   const navigate = useNavigate()
 
   const userId = user?._id || user?.id
 
-  const hostStays = Array.isArray(stays) ? stays.filter(stay => {
-    return stay.host?._id === userId || stay.host?.id === userId
-  }) : []
+  // const hostStays = Array.isArray(stays) ? stays.filter(stay => {
+  //   return stay.host?._id === userId || stay.host?.id === userId
+  // }) : []
 
-  const isUserHost = hostStays.length > 0
+  // const isUserHost = hostStays.length > 0
   const [activeTab, setActiveTab] = useState('details')
-
-  useEffect(() => {
-    if (isUserHost) {
-      setActiveTab('stays')
-    }
-  }, [isUserHost])
 
   useEffect(() => {
     if (!user) {
@@ -39,7 +33,6 @@ export function UserDetails() {
     }
 
     loadStays({ byUserId: userId })
-    loadOrders({ hostId: userId })
     loadOrders({ buyerId: userId })
   }, [user])
 
@@ -67,7 +60,7 @@ export function UserDetails() {
     <section className="user-details-full">
       <aside className="user-aside">
         <div className="aside-organizer">
-          <h3 className = "user-profile-title">Profile</h3>
+          <h3 className="user-profile-title">Profile</h3>
           <button
             className={`tab-btn ${activeTab === 'details' ? 'active' : ''}`}
             onClick={() => setActiveTab('details')}
@@ -75,7 +68,7 @@ export function UserDetails() {
             My Details
           </button>
 
-          {isUserHost && (
+          {/* {isUserHost && (
             <>
               <button
                 className={`tab-btn ${activeTab === 'stays' ? 'active' : ''}`}
@@ -90,7 +83,7 @@ export function UserDetails() {
                 Reservations Center
               </button>
             </>
-          )}
+          )} */}
 
           <button
             className={`tab-btn ${activeTab === 'past-trips' ? 'active' : ''}`}
@@ -98,31 +91,24 @@ export function UserDetails() {
           >
             Past Trips
           </button>
+
+          <button
+            className={`tab-btn ${activeTab === 'wishlist' ? 'active' : ''}`}
+            onClick={() => setActiveTab('wishlist')}
+          >
+            Likes
+          </button>
         </div>
       </aside>
 
-      {isUserHost && activeTab === 'stays' && (
-        <div className="tab-mini-content">
-          <StayMiniList stays={hostStays} onRemoveStay={onRemoveStay} />
-        </div>
-      )}
 
-      {isUserHost && activeTab === 'pending' && (
-        <div className="tab-mini-content">
-          <PendingReservations></PendingReservations>
-        </div>
-      )}
 
       {activeTab === 'details' && (
-        <div className="tab-info-content">
           <UserInfo></UserInfo>
-        </div>
       )}
 
       {activeTab === 'past-trips' && (
-        <div className="tab-past-content">
           <PastTrips trips={pastTrips}></PastTrips>
-        </div>
       )}
     </section>
   )

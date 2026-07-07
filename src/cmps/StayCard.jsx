@@ -6,6 +6,7 @@ import { SvgIcon } from '../services/svg.service.jsx'
 import { HeartButton } from './HeartButton.jsx'
 
 export function StayCard({ stay }) {
+    console.log(stay)
     // --- YAIR'S VERSION ---
     // console.log(stay)
     const fallbackImage = "https://images.unsplash.com/photo-1512917774080-9991f1c4c750"
