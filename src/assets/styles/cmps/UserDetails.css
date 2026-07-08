@@ -9,6 +9,7 @@
 .user-details-full {
     display: flex;
     flex-direction: row;
+    
 
 }
 
@@ -133,32 +134,33 @@
     padding: 0 17%;
 }
 
-.trips-timeline-grid {
+.trips-timeline-stack {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px 24px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 280px));
+    gap: var(--space-xl);
     width: 100%;
+    margin-bottom: var(--space-xl);
 }
 
 .timeline-trip-card {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: var(--palette-grey0);
-    border: 1px solid var(--palette-grey300);
-    border-radius: 16px;
-    padding: 12px;
-    gap: 16px;
-    box-shadow: 0 4px 12px var(--palette-shadow50);
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    gap: var(--space-sm);
     width: 100%;
     box-sizing: border-box;
 }
 
 .timeline-card-img-wrapper {
     flex-shrink: 0;
-    width: 72px;
-    height: 72px;
-    border-radius: 12px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    border-radius: var(--corner-radius-large16px-border-radius);
     overflow: hidden;
 }
 
@@ -172,37 +174,63 @@
 .timeline-card-info {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-xs);
     min-width: 0;
+    padding: var(--space-xs) 0;
 }
 
 .timeline-card-title {
-    font-size: var(--typography-body-paragraphs-text_14_20-font-size);
-    font-weight: var(--typography-special-display-medium_40_44-font-weight);
+    font-size: var(--typography-titles-semibold_16_20-font-size);
+    line-height: var(--typography-titles-semibold_16_20-line-height);
+    font-weight: var(--typography-titles-semibold_16_20-font-weight);
     color: var(--color-text);
     margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-family: Airbnb, sans-serif;
 }
 
 .timeline-card-dates {
-    font-size: var(--typography-body-paragraphs-text_14_20-font-size);
-
+    font-size: var(--typography-subtitles-book_14_18-font-size);
+    line-height: var(--typography-subtitles-book_14_18-line-height);
     font-weight: var(--typography-subtitles-book_14_18-font-weight);
-    color: var(--palette-foggy);
+    color: var(--color-text-light);
     margin: 0;
+    font-family: Airbnb, sans-serif;
+}
+
+.timeline-year-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--palette-grey100);
+    border: 1px solid var(--palette-grey300);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--corner-radius-medium12px-border-radius);
+    margin-bottom: var(--space-lg);
+}
+
+.timeline-year-text {
+    font-size: var(--typography-titles-semibold_14_18-font-size);
+    line-height: var(--typography-titles-semibold_14_18-line-height);
+    font-weight: var(--typography-titles-semibold_14_18-font-weight);
+    color: var(--color-text);
+    font-family: Airbnb, sans-serif;
 }
 
 @media (min-width: 1440px) {
     .user-aside {
         padding: 0 48px;
+
     }
 }
 
 @media (min-width: 950px) {
+    .past-trips-section {
+          padding: 36px calc(8.5% + 32px);
+    }
     .user-info-main {
         padding: 36px calc(8.5% + 32px);
+              
+
+        
     }
 
     .user-aside {
@@ -272,7 +300,6 @@
 
 .past-trips-section {
     width: 100%;
-    max-width: 1252px;
 
 }
 

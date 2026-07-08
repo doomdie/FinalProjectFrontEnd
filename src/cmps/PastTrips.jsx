@@ -13,8 +13,14 @@ export function PastTrips() {
 
     const completedTrips = useMemo(() => {
         const today = new Date()
+        today.setHours(0, 0, 0, 0)
         return trips
-            .filter(trip => trip.endDate && new Date(trip.endDate) < today)
+            .filter(trip => {
+                if (!trip.endDate) return false
+                const tripEnd = new Date(trip.endDate)
+                tripEnd.setHours(0, 0, 0, 0)
+                return tripEnd < today
+            })
             .sort((a, b) => new Date(b.endDate) - new Date(a.endDate))
     }, [trips])
 
@@ -40,53 +46,49 @@ export function PastTrips() {
         )
     }
 
-  return (
-    <section className="past-trips-section">
-        <h2 className="trips-section-title">Past trips</h2>
+    return (
+        <section className="past-trips-section">
+            <h2 className="trips-section-title">Past trips</h2>
 
-        <div className="timeline-container">
-            {sortedYears.map((year, yearIdx) => (
-                <React.Fragment key={year}>
-                    
-                    <div className="timeline-year-divider">
-                        {yearIdx > 0 && <span className="timeline-line-node" />}
-                        
-                        <span className="timeline-year-text">{year}</span>
-                        
-                        <span className="timeline-line-node" />
-                    </div>
+            <div className="timeline-container">
+                {sortedYears.map((year, yearIdx) => (
+                    <React.Fragment key={year}>
 
-                    <div className="trips-timeline-grid">
-                        {tripsByYear[year].map((trip) => {
-                            const stay = trip.stay || {}
-                            const startDisplay = trip.startDate 
-                                ? new Date(trip.startDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) 
-                                : ''
-                            const endDisplay = trip.endDate 
-                                ? new Date(trip.endDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) 
-                                : ''
+                        <div className="timeline-year-badge">
+                            <span className="timeline-year-text">{year}</span>
+                        </div>
 
-                            const displayTitle = stay.name || `${stay.type || 'Stay'} in ${stay.loc?.city || 'Destination'}`
-                            const displayImg = stay.imgUrls?.[0] || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750'
+                        <div className="trips-timeline-stack">
+                            {tripsByYear[year].map((trip) => {
+                                const stay = trip.stay || {}
+                                const startDisplay = trip.startDate
+                                    ? new Date(trip.startDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+                                    : ''
+                                const endDisplay = trip.endDate
+                                    ? new Date(trip.endDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+                                    : ''
 
-                            return (
-                                <div key={trip._id || trip.id || Math.random()} className="timeline-trip-card">
-                                    <div className="timeline-card-img-wrapper">
-                                        <img src={displayImg} alt={displayTitle} className="timeline-card-img" />
+                                const displayCity = stay.loc?.city || "Budapest"
+                                const displayImg = stay.imgUrls?.[0] || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750'
+
+                                return (
+                                    <div key={trip._id || trip.id || Math.random()} className="timeline-trip-card">
+                                        <div className="timeline-card-img-wrapper">
+                                            <img src={displayImg} alt={displayCity} className="timeline-card-img" />
+                                        </div>
+
+                                        <div className="timeline-card-info">
+                                            <h3 className="timeline-card-title">{displayCity}</h3>
+                                            <p className="timeline-card-dates">{startDisplay} – {endDisplay.split(',')[0]}, {year}</p>
+                                        </div>
                                     </div>
+                                )
+                            })}
+                        </div>
 
-                                    <div className="timeline-card-info">
-                                        <h3 className="timeline-card-title">{displayTitle}</h3>
-                                        <p className="timeline-card-dates">{startDisplay} - {endDisplay}</p>
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
-                    
-                </React.Fragment>
-            ))}
-        </div>
-    </section>
-)
+                    </React.Fragment>
+                ))}
+            </div>
+        </section>
+    )
 }
