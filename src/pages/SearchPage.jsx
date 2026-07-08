@@ -169,7 +169,7 @@ export function SearchPage() {
 
                         return (
                             <Link
-                                to={`/homes/${stay._id}`}
+                                to={`/homes/${stay._id}?${searchParams.toString()}`}
                                 className="result-card"
                                 key={stay._id}
                                 onMouseEnter={() => setHoveredStayId(stay._id)}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { DatePicker } from "./DatePicker"
 import { Modal } from '@mui/material'
@@ -10,15 +11,31 @@ import { SvgIcon } from '../services/svg.service.jsx'
 
 export function StickyCard({ stay, onUpdateFooter }) {
     const user = useSelector(storeState => storeState.userModule.user)
+    const [searchParams] = useSearchParams()
+
+    // parse "YYYY-MM-DD" as a LOCAL date (avoid UTC day-shift, matching the search bar)
+    function parseLocalYMD(str) {
+        if (!str) return null
+        const parts = str.split('-').map(Number)
+        if (parts.length !== 3 || parts.some(isNaN)) return null
+        return new Date(parts[0], parts[1] - 1, parts[2])
+    }
 
     const [dates, setDates] = useState(() => {
+        const fromParam = parseLocalYMD(searchParams.get('from'))
+        const toParam = parseLocalYMD(searchParams.get('to'))
+        if (fromParam && toParam) return { checkIn: fromParam, checkOut: toParam }
+
         const today = new Date()
         const twoDaysFromNow = new Date()
         twoDaysFromNow.setDate(today.getDate() + 2)
         return { checkIn: today, checkOut: twoDaysFromNow }
     })
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
-    const [guestCounts, setGuestCounts] = useState({ adults: 0, children: 0, infants: 0, pets: 0 })
+    const [guestCounts, setGuestCounts] = useState(() => {
+        const g = parseInt(searchParams.get('guests'), 10)
+        return { adults: g > 0 ? g : 0, children: 0, infants: 0, pets: 0 }
+    })
 
     const pricePerNight = stay.price || 1000
 
