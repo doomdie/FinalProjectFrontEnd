@@ -1,0 +1,67 @@
+.wishlist-page {
+    min-height: calc(100vh - 80px);
+    padding: 36px calc(8.5% + 32px); 
+    width: 100%;
+    
+    .wishlist-title {
+        line-height: var(--typography-titles-semibold_32_36-line-height);
+        font-size: var(--typography-titles-semibold_32_36-font-size);
+        font-weight: var(--typography-weight-semibold600);
+        letter-spacing: var(--typography-titles-semibold_32_36-letter-spacing);
+        font-family: Airbnb, sans-serif;
+        color: var(--color-text, #222222);
+        margin-bottom: 24px;
+    }
+
+    .wishlist-empty {
+        line-height: var(--typography-body-text_12_16-line-height);
+        font-size: 1rem; 
+        font-weight: var(--typography-weight-book400);
+        color: var(--palette-text-secondary, var(--color-text-light));
+        font-family: Airbnb, sans-serif;
+        margin-top: 16px;
+    }
+
+    .stay-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1.5rem;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        width: 100%;
+    }
+}
+
+.stay-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    
+    .image-container { 
+        width: 100%;
+        
+        aspect-ratio: 1 / 1; 
+        border-radius: var(--corner-radius-large16px-border-radius, 16px);
+        overflow: hidden;
+        margin-bottom: var(--space-sm, 12px);
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .stay-location {
+        font-size: var(--typography-titles-semibold_16_20-font-size);
+        line-height: var(--typography-titles-semibold_16_20-line-height);
+        font-weight: var(--typography-weight-semibold600);
+        color: var(--color-text, #222222);
+        font-family: Airbnb, sans-serif;
+        
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

@@ -8,6 +8,7 @@ import { PendingReservations } from '../cmps/PendingReservations'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { loadStays, removeStay } from '../store/actions/stay.actions'
 import { loadOrders } from '../store/actions/order.actions'
+import {WishlistPage} from '../pages/WishlistPage'
 
 export function UserDetails() {
   const user = useSelector(storeState => storeState.userModule.user)
@@ -107,7 +108,7 @@ export function UserDetails() {
             className={`tab-btn ${activeTab === 'wishlist' ? 'active' : ''}`}
             onClick={() => setActiveTab('wishlist')}
           >
-            Likes
+            Wishlisted Stays
           </button>
         </div>
       </aside>
@@ -118,6 +119,10 @@ export function UserDetails() {
 
       {activeTab === 'past-trips' && (
         <PastTrips trips={pastTrips}></PastTrips>
+      )}
+      
+      {activeTab === 'wishlist' && (
+        <WishlistPage></WishlistPage>
       )}
     </section>
   )

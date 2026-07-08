@@ -1,15 +1,22 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { loadOrders } from '../store/actions/order.actions'
+import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 
 export function PastTrips() {
     const user = useSelector(storeState => storeState.userModule.user)
     const trips = useSelector(storeState => storeState.orderModule.guestOrders) || []
-
+    const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
         if (!user?._id) return
+
+        setIsLoading(true)
         loadOrders({ buyerId: user._id })
+            .finally(() => {
+                setIsLoading(false) 
+            })
     }, [user?._id])
+    
 
     const completedTrips = useMemo(() => {
         const today = new Date()
@@ -45,7 +52,9 @@ export function PastTrips() {
             </div>
         )
     }
-
+if (isLoading) {
+        return <SkeletonLoader variant="past-trips" isLoading={isLoading} />
+    }
     return (
         <section className="past-trips-section">
             <h2 className="trips-section-title">Past trips</h2>
