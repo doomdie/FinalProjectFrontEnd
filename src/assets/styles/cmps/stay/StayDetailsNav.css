@@ -68,10 +68,10 @@
     opacity: 1;
 }
 
-/* jump targets stop below the fixed nav instead of underneath it */
+/* jump targets stop below the fixed nav — height measured from the real element */
 #photos,
 #amenities,
 #reviews,
 #location {
-    scroll-margin-top: 73px;
+    scroll-margin-top: var(--details-nav-height, 73px);
 }

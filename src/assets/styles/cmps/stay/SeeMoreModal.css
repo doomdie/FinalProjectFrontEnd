@@ -25,6 +25,12 @@
 
     scrollbar-width: thin;
     scrollbar-color: var(--palette-grey600) transparent;
+
+    transition: transform 0.25s ease;
+}
+
+.see-more-modal.pushed-back {
+    transform: scale(0.95);
 }
 
 .see-more-modal::-webkit-scrollbar {
@@ -76,4 +82,8 @@
     line-height: var(--typography-body-text_18_24-line-height);
     color: var(--color-text);
     white-space: pre-line;
+}
+
+.see-more-modal.small {
+    max-width: 480px;
 }

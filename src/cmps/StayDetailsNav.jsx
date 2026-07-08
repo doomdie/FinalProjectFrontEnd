@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const SECTIONS = [
     { id: 'photos', label: 'Photos' },
@@ -9,6 +9,15 @@ const SECTIONS = [
 
 export function StayDetailsNav() {
     const [isVisible, setIsVisible] = useState(false)
+    const navRef = useRef()
+
+    // publish the nav's real rendered height as a CSS var,
+    // so scroll-margin-top always matches it exactly
+    useEffect(() => {
+        if (!navRef.current) return
+        const navHeight = navRef.current.offsetHeight
+        document.documentElement.style.setProperty('--details-nav-height', navHeight + 'px')
+    }, [])
 
     useEffect(() => {
         function onScroll() {
@@ -30,7 +39,7 @@ export function StayDetailsNav() {
     }
 
     return (
-        <nav className={`details-nav ${isVisible ? 'visible' : ''}`}>
+        <nav ref={navRef} className={`details-nav ${isVisible ? 'visible' : ''}`}>
             <div className="details-nav-inner">
                 {SECTIONS.map(section => (
                     <button

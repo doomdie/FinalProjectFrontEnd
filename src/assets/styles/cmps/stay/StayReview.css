@@ -8,6 +8,7 @@
     z-index: 1;
     background: var(--color-bg);
 }
+
 .reviews-title {
     margin: 0 0 32px;
 
@@ -65,7 +66,8 @@
 .review-metadata {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 0;
+
     margin-bottom: 8px;
 
     font-size: var(--typography-body-text_14_18-font-size);
@@ -126,5 +128,60 @@
 .reviews-modal-list {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+}
+
+.reviews-modal-list .review-card {
+    padding: 24px 0;
+    border-top: 1px solid var(--color-border);
+}
+
+
+/* ===== reviews modal  ===== */
+.reviews-modal-score {
+    margin-top: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+.reviews-modal-big {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    font-size: 3rem;
+    line-height: 3.25rem;
+    font-weight: var(--typography-weight-bold700);
+    color: var(--color-text);
+}
+
+
+.reviews-modal-big svg {
+    height: 2rem !important;
+    width: 2rem !important;
+}
+
+.how-reviews-link {
+    padding: 0 !important;
+    background: none !important;
+    border: none;
+    margin: 8px 0 0 !important;
+
+    font-family: inherit;
+    font-size: var(--typography-body-text_14_18-font-size);
+    color: var(--color-text-light);
+    text-decoration: underline;
+
+    cursor: pointer;
+}
+
+.how-reviews-link:hover {
+    background: none !important;
+}
+
+.reviews-modal-count {
+    margin: 0 0 8px;
+
+    font-size: 22px;
+    line-height: 26px;
+    font-weight: var(--typography-weight-medium500);
+    color: var(--color-text);
 }
