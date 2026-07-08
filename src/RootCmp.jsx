@@ -15,6 +15,7 @@ import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
 import { UserDetails } from './pages/UserDetails'
 import { PublicProfile } from './pages/PublicProfile.jsx'
+import { HostListings } from './cmps/HostListings.jsx'
 import { checkLoggedinUser } from './store/actions/user.actions'
 import { UserMsg } from './cmps/UserMsg'
 
@@ -43,8 +44,8 @@ export function RootCmp() {
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/wishlist" element={<WishlistPage />} />
                 <Route path="/hosting" element={<HostMenu />} />
+                 <Route path="/hosting/listings" element={<HostListings />} />
                 <Route path="/become-a-host" element={<BecomeAHost />} />
-
 
             </Routes>
 

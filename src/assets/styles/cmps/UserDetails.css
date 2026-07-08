@@ -86,7 +86,10 @@
     display: flex;
     flex: 1;
     width: 100%;
-    min-height: calc(100vh - 200px);
+        min-height: calc(100vh - 80px);
+        align-items:center;
+      
+
 }
 
 .tab-content section {
@@ -250,7 +253,8 @@
 .user-aside .tab-btn {
     display: flex;
     padding: 10px 16px;
-    color: rgb(34, 34, 34);
+        color: rgb(34, 34, 34);
+
     background-color: var(--palette-grey0);
     width: 100%;
     max-width: 240px;
