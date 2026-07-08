@@ -145,6 +145,8 @@
   /* dimmed heart on card images */
   --color-heart-hover: rgba(0, 0, 0, 0.7);
   /* heart on hover */
+  
+  --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.12);
 
   /* ===== Text ===== */
   --color-text: #222222;

@@ -12,9 +12,6 @@
 }
 
 
-:root {
-    --sticky-card-width: 350px;
-}
 
 .modal-content {
     background: white;
@@ -54,160 +51,14 @@
     width: 400px;
 }
 
-.sticky-card-container {
-    position: sticky;
-    top: calc(90px + 1rem);
-    z-index: 10;
-    grid-column: 2;
-    margin-top: 32px;
-    
-    display: flex;
-    flex-direction: column;
-    gap: 16px; 
-}
 
-.rare-find-banner {
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 14px 24px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-.booking-box-content {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #dddddd;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-.sticky-datee {
-    line-height: var(--typography-body-text_14_18-line-height);
-    font-size: var(--typography-body-text_14_18-font-size);
-    min-height: 56px;
-    color: var(--palette-text-secondary);
-    padding-top: 26px;
-    padding-bottom: 10px;
-    padding-left: 12px;
-    padding-right: 12px;
-}
-.card-checkin {
-    font-size: 0.75rem;
-  color: #000000;
-}
-.sticky-part-one {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    border: 1px solid #b0b0b0;
-    border-radius: 8px;
-    overflow: visible;
-    background-color: #fff;
-    position: relative;
-}
-
-.sticky-part-one .date-pickers-trigger {
-    grid-column: span 2;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    border-bottom: 1px solid #b0b0b0;
-    cursor: pointer;
-
-}
-
-.sticky-part-one .date-pickers-trigger p {
-    margin: 0;
-    padding: 10px 12px;
-}
-
-.sticky-part-one .date-pickers-trigger div:first-child {
-    border-right: 1px solid #b0b0b0;
-}
-
-.sticky-part-one .guest-triggers {
-    grid-column: span 2;
-    width: 100%;
-    padding: 10px 24px 10px 12px;
-    
-    align-items: center;
-    position: relative;
-    display:grid;
-        grid-template-columns: repeat(2, 1fr);
-
-
-}
-
-.sticky-part-one .guest-triggers>button,
-.sticky-part-one .guest-triggers>div {
-    justify-self: stretch;
-    width: 100%;
-}
-.guests-text {
-    white-space: nowrap;
-}
-.col-one-title {
-    line-height: 0.75rem;
-    font-size: 0.625rem;
-    left: 12px;
-}
-.guests-col-two {
-    grid-column: 2; 
-    justify-self: end;
-}
-.custom-guest-dropdown {
-   
-}
-.guest-trigger-tile {
-    display: contents;
-}
-
-.guests-col-one {
-    grid-column: 1; 
-    display: flex;
-    flex-direction: column;
-}
-
-.guests-col-two {
-    grid-column: 2; 
-    justify-self: end;
-    align-self: center;
-}
 
 .stay-highlights {
     grid-column: 1 / span 1;
 }
 
-.reserve-btn {
-    justify-content: center;
-    align-self: center;
-    align-self: center;
-    width: 100%;
-    padding: 14px 24px;
-    border-radius: 8px;
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: 600;
-    text-align: center;
-    background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%);
-    border: none;
-    outline: none;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
-}
 
 .firstColumn {
     display: flex;
     flex-direction: column;
-}
-
-.stay-content-container {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 36px;
-    align-items: start;
-}
-.price-breakdown-summary {
-    text-decoration: underline;
 }

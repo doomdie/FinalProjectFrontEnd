@@ -19,7 +19,7 @@
 @import "cmps/SkeletonLoader.css";
 @import "cmps/HamburgerMenu.css";
 
-@import "cmps/review/StayReview.css";
+/* @import "cmps/review/StayReview.css"; */
 
 @import "cmps/stay/GuestPage";
 @import "cmps/stay/StayReview.css";
@@ -33,6 +33,8 @@
 @import "cmps/stay/StayDetailsMap.css";
 @import "cmps/stay/SeeMoreModal.css";
 @import "cmps/stay/StayDetailsNav.css";
+@import "cmps/stay/StickyCard.css";
+
 
 
 @import "cmps/stay/AddImage.css";

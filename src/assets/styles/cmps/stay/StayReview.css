@@ -66,7 +66,7 @@
 .review-metadata {
     display: flex;
     align-items: center;
-    gap: 0;
+    gap: 6px;
 
     margin-bottom: 8px;
 

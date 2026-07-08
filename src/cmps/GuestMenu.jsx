@@ -40,7 +40,7 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
       >
         <div className="guests-col-one">
           <span className="col-one-title">GUESTS</span>
-          <span className="guests-text"> {displayCount}  Guest{stay.capacity > 1 ? 's' : ''}</span>
+          <span className="guests-text">{displayCount} guest{displayCount === 1 ? '' : 's'}</span>
         </div>
         <div className="guests-col-two">
           {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}

@@ -1,0 +1,233 @@
+/* ===== sticky card ===== */
+
+/* rare-find banner — floating white pill */
+.rare-find-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 16px 24px;
+    background: var(--color-bg);
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
+
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: var(--typography-weight-medium500);
+    color: var(--palette-grey1000);
+}
+
+/* outer white booking card */
+.booking-box {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    padding: 24px;
+    background: var(--color-bg);
+    border: 1px solid var(--palette-grey300);
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
+}
+
+/* form box — checkin / checkout / guests */
+.booking-form {
+    border: 1px solid var(--palette-grey700);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.date-pickers-trigger {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--palette-grey700);
+
+    cursor: pointer;
+}
+
+.date-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    padding: 10px 12px;
+}
+
+.date-cell--in {
+    border-right: 1px solid var(--palette-grey700);
+}
+
+.date-cell-label {
+    font-size: 10px;
+    line-height: 12px;
+    font-weight: var(--typography-weight-bold700);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--palette-grey1000);
+}
+
+.date-cell-value {
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--palette-grey1000);
+}
+
+
+/* ===== details 2-column layout + sticky card ===== */
+.stay-content-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 36px;
+    align-items: start;
+}
+
+.sticky-card-container {
+    position: sticky;
+    top: 100px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+
+}
+
+/* guests row (inside GuestMenu) */
+.guest-trigger-tile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 10px 12px;
+}
+
+.guests-col-one {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.col-one-title {
+    font-size: 10px;
+    line-height: 12px;
+    font-weight: var(--typography-weight-bold700);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--palette-grey1000);
+}
+
+.guests-text {
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--palette-grey1000);
+}
+
+.guests-col-two {
+    display: flex;
+    align-items: center;
+    color: var(--palette-grey1000);
+}
+
+
+
+/* price line */
+.price-line {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+
+    margin-bottom: 8px;
+
+    font-size: 24px;
+    line-height: 26px;
+}
+
+.price-strike {
+    font-size: 22px;
+    line-height: 26px;
+    color: var(--palette-grey600);
+    text-decoration: line-through;
+}
+
+.price-final {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: var(--typography-weight-bold700);
+    color: var(--palette-grey1000);
+}
+
+.price-total-label {
+    font-size: 22px;
+    line-height: 26px;
+    font-weight: var(--typography-weight-medium500);
+    color: var(--palette-grey1000);
+}
+
+
+.price-current {
+    text-decoration: underline;
+}
+
+/* reserve button */
+.reserve-btn {
+    position: relative;
+    width: 100%;
+    padding: 14px;
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), #FF385C 0%, #E61E4D 30%, #D70466 70%);
+    border: none;
+    border-radius: 30px;
+
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: var(--typography-weight-medium500);
+    color: var(--palette-grey0);
+
+    cursor: pointer;
+}
+
+.charge-note {
+    text-align: center;
+
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--palette-grey1000);
+}
+
+
+/* report listing link */
+.report-listing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    width: 100%;
+    padding: 0;
+    background: none;
+    border: none;
+
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: var(--typography-weight-book400);
+    color: var(--palette-grey700);
+
+    cursor: pointer;
+}
+
+.report-listing:hover {
+    background: none;
+}
+
+.report-listing span {
+    text-decoration: underline;
+}
+
+.report-listing svg {
+    height: 16px;
+    width: 16px;
+}
