@@ -73,7 +73,6 @@ async function checkLoggedinUser() {
 }
 
 function saveLoggedinUser(user) {
-	console.log(user)
     user = { 
         _id: user._id, 
         fullname: user.fullname, 

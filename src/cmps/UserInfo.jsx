@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux'
 
 export function UserInfo() {
     const user = useSelector(storeState => storeState.userModule.user)
-    console.log(user)
 
     const stays = useSelector(storeState => storeState.stayModule.stays)
 
@@ -38,7 +37,7 @@ export function UserInfo() {
                         </section>
 
                     </div>
-                    <span className ="about-user-card">{user.description}</span>
+                    <span className="about-user-card">{user.description}</span>
 
 
                 </section>

@@ -13,7 +13,6 @@ import { HamburgerMenu } from './HamburgerMenu.jsx'
 export function AppHeader() {
 	const user = useSelector(storeState => storeState.userModule.user)
 	const stays = useSelector(storeState => storeState.stayModule.stays)
-	console.log(user)
 	const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
 	const [searchParams, setSearchParams] = useSearchParams()
 	const navigate = useNavigate()

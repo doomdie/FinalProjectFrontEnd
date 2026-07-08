@@ -49,10 +49,21 @@ export function UserDetails() {
 
   const now = new Date()
 
+
+
   const pastTrips = guestOrders ? guestOrders.filter(order => {
-    const isBuyer = order.buyer?._id === userId || order.buyer?.id === userId
+    const orderBuyerId = order.buyer?._id?.toString() || order.buyer?.id?.toString()
+    const currentUserId = userId?.toString()
+    const isBuyer = orderBuyerId === currentUserId
+
+    const todayMidnight = new Date()
+    todayMidnight.setHours(0, 0, 0, 0)
+
     const tripEndDate = order.endDate ? new Date(order.endDate) : null
-    const isPast = tripEndDate && tripEndDate < now
+    if (tripEndDate) tripEndDate.setHours(0, 0, 0, 0)
+
+    const isPast = tripEndDate && tripEndDate < todayMidnight
+
     return isBuyer && isPast
   }) : []
 
@@ -101,14 +112,12 @@ export function UserDetails() {
         </div>
       </aside>
 
-
-
       {activeTab === 'details' && (
-          <UserInfo></UserInfo>
+        <UserInfo></UserInfo>
       )}
 
       {activeTab === 'past-trips' && (
-          <PastTrips trips={pastTrips}></PastTrips>
+        <PastTrips trips={pastTrips}></PastTrips>
       )}
     </section>
   )
