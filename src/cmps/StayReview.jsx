@@ -8,7 +8,6 @@ export function StayReview({ stay }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   if (!stay || !stay.reviews) return <div>Loading reviews...</div>
   const totalRating = stay.rating || 4.8
-  console.log(stay.reviews)
   return (
     <div className="reviews-container">
       <div className="reviews-grid">
