@@ -1,42 +1,51 @@
 import { ReadMore } from '../cmps/ReadMore'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Rating } from '@mui/material'
 import { ReviewModal } from "../cmps/ReviewModal"
 import { NavLink, useLocation, Link, useSearchParams, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { loadReviews } from '../store/actions/review.actions.js'
 
 export function StayReview({ stay }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  if (!stay || !stay.reviews) return <div>Loading reviews...</div>
+  const reviews = useSelector(storeState => storeState.reviewModule.reviews)
+  console.log(reviews)
+  useEffect(() => {
+    if (!stay?._id) return
+    loadReviews({ targetId: stay._id, targetType: 'stay' })
+  }, [stay?._id])
+
+  if (!stay) return null
   const totalRating = stay.rating || 4.8
+
   return (
     <div className="reviews-container">
       <div className="reviews-grid">
-        {stay.reviews.map((review, idx) => {
-          const targetUserId = review.by.id || review.by._id
+        {reviews.map((review, idx) => {
+          const reviewer = review.byUser || {}
+          const targetUserId = reviewer._id
 
           return (
-            <article key={`${review.by._id || 'rev'}-${idx}`} className="review-card">
+            <article key={review._id || idx} className="review-card">
               <header className="review-header">
-
-
                 <Link to={`/profile/${targetUserId}`}>
                   <img
-                    src={review.by.imgUrl}
-                    alt={review.by.fullname}
+                    src={reviewer.imgUrl || '/img/default-user.png'}
+                    alt={reviewer.fullname || 'Guest'}
                     className="reviewer-avatar"
                   />
                 </Link>
 
                 <div className="reviewer-details">
-                  <h3 className="reviewer-name">{review.by.fullname}</h3>
-                  <p className="reviewer-location">{review.by.location}</p>
+                  <h3 className="reviewer-name">{reviewer.fullname || 'Anonymous'}</h3>
+                  <p className="reviewer-location">{reviewer.location || 'Guest'}</p>
                 </div>
               </header>
 
               <div className="review-metadata">
                 <Rating
-                  name="modal-rate"
-                  value={review.rate || totalRating}
+                  name={`rate-${review._id || idx}`}
+                  value={review.rating || totalRating}
                   precision={0.1}
                   readOnly
                   sx={{
@@ -59,16 +68,16 @@ export function StayReview({ stay }) {
                 />
                 <span className="separator">•</span>
                 <time className="review-date">
-                  {new Date(review.at).toLocaleDateString('en-US', {
+                  {review.createdAt ? new Date(review.createdAt).toLocaleDateString('en-US', {
                     month: 'long',
                     year: 'numeric'
-                  })}
+                  }) : ''}
                 </time>
               </div>
 
               <div className="review-content">
                 <p className="review-text">{review.txt}</p>
-                {review.txt.length > 150 && (
+                {review.txt && review.txt.length > 150 && (
                   <button className="btn-show-more" onClick={() => setIsModalOpen(true)}>
                     Show more &gt;
                   </button>
@@ -86,6 +95,5 @@ export function StayReview({ stay }) {
         />
       )}
     </div>
-
   )
 }
