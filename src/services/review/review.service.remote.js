@@ -10,15 +10,19 @@ export const reviewService = {
 // 	var queryStr = !filterBy ? '' : `?name=${filterBy.name}&sort=anaAref`
 // 	return httpService.get(`review${queryStr}`)
 // }
-function query(filterBy = {}) {
-    const params = new URLSearchParams()
+// function query(filterBy = {}) {
+//     const params = new URLSearchParams()
     
-    if (filterBy.targetId) params.append('targetId', filterBy.targetId)
-    if (filterBy.targetType) params.append('targetType', filterBy.targetType)
-    if (filterBy.byUserId) params.append('byUserId', filterBy.byUserId)
+//     if (filterBy.targetId) params.append('targetId', filterBy.targetId)
+//     if (filterBy.targetType) params.append('targetType', filterBy.targetType)
+//     if (filterBy.byUserId) params.append('byUserId', filterBy.byUserId)
 
-    const queryStr = params.toString() ? `?${params.toString()}` : ''
-    return httpService.get(`review${queryStr}`)
+//     const queryStr = params.toString() ? `?${params.toString()}` : ''
+//     return httpService.get(`review${queryStr}`)
+// }
+
+function query(filterBy = {}) {
+    return httpService.get('review', filterBy)
 }
 
 async function remove(reviewId) {

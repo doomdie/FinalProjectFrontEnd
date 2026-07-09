@@ -93,3 +93,12 @@ export function getFakeDates(stay) {
         checkOut: new Date(year, monthIdx, endDay),
     }
 }
+
+
+
+// one source of truth for the total price shown everywhere
+export function getTotalPrice(stay, checkIn, checkOut) {
+    if (!stay?.price || !checkIn || !checkOut) return 0
+    const nights = Math.max(1, Math.round((checkOut - checkIn) / (1000 * 60 * 60 * 24)))
+    return stay.price * nights
+}

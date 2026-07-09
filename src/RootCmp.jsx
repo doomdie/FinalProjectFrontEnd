@@ -18,6 +18,7 @@ import { PublicProfile } from './pages/PublicProfile.jsx'
 import { HostListings } from './cmps/HostListings.jsx'
 import { checkLoggedinUser } from './store/actions/user.actions'
 import { UserMsg } from './cmps/UserMsg'
+import { ScrollToTop } from './cmps/ScrollToTop.jsx'
 
 export function RootCmp() {
     useEffect(() => {
@@ -29,6 +30,8 @@ export function RootCmp() {
         <div className="main-container">
             {!isHostPage && <AppHeader />}
             <UserMsg />
+
+            <ScrollToTop />
 
             <Routes>
 
@@ -44,7 +47,7 @@ export function RootCmp() {
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/wishlist" element={<WishlistPage />} />
                 <Route path="/hosting" element={<HostMenu />} />
-                 <Route path="/hosting/listings" element={<HostListings />} />
+                <Route path="/hosting/listings" element={<HostListings />} />
                 <Route path="/become-a-host" element={<BecomeAHost />} />
 
             </Routes>

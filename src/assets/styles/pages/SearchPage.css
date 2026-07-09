@@ -188,7 +188,7 @@
 }
 
 .result-card-title {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 0.95rem;
     color: var(--color-text);
 }
@@ -204,9 +204,12 @@
 
 
 .result-card-meta .card-rating {
-    font-weight: 600;
+    font-weight: 500;
 }
 
+.result-card-price .price-amount {
+    font-weight: 500;
+}
 
 .result-card-price {
     margin: 0.3rem 0 0;

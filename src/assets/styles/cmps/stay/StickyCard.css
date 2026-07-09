@@ -63,7 +63,7 @@
 .date-cell-label {
     font-size: 10px;
     line-height: 12px;
-    font-weight: var(--typography-weight-bold700);
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.02em;
     color: var(--palette-grey1000);
@@ -115,7 +115,7 @@
 .col-one-title {
     font-size: 10px;
     line-height: 12px;
-    font-weight: var(--typography-weight-bold700);
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.02em;
     color: var(--palette-grey1000);
@@ -157,7 +157,7 @@
 .price-final {
     font-size: 24px;
     line-height: 28px;
-    font-weight: var(--typography-weight-bold700);
+    font-weight: 600;
     color: var(--palette-grey1000);
 }
 

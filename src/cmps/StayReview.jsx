@@ -15,6 +15,7 @@ export function StayReview({ stay }) {
   const storeReviews = useSelector(storeState => storeState.reviewModule.reviews)
 
   useEffect(() => {
+
     if (!stay?._id) return
     loadReviews({ targetId: stay._id, targetType: 'stay' })
   }, [stay?._id])
@@ -147,7 +148,7 @@ export function StayReview({ stay }) {
                       readOnly
                       sx={ratingSx}
                     />
-                    <span className="listSeperator">·</span>
+                    <span className="separator">·</span>
                     <span className="review-date">{getReviewDate(review)}</span>
                   </div>
 

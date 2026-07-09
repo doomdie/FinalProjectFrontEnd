@@ -8,7 +8,7 @@ import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps'
 import { wishlistService } from '../services/stays/wishlist.service.js'
 import { HeartButton } from '../cmps/HeartButton.jsx'
-import { getFakeRating, getFakeDates } from '../services/util.service.js'
+import { getFakeRating, getFakeDates, getTotalPrice } from '../services/util.service.js'
 
 const STAYS_PER_PAGE = 18  // 9 rows × 2 columns
 
@@ -28,6 +28,7 @@ export function SearchPage() {
 
     const filteredStays = stays ? stays.filter(stay => {
         if (stay.isLinkCard) return true
+        if (!stay.loc) return false   // skip stays with no location data
 
         if (txt) {
             const regex = new RegExp(txt, 'i')
@@ -142,7 +143,7 @@ export function SearchPage() {
                         const nights = Math.max(1, Math.round((cardDates.checkOut - cardDates.checkIn) / (1000 * 60 * 60 * 24)))
                         const fakeRating = getFakeRating(stay)  // FAKE — shared via util.service, one source of truth
                         const reviewCount = stay.reviewCount || 0                       // real
-                        const totalPrice = stay.price * nights                          // real nightly × nights
+                        const totalPrice = getTotalPrice(stay, cardDates.checkIn, cardDates.checkOut)
                         const hasFreeCancellation = idx % 4 === 0                       // FAKE: every 4th card
                         // ===============================================
 
@@ -227,7 +228,10 @@ export function SearchPage() {
                                     {!urlFrom && <p className="result-card-dates">{fakeDateRange}</p>}
 
                                     {/* real nightly × fake nights */}
-                                    <p className="result-card-price"><strong>₪{totalPrice.toLocaleString()}</strong> total</p>
+                                    <p className="result-card-price">
+                                        <span className="price-amount">₪{totalPrice.toLocaleString()}</span> total
+                                    </p>
+
 
                                     {hasFreeCancellation && <span className="result-card-cancel">Free cancellation</span>}
                                 </div>

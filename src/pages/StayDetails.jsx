@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { AmenitiesList } from '../cmps/AmenitiesList'
-import { store } from '../store/store'
 import { loadStay } from '../store/actions/stay.actions'
 import { StickyCard } from "../cmps/StickyCard"
 import { StayReview } from "../cmps/StayReview"
@@ -19,25 +17,20 @@ import { getFakeRating, getFakeHostingYears } from '../services/util.service.js'
 
 
 export function StayDetails() {
-  
+
   const { stayId } = useParams()
   // console.log('--- STAY DETAILS MOUNT/RENDER ---')
   // console.log('Extracted stayId from URL params:', stayId)
   const navigate = useNavigate()
   const [mobileFooterData, setMobileFooterData] = useState({ price: 0, dateRange: 'Add dates' })
-  const [isExpanded, setIsExpanded] = useState(false)
   const stay = useSelector(storeState => storeState.stayModule.stay)
+  const reviews = useSelector(storeState => storeState.reviewModule.reviews)
 
-// console.log('Current stay value from Redux store:', stay)
-
-  const placeholderAvatar = 'https://images.pexels.com/photos/18039300/pexels-photo-18039300.jpeg'
 
   useEffect(() => {
     loadStay(stayId)
-
-    return () => {
-    }
   }, [stayId])
+
 
   const isLoading = !stay || stay._id !== stayId;
   return (
@@ -123,7 +116,7 @@ export function StayDetails() {
                 <div className="stay-header-reviews">
                   ★ {getFakeRating(stay)}
                   <span className="listSeperator">·</span>
-                  {stay.reviews?.length || 0} review{stay.reviews?.length === 1 ? '' : 's'}
+                  {reviews?.length || 0} review{reviews?.length === 1 ? '' : 's'}
                 </div>
 
               </header>

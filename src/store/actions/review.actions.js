@@ -14,14 +14,14 @@ import { SET_SCORE } from '../reducers/user.reducer'
 // 	}
 // }
 export async function loadReviews(filterBy = {}) {
-    try {
-        const reviews = await reviewService.query(filterBy)
-        store.dispatch({ type: SET_REVIEWS, reviews })
-        return reviews
-    } catch (err) {
-        console.log('ReviewActions: err in loadReviews', err)
-        throw err
-    }
+	try {
+		const reviews = await reviewService.query(filterBy)
+		store.dispatch({ type: SET_REVIEWS, reviews })
+		return reviews
+	} catch (err) {
+		console.log('ReviewActions: err in loadReviews', err)
+		throw err
+	}
 }
 
 export async function addReview(review) {

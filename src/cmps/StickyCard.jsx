@@ -8,7 +8,7 @@ import { saveOrder } from '../store/actions/order.actions'
 import { socketService } from '../services/socket.service'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { SvgIcon } from '../services/svg.service.jsx'
-import { getFakeDates } from '../services/util.service.js'
+import { getFakeDates, getTotalPrice } from '../services/util.service.js'
 
 export function StickyCard({ stay, onUpdateFooter }) {
     const user = useSelector(storeState => storeState.userModule.user)
@@ -41,6 +41,20 @@ export function StickyCard({ stay, onUpdateFooter }) {
     const [activeField, setActiveField] = useState('checkIn')
     const datePickerRef = useRef(null)
 
+
+    // re-sync dates when navigating to a different stay
+    useEffect(() => {
+        const fromParam = parseLocalYMD(searchParams.get('from'))
+        const toParam = parseLocalYMD(searchParams.get('to'))
+        if (fromParam && toParam) {
+            setDates({ checkIn: fromParam, checkOut: toParam })
+            return
+        }
+        const fake = getFakeDates(stay)
+        if (fake) setDates(fake)
+    }, [stay._id])
+
+
     // close the picker when clicking anywhere outside it 
     useEffect(() => {
         if (!isDatePickerOpen) return
@@ -53,6 +67,8 @@ export function StickyCard({ stay, onUpdateFooter }) {
         document.addEventListener('mousedown', handleClickOutside)
         return () => document.removeEventListener('mousedown', handleClickOutside)
     }, [isDatePickerOpen])
+
+
 
     const [guestCounts, setGuestCounts] = useState(() => {
         const g = parseInt(searchParams.get('guests'), 10)
@@ -67,10 +83,7 @@ export function StickyCard({ stay, onUpdateFooter }) {
 
     const totalPayingGuests = (guestCounts.adults || 0) + (guestCounts.children || 0) + (guestCounts.infants || 0) + (guestCounts.pets || 0)
 
-    const accommodationBasePrice = pricePerNight * totalNights * (totalPayingGuests || 1)
-    const petFee = guestCounts.pets > 0 ? 150 : 0
-    const serviceFee = accommodationBasePrice > 0 ? Math.round(accommodationBasePrice * 0.12) : 0
-    const totalPrice = accommodationBasePrice + petFee + serviceFee
+    const totalPrice = getTotalPrice(stay, dates.checkIn, dates.checkOut)
 
     // fake "was" price for the strikethrough discount look (demo)
     const originalPrice = totalPrice > 0 ? Math.round(totalPrice * 1.33) : 0
