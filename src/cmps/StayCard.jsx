@@ -43,7 +43,7 @@ export function StayCard({ stay, onToggleHeart }) {
                 />
 
                 {/* <HeartButton stay={stay} className="stay-card-heart" /> */}
-                <HeartButton stay={stay} className = "stay-card-heart" onToggleHeart={onToggleHeart} />
+                <HeartButton stay={stay} className="stay-card-heart" onToggleHeart={onToggleHeart} />
             </div>
 
             <div className="stay-card-content">

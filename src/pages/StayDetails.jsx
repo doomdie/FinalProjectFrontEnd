@@ -82,7 +82,7 @@ export function StayDetails() {
                 <span>Share</span>
               </button>
               <button className="details-action-btn details-save-btn">
-                <HeartButton stayId={stay._id} className="save-heart" />
+                <HeartButton stay={stay} className="save-heart" />
                 <span>Save</span>
               </button>
             </div>

@@ -177,7 +177,7 @@ export function SearchPage() {
                                         ))}
                                     </div>
 
-                                    <HeartButton stayId={stay._id} className="result-card-heart" />
+                                    <HeartButton stay={stay} className="result-card-heart" />
 
                                     {/* prev arrow — hidden on first image */}
                                     {imgIdx > 0 && (

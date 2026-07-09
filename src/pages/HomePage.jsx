@@ -11,7 +11,7 @@ export function HomesPage() {
 
     useSyncStayFilter()
 
-    const currentTab = location.pathname.substring(1) || 'homes'
+    const currentTab = location.pathname.substring(1) || 'all'
     const stays = useSelector(storeState => storeState.stayModule.stays)
 
     // const isLoading = !stays || !stays.length
@@ -24,12 +24,15 @@ export function HomesPage() {
                 {/* <h2>Explore {currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}</h2> */}
             </header>
 
-            {currentTab === 'homes' && !isLoading && (
-                <StayList stays={stays} />
+            {(currentTab === 'all' || currentTab === 'homes') && !isLoading && (
+                <StayList stays={stays} byCity={currentTab === 'homes'} />
             )}
 
-            {currentTab === 'experiences' && (
-                <CarIndex />
+            {(currentTab === 'experiences' || currentTab === 'services') && (
+                <div className="under-construction">
+                    <h2>Page under construction</h2>
+                    <p>We're working on it. Check back soon.</p>
+                </div>
             )}
         </section>
     )
