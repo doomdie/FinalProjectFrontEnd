@@ -24,7 +24,7 @@ export function StayDetails() {
   const [mobileFooterData, setMobileFooterData] = useState({ price: 0, dateRange: 'Add dates' })
   const [isExpanded, setIsExpanded] = useState(false)
   const stay = useSelector(storeState => storeState.stayModule.stay)
-  console.log(stay)
+  // console.log(stay)
   const placeholderAvatar = 'https://images.pexels.com/photos/18039300/pexels-photo-18039300.jpeg'
 
   useEffect(() => {
