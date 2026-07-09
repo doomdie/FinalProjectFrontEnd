@@ -25,9 +25,10 @@ export function AppHeader() {
     const location = useLocation()
     const [underlinePos, setUnderlinePos] = useState({ left: 0, width: 0 })
     const [isScrolled, setIsScrolled] = useState(false)
+
+    const isHostingMode = location.pathname.startsWith('/hosting') || searchParams.get('mode') === 'hosting'
     const isDetailsPage = location.pathname.startsWith('/homes/') && location.pathname !== '/homes' && location.pathname !== '/homes/'
     const isSearchPage = location.pathname.startsWith('/search')
-    const isHosting = location.pathname.startsWith('/hosting')
     const isUser = location.pathname.startsWith('/user')
 
     const tabsContainerRef = useRef()
@@ -61,10 +62,10 @@ export function AppHeader() {
 
     useEffect(() => {
         moveUnderlineToActiveTab()
-    }, [location.pathname])
+    }, [location.pathname, isHostingMode])
 
     useEffect(() => {
-        if (isHosting) {
+        if (isHostingMode) {
             setIsScrolled(false)
             setForcedSection(null)
             setIsSearchOpen(false)
@@ -90,12 +91,15 @@ export function AppHeader() {
 
         window.addEventListener('scroll', onScroll, { passive: true })
         return () => window.removeEventListener('scroll', onScroll)
-    }, [isDetailsPage, isSearchPage, location.pathname, forcedSection, isUser, isHosting])
+    }, [isDetailsPage, isSearchPage, location.pathname, forcedSection, isUser, isHostingMode])
 
     function moveUnderlineToActiveTab() {
         if (!tabsContainerRef.current) return
         const activeTabEl = tabsContainerRef.current.querySelector('a.active')
-        if (!activeTabEl) return
+        if (!activeTabEl) {
+            setUnderlinePos({ left: 0, width: 0 })
+            return
+        }
 
         setUnderlinePos({
             left: activeTabEl.offsetLeft,
@@ -117,13 +121,13 @@ export function AppHeader() {
     }
 
     function onOpenSectionFromSmall(section) {
-        if (isHosting) return
+        if (isHostingMode) return
         setForcedSection(section)
         setIsScrolled(false)
     }
 
     function onSearchOpenChange(isOpen) {
-        if (isHosting) return
+        if (isHostingMode) return
         setIsSearchOpen(isOpen)
         if (!isOpen) {
             setForcedSection(null)
@@ -139,7 +143,7 @@ export function AppHeader() {
                 </NavLink>
 
                 <div className="header-center">
-                    {isHosting ? (
+                    {isHostingMode ? (
                         <div className="header-tabs host-tabs" ref={tabsContainerRef}>
                             <NavLink to="/hosting" end>Today</NavLink>
                             <NavLink to="/hosting/calendar">Calendar</NavLink>
@@ -188,18 +192,18 @@ export function AppHeader() {
                             </>)}
                 </div>
 
-                {(!isHosting && !isUser) && <SearchBarSmall onOpenSection={onOpenSectionFromSmall} />}
+                {(!isHostingMode && !isUser) && <SearchBarSmall onOpenSection={onOpenSectionFromSmall} />}
 
-                {(isSearchOpen && !isHosting) && <div className="page-overlay" />}
+                {(isSearchOpen && !isHostingMode) && <div className="page-overlay" />}
 
                 <div className="header-actions">
-                    <NavLink to={isHosting ? "/" : "/hosting"} className="host-switch-link">
-                        {isHosting ? "Switch to traveling" : "Switch to hosting"}
+                    <NavLink to={isHostingMode ? "/" : "/hosting"} className="host-switch-link">
+                        {isHostingMode ? "Switch to traveling" : "Switch to hosting"}
                     </NavLink>
                     {user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
 
                     {user && (
-                        <Link to={`/user/${user._id}`}>
+                        <Link to={`/user/${user._id}${isHostingMode ? '?mode=hosting' : ''}`}>
                             <img
                                 src={user.imgUrl}
                                 alt={user.fullname || "User profile"}
@@ -221,7 +225,7 @@ export function AppHeader() {
                 />
             </div>
 
-            {(isSearchPage && amenityPills.length > 0 && !isSearchOpen && !isHosting) && (
+            {(isSearchPage && amenityPills.length > 0 && !isSearchOpen && !isHostingMode) && (
                 <div className="amenity-bar">
                     <button className="amenity-pill amenity-pill-filters">
                         <SvgIcon iconName="filter" />
