@@ -20,6 +20,8 @@
 
 /* outer white booking card */
 .booking-box {
+    position: relative;
+
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -230,4 +232,220 @@
 .report-listing svg {
     height: 16px;
     width: 16px;
+}
+
+
+/* ===== anchored date-picker dropdown ===== */
+.booking-form-wrapper {
+    position: static;
+}
+
+.date-picker-panel {
+    position: absolute;
+    top: 3.5em;
+    right: -1em;
+    z-index: 20;
+
+    width: max-content;
+    padding: 24px;
+    background: var(--color-bg);
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
+}
+
+.date-picker-panel-header h2 {
+    margin: 0 0 16px;
+
+    font-size: 22px;
+    line-height: 26px;
+    font-weight: var(--typography-weight-medium500);
+    color: var(--palette-grey1000);
+}
+
+.date-picker-panel-footer {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: 16px;
+}
+
+.picker-close-btn {
+    padding: 10px 20px;
+    background: var(--palette-grey1000);
+    border: none;
+    border-radius: 8px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: var(--typography-weight-medium500);
+    color: var(--palette-grey0);
+
+    cursor: pointer;
+}
+
+
+/* calendar inside the dropdown — v10 */
+.date-picker-panel .rdp-months {
+    position: relative;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 24px;
+}
+
+.date-picker-panel .rdp-month {
+    flex: 0 0 auto;
+}
+
+/* nav arrows pinned to the far edges, on the caption row */
+.date-picker-panel .rdp-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+
+    display: flex;
+    justify-content: space-between;
+
+    pointer-events: none;
+}
+
+.date-picker-panel .rdp-nav button {
+    pointer-events: auto;
+}
+
+/* center each month's caption */
+.date-picker-panel .rdp-month_caption {
+    display: flex;
+    justify-content: center;
+}
+
+.date-picker-panel .rdp-selected .rdp-day_button {
+    background: var(--palette-grey1000);
+    border: none;
+    border-radius: 50%;
+
+    color: var(--palette-grey0);
+    font-weight: var(--typography-weight-medium500);
+}
+
+.date-picker-panel .rdp-disabled .rdp-day_button {
+    color: var(--palette-grey400);
+    text-decoration: line-through;
+    opacity: 1;
+}
+
+
+
+.date-picker-panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+
+    margin-bottom: 24px;
+}
+
+.picker-nights {
+    margin: 0 0 4px;
+
+    font-size: 22px;
+    line-height: 26px;
+    font-weight: var(--typography-weight-bold700);
+    color: var(--palette-grey1000);
+}
+
+.picker-date-range {
+    margin: 0;
+
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--palette-grey700);
+}
+
+.picker-header-fields {
+    display: flex;
+
+    border: 1px solid var(--palette-grey700);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.picker-field {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    min-width: 140px;
+    padding: 10px 12px;
+}
+
+.picker-field:first-child {
+    border-right: 1px solid var(--palette-grey700);
+}
+
+.picker-field-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.picker-field-label {
+    font-size: 10px;
+    line-height: 12px;
+    font-weight: var(--typography-weight-bold700);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--palette-grey1000);
+}
+
+.picker-field-value {
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--palette-grey1000);
+}
+
+.picker-field-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 50%;
+
+    font-size: 16px;
+    color: var(--palette-grey700);
+
+    cursor: pointer;
+}
+
+.picker-field-clear:hover {
+    background: var(--palette-grey200);
+}
+
+
+.picker-field.active {
+    z-index: 1;
+
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 2px var(--palette-grey1000);
+}
+
+/* when either field is active, drop the divider between them */
+.picker-header-fields:has(.picker-field.active) .picker-field:first-child {
+    border-right-color: transparent;
+}
+
+.picker-field.empty .picker-field-label,
+.picker-field.empty .picker-field-value {
+    color: var(--palette-grey500);
 }

@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { DatePicker } from "./DatePicker"
-import { Modal } from '@mui/material'
+// import { Modal } from '@mui/material'
 import { GuestMenu } from './GuestMenu'
 import { saveOrder } from '../store/actions/order.actions'
 import { socketService } from '../services/socket.service'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { SvgIcon } from '../services/svg.service.jsx'
+import { getFakeDates } from '../services/util.service.js'
 
 export function StickyCard({ stay, onUpdateFooter }) {
     const user = useSelector(storeState => storeState.userModule.user)
@@ -26,15 +27,36 @@ export function StickyCard({ stay, onUpdateFooter }) {
         const toParam = parseLocalYMD(searchParams.get('to'))
         if (fromParam && toParam) return { checkIn: fromParam, checkOut: toParam }
 
+        // no searched dates → use the same _id-derived fake dates the search card shows
+        const fake = getFakeDates(stay)
+        if (fake) return fake
+
         const today = new Date()
         const twoDaysFromNow = new Date()
         twoDaysFromNow.setDate(today.getDate() + 2)
         return { checkIn: today, checkOut: twoDaysFromNow }
     })
+
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+    const [activeField, setActiveField] = useState('checkIn')
+    const datePickerRef = useRef(null)
+
+    // close the picker when clicking anywhere outside it 
+    useEffect(() => {
+        if (!isDatePickerOpen) return
+
+        function handleClickOutside(ev) {
+            if (datePickerRef.current && !datePickerRef.current.contains(ev.target)) {
+                setIsDatePickerOpen(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [isDatePickerOpen])
+
     const [guestCounts, setGuestCounts] = useState(() => {
         const g = parseInt(searchParams.get('guests'), 10)
-        return { adults: g > 0 ? g : 0, children: 0, infants: 0, pets: 0 }
+        return { adults: g > 0 ? g : 1, children: 0, infants: 0, pets: 0 }
     })
 
     const pricePerNight = stay.price || 1000
@@ -135,24 +157,89 @@ export function StickyCard({ stay, onUpdateFooter }) {
                         </span>
                     </div>
                 )}
+                <div className="booking-form-wrapper" ref={datePickerRef}>
+                    <div className="booking-form">
+                        <div className="date-pickers-trigger" onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}>
+                            <div className="date-cell date-cell--in">
+                                <span className="date-cell-label">Check-in</span>
+                                <span className="date-cell-value">
+                                    {dates.checkIn ? dates.checkIn.toLocaleDateString() : 'Add date'}
+                                </span>
+                            </div>
+                            <div className="date-cell date-cell--out">
+                                <span className="date-cell-label">Checkout</span>
+                                <span className="date-cell-value">
+                                    {dates.checkOut ? dates.checkOut.toLocaleDateString() : 'Add date'}
+                                </span>
+                            </div>
+                        </div>
 
-                <div className="booking-form">
-                    <div className="date-pickers-trigger" onClick={() => setIsDatePickerOpen(true)}>
-                        <div className="date-cell date-cell--in">
-                            <span className="date-cell-label">Check-in</span>
-                            <span className="date-cell-value">
-                                {dates.checkIn ? dates.checkIn.toLocaleDateString() : 'Add date'}
-                            </span>
-                        </div>
-                        <div className="date-cell date-cell--out">
-                            <span className="date-cell-label">Checkout</span>
-                            <span className="date-cell-value">
-                                {dates.checkOut ? dates.checkOut.toLocaleDateString() : 'Add date'}
-                            </span>
-                        </div>
+                        <GuestMenu stay={stay} currentList={guestCounts} onUpdateList={setGuestCounts} />
                     </div>
 
-                    <GuestMenu stay={stay} currentList={guestCounts} onUpdateList={setGuestCounts} />
+                    {isDatePickerOpen && (
+                        <div className="date-picker-panel">
+
+                            <div className="date-picker-panel-header">
+                                <div className="picker-header-left">
+                                    <h2 className="picker-nights">
+                                        {totalNights > 0 ? `${totalNights} night${totalNights === 1 ? '' : 's'}` : 'Select dates'}
+                                    </h2>
+                                    <p className="picker-date-range">
+                                        {dates.checkIn && dates.checkOut
+                                            ? `${dates.checkIn.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} - ${dates.checkOut.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
+                                            : 'Add your travel dates for exact pricing'}
+                                    </p>
+                                </div>
+
+                                <div className="picker-header-fields">
+                                    <div
+                                        className={`picker-field ${activeField === 'checkIn' ? 'active' : ''} ${!dates.checkIn ? 'empty' : ''}`}
+                                        onClick={() => setActiveField('checkIn')}
+                                    >
+                                        <div className="picker-field-text">
+                                            <span className="picker-field-label">Check-in</span>
+                                            <span className="picker-field-value">
+                                                {dates.checkIn ? dates.checkIn.toLocaleDateString() : 'MM/DD/YYYY'}
+                                            </span>
+                                        </div>
+                                        {dates.checkIn && (
+                                            <button
+                                                className="picker-field-clear"
+                                                onClick={() => setDates({ checkIn: null, checkOut: null })}
+                                                aria-label="Clear check-in"
+                                            >×</button>
+                                        )}
+                                    </div>
+
+                                    <div
+                                        className={`picker-field ${activeField === 'checkOut' ? 'active' : ''} ${!dates.checkOut ? 'empty' : ''}`}
+                                        onClick={() => setActiveField('checkOut')}
+                                    >
+                                        <div className="picker-field-text">
+                                            <span className="picker-field-label">Checkout</span>
+                                            <span className="picker-field-value">
+                                                {dates.checkOut ? dates.checkOut.toLocaleDateString() : 'Add date'}
+                                            </span>
+
+                                        </div>
+                                        {dates.checkOut && (
+                                            <button
+                                                className="picker-field-clear"
+                                                onClick={() => setDates({ ...dates, checkOut: null })}
+                                                aria-label="Clear checkout"
+                                            >×</button>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <DatePicker onSelectDates={handleSelectDates} numberOfMonths={2} />
+                            <div className="date-picker-panel-footer">
+                                <button className="picker-close-btn" onClick={() => setIsDatePickerOpen(false)}>Close</button>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <button
@@ -170,14 +257,14 @@ export function StickyCard({ stay, onUpdateFooter }) {
                 <SvgIcon iconName="report" />
                 <span>Report this listing</span>
             </button>
-
-            <Modal open={isDatePickerOpen} onClose={() => setIsDatePickerOpen(false)}>
+            {/* 
+            <Modal open={isDatePickerOpen} onClose={() => setIsDatePickerOpen(false)} hideBackdrop>
                 <div className="custom-modal-card">
                     <h2>Select Dates</h2>
-                    <DatePicker onSelectDates={handleSelectDates} />
+                    <DatePicker onSelectDates={handleSelectDates} numberOfMonths={2} />
                     <button onClick={() => setIsDatePickerOpen(false)}>Close</button>
                 </div>
-            </Modal>
+            </Modal> */}
 
         </div>
     )

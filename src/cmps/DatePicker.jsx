@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { DayPicker } from 'react-day-picker'
-import 'react-day-picker/dist/style.css'
+import 'react-day-picker/style.css'
 
 export function DatePicker({ onSelectDates, numberOfMonths = 1, value, formatters, enableHoverPreview = false }) {
     // console.log('DATEPICKER RENDER', { enableHoverPreview, value })

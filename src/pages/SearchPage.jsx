@@ -8,7 +8,7 @@ import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps'
 import { wishlistService } from '../services/stays/wishlist.service.js'
 import { HeartButton } from '../cmps/HeartButton.jsx'
-import { getFakeRating } from '../services/util.service.js'
+import { getFakeRating, getFakeDates } from '../services/util.service.js'
 
 const STAYS_PER_PAGE = 18  // 9 rows × 2 columns
 
@@ -131,28 +131,15 @@ export function SearchPage() {
                     {!isLoading && mapReady && staysToShow.map((stay, idx) => {
 
                         // ===== FAKE ADDED INFO TO LOOK LIKE AIRBNB =====
-                        // same scramble as StayCard: derive from the END of the id (start chars identical)
-                        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                        const idLen = stay._id.length
-                        const dateSeed = stay._id.charCodeAt(idLen - 1) * 13 + stay._id.charCodeAt(idLen - 2) * 29 + stay._id.charCodeAt(idLen - 3) * 5
-                        const startDay = 1 + (dateSeed % 27)
-                        const span = 3 + ((dateSeed >> 2) % 6)
-                        const monthIdx = 6 + ((dateSeed >> 4) % 2)                      // Jul or Aug
-                        const endDay = Math.min(startDay + span, 30)
-                        // if the user searched specific dates, show THOSE instead of fakes
+                        // dates: searched (from URL) OR deterministic fakes from _id — shared via util.service
                         const urlFrom = searchParams.get('from') ? new Date(searchParams.get('from')) : null
                         const urlTo = searchParams.get('to') ? new Date(searchParams.get('to')) : null
-                        let fakeDateRange
-                        let nights
-                        if (urlFrom && urlTo) {
-                            const opts = { month: 'short', day: 'numeric' }
-                            const sameMonth = urlFrom.getMonth() === urlTo.getMonth()
-                            fakeDateRange = `${urlFrom.toLocaleDateString('en-US', opts)} – ${urlTo.toLocaleDateString('en-US', sameMonth ? { day: 'numeric' } : opts)}`
-                            nights = Math.max(1, Math.round((urlTo - urlFrom) / (1000 * 60 * 60 * 24)))
-                        } else {
-                            fakeDateRange = `${months[monthIdx]} ${startDay} – ${endDay}`   // FAKE
-                            nights = span                                                     // matches the fake range
-                        }
+                        const cardDates = (urlFrom && urlTo) ? { checkIn: urlFrom, checkOut: urlTo } : getFakeDates(stay)
+
+                        const opts = { month: 'short', day: 'numeric' }
+                        const sameMonth = cardDates.checkIn.getMonth() === cardDates.checkOut.getMonth()
+                        const fakeDateRange = `${cardDates.checkIn.toLocaleDateString('en-US', opts)} – ${cardDates.checkOut.toLocaleDateString('en-US', sameMonth ? { day: 'numeric' } : opts)}`
+                        const nights = Math.max(1, Math.round((cardDates.checkOut - cardDates.checkIn) / (1000 * 60 * 60 * 24)))
                         const fakeRating = getFakeRating(stay)  // FAKE — shared via util.service, one source of truth
                         const reviewCount = stay.reviewCount || 0                       // real
                         const totalPrice = stay.price * nights                          // real nightly × nights

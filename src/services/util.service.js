@@ -70,3 +70,26 @@ export function getFakeHostingYears(stay) {
     const seed = stay._id.charCodeAt(idLen - 1) * 23 + stay._id.charCodeAt(idLen - 2) * 11
     return 2 + (seed % 10)
 }
+
+
+// FAKE — deterministic dates from the END of the _id (same seed style as getFakeRating)
+// returns real Date objects so both the search card and the sticky card agree
+export function getFakeDates(stay) {
+    if (!stay?._id) return null
+    const idLen = stay._id.length
+    const dateSeed =
+        stay._id.charCodeAt(idLen - 1) * 13 +
+        stay._id.charCodeAt(idLen - 2) * 29 +
+        stay._id.charCodeAt(idLen - 3) * 5
+
+    const startDay = 1 + (dateSeed % 27)
+    const span = 3 + ((dateSeed >> 2) % 6)
+    const monthIdx = 6 + ((dateSeed >> 4) % 2)   // 6=Jul, 7=Aug
+    const endDay = Math.min(startDay + span, 30)
+
+    const year = new Date().getFullYear()
+    return {
+        checkIn: new Date(year, monthIdx, startDay),
+        checkOut: new Date(year, monthIdx, endDay),
+    }
+}

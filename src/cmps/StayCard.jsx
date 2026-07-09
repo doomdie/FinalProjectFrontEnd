@@ -4,7 +4,7 @@ import { Rating } from '@mui/material'
 
 import { SvgIcon } from '../services/svg.service.jsx'
 import { HeartButton } from './HeartButton.jsx'
-import { getFakeRating } from '../services/util.service.js'
+import { getFakeRating, getFakeDates } from '../services/util.service.js'
 
 
 export function StayCard({ stay }) {
@@ -19,25 +19,15 @@ export function StayCard({ stay }) {
 
 
 
-
     // ===== FAKE ADDED INFO TO LOOK LIKE AIRBNB =====
-    // Our stay data has no per-listing availability dates or numeric rating,
-    // so these are faked for display only. Replace with real data if it ever exists.
-    // FAKE dates — no availability data, so derive a stable, varied range from the id
-    // FAKE dates + rating — derived from the END of the id (start chars are identical across stays)
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    const idLen = stay._id.length
-    // scramble id chars so dates vary; keep them in Jul–Aug (near-future, like real Airbnb)
-    const dateSeed = stay._id.charCodeAt(idLen - 1) * 13 + stay._id.charCodeAt(idLen - 2) * 29 + stay._id.charCodeAt(idLen - 3) * 5
-    const startDay = 1 + (dateSeed % 27)                              // 1–27
-    const span = 3 + ((dateSeed >> 2) % 6)                           // 3–8 nights
-    const monthIdx = 6 + ((dateSeed >> 4) % 2)                        // 6=Jul or 7=Aug only
-    const endDay = Math.min(startDay + span, 30)                     // cap end at 28 so no invalid days
-    const fakeDateRange = `${months[monthIdx]} ${startDay} – ${endDay}`
-    // FAKE rating — shared via util.service, one source of truth
+    // No availability/rating data — derived deterministically from _id, shared via util.service
+    const fakeDates = getFakeDates(stay)
+    const opts = { month: 'short', day: 'numeric' }
+    const sameMonth = fakeDates.checkIn.getMonth() === fakeDates.checkOut.getMonth()
+    const fakeDateRange = `${fakeDates.checkIn.toLocaleDateString('en-US', opts)} – ${fakeDates.checkOut.toLocaleDateString('en-US', sameMonth ? { day: 'numeric' } : opts)}`
+    const nights = Math.max(1, Math.round((fakeDates.checkOut - fakeDates.checkIn) / (1000 * 60 * 60 * 24)))
     const fakeRating = getFakeRating(stay)
-    const nights = 5                                                   // FAKE: matches fakeDateRange span
-    const totalPrice = stay.price * nights                             // total = real nightly price × fake nights
+    const totalPrice = stay.price * nights
     // ===============================================
 
 
