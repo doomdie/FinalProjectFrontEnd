@@ -1,50 +1,158 @@
-.login-form,
-.signup-form {
-	display: grid;
-	width: min(80%, 300px);
-	margin: auto;
+/* ===== login / signup modal ===== */
 
-	padding: 1em;
-	background-color: var(--clr4);
-}
-
-.signup-form {
-	>input {
-		width: 100%;
-		margin: 0.4em 0;
-	}
-
-	.admin-toggle {
-		display: flex;
-		align-items: center;
-		justify-self: start;
-
-		>span {
-			font-size: .8em;
-		}
-	}
-}
-
-.login-page nav {
+.modal-login-content {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 2em;
+	gap: 32px;
 
-	margin-block: 100px 0.5em;
+	padding-bottom: 16px;
+	border-bottom: 1px solid var(--palette-grey300);
+	margin-bottom: 24px;
+}
+
+.modal-login-content button {
+	padding: 8px 4px;
+	background: none;
+	border: none;
+
+	font-family: inherit;
+	font-size: 16px;
+	line-height: 20px;
+	font-weight: var(--typography-weight-medium500);
+	color: var(--palette-grey600);
+
+	cursor: pointer;
+}
+
+.modal-login-content button:hover {
+	background: none;
+	color: var(--palette-grey1000);
+}
+
+.modal-login-content button.active {
+	color: var(--palette-grey1000);
+	border-bottom: 2px solid var(--palette-grey1000);
+}
 
 
-	> a {
-		font-size: 0.8em;
-		color: var(--clr4);
+/* ===== forms ===== */
+.login-form,
+.signup-form {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
 
-		&:hover {
-			color: var(--clr1);
-		}
+	width: 100%;
+	padding: 0;
+	background: none;
+	margin: 0;
+}
 
-		&.active {
-			text-decoration: underline;
-			color: var(--clr2);
-		}
-	}
+.login-form h2,
+.signup-form h2 {
+	margin: 0 0 8px;
+
+	font-size: 22px;
+	line-height: 26px;
+	font-weight: var(--typography-weight-medium500);
+	color: var(--palette-grey1000);
+}
+
+.login-form input,
+.signup-form input {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 16px 12px;
+	background: var(--color-bg);
+	border: 1px solid var(--palette-grey500);
+	border-radius: 8px;
+	margin: 0;
+	outline: none;
+
+	font-family: inherit;
+	font-size: 16px;
+	line-height: 20px;
+	color: var(--palette-grey1000);
+}
+
+.login-form input:focus,
+.signup-form input:focus {
+	border-color: var(--palette-grey1000);
+}
+
+.login-form input::placeholder,
+.signup-form input::placeholder {
+	color: var(--palette-grey600);
+}
+
+/* keep the modal top anchored — only the bottom grows */
+.modal-backdrop {
+	align-items: flex-start;
+}
+
+.modal-content {
+	margin-top: 15vh;
+}
+
+
+/* ===== submit button — Airbnb gradient pill ===== */
+.login-form button[type="submit"],
+.signup-form button[type="submit"] {
+	width: 100%;
+	padding: 14px;
+	background: linear-gradient(to right, #E61E4D 0%, #E31C5F 50%, #D70466 100%);
+	border: none;
+	border-radius: 8px;
+	margin-top: 8px;
+
+	font-family: inherit;
+	font-size: 16px;
+	line-height: 20px;
+	font-weight: var(--typography-weight-medium500);
+	color: var(--palette-grey0);
+
+	cursor: pointer;
+}
+
+
+/* ===== error message ===== */
+.auth-error {
+	margin: 0;
+
+	font-size: 14px;
+	line-height: 18px;
+	color: var(--color-error);
+}
+
+
+
+/* ===== interaction feedback ===== */
+
+.login-form button[type="submit"]:hover,
+.signup-form button[type="submit"]:hover {
+	filter: brightness(1.08);
+}
+
+.login-form button[type="submit"]:active,
+.signup-form button[type="submit"]:active {
+	transform: scale(0.98);
+}
+
+.modal-login-content button {
+	transition: color 0.15s ease;
+}
+
+.modal-close-btn {
+	border-radius: 50%;
+	transition: background 0.15s ease;
+}
+
+.modal-close-btn:hover {
+	background: var(--palette-grey200);
+}
+
+.login-form input,
+.signup-form input {
+	transition: border-color 0.15s ease;
 }

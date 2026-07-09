@@ -12,10 +12,13 @@
 @import "cmps/HomePage";
 @import "pages/SearchPage";
 @import "cmps/user/PublicProfile.css";
+@import "cmps/LoginSignup";
+
 
 @import "cmps/UserDetails.css";
 @import "cmps/stay/Carousel";
 @import "cmps/stay/Wishlist";
+
 
 @import "cmps/stay/Loading.css";
 @import "cmps/SkeletonLoader.css";
@@ -52,7 +55,6 @@
 /* 
 @import "cmps/AboutUs";
 @import "cmps/UserDetails";
-@import "cmps/LoginSignup";
 @import "cmps/Chat";
 
 
