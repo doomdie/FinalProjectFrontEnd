@@ -1,6 +1,6 @@
 const { DEV, VITE_LOCAL } = import.meta.env
 
-import { stayService as local } from './stays.service.local'
+// import { stayService as local } from './stays.service.local'
 import { stayService as remote } from './stays.service.remote'
 
 
@@ -38,7 +38,10 @@ function getDefaultFilter() {
     }
 }
 
-const service = (VITE_LOCAL === 'true') ? local : remote
+// const service = (VITE_LOCAL === 'true') ? local : remote
+const service = remote
+
+
 export const stayService = { getEmptyStay, getDefaultFilter, ...service }
 if (DEV) window.reviewService = stayService
 // REMEMBER TO CHANGE THIS TO STAYS YAIR!!!

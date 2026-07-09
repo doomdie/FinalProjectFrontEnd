@@ -1,4 +1,4 @@
-import { userService } from '../../services/user/user.service.local'
+import { userService } from '../../services/user'
 
 export const INCREMENT = 'INCREMENT'
 export const DECREMENT = 'DECREMENT'
@@ -11,7 +11,7 @@ export const SET_SCORE = 'SET_SCORE'
 
 const initialState = {
     count: 10,
-    user: userService.getLoggedinUser(),
+    user:  JSON.parse(sessionStorage.getItem('loggedinUser')) || null,
     users: [],
     watchedUser : null
 }

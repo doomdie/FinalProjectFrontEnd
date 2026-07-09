@@ -4,14 +4,24 @@ import { store } from '../store'
 import { ADD_REVIEW, REMOVE_REVIEW, SET_REVIEWS } from '../reducers/review.reducer'
 import { SET_SCORE } from '../reducers/user.reducer'
 
-export async function loadReviews() {
-	try {
-		const reviews = await reviewService.query()
-		store.dispatch({ type: SET_REVIEWS, reviews })
-	} catch (err) {
-		console.log('ReviewActions: err in loadReviews', err)
-		throw err
-	}
+// export async function loadReviews() {
+// 	try {
+// 		const reviews = await reviewService.query()
+// 		store.dispatch({ type: SET_REVIEWS, reviews })
+// 	} catch (err) {
+// 		console.log('ReviewActions: err in loadReviews', err)
+// 		throw err
+// 	}
+// }
+export async function loadReviews(filterBy = {}) {
+    try {
+        const reviews = await reviewService.query(filterBy)
+        store.dispatch({ type: SET_REVIEWS, reviews })
+        return reviews
+    } catch (err) {
+        console.log('ReviewActions: err in loadReviews', err)
+        throw err
+    }
 }
 
 export async function addReview(review) {

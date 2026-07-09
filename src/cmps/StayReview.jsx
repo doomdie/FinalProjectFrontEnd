@@ -1,23 +1,59 @@
-import { ReadMore } from '../cmps/ReadMore'
-import { useState } from 'react'
-import { getFakeRating } from '../services/util.service.js'
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Rating } from '@mui/material'
+
 import { SeeMoreModal } from './SeeMoreModal.jsx'
 import { SvgIcon } from '../services/svg.service.jsx'
-
-import { Rating } from '@mui/material'
-// import { ReviewModal } from "../cmps/ReviewModal"
-import { NavLink, useLocation, Link, useSearchParams, useNavigate } from 'react-router-dom'
+import { getFakeRating } from '../services/util.service.js'
+import { loadReviews } from '../store/actions/review.actions.js'
 
 export function StayReview({ stay }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isHowOpen, setIsHowOpen] = useState(false)
 
+  const storeReviews = useSelector(storeState => storeState.reviewModule.reviews)
 
-  if (!stay || !stay.reviews) return <div>Loading reviews...</div>
+  useEffect(() => {
+    if (!stay?._id) return
+    loadReviews({ targetId: stay._id, targetType: 'stay' })
+  }, [stay?._id])
+
+  if (!stay) return null
+
+  // prefer reviews from the store; fall back to the ones embedded on the stay
+  const reviews = (storeReviews?.length ? storeReviews : stay.reviews) || []
+  const reviewCount = reviews.length
   const totalRating = stay.rating || 4.8
-  // console.log(stay.reviews)
 
-  const reviewCount = stay.reviews.length
+  // reviews come in two shapes: store uses byUser/createdAt, stay data uses by/at
+  function getReviewer(review) {
+    return review.byUser || review.by || {}
+  }
+
+  function getReviewDate(review) {
+    const raw = review.createdAt || review.at
+    if (!raw) return ''
+    return new Date(raw).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+  }
+
+  const ratingSx = {
+    '& .MuiRating-icon': {
+      height: '0.75rem',
+      width: '0.75rem',
+      marginRight: '1px',
+    },
+    '& .MuiRating-icon svg': {
+      height: '100%',
+      width: '100%',
+    },
+    '& .MuiRating-iconFilled': {
+      color: '#222222',
+    },
+    '& .MuiRating-iconEmpty': {
+      color: '#e3e3e3',
+    },
+  }
 
   return (
     <div className="reviews-container">
@@ -26,57 +62,37 @@ export function StayReview({ stay }) {
       </h2>
 
       <div className="reviews-grid">
-        {stay.reviews.map((review, idx) => {
-          const targetUserId = review.by.id || review.by._id
+        {reviews.map((review, idx) => {
+          const reviewer = getReviewer(review)
+          const targetUserId = reviewer._id
 
           return (
-            <article key={idx} className="review-card">
+            <article key={review._id || idx} className="review-card">
               <header className="review-header">
                 <Link to={`/profile/${targetUserId}`}>
                   <img
-                    src={review.by.imgUrl}
-                    alt={review.by.fullname}
+                    src={reviewer.imgUrl || '/img/default-user.png'}
+                    alt={reviewer.fullname || 'Guest'}
                     className="reviewer-avatar"
                   />
                 </Link>
 
                 <div className="reviewer-details">
-                  <h3 className="reviewer-name">{review.by.fullname}</h3>
-                  <p className="reviewer-location">{review.by.location}</p>
+                  <h3 className="reviewer-name">{reviewer.fullname || 'Anonymous'}</h3>
+                  <p className="reviewer-location">{reviewer.location || 'Guest'}</p>
                 </div>
               </header>
 
               <div className="review-metadata">
                 <Rating
-                  name="modal-rate"
-                  value={review.rate || totalRating}
+                  name={`rate-${review._id || idx}`}
+                  value={review.rating || totalRating}
                   precision={0.1}
                   readOnly
-                  sx={{
-                    '& .MuiRating-icon': {
-                      height: '0.75rem',
-                      width: '0.75rem',
-                      marginRight: '1px',
-                    },
-                    '& .MuiRating-icon svg': {
-                      height: '100%',
-                      width: '100%',
-                    },
-                    '& .MuiRating-iconFilled': {
-                      color: '#222222',
-                    },
-                    '& .MuiRating-iconEmpty': {
-                      color: '#e3e3e3',
-                    }
-                  }}
+                  sx={ratingSx}
                 />
                 <span className="separator">•</span>
-                <time className="review-date">
-                  {new Date(review.at).toLocaleDateString('en-US', {
-                    month: 'long',
-                    year: 'numeric'
-                  })}
-                </time>
+                <time className="review-date">{getReviewDate(review)}</time>
               </div>
 
               <div className="review-content">
@@ -95,7 +111,6 @@ export function StayReview({ stay }) {
         <SeeMoreModal onClose={() => setIsModalOpen(false)} pushedBack={isHowOpen}>
 
           <div className="reviews-modal-score">
-
             <span className="reviews-modal-big">
               <SvgIcon iconName="star" />
               {getFakeRating(stay)}
@@ -103,36 +118,43 @@ export function StayReview({ stay }) {
 
             <button className="how-reviews-link" onClick={() => setIsHowOpen(true)}>How reviews work</button>
           </div>
+
           <h3 className="reviews-modal-count">{reviewCount} reviews</h3>
+
           <div className="reviews-modal-list">
-            {stay.reviews.map((review, idx) => (
-              <article key={idx} className="review-card">
-                <header className="review-header">
-                  <img src={review.by.imgUrl} alt={review.by.fullname} className="reviewer-avatar" />
-                  <div className="reviewer-details">
-                    <h3 className="reviewer-name">{review.by.fullname}</h3>
-                    <p className="reviewer-location">{review.by.location}</p>
+            {reviews.map((review, idx) => {
+              const reviewer = getReviewer(review)
+
+              return (
+                <article key={review._id || idx} className="review-card">
+                  <header className="review-header">
+                    <img
+                      src={reviewer.imgUrl || '/img/default-user.png'}
+                      alt={reviewer.fullname || 'Guest'}
+                      className="reviewer-avatar"
+                    />
+                    <div className="reviewer-details">
+                      <h3 className="reviewer-name">{reviewer.fullname || 'Anonymous'}</h3>
+                      <p className="reviewer-location">{reviewer.location || 'Guest'}</p>
+                    </div>
+                  </header>
+
+                  <div className="review-metadata">
+                    <Rating
+                      name={`modal-rate-${review._id || idx}`}
+                      value={review.rating || totalRating}
+                      precision={0.1}
+                      readOnly
+                      sx={ratingSx}
+                    />
+                    <span className="listSeperator">·</span>
+                    <span className="review-date">{getReviewDate(review)}</span>
                   </div>
-                </header>
-                <div className="review-metadata">
-                  <Rating
-                    name="modal-rate"
-                    value={5}
-                    readOnly
-                    sx={{
-                      '& .MuiRating-icon': { height: '0.75rem', width: '0.75rem', marginRight: '1px' },
-                      '& .MuiRating-icon svg': { height: '100%', width: '100%' },
-                      '& .MuiRating-iconFilled': { color: 'var(--color-text)' },
-                    }}
-                  />
-                  <span className="listSeperator">·</span>
-                  <span className="review-date">
-                    {new Date(review.at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                  </span>
-                </div>
-                <p className="review-text">{review.txt}</p>
-              </article>
-            ))}
+
+                  <p className="review-text">{review.txt}</p>
+                </article>
+              )
+            })}
           </div>
         </SeeMoreModal>
       )}
@@ -145,6 +167,5 @@ export function StayReview({ stay }) {
         </SeeMoreModal>
       )}
     </div>
-
   )
 }

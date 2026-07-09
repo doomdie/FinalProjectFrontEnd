@@ -11,243 +11,240 @@ import { SearchBarSmall } from './SearchBarSmall.jsx'
 import { HamburgerMenu } from './HamburgerMenu.jsx'
 
 export function AppHeader() {
-	const user = useSelector(storeState => storeState.userModule.user)
-	const stays = useSelector(storeState => storeState.stayModule.stays)
+    const user = useSelector(storeState => storeState.userModule.user)
+    const stays = useSelector(storeState => storeState.stayModule.stays)
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const navigate = useNavigate()
 
-	const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
-	const [searchParams, setSearchParams] = useSearchParams()
-	const navigate = useNavigate()
+    const [forcedSection, setForcedSection] = useState(null)
+    const [isSearchOpen, setIsSearchOpen] = useState(false)
 
-	// small-bar click → re-expand the big bar with that section open + dark page overlay
-	const [forcedSection, setForcedSection] = useState(null)
-	const [isSearchOpen, setIsSearchOpen] = useState(false)
+    const activeAmenities = (searchParams.get('amenities') || '').split(',').filter(a => a)
 
+    const location = useLocation()
+    const [underlinePos, setUnderlinePos] = useState({ left: 0, width: 0 })
+    const [isScrolled, setIsScrolled] = useState(false)
 
-	// which amenities are currently active (from the URL ?amenities=Wifi,Kitchen)
-	const activeAmenities = (searchParams.get('amenities') || '').split(',').filter(a => a)
+    const isHostingMode = location.pathname.startsWith('/hosting') || searchParams.get('mode') === 'hosting'
+    const isDetailsPage = location.pathname.startsWith('/homes/') && location.pathname !== '/homes' && location.pathname !== '/homes/'
+    const isSearchPage = location.pathname.startsWith('/search')
+    const isUser = location.pathname.startsWith('/user')
 
-	const location = useLocation()
-	const [underlinePos, setUnderlinePos] = useState({ left: 0, width: 0 })
-	const [isScrolled, setIsScrolled] = useState(false)
-	const isDetailsPage = location.pathname.startsWith('/homes/') && location.pathname !== '/homes' && location.pathname !== '/homes/'
-	const isSearchPage = location.pathname.startsWith('/search')
-	const isHosting = location.pathname.startsWith('/hosting')
-	const tabsContainerRef = useRef()
+    const tabsContainerRef = useRef()
 
+    const frozenPillsRef = useRef(null)
+    const amenityPills = useMemo(() => {
+        if (frozenPillsRef.current) return frozenPillsRef.current   
+        if (!stays?.length) return []
+        const amenityCounts = {}
+        for (const stay of stays) {
+            for (const amenity of stay.amenities || []) {
+                amenityCounts[amenity] = (amenityCounts[amenity] || 0) + 1
+            }
+        }
+        const pills = Object.keys(amenityCounts)
+            .sort((a, b) => amenityCounts[b] - amenityCounts[a])
+            .slice(0, 9)
+        frozenPillsRef.current = pills   
+        return pills
+    }, [stays])
 
+    async function onLogout() {
+        try {
+            await logout()
+            navigate('/')
+            console.log("Yay!")
+        } catch (err) {
+            console.log("Famn!")
+        }
+    }
 
-	// build the amenity pills ONCE from the first loaded set, then freeze them
-	// (so filtering doesn't reshuffle the row)
-	const frozenPillsRef = useRef(null)
-	const amenityPills = useMemo(() => {
-		if (frozenPillsRef.current) return frozenPillsRef.current   // already frozen
-		if (!stays?.length) return []
-		const amenityCounts = {}
-		for (const stay of stays) {
-			for (const amenity of stay.amenities || []) {
-				amenityCounts[amenity] = (amenityCounts[amenity] || 0) + 1
-			}
-		}
-		const pills = Object.keys(amenityCounts)
-			.sort((a, b) => amenityCounts[b] - amenityCounts[a])
-			.slice(0, 9)
-		frozenPillsRef.current = pills   // freeze for the rest of the session
-		return pills
-	}, [stays])
+    useEffect(() => {
+        moveUnderlineToActiveTab()
+    }, [location.pathname, isHostingMode])
 
+    useEffect(() => {
+        if (isHostingMode) {
+            setIsScrolled(false)
+            setForcedSection(null)
+            setIsSearchOpen(false)
+            return
+        }
 
-	async function onLogout() {
-		try {
-			await logout()
-			navigate('/')
-			console.log("Yay!")
-		} catch (err) {
-			console.log("Famn!")
-		}
-	}
-	useEffect(() => {
-		moveUnderlineToActiveTab()
-	}, [location.pathname])
+        if (forcedSection) return   
+        if (isDetailsPage || isSearchPage || isUser) {
+            setIsScrolled(true) 
+            return
+        }
 
-	useEffect(() => {
-		if (forcedSection) return   // big bar is forced open from the small bar — don't re-collapse
+        function onScroll() {
+            const currentScrollY = window.scrollY
+            setIsScrolled(prev => {
+                if (!prev && currentScrollY > 200) return true
+                if (prev && currentScrollY <= 10) return false
+                return prev
+            })
+        }
 
-		if (isDetailsPage || isSearchPage) {
-			setIsScrolled(true)
-			return
-		}
+        onScroll()
 
-		function onScroll() {
-			setIsScrolled(prev => {
-				if (!prev && window.scrollY > 200) return true
-				if (prev && window.scrollY < 10) {
-					window.scrollTo({ top: 0, behavior: 'smooth' })
-					return false
-				}
-				return prev
-			})
-		}
+        window.addEventListener('scroll', onScroll, { passive: true })
+        return () => window.removeEventListener('scroll', onScroll)
+    }, [isDetailsPage, isSearchPage, location.pathname, forcedSection, isUser, isHostingMode])
 
-		onScroll()
+    function moveUnderlineToActiveTab() {
+        if (!tabsContainerRef.current) return
+        const activeTabEl = tabsContainerRef.current.querySelector('a.active')
+        if (!activeTabEl) {
+            setUnderlinePos({ left: 0, width: 0 })
+            return
+        }
 
-		window.addEventListener('scroll', onScroll)
-		return () => window.removeEventListener('scroll', onScroll)
-	}, [isDetailsPage, isSearchPage, location.pathname, forcedSection])
+        setUnderlinePos({
+            left: activeTabEl.offsetLeft,
+            width: activeTabEl.offsetWidth,
+        })
+    }
 
+    function toggleAmenity(amenity) {
+        const next = activeAmenities.includes(amenity)
+            ? activeAmenities.filter(a => a !== amenity)
+            : [...activeAmenities, amenity]
 
+        const params = new URLSearchParams(searchParams)
 
-	function moveUnderlineToActiveTab() {
-		if (!tabsContainerRef.current) return
-		const activeTabEl = tabsContainerRef.current.querySelector('a.active')
-		if (!activeTabEl) return
+        if (next.length) params.set('amenities', next.join(','))
+        else params.delete('amenities')
 
-		setUnderlinePos({
-			left: activeTabEl.offsetLeft,
-			width: activeTabEl.offsetWidth,
-		})
-	}
+        navigate(`/search?${params.toString()}`)
+    }
 
+    function onOpenSectionFromSmall(section) {
+        if (isHostingMode) return
+        setForcedSection(section)
+        setIsScrolled(false)
+    }
 
-	function toggleAmenity(amenity) {
-		const next = activeAmenities.includes(amenity)
-			? activeAmenities.filter(a => a !== amenity)
-			: [...activeAmenities, amenity]
+    function onSearchOpenChange(isOpen) {
+        if (isHostingMode) return
+        setIsSearchOpen(isOpen)
+        if (!isOpen) {
+            setForcedSection(null)
+            if (isDetailsPage || isSearchPage || window.scrollY > 200) setIsScrolled(true)
+        }
+    }
 
-		const params = new URLSearchParams(searchParams)
+    return (
+        <header className={`app-header full ${isScrolled ? 'scrolled' : ''}`}>
+            <div className="header-top">
+                <NavLink to="/" className="logo">
+                    <img src="/img/symbols/logo.svg" alt="OurBNB" className="logo-img" />
+                </NavLink>
 
-		if (next.length) params.set('amenities', next.join(','))
-		else params.delete('amenities')
+                <div className="header-center">
+                    {isHostingMode ? (
+                        <div className="header-tabs host-tabs" ref={tabsContainerRef}>
+                            <NavLink to="/hosting" end>Today</NavLink>
+                            <NavLink to="/hosting/calendar">Calendar</NavLink>
+                            <NavLink to="/hosting/listings">Listings</NavLink>
+                            <NavLink to="/hosting/messages">Messages</NavLink>
 
-		navigate(`/search?${params.toString()}`)
-	}
+                            <span
+                                className="tab-indicator"
+                                style={{
+                                    left: underlinePos.left + 'px',
+                                    width: underlinePos.width + 'px',
+                                }}
+                            />
+                        </div>
+                    ) : isUser ? <div className="header-tabs host-tabs"></div>
+                        : (
+                            <>
+                                <div className="header-tabs" ref={tabsContainerRef}>
+                                    <NavLink to="/" end>
+                                        <img src="/img/symbols/globe.svg" alt="All" className="tab-icon" />
+                                        All
+                                    </NavLink>
+                                    <NavLink to="/homes">
+                                        <img src="/img/symbols/house.svg" alt="Homes" className="tab-icon" />
+                                        Homes
+                                    </NavLink>
+                                    <NavLink to="/experiences">
+                                        <img src="/img/symbols/balloon.svg" alt="Experiences" className="tab-icon" />
+                                        Experiences
+                                    </NavLink>
+                                    <NavLink to="/services">
+                                        <img src="/img/symbols/bell.svg" alt="Services" className="tab-icon" />
+                                        Services
+                                    </NavLink>
 
-	function onOpenSectionFromSmall(section) {
-		setForcedSection(section)
-		setIsScrolled(false)
-	}
+                                    <span
+                                        className="tab-indicator"
+                                        style={{
+                                            left: underlinePos.left + 'px',
+                                            width: underlinePos.width + 'px',
+                                        }}
+                                    />
+                                </div>
 
-	function onSearchOpenChange(isOpen) {
-		setIsSearchOpen(isOpen)
-		if (!isOpen) {
-			setForcedSection(null)
-			// collapse back if we're on a page that keeps the small bar
-			if (isDetailsPage || isSearchPage || window.scrollY > 200) setIsScrolled(true)
-		}
-	}
+                                <SearchBarBig forcedSection={forcedSection} onOpenChange={onSearchOpenChange} />
+                            </>)}
+                </div>
 
-	return (
-		<header className={`app-header full ${isScrolled ? 'scrolled' : ''}`}>
-			<div className="header-top">
-				<NavLink to="/" className="logo">
-					<img src="/img/symbols/logo.svg" alt="OurBNB" className="logo-img" />
-				</NavLink>
+                {(!isHostingMode && !isUser) && <SearchBarSmall onOpenSection={onOpenSectionFromSmall} />}
 
-				<div className="header-center">
-					{isHosting ? (
-						<div className="header-tabs host-tabs" ref={tabsContainerRef}>
-							<NavLink to="/hosting" end>Today</NavLink>
-							<NavLink to="/hosting/calendar">Calendar</NavLink>
-							<NavLink to="/hosting/listings">Listings</NavLink>
-							<NavLink to="/hosting/messages">Messages</NavLink>
+                {(isSearchOpen && !isHostingMode) && <div className="page-overlay" />}
 
-							<span
-								className="tab-indicator"
-								style={{
-									left: underlinePos.left + 'px',
-									width: underlinePos.width + 'px',
-								}}
-							/>
-						</div>
-					) : (
-						<>
-							<div className="header-tabs" ref={tabsContainerRef}>
-								<NavLink to="/" end>
-									<img src="/img/symbols/globe.svg" alt="All" className="tab-icon" />
-									All
-								</NavLink>
-								<NavLink to="/homes">
-									<img src="/img/symbols/house.svg" alt="Homes" className="tab-icon" />
-									Homes
-								</NavLink>
-								<NavLink to="/experiences">
-									<img src="/img/symbols/balloon.svg" alt="Experiences" className="tab-icon" />
-									Experiences
-								</NavLink>
-								<NavLink to="/services">
-									<img src="/img/symbols/bell.svg" alt="Services" className="tab-icon" />
-									Services
-								</NavLink>
+                <div className="header-actions">
+                    <NavLink to={isHostingMode ? "/" : "/hosting"} className="host-switch-link">
+                        {isHostingMode ? "Switch to traveling" : "Switch to hosting"}
+                    </NavLink>
+                    {user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
 
-								<span
-									className="tab-indicator"
-									style={{
-										left: underlinePos.left + 'px',
-										width: underlinePos.width + 'px',
-									}}
-								/>
-							</div>
+                    {user && (
+                        <Link to={`/user/${user._id}${isHostingMode ? '?mode=hosting' : ''}`}>
+                            <img
+                                src={user.imgUrl}
+                                alt={user.fullname || "User profile"}
+                                className="user-avatar"
+                            />
+                        </Link>
+                    )}
 
-							<SearchBarBig forcedSection={forcedSection} onOpenChange={onSearchOpenChange} />
-						</>)}
-				</div>
+                    <HamburgerMenu
+                        user={user}
+                        onLogout={onLogout}
+                        onOpenLogin={() => setIsAuthModalOpen(true)}
+                    />
+                </div>
 
-				{!isHosting && <SearchBarSmall onOpenSection={onOpenSectionFromSmall} />}
+                <LoginSignupModal
+                    isOpen={isAuthModalOpen}
+                    onClose={() => setIsAuthModalOpen(false)}
+                />
+            </div>
 
-				{/* dark overlay on the page below the header while the big search is open */}
-				{isSearchOpen && <div className="page-overlay" />}
+            {(isSearchPage && amenityPills.length > 0 && !isSearchOpen && !isHostingMode) && (
+                <div className="amenity-bar">
+                    <button className="amenity-pill amenity-pill-filters">
+                        <SvgIcon iconName="filter" />
+                        Filters
+                    </button>
 
+                    <span className="amenity-divider" />
 
-				<div className="header-actions">
-					<NavLink to={isHosting ? "/" : "/hosting"} className="host-switch-link">
-						{isHosting ? "Switch to traveling" : "Switch to hosting"}
-					</NavLink>
-					{user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
-
-					{user && (
-						<Link to={`/user/${user._id}`}>
-							<img
-								src={user.imgUrl}
-								alt={user.fullname || "User profile"}
-								className="user-avatar"
-							/>
-						</Link>
-					)}
-
-					<HamburgerMenu
-						user={user}
-						onLogout={onLogout}
-						onOpenLogin={() => setIsAuthModalOpen(true)}
-					/>
-				</div>
-
-
-				<LoginSignupModal
-					isOpen={isAuthModalOpen}
-					onClose={() => setIsAuthModalOpen(false)}
-				/>
-			</div>
-
-			{isSearchPage && amenityPills.length > 0 && !isSearchOpen && (
-				<div className="amenity-bar">
-					<button className="amenity-pill amenity-pill-filters">
-						<SvgIcon iconName="filter" />
-						Filters
-					</button>
-
-					<span className="amenity-divider" />
-
-					{amenityPills.map(amenity => (
-						<button
-							className={`amenity-pill ${activeAmenities.includes(amenity) ? 'active' : ''}`}
-							key={amenity}
-							onClick={() => toggleAmenity(amenity)}
-						>
-							{amenity}
-						</button>
-					))}
-				</div>
-			)}
-
-		</header>
-	)
+                    {amenityPills.map(amenity => (
+                        <button
+                            className={`amenity-pill ${activeAmenities.includes(amenity) ? 'active' : ''}`}
+                            key={amenity}
+                            onClick={() => toggleAmenity(amenity)}
+                        >
+                            {amenity}
+                        </button>
+                    ))}
+                </div>
+            )}
+        </header>
+    )
 }

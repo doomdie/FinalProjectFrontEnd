@@ -3,27 +3,28 @@ import { StayCarouselRow } from '../cmps/StayCarouselRow.jsx'
 
 export function StayList({ stays }) {
 
-    const ROW_SIZE = 21   // ~3 screens of 7 before hitting See all, like Airbnb
+    const ROW_SIZE = 21   
+
+    const safeStays = Array.isArray(stays) ? stays : []
 
     const sharedHomes = [
-        ...stays.filter(s => s.type === 'Shared homes').slice(0, ROW_SIZE),
+        ...safeStays.filter(s => s?.type === 'Shared homes').slice(0, ROW_SIZE),
         { isLinkCard: true, linkTo: '/search?type=Shared%20homes' }
     ]
-
     const budgetStays = [
-        ...stays.filter(s => s.price < 120).slice(0, ROW_SIZE),
-        { isLinkCard: true, linkTo: '/search?maxPrice=120' }
-    ]
+    ...safeStays.filter(s => s?.price < 120).slice(0, ROW_SIZE),
+    { isLinkCard: true, linkTo: '/search?maxPrice=120' }
+]
 
-    const allStays = [
-        ...stays.slice(0, ROW_SIZE),
-        { isLinkCard: true, linkTo: '/search' }
-    ]
+const allStays = [
+    ...safeStays.slice(0, ROW_SIZE),
+    { isLinkCard: true, linkTo: '/search' }
+]
 
-    const newestStays = [
-        ...[...stays].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, ROW_SIZE),
-        { isLinkCard: true, linkTo: '/search?sort=newest' }
-    ]
+const newestStays = [
+    ...[...safeStays].sort((a, b) => new Date(b?.createdAt || 0) - new Date(a?.createdAt || 0)).slice(0, ROW_SIZE),
+    { isLinkCard: true, linkTo: '/search?sort=newest' }
+]
 
     return (
         <section className="stay-list-container">

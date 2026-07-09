@@ -1,16 +1,54 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { SvgIcon } from '../services/svg.service.jsx'
-import { wishlistService } from '../services/stays/wishlist.service.js'
+import { httpService } from '../services/http.service.js'
+import { showErrorMsg } from '../services/event-bus.service'
 
-// one heart to rule them all — persisted via wishlistService, works on any card
-export function HeartButton({ stayId, className = '' }) {
-    const [isLiked, setIsLiked] = useState(() => wishlistService.isLiked(stayId))
+export function HeartButton({ stay, className = '', onToggleHeart }) {
+    const user = useSelector(storeState => storeState.userModule.user)
+    const userId = user?._id || user?.id
 
-    function onToggle(ev) {
+    // Safety guard: If stay is missing, don't crash, just default to an empty object
+    const currentStay = stay || {}
+    
+    const isCurrentlyLiked = currentStay.likedByUsers?.includes(userId) || false
+    const [isLiked, setIsLiked] = useState(isCurrentlyLiked)
+
+    useEffect(() => {
+        setIsLiked(isCurrentlyLiked)
+    }, [currentStay.likedByUsers, userId])
+
+    async function onToggle(ev) {
         ev.preventDefault()     
         ev.stopPropagation()
-        wishlistService.toggleLike(stayId)
-        setIsLiked(prev => !prev)
+
+        if (!currentStay._id) {
+            console.error('Cannot toggle like: Missing stay data object.')
+            return
+        }
+
+        if (!user) {
+            showErrorMsg('Please log in to save wishlists')
+            return
+        }
+
+        const nextLikedState = !isLiked
+        setIsLiked(nextLikedState)
+
+        try {
+            if (nextLikedState) {
+                await httpService.post(`stay/${currentStay._id}/like`)
+            } else {
+                await httpService.delete(`stay/${currentStay._id}/like`)
+            }
+            if (onToggleHeart) {
+                    onToggleHeart(stay._id)
+                }
+        } catch (err) {
+            console.error('Failed to update wishlist server side:', err)
+            showErrorMsg('Could not update wishlist')
+            setIsLiked(!nextLikedState)
+        }
     }
 
     return (

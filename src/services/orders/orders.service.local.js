@@ -1,5 +1,6 @@
 import { storageService } from '../async-storage.service.js'
-import { userService } from '../user/user.service.local.js'
+import { userService } from '../user/user.service.remote.js'
+
 import gDefaultOrders from './orders.json'
 const STORAGE_KEY = 'order'
 

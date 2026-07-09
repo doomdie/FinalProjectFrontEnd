@@ -1,15 +1,47 @@
+/* --- Light (300) --- */
+@font-face {
+    font-family: 'Airbnb';
+    src: url('../../fonts/Airbnb/AirbnbCereal_W_Lt.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+/* --- Book / Regular (400) --- */
 @font-face {
     font-family: 'Airbnb';
     src: url('../../fonts/Airbnb/AirbnbCereal_W_Bk.otf') format('opentype');
     font-weight: 400;
-    /* Book — normal text */
     font-style: normal;
 }
 
+/* --- Medium (500) --- */
 @font-face {
     font-family: 'Airbnb';
     src: url('../../fonts/Airbnb/AirbnbCereal_W_Md.otf') format('opentype');
-    font-weight: 500 600;
-    /* Medium — titles, semibold */
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* --- Bold / Semibold (600) --- */
+@font-face {
+    font-family: 'Airbnb';
+    src: url('../../fonts/Airbnb/AirbnbCereal_W_Bd.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+/* --- Extra Bold (700) --- */
+@font-face {
+    font-family: 'Airbnb';
+    src: url('../../fonts/Airbnb/AirbnbCereal_W_XBd.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* --- Black (800) --- */
+@font-face {
+    font-family: 'Airbnb';
+    src: url('../../fonts/Airbnb/AirbnbCereal_W_Blk.otf') format('opentype');
+    font-weight: 800;
     font-style: normal;
 }

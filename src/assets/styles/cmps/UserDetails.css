@@ -5,27 +5,99 @@
         background-size: contain;
     }
 }
+
 .user-details-full {
-   display:flex;
-   flex-direction: row;
-}
-.user-aside {
     display: flex;
-    flex-direction:column;
+    flex-direction: row;
+    
+
 }
 
+.user-card-about {
+    
+    line-height: var(--typography-titles-semibold_32_36-line-height);
+    font-size: var(--typography-titles-semibold_32_36-font-size);
+    font-weight: var(--typography-weight-semibold600);
+    letter-spacing: var(--typography-titles-semibold_32_36-letter-spacing);
+    font-family: Airbnb
+}
+
+.user-private-card {
+    max-width: 345px;
+
+}
+
+.user-private-card-section {
+        border-radius: 24px;
+
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex: 1 1 153px;
+    gap: 8px;
+    padding-right: 24px;
+    padding-left: 24px;
+    padding-bottom: 32px;
+    padding-top: 32px;
+    min-height: 230px;
+    box-shadow: var(--id-card_box-shadow, var(--elevation-elevation3-box-shadow));
+}
+
+.user-private-card-mini-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+}
+
+.user-private-text-section {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.user-subtitle {
+    line-height: var(--typography-body-text_12_16-line-height);
+    font-size: var(--typography-body-text_12_16-font-size);
+    font-weight: var(--typography-weight-book400);
+    color: var(--palette-text-secondary);
+}
+
+
+.user-private-text-span {
+    font-size: 1.5em;
+    line-height: var(--typography-titles-semibold_32_36-line-height);
+    font-weight: var(--typography-weight-semibold600);
+    display: inline-block;
+        height: auto;
+    width: 297px;
+    font-family: Airbnb;
+    letter-spacing: var(--typography-body-text_16_20-letter-spacing);
+}
+
+.user-card-avatar {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+}
 
 .tab-content {
-    display:flex;
+    display: flex;
     flex: 1;
-    width: 100%;   
-    min-height: calc(100vh - 200px);
+    width: 100%;
+        min-height: calc(100vh - 80px);
+        align-items:center;
+      
+
 }
+
 .tab-content section {
-    display:flex;
-    flex-direction:column;
-    
+    display: flex;
+    flex-direction: column;
+
 }
+
 .stay-mini-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -36,9 +108,12 @@
 
     list-style: none;
 }
+
 .tab-mini-content {
     width: 100%;
     margin-top: 1.5rem;
+    display: flex;
+    flex: 1;
 }
 
 .tab-mini-content h2 {
@@ -61,70 +136,252 @@
 .aside-organizer {
     padding: 0 17%;
 }
+
+.trips-timeline-stack {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 280px));
+    gap: var(--space-xl);
+    width: 100%;
+    margin-bottom: var(--space-xl);
+}
+
+.timeline-trip-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    gap: var(--space-sm);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.timeline-card-img-wrapper {
+    flex-shrink: 0;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    border-radius: var(--corner-radius-large16px-border-radius);
+    overflow: hidden;
+}
+
+.timeline-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.timeline-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    min-width: 0;
+    padding: var(--space-xs) 0;
+}
+
+.timeline-card-title {
+    font-size: var(--typography-titles-semibold_16_20-font-size);
+    line-height: var(--typography-titles-semibold_16_20-line-height);
+    font-weight: var(--typography-titles-semibold_16_20-font-weight);
+    color: var(--color-text);
+    margin: 0;
+    font-family: Airbnb, sans-serif;
+}
+
+.timeline-card-dates {
+    font-size: var(--typography-subtitles-book_14_18-font-size);
+    line-height: var(--typography-subtitles-book_14_18-line-height);
+    font-weight: var(--typography-subtitles-book_14_18-font-weight);
+    color: var(--color-text-light);
+    margin: 0;
+    font-family: Airbnb, sans-serif;
+}
+
+.timeline-year-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--palette-grey100);
+    border: 1px solid var(--palette-grey300);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--corner-radius-medium12px-border-radius);
+    margin-bottom: var(--space-lg);
+}
+
+.timeline-year-text {
+    font-size: var(--typography-titles-semibold_14_18-font-size);
+    line-height: var(--typography-titles-semibold_14_18-line-height);
+    font-weight: var(--typography-titles-semibold_14_18-font-weight);
+    color: var(--color-text);
+    font-family: Airbnb, sans-serif;
+}
+
 @media (min-width: 1440px) {
     .user-aside {
         padding: 0 48px;
+
     }
 }
+
 @media (min-width: 950px) {
+    .past-trips-section {
+          padding: 36px calc(8.5% + 32px);
+    }
     .user-info-main {
         padding: 36px calc(8.5% + 32px);
+              
+
+        
     }
+
     .user-aside {
         flex-shrink: 0;
         width: auto;
-    }
-    .aside-organizer {
-        width: 33.33vw;
-                display:flex;
 
-        flex-direction:column
+    }
+
+    .aside-organizer {
+
+        display: flex;
+        width: 33.33vw;
+        flex-direction: column
     }
 }
+
 .user-aside .tab-btn {
     display: flex;
     padding: 10px 16px;
-    color:black;
-    background-color:white;
-   
+        color: rgb(34, 34, 34);
+
+    background-color: var(--palette-grey0);
+    width: 100%;
+    max-width: 240px;
+    align-items: center;
+    line-height: var(--typography-body-text_16_20-line-height);
+    font-weight: var(--typography-weight-medium500);
+    font-size: var(--typography-body-text_16_20-font-size);
+    letter-spacing: var(--typography-body-text_16_20-letter-spacing);
+    font-family: Airbnb;
+
+
 }
+
+.user-aside .tab-btn.active {
+    background-color: var(--palette-grey200);
+    border-radius: 16px;
+    color: var(--palette-grey1100);
+}
+
 .user-aside .tab-btn:hover {
-    background-color: #e2c3c3fa;
+    background-color: var(--palette-grey200);
+
     border-radius: 10px;
 }
+
 .user-info-main {
-    display:flex;
+    display: flex;
     flex: 1 0 0%;
-    flex-direction:column;
+    flex-direction: column;
 }
+
 .tab-info-content {
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
     flex: 1;
     min-height: calc(100vh - 80px);
 }
+
 .profile-right-side {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 24px;
     font-family: sans-serif;
-    max-width: 600px;
+    max-width: 100%;
+
 }
 
+.past-trips-section {
+    width: 100%;
+
+}
+
+.timeline-container {
+    max-width: 1252px;
+}
+
+/* .timeline-container {
+    width: 100%
+} */
+.user-aside {
+    max-width: 475px;
+}
+.about-section {
+    display: grid;
+    grid-template-columns: 345px 1fr;
+    gap: 40px;
+}
 .about-text {
-   font-size: 1.1rem;
+    font-size: 1.1rem;
     color: #484848;
     line-height: 1.5;
-    border: 1px solid #ebebeb;
+    border: 1px solid var(--palette-grey300);
     border-radius: 12px;
     padding: 1.5rem;
 }
 
 .host-badge {
-    background-color: #f7f7f7;
-    border: 1px solid #dddddd;
+    background-color: var(--palette-grey100);
+    border: 1px solid var(--palette-grey400);
     border-radius: 8px;
     padding: 0.5rem 0.75rem;
     font-size: 0.9rem;
     font-weight: bold;
+}
+
+.user-profile-title {
+    line-height: var(--typography-titles-semibold_32_36-line-height);
+    font-size: var(--typography-titles-semibold_32_36-font-size);
+    font-weight: var(--typography-weight-semibold600);
+    letter-spacing: var(--typography-titles-semibold_32_36-letter-spacing);
+}
+
+.logo {
+    width: max-content;
+}
+
+@media (min-width: 950px) {
+    .user-aside {
+        padding-bottom: 36px;
+        padding-top: 36px;
+        flex-direction: column;
+        min-height: calc(100vh - 80px);
+        width: auto;
+        border-right: var(--profile-nav-border, 1px solid var(--palette-grey400));
+
+    }
+
+    .tab-mini-content {
+        flex-direction: column;
+        min-height: calc(100vh - var(--header_v2_height-px, 80px) px);
+        padding: 36px calc(8.5% + 32px);
+
+
+
+    }
+
+}
+
+
+@media (max-width: 949px) {
+    .trips-timeline-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 0 4px;
+    }
+
+    .timeline-trip-card {
+        padding: 12px;
+    }
 }

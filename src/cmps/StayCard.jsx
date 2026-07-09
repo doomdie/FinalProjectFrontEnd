@@ -7,7 +7,7 @@ import { HeartButton } from './HeartButton.jsx'
 import { getFakeRating, getFakeDates } from '../services/util.service.js'
 
 
-export function StayCard({ stay }) {
+export function StayCard({ stay, onToggleHeart }) {
     // --- YAIR'S VERSION ---
     // console.log(stay)
     const fallbackImage = "https://images.unsplash.com/photo-1512917774080-9991f1c4c750"
@@ -42,7 +42,8 @@ export function StayCard({ stay }) {
                     loading="lazy"
                 />
 
-                <HeartButton stayId={stay._id} className="stay-card-heart" />
+                {/* <HeartButton stay={stay} className="stay-card-heart" /> */}
+                <HeartButton stay={stay} className = "stay-card-heart" onToggleHeart={onToggleHeart} />
             </div>
 
             <div className="stay-card-content">

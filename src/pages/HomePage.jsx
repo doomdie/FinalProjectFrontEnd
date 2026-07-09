@@ -13,8 +13,9 @@ export function HomesPage() {
 
     const currentTab = location.pathname.substring(1) || 'homes'
     const stays = useSelector(storeState => storeState.stayModule.stays)
-    const isLoading = !stays || !stays.length
 
+    // const isLoading = !stays || !stays.length
+    const isLoading = useSelector(storeState => storeState.stayModule.isLoading)
     return (
         <section className="homes-page">
             <SkeletonLoader variant="home" isLoading={isLoading} />

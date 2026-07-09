@@ -15,6 +15,8 @@
 
 @import "cmps/UserDetails.css";
 @import "cmps/stay/Carousel";
+@import "cmps/stay/Wishlist";
+
 @import "cmps/stay/Loading.css";
 @import "cmps/SkeletonLoader.css";
 @import "cmps/HamburgerMenu.css";

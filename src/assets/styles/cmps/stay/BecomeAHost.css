@@ -188,7 +188,8 @@
 }
 
 .host-mode-link {
-    background-color: rgb(153, 126, 126);
+        background: var(--palette-grey200);
+
     border: none;
     font-size: 16px;
     font-weight: 500;
