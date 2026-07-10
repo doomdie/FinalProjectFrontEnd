@@ -36,27 +36,22 @@ const AMENITY_ICON_MAP = {
     'hair dryer': 'amHairDryer',
 }
 
-const PREVIEW_COUNT = 10   // Airbnb shows 10 in the grid, rest behind "Show all"
+const PREVIEW_COUNT = 10   
 export function AmenitiesList({ amenities = [] }) {
     const [isOpen, setIsOpen] = useState(false)
-    // guard: drop empty strings and junk like "translation missing: en.hosting_amenity_49"
     const cleanAmenities = amenities.filter(a => a && a.trim() && !a.startsWith('translation missing'))
-
     if (!cleanAmenities.length) return null
-
     const previewAmenities = cleanAmenities.slice(0, PREVIEW_COUNT)
 
     return (
         <section className="amenities-section">
             <h3>What this place offers</h3>
-
             <div className="amenities-grid">
                 {previewAmenities.map(amenity => {
                     const iconKey = AMENITY_ICON_MAP[amenity.toLowerCase().trim()]
                     return (
                         <div key={amenity} className="amenity-item">
                             <span className="amenity-icon">
-                                {/* mapped amenities get the real Airbnb SVG, the rest a generic fallback — nothing is dropped */}
                                 <SvgIcon iconName={iconKey || 'house'} />
                             </span>
                             <span className="amenity-text">{amenity}</span>

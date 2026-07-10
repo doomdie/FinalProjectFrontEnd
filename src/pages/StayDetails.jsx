@@ -23,6 +23,7 @@ export function StayDetails() {
   // console.log('Extracted stayId from URL params:', stayId)
   const navigate = useNavigate()
   const [mobileFooterData, setMobileFooterData] = useState({ price: 0, dateRange: 'Add dates' })
+  const [liveRating, setLiveRating] = useState(null)
   const stay = useSelector(storeState => storeState.stayModule.stay)
   const reviews = useSelector(storeState => storeState.reviewModule.reviews)
 
@@ -30,6 +31,8 @@ export function StayDetails() {
   useEffect(() => {
     loadStay(stayId)
   }, [stayId])
+
+  
 
 
   async function onShare() {
@@ -141,7 +144,7 @@ export function StayDetails() {
 
 
                 <div className="stay-header-reviews">
-                  ★ {getFakeRating(stay)}
+                  ★ {liveRating || getFakeRating(stay)}
                   <span className="listSeperator">·</span>
                   {reviews?.length || 0} review{reviews?.length === 1 ? '' : 's'}
                 </div>

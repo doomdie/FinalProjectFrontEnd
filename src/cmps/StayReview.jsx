@@ -8,7 +8,7 @@ import { SvgIcon } from '../services/svg.service.jsx'
 import { getFakeRating } from '../services/util.service.js'
 import { loadReviews } from '../store/actions/review.actions.js'
 
-export function StayReview({ stay }) {
+export function StayReview({ stay, onUpdateRating }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isHowOpen, setIsHowOpen] = useState(false)
 
@@ -22,12 +22,17 @@ export function StayReview({ stay }) {
 
   if (!stay) return null
 
-  // prefer reviews from the store; fall back to the ones embedded on the stay
   const reviews = (storeReviews?.length ? storeReviews : stay.reviews) || []
+  console.log(reviews)
   const reviewCount = reviews.length
-  const totalRating = stay.rating || 4.8
-
-  // reviews come in two shapes: store uses byUser/createdAt, stay data uses by/at
+  const totalRating = reviews.length
+    ? Number((reviews.reduce((sum, r) => sum + (r.rate || r.rating || 0), 0) / reviews.length).toFixed(1))
+    : (stay.rating || 4.8) 
+  useEffect(() => {
+    if (onUpdateRating && totalRating) {
+      onUpdateRating(totalRating)
+    }
+  }, [totalRating, onUpdateRating])
   function getReviewer(review) {
     return review.byUser || review.by || {}
   }
@@ -59,7 +64,9 @@ export function StayReview({ stay }) {
   return (
     <div className="reviews-container">
       <h2 className="reviews-title">
-        ★ {getFakeRating(stay)} · {reviewCount} review{reviewCount === 1 ? '' : 's'}
+        {/* ★ {getFakeRating(stay)} · {reviewCount} review{reviewCount === 1 ? '' : 's'} */}
+
+        ★ {totalRating} · {reviewCount} review{reviewCount === 1 ? '' : 's'}
       </h2>
 
       <div className="reviews-grid">
@@ -114,7 +121,7 @@ export function StayReview({ stay }) {
           <div className="reviews-modal-score">
             <span className="reviews-modal-big">
               <SvgIcon iconName="star" />
-              {getFakeRating(stay)}
+              {totalRating}
             </span>
 
             <button className="how-reviews-link" onClick={() => setIsHowOpen(true)}>How reviews work</button>
