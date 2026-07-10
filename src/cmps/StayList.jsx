@@ -52,7 +52,7 @@ export function StayList({ stays, byCity = false }) {
     ]
 
     const budgetStays = [
-        ...safeStays.filter(s => s?.price < 120).slice(0, ROW_SIZE),
+        ...safeStays.filter(s => s?.price > 120).slice(0, ROW_SIZE),
         { isLinkCard: true, linkTo: '/search?maxPrice=120' }
     ]
 

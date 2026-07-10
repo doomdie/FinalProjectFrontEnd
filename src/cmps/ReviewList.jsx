@@ -24,7 +24,7 @@ console.log('Review data on user page:', reviews)
         return (
           <article key={review._id || idx} className="review-card">
             <header className="review-header">
-              <Link to={`/profile/${targetUserId}`}>
+              <Link to={`/user/public/${targetUserId}`}>
                 <img
                   src={reviewer.imgUrl || '/img/default-user.png'}
                   alt={reviewer.fullname || 'User'}
