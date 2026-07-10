@@ -1,7 +1,7 @@
 // import { stayService } from '../../services/stays/stays.service.local'
 import { stayService } from '../../services/stays'
 import { store } from '../store'
-import { SET_STAYS, SET_STAY, ADD_STAY, SET_HOST_STAYS } from '../reducers/stay.reducer'
+import { SET_STAYS, SET_STAY, ADD_STAY, SET_HOST_STAYS, SET_WISHLIST } from '../reducers/stay.reducer'
 
 export async function loadStays(filterBy) {
     try {
@@ -36,9 +36,11 @@ export async function loadHostStays(hostId) {
         throw err
     }
 }
+
 export async function removeStay() {
     console.log("ugh")
 }
+
 export async function loadStay(stayId) {
     try {
         store.dispatch({ type: 'SET_IS_LOADING', isLoading: true })
@@ -48,11 +50,12 @@ export async function loadStay(stayId) {
 
         store.dispatch({ type: 'SET_IS_LOADING', isLoading: false })
     } catch (err) {
-        console.log('Cannot load stay', err) 
+        console.log('Cannot load stay', err)
         store.dispatch({ type: 'SET_IS_LOADING', isLoading: false })
         throw err
     }
 }
+
 export async function addStay(stay) {
     try {
         const savedStay = await stayService.save(stay)
@@ -64,6 +67,18 @@ export async function addStay(stay) {
     }
 }
 
+export async function loadWishlist(userId) {
+    if (!userId) {
+        store.dispatch({ type: SET_WISHLIST, wishlist: [] })
+        return
+    }
+    try {
+        const stays = await stayService.query({ likedByUserId: userId })
+        store.dispatch({ type: SET_WISHLIST, wishlist: stays.map(stay => stay._id) })
+    } catch (err) {
+        console.log('Cannot load wishlist')
+    }
+}
 
 function getCmdSetStays(stays) {
     return {

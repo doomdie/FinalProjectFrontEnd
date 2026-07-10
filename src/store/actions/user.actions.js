@@ -1,6 +1,7 @@
 import { userService } from '../../services/user'
 import { socketService } from '../../services/socket.service'
 import { store } from '../store'
+import { loadWishlist } from './stay.actions'
 
 import { showErrorMsg } from '../../services/event-bus.service'
 import { LOADING_DONE, LOADING_START } from '../reducers/system.reducer'
@@ -24,9 +25,11 @@ export async function checkLoggedinUser() {
         if (user) {
             store.dispatch({ type: SET_USER, user })
             socketService.login(user._id)
+            loadWishlist(user._id)
             return user
         } else {
             store.dispatch({ type: SET_USER, user: null })
+            loadWishlist(null)
         }
     } catch (err) {
         console.log('No active session handshake found on backend boot.', err)
@@ -50,6 +53,7 @@ export async function login(credentials) {
             user
         })
         socketService.login(user._id)
+        loadWishlist(user._id)
         return user
     } catch (err) {
         console.log('Cannot login')
@@ -80,6 +84,7 @@ export async function logout() {
             user: null
         })
         socketService.logout()
+        loadWishlist(null)
     } catch (err) {
         console.log('Cannot logout', err)
         throw err

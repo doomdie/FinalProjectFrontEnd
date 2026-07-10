@@ -12,7 +12,7 @@ import { SvgIcon } from '../services/svg.service.jsx'
 import { HeartButton } from '../cmps/HeartButton.jsx'
 import { StayDetailsMap } from '../cmps/StayDetailsMap.jsx'
 import { StayDetailsNav } from '../cmps/StayDetailsNav.jsx'
-
+import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { getFakeRating, getFakeHostingYears } from '../services/util.service.js'
 
 
@@ -32,12 +32,32 @@ export function StayDetails() {
   }, [stayId])
 
 
+  async function onShare() {
+    const url = window.location.href
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: stay.name, url })
+      } catch (err) {
+        // user cancelled the share sheet — nothing to do
+      }
+      return
+    }
+
+    try {
+      await navigator.clipboard.writeText(url)
+      showSuccessMsg('Link copied to clipboard')
+    } catch (err) {
+      showErrorMsg('Could not copy link')
+    }
+  }
+
   const isLoading = !stay || stay._id !== stayId;
   return (
     <section className="stay-details">
       <SkeletonLoader variant="details" isLoading={isLoading} />
 
-      {stay && (
+      {stay && !isLoading && (
         <>
           <StayDetailsNav />
 
@@ -77,14 +97,21 @@ export function StayDetails() {
             <h1>{stay.name}</h1>
 
             <div className="details-title-actions">
-              <button className="details-action-btn">
+
+              <button className="details-action-btn" onClick={onShare}>
                 <SvgIcon iconName="share" />
                 <span>Share</span>
               </button>
-              <button className="details-action-btn details-save-btn">
+
+
+              <button
+                className="details-action-btn details-save-btn"
+                onClick={() => document.querySelector('.save-heart')?.click()}
+              >
                 <HeartButton stay={stay} className="save-heart" />
                 <span>Save</span>
               </button>
+
             </div>
           </div>
 

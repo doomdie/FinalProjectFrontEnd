@@ -1,25 +1,27 @@
-// wishlist — liked stay ids, persisted in localStorage so hearts survive refresh
+// wishlist — liked stay ids in localStorage, so hearts show instantly on load
 const STORAGE_KEY = 'wishlist'
 
 export const wishlistService = {
     getLikedIds,
-    isLiked,
-    toggleLike,
+    setLiked,
+    setAll,
 }
 
 function getLikedIds() {
     return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []
 }
 
-function isLiked(stayId) {
-    return getLikedIds().includes(stayId)
-}
-
-function toggleLike(stayId) {
+function setLiked(stayId, isLiked) {
     const likedIds = getLikedIds()
-    const updated = likedIds.includes(stayId)
-        ? likedIds.filter(id => id !== stayId)
-        : [...likedIds, stayId]
+    const updated = isLiked
+        ? [...new Set([...likedIds, stayId])]
+        : likedIds.filter(id => id !== stayId)
+
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
     return updated
+}
+
+function setAll(likedIds) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(likedIds))
+    return likedIds
 }

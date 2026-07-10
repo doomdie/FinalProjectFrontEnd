@@ -62,7 +62,7 @@
     position: relative;
     width: 100%;
     min-height: 100vh;
-    padding: 24px var(--page-gutter, 40px);
+    padding: 24px 0rem;
     background-color: var(--header-bg);
     overflow: hidden;
 }
@@ -106,10 +106,14 @@
     position: fixed;
     top: 80px;
     left: 0;
-    width: 100vw;
+    right: 0;
     height: calc(100vh - 80px);
     z-index: 999;
-    padding: 24px calc((100vw - 1120px) / 2);
+
+    box-sizing: border-box;
+    max-width: 1120px;
+    padding: 24px;
+    margin: 0 auto;
     background-color: var(--header-bg);
     overflow: hidden;
 }
@@ -122,24 +126,22 @@
 
 .skeleton-details-gallery {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    grid-template-rows: repeat(2, 200px);
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 260px);
     gap: 8px;
     margin-bottom: 32px;
 }
 
 .skeleton-details-gallery .gallery-main {
+    grid-column: span 2;
     grid-row: span 2;
 }
 
 .skeleton-details-split {
-    display: flex;
-    justify-content: space-between;
-    gap: 48px;
-}
-
-.skeleton-details-left {
-    flex: 1;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 36px;
+    align-items: start;
 }
 
 .skeleton-details-left .skeleton-line {
@@ -161,6 +163,6 @@
 }
 
 .skeleton-details-card {
-    width: 320px;
+    width: 100%;
     height: 400px;
 }
