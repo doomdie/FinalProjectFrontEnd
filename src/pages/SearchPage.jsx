@@ -10,17 +10,16 @@ import { wishlistService } from '../services/stays/wishlist.service.js'
 import { HeartButton } from '../cmps/HeartButton.jsx'
 import { getFakeRating, getFakeDates, getTotalPrice } from '../services/util.service.js'
 
-const STAYS_PER_PAGE = 18  // 9 rows × 2 columns
+const STAYS_PER_PAGE = 18
 
 export function SearchPage() {
-    // loads stays based on the URL ?search= param
     useSyncStayFilter()
 
     const stays = useSelector(storeState => storeState.stayModule.stays)
     const [searchParams] = useSearchParams()
     const [currentPage, setCurrentPage] = useState(0)
-    const [imgIdxByStay, setImgIdxByStay] = useState({})  // current image index per card carousel
-    const [hoveredStayId, setHoveredStayId] = useState(null)  // which card is hovered — highlights its map pin
+    const [imgIdxByStay, setImgIdxByStay] = useState({})
+    const [hoveredStayId, setHoveredStayId] = useState(null)
 
     const activeAmenities = (searchParams.get('amenities') || '').split(',').filter(a => a)
     const activeType = searchParams.get('type') || ''
@@ -28,7 +27,7 @@ export function SearchPage() {
 
     const filteredStays = stays ? stays.filter(stay => {
         if (stay.isLinkCard) return true
-        if (!stay.loc) return false   // skip stays with no location data
+        if (!stay.loc) return false
 
         if (txt) {
             const regex = new RegExp(txt, 'i')
@@ -58,32 +57,24 @@ export function SearchPage() {
         setCurrentPage(0)
     }, [searchParams])
 
+    const isLoading = !stays || !stays.length
+    const noResults = !isLoading && !filteredStays.length
 
-
-    const isLoading = !stays || !stays.length   // still fetching — show skeletons
-    const noResults = !isLoading && !filteredStays.length   // loaded, but filters match nothing
-
-    // how many pages total (based on the filtered list)
     const pageCount = Math.ceil(filteredStays.length / STAYS_PER_PAGE)
-    // the slice of stays for the current page
     const startIdx = currentPage * STAYS_PER_PAGE
     const staysToShow = filteredStays.slice(startIdx, startIdx + STAYS_PER_PAGE)
 
-    // center the map on the first visible stay (falls back to a default)
     const firstStay = staysToShow[0]
-    const mapCenter = firstStay
-        ? { lat: firstStay.loc.lan, lng: firstStay.loc.lat }
+    const mapCenter = firstStay?.loc?.coordinates
+        ? { lat: firstStay.loc.coordinates[1], lng: firstStay.loc.coordinates[0] }
         : { lat: 20, lng: 0 }
 
-    // is the loaded data actually for the current search? if not, the map would
-    // flash the OLD location — so we hold it grey until they match
     const searchTerm = txt.split(',')[0].trim().toLowerCase()
     const mapReady = !searchTerm || (firstStay && (
         firstStay.loc.city.toLowerCase().includes(searchTerm) ||
         firstStay.loc.country.toLowerCase().includes(searchTerm)
     ))
 
-    // decide which page numbers to show; gaps become '...'
     function getPageList() {
         const pages = []
         const last = pageCount - 1
@@ -92,11 +83,8 @@ export function SearchPage() {
             const isFirstPage = pageIdx === 0
             const isLastPage = pageIdx === last
 
-            // near the START: if current is in first 3, show pages 0-3
             const nearStart = currentPage <= 2 && pageIdx <= 3
-            // near the END: if current is in last 3, show last 4 pages
             const nearEnd = currentPage >= last - 2 && pageIdx >= last - 3
-            // otherwise: show current ± 1
             const nearCurrent = Math.abs(pageIdx - currentPage) <= 1
 
             const shouldShow = isFirstPage || isLastPage || nearStart || nearEnd || nearCurrent
@@ -113,7 +101,6 @@ export function SearchPage() {
 
     return (
         <section className="search-page">
-            {/* LEFT: results list */}
             <div className="search-results-panel">
                 {(isLoading || !mapReady)
                     ? <div className="skeleton skeleton-count-line" />
@@ -130,9 +117,6 @@ export function SearchPage() {
                 <div className="search-results-grid">
                     {(isLoading || !mapReady) && <SkeletonLoader variant="card-grid" count={8} />}
                     {!isLoading && mapReady && staysToShow.map((stay, idx) => {
-
-                        // ===== FAKE ADDED INFO TO LOOK LIKE AIRBNB =====
-                        // dates: searched (from URL) OR deterministic fakes from _id — shared via util.service
                         const urlFrom = searchParams.get('from') ? new Date(searchParams.get('from')) : null
                         const urlTo = searchParams.get('to') ? new Date(searchParams.get('to')) : null
                         const cardDates = (urlFrom && urlTo) ? { checkIn: urlFrom, checkOut: urlTo } : getFakeDates(stay)
@@ -141,11 +125,10 @@ export function SearchPage() {
                         const sameMonth = cardDates.checkIn.getMonth() === cardDates.checkOut.getMonth()
                         const fakeDateRange = `${cardDates.checkIn.toLocaleDateString('en-US', opts)} – ${cardDates.checkOut.toLocaleDateString('en-US', sameMonth ? { day: 'numeric' } : opts)}`
                         const nights = Math.max(1, Math.round((cardDates.checkOut - cardDates.checkIn) / (1000 * 60 * 60 * 24)))
-                        const fakeRating = getFakeRating(stay)  // FAKE — shared via util.service, one source of truth
-                        const reviewCount = stay.reviewCount || 0                       // real
+                        const fakeRating = getFakeRating(stay)
+                        const reviewCount = stay.reviewCount || 0
                         const totalPrice = getTotalPrice(stay, cardDates.checkIn, cardDates.checkOut)
-                        const hasFreeCancellation = idx % 4 === 0                       // FAKE: every 4th card
-                        // ===============================================
+                        const hasFreeCancellation = idx % 4 === 0
 
                         const imgs = stay.imgUrls || []
                         const imgIdx = imgIdxByStay[stay._id] || 0
@@ -164,10 +147,8 @@ export function SearchPage() {
                                 onMouseLeave={() => setHoveredStayId(null)}
                             >
                                 <div className="result-card-img">
-                                    {/* real superhost flag from the data */}
                                     {stay.host?.isSuperhost && <span className="card-badge">Superhost</span>}
 
-                                    {/* sliding track — all images in a row, shifted by imgIdx */}
                                     <div
                                         className="card-track"
                                         style={{ transform: `translateX(-${imgIdx * 100}%)` }}
@@ -179,32 +160,25 @@ export function SearchPage() {
 
                                     <HeartButton stay={stay} className="result-card-heart" />
 
-                                    {/* prev arrow — hidden on first image */}
                                     {imgIdx > 0 && (
                                         <button className="card-arrow card-arrow-left" onClick={(ev) => showImg(imgIdx - 1, ev)}>
                                             <SvgIcon iconName="chevronLeft" />
                                         </button>
                                     )}
-                                    {/* next arrow — hidden on last image */}
                                     {imgIdx < imgs.length - 1 && (
                                         <button className="card-arrow card-arrow-right" onClick={(ev) => showImg(imgIdx + 1, ev)}>
                                             <SvgIcon iconName="chevronRight" />
                                         </button>
                                     )}
 
-                                    {/* dots — Airbnb shrink effect: near the active dot = big, far = small */}
                                     <div className="card-dots">
                                         {imgs.map((_, dotIdx) => {
-                                            // Airbnb-style: big group of 3 near the active image, small at the far edges
                                             let sizeClass = 'dot-lg'
                                             if (imgIdx <= 1) {
-                                                // near start: first 3 big, rest small
                                                 sizeClass = dotIdx <= 2 ? 'dot-lg' : 'dot-sm'
                                             } else if (imgIdx >= imgs.length - 2) {
-                                                // near end: last 3 big, rest small
                                                 sizeClass = dotIdx >= imgs.length - 3 ? 'dot-lg' : 'dot-sm'
                                             } else {
-                                                // middle: active + neighbors big, others small
                                                 sizeClass = Math.abs(dotIdx - imgIdx) <= 1 ? 'dot-lg' : 'dot-sm'
                                             }
                                             return <span key={dotIdx} className={`card-dot ${sizeClass} ${dotIdx === imgIdx ? 'active' : ''}`} />
@@ -213,25 +187,19 @@ export function SearchPage() {
                                 </div>
 
                                 <div className="result-card-info">
-                                    {/* title: "<type> in <city>" — Airbnb style */}
                                     <span className="result-card-title">{stay.type} in {stay.loc.city}</span>
 
-                                    {/* listing name */}
                                     <p className="result-card-name">{stay.name}</p>
 
-                                    {/* FAKE rating + real review count (bold) + real beds/baths (grey) */}
                                     <p className="result-card-meta">
                                         <span className="card-rating">★ {fakeRating} ({reviewCount})</span> · {stay.bedrooms ?? stay.capacity} bed{(stay.bedrooms ?? stay.capacity) !== 1 ? 's' : ''} · {stay.bathrooms ?? 1} bath{(stay.bathrooms ?? 1) !== 1 ? 's' : ''}
                                     </p>
 
-                                    {/* dates line — hidden when the user searched specific dates (they're in the header) */}
                                     {!urlFrom && <p className="result-card-dates">{fakeDateRange}</p>}
 
-                                    {/* real nightly × fake nights */}
                                     <p className="result-card-price">
                                         <span className="price-amount">₪{totalPrice.toLocaleString()}</span> total
                                     </p>
-
 
                                     {hasFreeCancellation && <span className="result-card-cancel">Free cancellation</span>}
                                 </div>
@@ -240,7 +208,6 @@ export function SearchPage() {
                     })}
                 </div>
 
-                {/* pagination buttons */}
                 <div className="pagination">
                     <button
                         className="page-arrow"
@@ -268,7 +235,6 @@ export function SearchPage() {
                 </div>
             </div>
 
-            {/* RIGHT: real Google map with a price pin per stay */}
             <div className="search-map">
                 {!mapReady && <div className="search-map-loading" />}
                 {mapReady && (
@@ -285,13 +251,15 @@ export function SearchPage() {
                             style={{ width: '100%', height: '100%', borderRadius: '16px' }}
                         >
                             {staysToShow.map(stay => (
-                                <AdvancedMarker
-                                    key={stay._id}
-                                    position={{ lat: stay.loc.lan, lng: stay.loc.lat }}   // data has lat/lng swapped + 'lan' typo
-                                    zIndex={hoveredStayId === stay._id ? 999 : 1}
-                                >
-                                    <div className={`map-price-pin ${hoveredStayId === stay._id ? 'active' : ''}`}>₪{stay.price}</div>
-                                </AdvancedMarker>
+                                stay.loc?.coordinates && (
+                                    <AdvancedMarker
+                                        key={stay._id}
+                                        position={{ lat: stay.loc.coordinates[1], lng: stay.loc.coordinates[0] }}
+                                        zIndex={hoveredStayId === stay._id ? 999 : 1}
+                                    >
+                                        <div className={`map-price-pin ${hoveredStayId === stay._id ? 'active' : ''}`}>₪{stay.price}</div>
+                                    </AdvancedMarker>
+                                )
                             ))}
                         </Map>
                     </APIProvider>

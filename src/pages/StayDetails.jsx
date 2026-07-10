@@ -42,15 +42,15 @@ export function StayDetails() {
   }
 
   const isLoading = !stay || stay._id !== stayId;
-  
-  const safeStay = stay ? {
-      ...stay,
-      loc: {
-          lat: Number(stay.loc?.lat) || 0,
-          lng: Number(stay.loc?.lng) || 0
-      }
-  } : null;
 
+  const safeStay = stay ? {
+    ...stay,
+    loc: {
+      lat: Number(stay.loc?.lat) || 0,
+      lng: Number(stay.loc?.lng) || 0
+    }
+  } : null;
+  console.log(stay)
   return (
     <section className="stay-details">
       <SkeletonLoader variant="details" isLoading={isLoading} />
@@ -89,7 +89,7 @@ export function StayDetails() {
           <main className="stay-content-container">
             <section className="stay-info-main">
               <header className="stay-overview-header">
-                <h4>{stay.roomType} in {stay.loc.city}</h4>
+                <h4>{stay.type.charAt(0).toUpperCase() + stay.type.slice(1)} in {stay.loc.city}</h4>
                 <div className="stay-info-line">
                   {stay.capacity} guest{stay.capacity > 1 ? 's' : ''}
                   <span className="listSeperator">·</span>
