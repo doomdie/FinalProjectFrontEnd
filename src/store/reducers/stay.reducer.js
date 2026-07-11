@@ -26,7 +26,7 @@ export function stayReducer(state = initialState, action) {
             newState = { ...state, stays: action.stays, isLoading: false }
             break
         case ADD_STAY:
-            newState = { ...state, stays: [...state.stays, action.stay] }
+            newState = { ...state, stays: [...(state.stays || []), action.stay] }
             break
         case SET_STAY:
             newState = { ...state, stay: action.stay }

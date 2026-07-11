@@ -1,8 +1,9 @@
 import React from 'react'
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps'
 import { SvgIcon } from '../services/svg.service.jsx'
-
+import { getStayCoords } from '../services/util.service.js'
 export function StayDetailsMap({ stay }) {
+    console.log(stay)
     console.log('DEBUG: Full stay.loc object:', stay?.loc)
 
     if (!stay?.loc) return null

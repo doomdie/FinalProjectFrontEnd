@@ -6,10 +6,13 @@ import { GuestMenuPage } from '../cmps/GuestMenuPage'
 import { AddImages } from '../cmps/AddImages'
 import { useNavigate } from 'react-router-dom'
 import { addStay } from '../store/actions/stay.actions'
+import { userService } from '../services/user'
+import { showErrorMsg } from '../services/event-bus.service'
 
 export function BecomeAHost() {
     const navigate = useNavigate()
     const [currentStep, setCurrentStep] = useState(1)
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const [formData, setFormData] = useState({
         type: '',
         location: null,
@@ -19,6 +22,7 @@ export function BecomeAHost() {
         bedrooms: 1,
         bathrooms: 1,
     })
+
     const totalSteps = 5
 
     function updateFormData(key, value) {
@@ -37,13 +41,17 @@ export function BecomeAHost() {
 
     function handleNext() {
         if (currentStep < totalSteps) setCurrentStep(prev => prev + 1)
-        else {
-            handleSubmit()
-        }
+        else handleSubmit()
     }
 
     async function handleSubmit() {
-        console.log(formData)
+        const loggedinUser = userService.getLoggedinUser()
+        if (!loggedinUser) {
+            showErrorMsg('You must be logged in to create a listing')
+            return
+        }
+
+        setIsSubmitting(true)
         try {
             const stayToSave = {
                 name: `${formData.type} stay`,
@@ -56,19 +64,34 @@ export function BecomeAHost() {
                 capacity: formData.capacity,
                 amenities: formData.typesList,
                 labels: [],
-                loc: formData.location || {
-                    country: '',
-                    countryCode: '',
-                    city: '',
-                    address: '',
-                    lat: 0,
-                    lng: 0
-                }
+                loc: formData.location
+                    ? {
+                        country: formData.location.country,
+                        countryCode: formData.location.countryCode,
+                        city: formData.location.city,
+                        address: formData.location.address,
+                        type: 'Point',
+                        coordinates: [formData.location.lng, formData.location.lat],
+                    }
+                    : {
+                        country: '', countryCode: '', city: '', address: '',
+                        type: 'Point',
+                        coordinates: [0, 0],
+                    },
+                host: {
+                    _id: loggedinUser._id,
+                    fullname: loggedinUser.fullname,
+                    imgUrl: loggedinUser.imgUrl,
+                },
             }
+            console.log('location at submit:', JSON.stringify(formData.location))
             await addStay(stayToSave)
             navigate('/')
         } catch (err) {
             console.error('Failed to submit stay', err)
+            showErrorMsg('Failed to create listing')
+        } finally {
+            setIsSubmitting(false)
         }
     }
 
@@ -113,6 +136,7 @@ export function BecomeAHost() {
                     />
                 )}
             </main>
+
             <footer className="flow-footer">
                 <div
                     className="progress-bar-fill"
@@ -129,9 +153,9 @@ export function BecomeAHost() {
                     <button
                         onClick={handleNext}
                         className="next-btn"
-                        disabled={currentStep === 1 && !formData.type}
+                        disabled={(currentStep === 1 && !formData.type) || isSubmitting}
                     >
-                        {currentStep === totalSteps ? 'Submit' : 'Next'}
+                        {isSubmitting ? 'Submitting...' : currentStep === totalSteps ? 'Submit' : 'Next'}
                     </button>
                 </div>
             </footer>

@@ -95,9 +95,20 @@ export function StayDetails() {
             </div>
           </div>
 
-          <div className="details-gallery" id="photos">
+          {/* <div className="details-gallery" id="photos">
             {stay.imgUrls.map((url, index) => (
               <img key={index} src={url} alt={stay.name} className="stay-card-img" />
+            ))}
+          </div> */}
+          <div className="details-gallery" id="photos">
+            {(stay.imgUrls?.length ? stay.imgUrls : ['/img/default-stay.png']).map((url, index) => (
+              <img
+                key={index}
+                src={url || '/img/default-stay.png'}
+                alt={stay.name || 'Stay'}
+                className="stay-card-img"
+                onError={ev => { ev.target.onerror = null; ev.target.src = '/img/default-stay.png' }}
+              />
             ))}
           </div>
 
@@ -123,7 +134,11 @@ export function StayDetails() {
                 <div className="firstColumn">
                   <Divider sx={{ borderColor: '#e0e0e0' }} />
                   <section className="host-profile">
-                    <img src={stay.host.imgUrl} alt={stay.name} className="stay-card-img" />
+                    <img
+                      src={stay.host?.imgUrl || '/img/default-user.png'}
+                      alt={stay.host?.fullname || 'Host'}
+                      className="stay-card-img"
+                    />
                     <div className="host-text">
                       {stay.host && <span className="host-name">Hosted by {stay.host.fullname}</span>}
                       <span className="host-undertext">

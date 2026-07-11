@@ -1,9 +1,3 @@
-import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { SeeMoreModal } from './SeeMoreModal.jsx'
-import { SvgIcon } from '../services/svg.service.jsx'
-import { ReviewList } from './ReviewList.jsx'
-import { loadReviews } from '../store/actions/review.actions.js'
 
 export function StayReview({ stay, onUpdateRating }) {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -12,9 +6,9 @@ export function StayReview({ stay, onUpdateRating }) {
 
     const reviews = storeReviews || stay?.reviews || []
     const reviewCount = reviews.length
-    const totalRating = reviews.length
-        ? Number((reviews.reduce((sum, r) => sum + (r.rate || r.rating || 0), 0) / reviews.length).toFixed(1))
-        : (stay?.rating || 4.8)
+    const totalRating = reviewCount
+        ? Number((reviews.reduce((sum, r) => sum + (r.rate || r.rating || 0), 0) / reviewCount).toFixed(1))
+        : 0
 
     useEffect(() => {
         if (!stay?._id) return
@@ -22,10 +16,10 @@ export function StayReview({ stay, onUpdateRating }) {
     }, [stay?._id])
 
     useEffect(() => {
-        if (onUpdateRating && totalRating) onUpdateRating(totalRating)
+        if (onUpdateRating) onUpdateRating(totalRating)
     }, [totalRating, onUpdateRating])
 
-    if (!stay) return null
+    if (!stay || !reviewCount) return null
 
     return (
         <div className="reviews-container">
@@ -61,3 +55,9 @@ export function StayReview({ stay, onUpdateRating }) {
         </div>
     )
 }
+import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { SeeMoreModal } from './SeeMoreModal.jsx'
+import { SvgIcon } from '../services/svg.service.jsx'
+import { ReviewList } from './ReviewList.jsx'
+import { loadReviews } from '../store/actions/review.actions.js'

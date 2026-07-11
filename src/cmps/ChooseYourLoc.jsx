@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { APIProvider, Map, useMap } from '@vis.gl/react-google-maps'
 import { SvgIcon } from '../services/svg.service.jsx'
 
@@ -17,7 +17,7 @@ export function ChooseYourLoc({ onSelectLocation }) {
                     <Map
                         mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
                         defaultZoom={15}
-                        defaultCenter={{ lat: 32.0735, lng: 34.7756 }}  // Tel Aviv default
+                        defaultCenter={{ lat: 32.0735, lng: 34.7756 }}
                         gestureHandling="greedy"
                         disableDefaultUI={true}
                         zoomControl={true}
@@ -30,13 +30,11 @@ export function ChooseYourLoc({ onSelectLocation }) {
                     </Map>
                 </APIProvider>
 
-                {/* the address bar floating over the map */}
                 <div className="loc-chooser-address">
                     <span className="loc-chooser-pin-icon"><SvgIcon iconName="locPin" /></span>
                     <span>{address}</span>
                 </div>
 
-                {/* fixed pin in the exact center — the map moves under it */}
                 <div className="loc-chooser-center-pin">
                     <div className="loc-chooser-pin-house"><SvgIcon iconName="houseFill" /></div>
                     <div className="loc-chooser-pin-hint">Drag the map to reposition the pin</div>
@@ -46,9 +44,9 @@ export function ChooseYourLoc({ onSelectLocation }) {
     )
 }
 
-
 function CenterPinTracker({ onSelectLocation, setAddress }) {
     const map = useMap()
+    const hasUserMoved = useRef(false)
 
     const handleIdle = useCallback(() => {
         if (!map) return
@@ -58,7 +56,6 @@ function CenterPinTracker({ onSelectLocation, setAddress }) {
         const lat = center.lat()
         const lng = center.lng()
 
-        // reverse-geocode: turn lat/lng into a readable address
         const geocoder = new window.google.maps.Geocoder()
         geocoder.geocode({ location: { lat, lng } }, (results, status) => {
             let address = ''
@@ -82,11 +79,23 @@ function CenterPinTracker({ onSelectLocation, setAddress }) {
         })
     }, [map, onSelectLocation, setAddress])
 
-    // attach the idle (drag/zoom settled) listener once the map exists
-    if (map) {
-        window.google.maps.event.clearListeners(map, 'idle')
-        map.addListener('idle', handleIdle)
-    }
+    useEffect(() => {
+        if (!map) return
+        const dragListener = map.addListener('dragstart', () => {
+            hasUserMoved.current = true
+        })
+        const zoomListener = map.addListener('zoom_changed', () => {
+            hasUserMoved.current = true
+        })
+        const idleListener = map.addListener('idle', () => {
+            if (hasUserMoved.current) handleIdle()
+        })
+        return () => {
+            dragListener.remove()
+            zoomListener.remove()
+            idleListener.remove()
+        }
+    }, [map, handleIdle])
 
     return null
 }

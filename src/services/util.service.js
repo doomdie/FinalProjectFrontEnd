@@ -18,6 +18,18 @@ export function makeLorem(size = 100) {
     }
     return txt
 }
+export function getStayCoords(stay) {
+    const loc = stay?.loc
+    if (!loc) return null
+    if (typeof loc.lat === 'number' && typeof loc.lng === 'number') {
+        return { lat: loc.lat, lng: loc.lng }
+    }
+    if (Array.isArray(loc.coordinates) && loc.coordinates.length === 2) {
+        const [lng, lat] = loc.coordinates          // GeoJSON order!
+        return { lat: Number(lat), lng: Number(lng) }
+    }
+    return null
+}
 
 export function getRandomIntInclusive(min, max) {
     min = Math.ceil(min)

@@ -36,13 +36,16 @@ const AMENITY_ICON_MAP = {
     'hair dryer': 'amHairDryer',
 }
 
-const PREVIEW_COUNT = 10   
+const PREVIEW_COUNT = 10
 export function AmenitiesList({ amenities = [] }) {
     const [isOpen, setIsOpen] = useState(false)
     const cleanAmenities = amenities.filter(a => a && a.trim() && !a.startsWith('translation missing'))
     if (!cleanAmenities.length) return null
     const previewAmenities = cleanAmenities.slice(0, PREVIEW_COUNT)
-
+    function capitalize(str) {
+        if (!str) return ''
+        return str.charAt(0).toUpperCase() + str.slice(1)
+    }
     return (
         <section className="amenities-section">
             <h3>What this place offers</h3>
@@ -54,7 +57,7 @@ export function AmenitiesList({ amenities = [] }) {
                             <span className="amenity-icon">
                                 <SvgIcon iconName={iconKey || 'house'} />
                             </span>
-                            <span className="amenity-text">{amenity}</span>
+                            <span className="amenity-text">{capitalize(amenity)}</span>
                         </div>
                     )
                 })}

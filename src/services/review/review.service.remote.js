@@ -10,7 +10,6 @@ function query(filterBy = {}) {
     const searchParams = new URLSearchParams(cleanFilterBy)
     const url = `review?${searchParams.toString()}`
     
-    console.log('DEBUG: Frontend calling URL:', url)
     return httpService.get(url)
 }
 
