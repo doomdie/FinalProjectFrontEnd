@@ -12,14 +12,15 @@ import { SvgIcon } from '../services/svg.service.jsx'
 import { HeartButton } from '../cmps/HeartButton.jsx'
 import { StayDetailsMap } from '../cmps/StayDetailsMap.jsx'
 import { StayDetailsNav } from '../cmps/StayDetailsNav.jsx'
+import { userService } from '../services/user'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { getFakeRating, getFakeHostingYears } from '../services/util.service.js'
+import { getYearsSince } from '../services/util.service.js'
 
 export function StayDetails() {
   const { stayId } = useParams()
+  const [hostUser, setHostUser] = useState(null)
   const navigate = useNavigate()
   const [mobileFooterData, setMobileFooterData] = useState({ price: 0, dateRange: 'Add dates' })
-  const [liveRating, setLiveRating] = useState(null)
   const stay = useSelector(storeState => storeState.stayModule.stay)
   const reviews = useSelector(storeState => storeState.reviewModule.reviews)
 
@@ -46,11 +47,25 @@ export function StayDetails() {
   const safeStay = stay ? {
     ...stay,
     loc: {
-      lat: Number(stay.loc?.lat) || 0,
-      lng: Number(stay.loc?.lng) || 0
+      ...stay.loc,
+      lat: Number(stay.loc?.coordinates?.[1]) || 0,
+      lng: Number(stay.loc?.coordinates?.[0]) || 0
     }
   } : null;
-  console.log(stay)
+
+
+
+  useEffect(() => {
+    if (!stay?.host?._id) return
+    userService.getById(stay.host._id)
+      .then(setHostUser)
+      .catch(err => console.error('Cannot load host', err))
+  }, [stay?.host?._id])
+
+  const avgRating = reviews?.length
+    ? Number((reviews.reduce((sum, r) => sum + (r.rating || r.rate || 0), 0) / reviews.length).toFixed(1))
+    : null
+
   return (
     <section className="stay-details">
       <SkeletonLoader variant="details" isLoading={isLoading} />
@@ -98,7 +113,7 @@ export function StayDetails() {
                   {stay.bathrooms} bathroom{stay.bathrooms > 1 ? 's' : ''}
                 </div>
                 <div className="stay-header-reviews">
-                  ★ {liveRating || getFakeRating(stay)}
+                  ★ {avgRating || 'New'}
                   <span className="listSeperator">·</span>
                   {reviews?.length || 0} review{reviews?.length === 1 ? '' : 's'}
                 </div>
@@ -113,7 +128,7 @@ export function StayDetails() {
                       {stay.host && <span className="host-name">Hosted by {stay.host.fullname}</span>}
                       <span className="host-undertext">
                         {stay.host?.isSuperhost && <>Superhost<span className="listSeperator">·</span></>}
-                        {getFakeHostingYears(stay)} years hosting
+                        {getYearsSince(hostUser?.createdAt)} years hosting
                       </span>
                     </div>
                   </section>

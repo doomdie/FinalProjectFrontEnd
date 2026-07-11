@@ -15,7 +15,7 @@ export function ChooseYourLoc({ onSelectLocation }) {
             <div className="loc-chooser-map">
                 <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_KEY}>
                     <Map
-                        mapId={import.meta.env.VITE_GOOGLE_MAPS_MAP_ID}
+                        mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
                         defaultZoom={15}
                         defaultCenter={{ lat: 32.0735, lng: 34.7756 }}  // Tel Aviv default
                         gestureHandling="greedy"

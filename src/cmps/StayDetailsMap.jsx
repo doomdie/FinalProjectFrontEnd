@@ -28,7 +28,7 @@ export function StayDetailsMap({ stay }) {
             <div className="details-map-container" style={{ width: '100%', height: '400px' }}>
                 <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_KEY}>
                     <Map
-                        mapId={import.meta.env.VITE_GOOGLE_MAPS_MAP_ID}
+                        mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
                         defaultZoom={13}
                         defaultCenter={center}
                         gestureHandling="greedy"

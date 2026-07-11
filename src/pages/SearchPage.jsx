@@ -241,7 +241,7 @@ export function SearchPage() {
                     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_KEY}>
                         <Map
                             key={`${mapCenter.lat}-${mapCenter.lng}`}
-                            mapId={import.meta.env.VITE_GOOGLE_MAPS_MAP_ID}
+                            mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
                             defaultZoom={11}
                             defaultCenter={mapCenter}
                             gestureHandling="greedy"

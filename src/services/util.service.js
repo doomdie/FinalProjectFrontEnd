@@ -62,7 +62,10 @@ export function getFakeRating(stay) {
     return parseFloat((4.6 + (ratingSeed % 40) / 100).toFixed(2))
 }
 
-
+export function getYearsSince(dateVal) {
+    if (!dateVal) return 1
+    return Math.max(1, new Date().getFullYear() - new Date(dateVal).getFullYear())
+}
 // FAKE hosting years — no such data, derived from END of _id like the rating. Stable per stay, 2–11 years.
 export function getFakeHostingYears(stay) {
     if (!stay?._id || stay._id.length < 3) return 5

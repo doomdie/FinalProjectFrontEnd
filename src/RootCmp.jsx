@@ -9,6 +9,7 @@ import { SearchPage } from './pages/SearchPage.jsx'
 import { BecomeAHost } from './pages/BecomeAHost.jsx'
 import { HostMenu } from './pages/HostMenu.jsx'
 import { useEffect } from 'react'
+import { UnderConstruction } from './pages/UnderConstruction.jsx'
 
 /*=== CMPS ===*/
 import { AppHeader } from './cmps/AppHeader.jsx'
@@ -41,6 +42,10 @@ export function RootCmp() {
                 <Route path="/homes/:stayId" element={<StayDetails />} />
                 <Route path="/experiences" element={<HomesPage />} />
                 <Route path="/services" element={<HomesPage />} />
+                <Route path="/hosting" element={<HostMenu />} />
+                <Route path="/hosting/calendar" element={<UnderConstruction />} />
+                <Route path="/hosting/messages" element={<UnderConstruction />} />
+                <Route path="/hosting/listings" element={<HostListings />} />
                 {/* <Route path="user/:id" element={<UserDetails />} /> */}
                 <Route path="/user/:id" element={<UserDetails />} />
                 <Route path="user/public/:id" element={<PublicProfile />} />

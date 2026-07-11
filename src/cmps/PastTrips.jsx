@@ -7,16 +7,16 @@ export function PastTrips() {
     const user = useSelector(storeState => storeState.userModule.user)
     const trips = useSelector(storeState => storeState.orderModule.guestOrders) || []
     const [isLoading, setIsLoading] = useState(true)
-    useEffect(() => {
-        if (!user?._id) return
 
+    useEffect(() => {
+        if (!user?._id) {
+            setIsLoading(false)
+            return
+        }
         setIsLoading(true)
         loadOrders({ buyerId: user._id })
-            .finally(() => {
-                setIsLoading(false) 
-            })
+            .finally(() => setIsLoading(false))
     }, [user?._id])
-    
 
     const completedTrips = useMemo(() => {
         const today = new Date()
@@ -45,56 +45,57 @@ export function PastTrips() {
         return Object.keys(tripsByYear).sort((a, b) => b - a)
     }, [tripsByYear])
 
+    if (isLoading) {
+        return <SkeletonLoader variant="past-trips" isLoading={isLoading} />
+    }
+
     if (!completedTrips.length) {
         return (
             <div className="no-trips-container">
-                <p className="no-trips-text">No past trips found.</p>
+                <p className="no-trips-text">No trips yet</p>
+                <p className="no-trips-subtext">Time to dust off your bags and start planning your next adventure.</p>
             </div>
         )
     }
-if (isLoading) {
-        return <SkeletonLoader variant="past-trips" isLoading={isLoading} />
-    }
+
     return (
         <section className="past-trips-section">
             <h2 className="trips-section-title">Past trips</h2>
 
             <div className="timeline-container">
-                {sortedYears.map((year, yearIdx) => (
+                {sortedYears.map(year => (
                     <React.Fragment key={year}>
-
                         <div className="timeline-year-badge">
                             <span className="timeline-year-text">{year}</span>
                         </div>
 
                         <div className="trips-timeline-stack">
-                            {tripsByYear[year].map((trip) => {
+                            {tripsByYear[year].map((trip, idx) => {
                                 const stay = trip.stay || {}
                                 const startDisplay = trip.startDate
                                     ? new Date(trip.startDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
                                     : ''
                                 const endDisplay = trip.endDate
-                                    ? new Date(trip.endDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+                                    ? new Date(trip.endDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
                                     : ''
 
-                                const displayCity = stay.loc?.city || "Budapest"
-                                const displayImg = stay.imgUrls?.[0] || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750'
+                                const displayCity = stay.loc?.city || stay.name ||  'Trip'
+                                const displayImg = trip.imgUrl || stay.imgUrls?.[0] || '/img/default-stay.png'
 
                                 return (
-                                    <div key={trip._id || trip.id || Math.random()} className="timeline-trip-card">
+                                    <div key={trip._id || idx} className="timeline-trip-card">
                                         <div className="timeline-card-img-wrapper">
                                             <img src={displayImg} alt={displayCity} className="timeline-card-img" />
                                         </div>
 
                                         <div className="timeline-card-info">
                                             <h3 className="timeline-card-title">{displayCity}</h3>
-                                            <p className="timeline-card-dates">{startDisplay} – {endDisplay.split(',')[0]}, {year}</p>
+                                            <p className="timeline-card-dates">{startDisplay} – {endDisplay}, {year}</p>
                                         </div>
                                     </div>
                                 )
                             })}
                         </div>
-
                     </React.Fragment>
                 ))}
             </div>

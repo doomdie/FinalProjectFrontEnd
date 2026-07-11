@@ -70,6 +70,7 @@
     padding: 36px calc(8.5% + 32px); 
     width: 100%;
 }
+.host-listings-pagey
 
 .host-listings-page .listings-empty {
     line-height: var(--typography-body-text_12_16-line-height);

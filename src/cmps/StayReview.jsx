@@ -1,178 +1,63 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { Rating } from '@mui/material'
-
 import { SeeMoreModal } from './SeeMoreModal.jsx'
 import { SvgIcon } from '../services/svg.service.jsx'
+import { ReviewList } from './ReviewList.jsx'
 import { loadReviews } from '../store/actions/review.actions.js'
 
 export function StayReview({ stay, onUpdateRating }) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isHowOpen, setIsHowOpen] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isHowOpen, setIsHowOpen] = useState(false)
+    const storeReviews = useSelector(storeState => storeState.reviewModule.reviews)
 
-  const storeReviews = useSelector(storeState => storeState.reviewModule.reviews)
+    const reviews = storeReviews || stay?.reviews || []
+    const reviewCount = reviews.length
+    const totalRating = reviews.length
+        ? Number((reviews.reduce((sum, r) => sum + (r.rate || r.rating || 0), 0) / reviews.length).toFixed(1))
+        : (stay?.rating || 4.8)
 
-  useEffect(() => {
-    if (!stay?._id) return
-    loadReviews({ targetId: stay._id, targetType: 'stay' })
-  }, [stay?._id])
+    useEffect(() => {
+        if (!stay?._id) return
+        loadReviews({ targetId: stay._id, targetType: 'stay' })
+    }, [stay?._id])
 
-  if (!stay) return null
-  const reviews = storeReviews || stay.reviews || []
+    useEffect(() => {
+        if (onUpdateRating && totalRating) onUpdateRating(totalRating)
+    }, [totalRating, onUpdateRating])
 
-  const reviewCount = reviews.length
-  const totalRating = reviews.length
-    ? Number((reviews.reduce((sum, r) => sum + (r.rate || r.rating || 0), 0) / reviews.length).toFixed(1))
-    : (stay.rating || 4.8)
+    if (!stay) return null
 
-  useEffect(() => {
-    if (onUpdateRating && totalRating) {
-      onUpdateRating(totalRating)
-    }
-  }, [totalRating, onUpdateRating])
+    return (
+        <div className="reviews-container">
+            <h2 className="reviews-title">
+                ★ {totalRating} · {reviewCount} review{reviewCount === 1 ? '' : 's'}
+            </h2>
 
-  function getReviewer(review) {
-    const byUser = review.byUser
-    if (!byUser) return { fullname: 'Anonymous', imgUrl: '/img/default-user.png' }
+            <ReviewList reviews={reviews} variant="stay" fallbackRating={totalRating} />
 
-    return {
-      _id: byUser._id,
-      fullname: byUser.fullname || 'Guest',
-      imgUrl: byUser.imgUrl || '/img/default-user.png',
-      location: byUser.location || 'Guest'
-    }
-  }
-  useEffect(() => {
-    if (!stay?._id) return
-    loadReviews({ targetId: stay._id, targetType: 'stay' }).then(reviews => {
-      console.log('RAW REVIEWS:', reviews)
-    })
-  }, [stay?._id])
-  function getReviewDate(review) {
-    const raw = review.createdAt || review.at
-    if (!raw) return ''
-    return new Date(raw).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-  }
+            <button className="reviews-show-all" onClick={() => setIsModalOpen(true)}>
+                Show all {reviewCount} reviews
+            </button>
 
-  const ratingSx = {
-    '& .MuiRating-icon': { height: '0.75rem', width: '0.75rem', marginRight: '1px' },
-    '& .MuiRating-icon svg': { height: '100%', width: '100%' },
-    '& .MuiRating-iconFilled': { color: '#222222' },
-    '& .MuiRating-iconEmpty': { color: '#e3e3e3' },
-  }
-  return (
-    <div className="reviews-container">
-      <h2 className="reviews-title">
-        ★ {totalRating} · {reviewCount} review{reviewCount === 1 ? '' : 's'}
-      </h2>
-
-      <div className="reviews-grid">
-        {reviews.map((review, idx) => {
-          const reviewer = getReviewer(review)
-          console.log(reviewer)
-
-          const targetUserId = reviewer._id
-
-          return (
-            <article key={review._id || idx} className="review-card">
-              <header className="review-header">
-                {targetUserId ? (
-                  <Link to={`/user/public/${targetUserId}`}>
-                    <img
-                      src={reviewer.imgUrl || '/img/default-user.png'}
-                      alt={reviewer.fullname || 'Guest'}
-                      className="reviewer-avatar"
-                    />
-                  </Link>
-                ) : (
-                  <img
-                    src={reviewer.imgUrl || '/img/default-user.png'}
-                    alt={reviewer.fullname || 'Guest'}
-                    className="reviewer-avatar"
-                  />
-                )}
-
-                <div className="reviewer-details">
-                  <h3 className="reviewer-name">{reviewer.fullname || 'Anonymous'}</h3>
-                  <p className="reviewer-location">{reviewer.location || 'Guest'}</p>
-                </div>
-              </header>
-
-              <div className="review-metadata">
-                <Rating
-                  name={`rate-${review._id || idx}`}
-                  value={review.rating || totalRating}
-                  precision={0.1}
-                  readOnly
-                  sx={ratingSx}
-                />
-                <span className="separator">•</span>
-                <time className="review-date">{getReviewDate(review)}</time>
-              </div>
-
-              <div className="review-content">
-                <p className="review-text">{review.txt}</p>
-              </div>
-            </article>
-          )
-        })}
-      </div>
-
-      <button className="reviews-show-all" onClick={() => setIsModalOpen(true)}>
-        Show all {reviewCount} reviews
-      </button>
-
-      {isModalOpen && (
-        <SeeMoreModal onClose={() => setIsModalOpen(false)} pushedBack={isHowOpen}>
-          <div className="reviews-modal-score">
-            <span className="reviews-modal-big">
-              <SvgIcon iconName="star" />
-              {totalRating}
-            </span>
-            <button className="how-reviews-link" onClick={() => setIsHowOpen(true)}>How reviews work</button>
-          </div>
-          <h3 className="reviews-modal-count">{reviewCount} reviews</h3>
-          <div className="reviews-modal-list">
-            {reviews.map((review, idx) => {
-              const reviewer = getReviewer(review)
-              return (
-                <article key={review._id || idx} className="review-card">
-                  <header className="review-header">
-                    <img
-                      src={reviewer.imgUrl || '/img/default-user.png'}
-                      alt={reviewer.fullname || 'Guest'}
-                      className="reviewer-avatar"
-                    />
-                    <div className="reviewer-details">
-                      <h3 className="reviewer-name">{reviewer.fullname || 'Anonymous'}</h3>
-                      <p className="reviewer-location">{reviewer.location || 'Guest'}</p>
+            {isModalOpen && (
+                <SeeMoreModal onClose={() => setIsModalOpen(false)} pushedBack={isHowOpen}>
+                    <div className="reviews-modal-score">
+                        <span className="reviews-modal-big">
+                            <SvgIcon iconName="star" />
+                            {totalRating}
+                        </span>
+                        <button className="how-reviews-link" onClick={() => setIsHowOpen(true)}>How reviews work</button>
                     </div>
-                  </header>
-                  <div className="review-metadata">
-                    <Rating
-                      name={`modal-rate-${review._id || idx}`}
-                      value={review.rating || totalRating}
-                      precision={0.1}
-                      readOnly
-                      sx={ratingSx}
-                    />
-                    <span className="separator">·</span>
-                    <span className="review-date">{getReviewDate(review)}</span>
-                  </div>
-                  <p className="review-text">{review.txt}</p>
-                </article>
-              )
-            })}
-          </div>
-        </SeeMoreModal>
-      )}
+                    <h3 className="reviews-modal-count">{reviewCount} reviews</h3>
+                    <ReviewList reviews={reviews} variant="modal" fallbackRating={totalRating} withProfileLinks={false} />
+                </SeeMoreModal>
+            )}
 
-      {isHowOpen && (
-        <SeeMoreModal title="How reviews work" onClose={() => setIsHowOpen(false)} size="small">
-          <p>Reviews from past guests help our community learn more about each home.</p>
-        </SeeMoreModal>
-      )}
-    </div>
-  )
+            {isHowOpen && (
+                <SeeMoreModal title="How reviews work" onClose={() => setIsHowOpen(false)} size="small">
+                    <p>Reviews from past guests help our community learn more about each home.</p>
+                </SeeMoreModal>
+            )}
+        </div>
+    )
 }
