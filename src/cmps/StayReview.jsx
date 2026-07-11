@@ -1,3 +1,9 @@
+import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { SeeMoreModal } from './SeeMoreModal.jsx'
+import { SvgIcon } from '../services/svg.service.jsx'
+import { ReviewList } from './ReviewList.jsx'
+import { loadReviews } from '../store/actions/review.actions.js'
 
 export function StayReview({ stay, onUpdateRating }) {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -55,9 +61,3 @@ export function StayReview({ stay, onUpdateRating }) {
         </div>
     )
 }
-import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { SeeMoreModal } from './SeeMoreModal.jsx'
-import { SvgIcon } from '../services/svg.service.jsx'
-import { ReviewList } from './ReviewList.jsx'
-import { loadReviews } from '../store/actions/review.actions.js'
