@@ -14,7 +14,6 @@ export function StickyCard({ stay, onUpdateFooter }) {
     const user = useSelector(storeState => storeState.userModule.user)
     const [searchParams] = useSearchParams()
 
-    // parse "YYYY-MM-DD" as a LOCAL date (avoid UTC day-shift, matching the search bar)
     function parseLocalYMD(str) {
         if (!str) return null
         const parts = str.split('-').map(Number)
