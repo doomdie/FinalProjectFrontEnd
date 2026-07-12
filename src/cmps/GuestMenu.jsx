@@ -1,16 +1,27 @@
-import { useState } from 'react';
-import { IconButton, Box } from '@mui/material';
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { useState, useEffect, useRef } from 'react'
+import { IconButton, Box } from '@mui/material'
+import RemoveIcon from '@mui/icons-material/Remove'
+import AddIcon from '@mui/icons-material/Add'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 
 export function GuestMenu({ currentList, onUpdateList, stay }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const menuRef = useRef(null)
+
+  useEffect(() => {
+    if (!isOpen) return
+    function handleClickOutside(ev) {
+      if (menuRef.current && !menuRef.current.contains(ev.target)) setIsOpen(false)
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [isOpen])
 
   const handleButtonClick = () => {
-    setIsOpen(!isOpen);
-  };
+    console.log('guest menu clicked! isOpen was:', isOpen)
+    setIsOpen(!isOpen)
+  }
 
   function handleCountChange(e, keyName, amount) {
     e.stopPropagation();
@@ -31,7 +42,7 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
     (currentList.pets || 0);
   const displayCount = totalGuests > 0 ? totalGuests : 1;
   return (
-    <div className="guest-triggers">
+    <div className="guest-triggers" ref={menuRef}>
       <Box
         className="guest-trigger-tile"
         onClick={handleButtonClick}
@@ -53,11 +64,11 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
           {/* ADULTS */}
           <div className="dropdown-row">
             <Box className="row-label">
-              <span className="title">ADULTS</span>
-              <span className="subtitle">Ages 13 or above</span>
+              <span className="title">Adults</span>
+              <span className="subtitle">Age 13+</span>
             </Box>
             <Box className="row-controls">
-              <IconButton size="small" onClick={(e) => handleCountChange(e, 'adults', -1)} disabled={(currentList.adults || 0) <= 0}>
+              <IconButton size="small" onClick={(e) => handleCountChange(e, 'adults', -1)} disabled={(currentList.adults || 0) <= 1}>
                 <RemoveIcon fontSize="small" />
               </IconButton>
               <span className="counter-value">{currentList['adults']}</span>
@@ -70,8 +81,8 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
           {/* KIDS */}
           <div className="dropdown-row">
             <Box className="row-label">
-              <span className="title">KIDS</span>
-              <span className="subtitle">Ages 2-12</span>
+              <span className="title">Children</span>
+              <span className="subtitle">Ages 2–12</span>
             </Box>
             <Box className="row-controls">
               <IconButton size="small" onClick={(e) => handleCountChange(e, 'children', -1)} disabled={(currentList.children || 0) <= 0}>
@@ -87,7 +98,7 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
           {/* INFANTS */}
           <div className="dropdown-row">
             <Box className="row-label">
-              <span className="title">INFANTS</span>
+              <span className="title">Infants</span>
               <span className="subtitle">Under 2</span>
             </Box>
             <Box className="row-controls">
@@ -95,7 +106,7 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
                 <RemoveIcon fontSize="small" />
               </IconButton>
               <span className="counter-value">{currentList['infants']}</span>
-              <IconButton size="small" onClick={(e) => handleCountChange(e, 'infants', +1)} disabled={(currentList.infants || 0) > stay.capacity}>
+              <IconButton size="small" onClick={(e) => handleCountChange(e, 'infants', +1)} disabled={(currentList.infants || 0) >= 5}>
                 <AddIcon fontSize="small" />
               </IconButton>
             </Box>
@@ -104,22 +115,30 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
           {/* PETS */}
           <div className="dropdown-row">
             <Box className="row-label">
-              <span className="title">PETS</span>
-              <span className="subtitle">Woof!</span>
+              <span className="title">Pets</span>
+              <span className="subtitle subtitle-link">Bringing a service animal?</span>
             </Box>
             <Box className="row-controls">
               <IconButton size="small" onClick={(e) => handleCountChange(e, 'pets', -1)} disabled={(currentList.pets || 0) <= 0}>
                 <RemoveIcon fontSize="small" />
               </IconButton>
               <span className="counter-value">{currentList['pets']}</span>
-              <IconButton size="small" onClick={(e) => handleCountChange(e, 'pets', +1)} disabled={(currentList.pets || 0) > stay.capacity}>
+              <IconButton size="small" onClick={(e) => handleCountChange(e, 'pets', +1)} disabled={(currentList.pets || 0) >= 5}>
                 <AddIcon fontSize="small" />
               </IconButton>
             </Box>
           </div>
 
+          <p className="dropdown-note">
+            This place has a maximum of {maxCapacity} guest{maxCapacity === 1 ? '' : 's'}, not including infants.
+          </p>
+
+          <div className="dropdown-footer">
+            <button className="dropdown-close" onClick={() => setIsOpen(false)}>Close</button>
+          </div>
+
         </div>
       )}
     </div>
-  );
+  )
 }
