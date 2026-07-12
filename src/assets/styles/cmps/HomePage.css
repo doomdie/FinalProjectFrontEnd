@@ -1,4 +1,3 @@
-
 .homes-page {
     padding: 1.5rem var(--page-gutter);
 }
@@ -27,6 +26,7 @@
     aspect-ratio: 1 / 1;
     object-fit: cover;
 }
+
 body:has(.airbnb-home-shield) footer {
     display: none !important;
     opacity: 0 !important;
@@ -49,12 +49,13 @@ body:has(.airbnb-home-shield) .app-header .search-bar-small {
     opacity: 0 !important;
     pointer-events: none !important;
 }
+
 /* ===== HOMEPAGE SKELETON BASE LAYOUT ===== */
 .airbnb-home-shield {
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background-color: var(--header-bg, #ffffff); 
+    background-color: var(--header-bg, #ffffff);
     padding: 24px var(--page-gutter, 40px);
     box-sizing: border-box;
     overflow: hidden;
@@ -72,24 +73,32 @@ body:has(.airbnb-home-shield) .app-header .search-bar-small {
 }
 
 /* ===== CORE BOXES AND SHIMMER EFFECTS ===== */
-.shimmer-home-title, 
-.shimmer-home-img-wrapper, 
+.shimmer-home-title,
+.shimmer-home-img-wrapper,
 .shimmer-home-line {
     background: #f5f5f5 !important;
     animation: airbnb-home-pulse 1.5s infinite ease-in-out !important;
 }
 
 @keyframes airbnb-home-pulse {
-    0%   { opacity: 0.5; }
-    50%  { opacity: 1; }
-    100% { opacity: 0.5; }
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
 }
 
 /* ===== ELEMENT GEOMETRY ===== */
-.shimmer-home-title { 
-    width: 220px; 
-    height: 1.4rem; 
-    margin-bottom: 1rem; 
+.shimmer-home-title {
+    width: 220px;
+    height: 1.4rem;
+    margin-bottom: 1rem;
     border-radius: 4px;
 }
 
@@ -113,7 +122,8 @@ body:has(.airbnb-home-shield) .app-header .search-bar-small {
 .shimmer-home-img-wrapper {
     width: 100%;
     aspect-ratio: 1 / 1;
-    border-radius: 25px; /* Matches live stay-card img radius */
+    border-radius: 25px;
+    /* Matches live stay-card img radius */
 }
 
 .shimmer-home-content {
@@ -128,19 +138,30 @@ body:has(.airbnb-home-shield) .app-header .search-bar-small {
     border-radius: 4px;
 }
 
-.shimmer-home-line.title-line { width: 75%; height: 14px; }
-.shimmer-home-line.date-line  { width: 55%; }
-.shimmer-home-line.price-line { width: 40%; }
+.shimmer-home-line.title-line {
+    width: 75%;
+    height: 14px;
+}
+
+.shimmer-home-line.date-line {
+    width: 55%;
+}
+
+.shimmer-home-line.price-line {
+    width: 40%;
+}
 
 /* Responsive break matching live layout scales */
 @media (max-width: 721px) {
     .shimmer-home-cards-container {
         grid-template-columns: 1fr;
     }
+
     .shimmer-home-card {
         max-width: 100%;
     }
 }
+
 /* I can probably reuse the class for the other loading screen for this.. Find out how to make a more universal loading screen*/
 
 
@@ -151,15 +172,29 @@ body:has(.airbnb-home-shield) .app-header .search-bar-small {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: -80px;                        
-    height: calc(100vh - 80px - 1.5rem);      
+    margin-top: -80px;
+    height: calc(100vh - 80px - 1.5rem);
 }
+
+.tabby-content {
+    min-height: calc(100vh - 80px - 1.5rem);
+    height: auto;
+}
+
+.host-listings-page {
+    padding: 1.5rem var(--page-gutter);
+    min-height: calc(100vh - 80px);
+    text-align:center;
+}
+
 .public-profile {
     max-width: 1120px;
     margin: 0 auto;
     padding: 48px 24px;
     display: flex;
     flex-direction: column;
+    min-height: calc(100vh - 80px);
+
     gap: 48px;
 }
 

@@ -3,25 +3,25 @@ import { useNavigate } from 'react-router-dom'
 import { CustomCarousel } from './CustomCarousel'
 import { StayCard } from './StayCard'
 
-export function StayCarouselRow({ title, stays, filterFn, itemsPerSlide = 6 }) {
+export function StayCarouselRow({ title, stays, filterFn, itemsPerSlide = 6, linkTo }) {
     const navigate = useNavigate()
-    
+
     const filteredStays = stays.filter(stay => {
         if (stay.isLinkCard) return true
         return filterFn ? filterFn(stay) : true
     })
 
     if (!filteredStays.length) return null
-
+    const rowLink = linkTo || stays.find(s => s.isLinkCard)?.linkTo
     return (
         <div className="carousel-row-wrapper">
-            <CustomCarousel title={title}>
+            <CustomCarousel title={title} linkTo={rowLink}>
                 {filteredStays.map((stay, idx) => {
                     if (stay.isLinkCard) {
                         return (
-                            <div 
-                                key="see-all" 
-                                className="stay-card see-all-card" 
+                            <div
+                                key="see-all"
+                                className="stay-card see-all-card"
                                 onClick={() => navigate(stay.linkTo)}
                             >
                                 <div className="see-all-image-stack">

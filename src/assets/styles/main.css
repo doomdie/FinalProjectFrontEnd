@@ -9,9 +9,11 @@
 
 @import "RootCmp";
 
-@import "cmps/HomePage";
+@import "cmps/HomePage.css";
 @import "pages/SearchPage";
 @import "cmps/user/PublicProfile.css";
+@import "cmps/user/HostMenu.css";
+
 @import "cmps/LoginSignup";
 
 

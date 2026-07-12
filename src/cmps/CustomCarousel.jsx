@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import { SvgIcon } from '../services/svg.service.jsx'
 import { useIsMobile } from '../customHooks/useIsMobile.js'
@@ -6,12 +7,11 @@ import { useIsMobile } from '../customHooks/useIsMobile.js'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-export function CustomCarousel({ children, title }) {
+export function CustomCarousel({ children, title, linkTo }) {
     const sliderRef = useRef(null);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [slideCount, setSlideCount] = useState(0);
     const isMobile = useIsMobile();
-
 
     const getSlidesToShowForWidth = (width) => {
         if (width <= 450) return 1;
@@ -36,17 +36,34 @@ export function CustomCarousel({ children, title }) {
         return () => window.removeEventListener('resize', handleResize);
     }, [children]);
 
-    /* ===== MOBILE: plain swipe row, no slick ===== */
+    const renderTitle = () => {
+        const titleContent = (
+            <>
+                {title}
+                <span className="title-arrow">
+                    <SvgIcon iconName="titleArrow" />
+                </span>
+            </>
+        );
+
+        if (linkTo) {
+            return (
+                <h2 className="carousel-title">
+                    <Link to={linkTo} className="carousel-title-link">
+                        {titleContent}
+                    </Link>
+                </h2>
+            );
+        }
+
+        return <h2 className="carousel-title">{titleContent}</h2>;
+    };
+
     if (isMobile) {
         return (
             <div className="my-carousel-wrapper mobile-full-bleed">
                 <header className="carouselHeader">
-                    <h2 className="carousel-title">
-                        {title}
-                        <span className="title-arrow">
-                            <SvgIcon iconName="titleArrow" />
-                        </span>
-                    </h2>
+                    {renderTitle()}
                 </header>
 
                 <div className="mobile-swipe-row">
@@ -60,9 +77,7 @@ export function CustomCarousel({ children, title }) {
         )
     }
 
-
     const settings = {
-        dots: false,
         dots: false,
         infinite: false,
         speed: 500,
@@ -100,10 +115,7 @@ export function CustomCarousel({ children, title }) {
     return (
         <div className="my-carousel-wrapper">
             <header className="carouselHeader">
-                <h2 className="carousel-title">
-                    {title}
-                    <span className="title-arrow"><SvgIcon iconName="titleArrow" /></span>
-                </h2>
+                {renderTitle()}
                 <div className="carousel-buttons">
                     <button onClick={handlePrev} disabled={isPrevDisabled}>
                         <SvgIcon iconName="chevronLeft" />

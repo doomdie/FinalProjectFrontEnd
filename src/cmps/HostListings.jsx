@@ -26,9 +26,11 @@ export function HostListings() {
 
     if (!user) {
         return (
-            <section className="host-listings-page">
-                <p>Please log in to view your listings.</p>
-            </section>
+            <div className="tab-content">
+                <div className="host-reservations">
+                    <h1>Please log in to access.</h1>
+                </div>
+            </div>
         )
     }
 

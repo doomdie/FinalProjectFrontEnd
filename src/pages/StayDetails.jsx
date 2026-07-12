@@ -23,6 +23,7 @@ export function StayDetails() {
   const navigate = useNavigate()
   const [mobileFooterData, setMobileFooterData] = useState({ price: 0, dateRange: 'Add dates' })
   const stay = useSelector(storeState => storeState.stayModule.stay)
+  console.log(stay)
   const reviews = useSelector(storeState => storeState.reviewModule.reviews)
 
   useEffect(() => {

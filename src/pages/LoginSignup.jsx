@@ -67,16 +67,9 @@ function Login({ onSuccess }) {
         <form className="login-form" onSubmit={onLogin}>
             <h2>Login</h2>
             <input type="text" name="username" value={credentials.username} placeholder="Username" onChange={handleChange} autoComplete="username" required />
-
-            {/* autoComplete tells the browser this is an existing password —
-                stops Chrome logging the typed value in a console warning */}
             <input type="password" name="password" value={credentials.password} placeholder="Password" onChange={handleChange} autoComplete="current-password" required />
-
-            {/* only rendered when a login attempt failed */}
             {errMsg && <p className="auth-error">{errMsg}</p>}
-
             <button type="submit">Login</button>
-
         </form>
     )
 }
@@ -86,7 +79,6 @@ function Signup({ onSuccess }) {
     const [credentials, setCredentials] = useState(userService.getEmptyUser())
     const [errMsg, setErrMsg] = useState('')
     const navigate = useNavigate()
-
     function handleChange(ev) {
         const { name, value } = ev.target
         setCredentials(prev => ({ ...prev, [name]: value }))
@@ -117,13 +109,10 @@ function Signup({ onSuccess }) {
             <input type="text" name="fullname" value={credentials.fullname} placeholder="Fullname" onChange={handleChange} autoComplete="name" required />
             <input type="text" name="username" value={credentials.username} placeholder="Username" onChange={handleChange} autoComplete="username" required />
 
-            {/* new-password: tells the browser this is a fresh account,
-                not a saved login — also stops the console value warning */}
             <input type="password" name="password" value={credentials.password} placeholder="Password" onChange={handleChange} autoComplete="new-password" required />
 
             <ImgUploader onUploaded={onUploaded} />
 
-            {/* shows the backend's reason, e.g. "Username already taken" */}
             {errMsg && <p className="auth-error">{errMsg}</p>}
 
             <button type="submit">Signup</button>
