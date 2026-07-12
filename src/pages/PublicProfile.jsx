@@ -114,7 +114,7 @@ export function PublicProfile() {
       )}
       {displayedUser.isHost && stayReviews.length > 0 && (
         <section className="profile-reviews">
-          <h2 className="profile-reviews-title">{firstName}'s reviews</h2>
+          <h2 className="profile-reviews-title">{firstName}'s stays reviews</h2>
           <ReviewList reviews={stayReviews} variant="profile" withProfileLinks={false} />
         </section>
       )}

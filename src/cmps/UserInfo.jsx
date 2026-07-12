@@ -47,7 +47,7 @@ export function UserInfo() {
     }, [myStays.length])
 
     if (!user) return <div>Loading profile...</div>
-
+    console.log(user)
     const firstName = (user.fullname || '').trim().split(/\s+/)[0]
 
     return (
@@ -82,7 +82,7 @@ export function UserInfo() {
                     )}
                     {isHost && stayReviews.length > 0 && (
                         <section className="profile-reviews">
-                            <h2 className="profile-reviews-title">{firstName}'s reviews</h2>
+                            <h2 className="profile-reviews-title">{firstName}'s Listings reviews</h2>
                             <ReviewList reviews={stayReviews} variant="profile" withProfileLinks={false} />
                             <button className="reviews-show-all" onClick={() => setOpenModal('stay')}>
                                 Show all {stayReviews.length} reviews

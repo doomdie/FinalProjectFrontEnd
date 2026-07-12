@@ -145,7 +145,7 @@ export function AppHeader() {
                 <div className="header-center">
                     {isHostingMode ? (
                         <div className="header-tabs host-tabs" ref={tabsContainerRef}>
-                            <NavLink to="/hosting" end>Today</NavLink>
+                            <NavLink to="/hosting" end>Reservations</NavLink>
                             <NavLink to="/hosting/calendar">Calendar</NavLink>
                             <NavLink to="/hosting/listings">Listings</NavLink>
                             <NavLink to="/hosting/messages">Messages</NavLink>

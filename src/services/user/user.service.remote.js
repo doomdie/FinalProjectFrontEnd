@@ -12,7 +12,7 @@ export const userService = {
     update,
     getLoggedinUser,
     saveLoggedinUser,
-    checkLoggedinUser 
+    checkLoggedinUser
 }
 
 function getUsers() {
@@ -42,14 +42,23 @@ async function login(userCred) {
     if (user) return saveLoggedinUser(user)
 }
 
-async function signup(userCred) {
-    if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
-    userCred.score = 10000
+// async function signup(userCred) {
+//     console.log(userCred)
+//     if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
+//     userCred.score = 10000
 
-    const user = await httpService.post('auth/signup', userCred)
+//     const user = await httpService.post('auth/signup', userCred)
+//     return saveLoggedinUser(user)
+// }
+async function signup(userCred) {
+    const userToSave = {
+        ...userCred,
+        imgUrl: userCred.imgUrl || 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
+        score: 10000,
+    }
+    const user = await httpService.post('auth/signup', userToSave)
     return saveLoggedinUser(user)
 }
-
 async function logout() {
     sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
     return await httpService.post('auth/logout')
@@ -62,8 +71,8 @@ function getLoggedinUser() {
 async function checkLoggedinUser() {
     try {
         const user = await httpService.get('auth/check')
-        if (user) return saveLoggedinUser(user) 
-        
+        if (user) return saveLoggedinUser(user)
+
         sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
         return null
     } catch (err) {
@@ -73,12 +82,12 @@ async function checkLoggedinUser() {
 }
 
 function saveLoggedinUser(user) {
-    user = { 
-        _id: user._id, 
-        fullname: user.fullname, 
-        imgUrl: user.imgUrl, 
-        score: user.score, 
-        isAdmin: user.isAdmin ,
+    user = {
+        _id: user._id,
+        fullname: user.fullname,
+        imgUrl: user.imgUrl,
+        score: user.score,
+        isAdmin: user.isAdmin,
         description: user.description
     }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))

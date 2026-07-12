@@ -14,7 +14,6 @@ export function StickyCard({ stay, onUpdateFooter }) {
     const user = useSelector(storeState => storeState.userModule.user)
     const [searchParams] = useSearchParams()
 
-    // parse "YYYY-MM-DD" as a LOCAL date (avoid UTC day-shift, matching the search bar)
     function parseLocalYMD(str) {
         if (!str) return null
         const parts = str.split('-').map(Number)
@@ -27,7 +26,6 @@ export function StickyCard({ stay, onUpdateFooter }) {
         const toParam = parseLocalYMD(searchParams.get('to'))
         if (fromParam && toParam) return { checkIn: fromParam, checkOut: toParam }
 
-        // no searched dates → use the same _id-derived fake dates the search card shows
         const fake = getFakeDates(stay)
         if (fake) return fake
 
@@ -42,7 +40,6 @@ export function StickyCard({ stay, onUpdateFooter }) {
     const datePickerRef = useRef(null)
 
 
-    // re-sync dates when navigating to a different stay
     useEffect(() => {
         const fromParam = parseLocalYMD(searchParams.get('from'))
         const toParam = parseLocalYMD(searchParams.get('to'))
@@ -55,7 +52,6 @@ export function StickyCard({ stay, onUpdateFooter }) {
     }, [stay._id])
 
 
-    // close the picker when clicking anywhere outside it 
     useEffect(() => {
         if (!isDatePickerOpen) return
 
@@ -85,7 +81,6 @@ export function StickyCard({ stay, onUpdateFooter }) {
 
     const totalPrice = getTotalPrice(stay, dates.checkIn, dates.checkOut)
 
-    // fake "was" price for the strikethrough discount look (demo)
     const originalPrice = totalPrice > 0 ? Math.round(totalPrice * 1.33) : 0
 
     function handleSelectDates(selectedRange) {
@@ -110,7 +105,7 @@ export function StickyCard({ stay, onUpdateFooter }) {
             endDate: dates.checkOut.toISOString().split('T')[0],
             guests: { ...guestCounts },
             totalPrice,
-            status: 'pending'
+            imgUrl: stay.imgUrls?.[0] || '',
         }
 
         try {

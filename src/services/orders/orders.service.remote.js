@@ -33,24 +33,12 @@ async function save(order) {
 function getEmptyOrder() {
     return {
         hostId: '',
-        buyer: {
-            _id: '',
-            fullname: ''
-        },
-        stay: {
-            _id: '',
-            name: '',
-            price: 0
-        },
+        buyer: { _id: '', fullname: '' },
+        stay: { _id: '', name: '', price: 0 },
         startDate: '',
         endDate: '',
-        guests: {
-            adults: 1,
-            children: 0,
-            infants: 0,
-            pets: 0
-        },
+        guests: { adults: 1, children: 0, infants: 0, pets: 0 },
         totalPrice: 0,
-        status: 'pending'
+        imgUrl: '',
     }
 }
