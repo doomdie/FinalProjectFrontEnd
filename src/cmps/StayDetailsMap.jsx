@@ -3,8 +3,7 @@ import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps'
 import { SvgIcon } from '../services/svg.service.jsx'
 import { getStayCoords } from '../services/util.service.js'
 export function StayDetailsMap({ stay }) {
-    console.log(stay)
-    console.log('DEBUG: Full stay.loc object:', stay?.loc)
+
 
     if (!stay?.loc) return null
 
@@ -14,7 +13,6 @@ export function StayDetailsMap({ stay }) {
     const lat = Number(rawLat)
     const lng = Number(rawLng)
     
-    console.log('DEBUG: Final Lat/Lng being passed to Map:', lat, lng)
 
     if (isNaN(lat) || isNaN(lng)) {
         return <section className="details-map-section">Map data unavailable</section>

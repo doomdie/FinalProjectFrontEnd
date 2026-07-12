@@ -1,0 +1,16 @@
+@media (max-width: 743px) {
+    .wishlist-page {
+        padding: 24px 24px 100px;   /* bottom clears the nav bar */
+
+        .wishlist-title {
+            font-size: var(--typography-titles-semibold_26_30-font-size);
+            line-height: var(--typography-titles-semibold_26_30-line-height);
+            margin-bottom: 16px;
+        }
+
+        .stay-list {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px 10px;
+        }
+    }
+}

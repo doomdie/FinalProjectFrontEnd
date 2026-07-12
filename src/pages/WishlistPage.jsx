@@ -3,11 +3,12 @@ import { useSelector } from 'react-redux'
 import { stayService } from '../services/stays'
 import { StayCard } from '../cmps/StayCard.jsx'
 import { socketService } from '../services/socket.service.js'
+import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 
 export function WishlistPage() {
     const [likedStays, setLikedStays] = useState(null)
     const user = useSelector(storeState => storeState.userModule.user)
-    
+
     const userIdRef = useRef(null)
 
     useEffect(() => {
@@ -29,7 +30,7 @@ export function WishlistPage() {
 
     async function loadLikedStays() {
         try {
-            const currentUserId = user?._id?.toString() || user?.id?.toString()            
+            const currentUserId = user?._id?.toString() || user?.id?.toString()
             const stays = await stayService.query({ likedByUserId: currentUserId })
             setLikedStays(stays ? [...stays] : []) // Force clean array reference clone on load
         } catch (err) {
@@ -49,13 +50,13 @@ export function WishlistPage() {
         if (!isStillLikedByMe) {
             setLikedStays(prevStays => {
                 if (!prevStays) return null
-                
+
                 const updatedList = prevStays.filter(stay => {
                     const sId = stay._id || stay.id
                     return String(sId) !== String(stayId)
                 })
-                
-                return [...updatedList] 
+
+                return [...updatedList]
             })
         } else {
             setLikedStays(prevStays => {
@@ -92,7 +93,16 @@ export function WishlistPage() {
         )
     }
 
-    if (!likedStays) return null
+    if (!likedStays) {
+        return (
+            <section className="wishlist-page">
+                <h1 className="wishlist-title">Wishlist</h1>
+                <div className="stay-list">
+                    <SkeletonLoader variant="card-grid" count={4} isLoading={true} />
+                </div>
+            </section>
+        )
+    }
 
     return (
         <section className="wishlist-page">
@@ -103,10 +113,10 @@ export function WishlistPage() {
                 : (
                     <div className="stay-list">
                         {likedStays.map(stay => (
-                            <StayCard 
-                                key={stay._id || stay.id} 
-                                stay={stay} 
-                                onToggleHeart={onRemoveFromWishlist} 
+                            <StayCard
+                                key={stay._id || stay.id}
+                                stay={stay}
+                                onToggleHeart={onRemoveFromWishlist}
                             />
                         ))}
                     </div>

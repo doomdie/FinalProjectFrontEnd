@@ -1,0 +1,55 @@
+@media (max-width: 743px) {
+
+    .homes-page {
+        padding: 1rem 0 90px;
+        /* sides handled per-element; bottom clears the nav bar */
+    }
+
+    .mobile-full-bleed .carouselHeader {
+        padding-inline: 24px;
+    }
+
+    .homes-page .section-title {
+        font-size: 1.1rem;
+    }
+
+    /* row titles slightly smaller on mobile */
+    .carousel-title {
+        flex: 1;
+        justify-content: space-between;
+    }
+
+    .carousel-row-wrapper {
+        margin-bottom: 28px;
+    }
+
+    /* ===== airbnb-style swipe row ===== */
+    .mobile-swipe-row {
+        display: flex;
+        gap: 10px;
+
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 24px;
+        /* snap respects the inset */
+        scrollbar-width: none;
+        /* hide scrollbar, keep swipe */
+
+
+        padding-inline: 24px;
+    }
+
+    .mobile-swipe-row::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-swipe-item {
+        flex: 0 0 42vw;
+        /* ~2.3 cards visible = peek */
+        scroll-snap-align: start;
+    }
+
+    .stay-card img {
+        border-radius: var(--corner-radius-large16px-border-radius);
+    }
+}

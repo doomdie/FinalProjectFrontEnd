@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { loadReviews } from '../store/actions/review.actions'
 import { AmenitiesList } from '../cmps/AmenitiesList'
 import { loadStay } from '../store/actions/stay.actions'
 import { StickyCard } from "../cmps/StickyCard"
@@ -26,7 +27,9 @@ export function StayDetails() {
 
   useEffect(() => {
     loadStay(stayId)
+    loadReviews({ targetId: stayId, targetType: 'stay' })
   }, [stayId])
+
 
   async function onShare() {
     const url = window.location.href
@@ -166,7 +169,7 @@ export function StayDetails() {
             <button className="mobile-reserve-btn" onClick={() => document.querySelector('.reserve-btn')?.click()}>Reserve</button>
           </footer>
 
-          <div id="reviews"><StayReview stay={stay}></StayReview></div>
+          <div id="reviews"><StayReview stay={stay} reviews={reviews} /></div>
           <Divider sx={{ borderColor: '#e0e0e0' }} />
           <div id="location"><StayDetailsMap stay={safeStay} /></div>
         </>

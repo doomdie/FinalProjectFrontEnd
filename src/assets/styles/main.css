@@ -52,6 +52,24 @@
 @import "/node_modules/react-responsive-carousel/lib/styles/carousel.min.css";
 /* Placeholder placement for the carousel ^ */
 
+
+
+
+
+
+
+/* --- mobile --- */
+@import "../../mobile/styles/MobileNavBar.css";
+@import "../../mobile/styles/MobileHeader.css";
+@import "../../mobile/styles/MobileHomePage.css";
+@import "../../mobile/styles/MobileFooter.css";
+@import "../../mobile/styles/MobileWishlist.css";
+@import "../../mobile/styles/MobileProfile.css";
+@import "../../mobile/styles/MobileSearchOverlay.css";
+
+
+
+
 /* 
 @import "cmps/AboutUs";
 @import "cmps/UserDetails";

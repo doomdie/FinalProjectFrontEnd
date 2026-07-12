@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import { SvgIcon } from '../services/svg.service.jsx'
+import { useIsMobile } from '../customHooks/useIsMobile.js'
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -8,6 +10,8 @@ export function CustomCarousel({ children, title }) {
     const sliderRef = useRef(null);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [slideCount, setSlideCount] = useState(0);
+    const isMobile = useIsMobile();
+
 
     const getSlidesToShowForWidth = (width) => {
         if (width <= 450) return 1;
@@ -32,11 +36,37 @@ export function CustomCarousel({ children, title }) {
         return () => window.removeEventListener('resize', handleResize);
     }, [children]);
 
+    /* ===== MOBILE: plain swipe row, no slick ===== */
+    if (isMobile) {
+        return (
+            <div className="my-carousel-wrapper mobile-full-bleed">
+                <header className="carouselHeader">
+                    <h2 className="carousel-title">
+                        {title}
+                        <span className="title-arrow">
+                            <SvgIcon iconName="titleArrow" />
+                        </span>
+                    </h2>
+                </header>
+
+                <div className="mobile-swipe-row">
+                    {React.Children.map(children, child => (
+                        <div className="mobile-swipe-item">
+                            {child}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )
+    }
+
+
     const settings = {
+        dots: false,
         dots: false,
         infinite: false,
         speed: 500,
-        slidesToShow: slidesToShow, 
+        slidesToShow: slidesToShow,
         slidesToScroll: 1,
         draggable: false,
         swipe: false,

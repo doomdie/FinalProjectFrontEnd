@@ -55,7 +55,9 @@ export function StayReview({ stay, onUpdateRating }) {
 
             {isHowOpen && (
                 <SeeMoreModal title="How reviews work" onClose={() => setIsHowOpen(false)} size="small">
-                    <p>Reviews from past guests help our community learn more about each home.</p>
+                    <p>Reviews are written by guests who completed a stay, so every rating reflects a real visit. We sort them by relevance — factoring in how recent and detailed each review is, plus your search and language settings.</p>
+                    <p>OurBNB doesn't edit or screen reviews before they're posted; we only step in when a review is reported for breaking our guidelines.</p>
+                    <p>Listings become eligible for ranking badges like Guest Favorite once they've collected at least 5 reviews within the past 4 years. These criteria may change over time.</p>
                 </SeeMoreModal>
             )}
         </div>

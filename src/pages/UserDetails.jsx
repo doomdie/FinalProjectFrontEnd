@@ -8,7 +8,9 @@ import { PendingReservations } from '../cmps/PendingReservations'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { loadStays, removeStay } from '../store/actions/stay.actions'
 import { loadOrders } from '../store/actions/order.actions'
-import {WishlistPage} from '../pages/WishlistPage'
+import { logout } from '../store/actions/user.actions'
+import { SvgIcon } from '../services/svg.service.jsx'
+import { WishlistPage } from '../pages/WishlistPage'
 
 export function UserDetails() {
   const user = useSelector(storeState => storeState.userModule.user)
@@ -73,13 +75,25 @@ export function UserDetails() {
       <aside className="user-aside">
         <div className="aside-organizer">
           <h3 className="user-profile-title">Profile</h3>
+
+          <button
+            className="become-host-banner"
+            onClick={() => navigate('/become-a-host')}
+          >
+            <img src="/img/symbols/house.svg" alt="" className="become-host-img" />
+            <span className="become-host-text">
+              <span className="become-host-title">Become a host</span>
+              <span className="become-host-sub">It's easy to start hosting and earn extra income.</span>
+            </span>
+          </button>
+
           <button
             className={`tab-btn ${activeTab === 'details' ? 'active' : ''}`}
             onClick={() => setActiveTab('details')}
           >
-            My Details
+            <span className="tab-btn-label">My Details</span>
+            <span className="tab-btn-chevron"><SvgIcon iconName="chevronRight" /></span>
           </button>
-
           {/* {isUserHost && (
             <>
               <button
@@ -101,17 +115,28 @@ export function UserDetails() {
             className={`tab-btn ${activeTab === 'past-trips' ? 'active' : ''}`}
             onClick={() => setActiveTab('past-trips')}
           >
-            Past Trips
+            <span className="tab-btn-label">Past Trips</span>
+            <span className="tab-btn-chevron"><SvgIcon iconName="chevronRight" /></span>
           </button>
 
           <button
             className={`tab-btn ${activeTab === 'wishlist' ? 'active' : ''}`}
             onClick={() => setActiveTab('wishlist')}
           >
-            Wishlisted Stays
+            <span className="tab-btn-label">Wishlisted Stays</span>
+            <span className="tab-btn-chevron"><SvgIcon iconName="chevronRight" /></span>
+          </button>
+
+          <button
+            className="tab-btn logout-btn"
+            onClick={async () => { await logout(); navigate('/') }}
+          >
+            <span className="tab-btn-label">Log out</span>
+            <span className="tab-btn-chevron"><SvgIcon iconName="chevronRight" /></span>
           </button>
         </div>
       </aside>
+
 
       {activeTab === 'details' && (
         <UserInfo></UserInfo>
@@ -120,7 +145,7 @@ export function UserDetails() {
       {activeTab === 'past-trips' && (
         <PastTrips trips={pastTrips}></PastTrips>
       )}
-      
+
       {activeTab === 'wishlist' && (
         <WishlistPage></WishlistPage>
       )}

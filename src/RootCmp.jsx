@@ -21,6 +21,10 @@ import { checkLoggedinUser } from './store/actions/user.actions'
 import { UserMsg } from './cmps/UserMsg'
 import { ScrollToTop } from './cmps/ScrollToTop.jsx'
 
+/*=== MOBILE ===*/
+import { MobileNavBar } from './mobile/cmps/MobileNavBar.jsx'
+import { MobileHeader } from './mobile/cmps/MobileHeader.jsx'
+
 export function RootCmp() {
     useEffect(() => {
         checkLoggedinUser()
@@ -30,6 +34,7 @@ export function RootCmp() {
     return (
         <div className="main-container">
             {!isHostPage && <AppHeader />}
+            {!isHostPage && <MobileHeader />}
             <UserMsg />
 
             <ScrollToTop />
@@ -59,6 +64,8 @@ export function RootCmp() {
 
 
             {!isHostPage && <AppFooter />}
+            {!isHostPage && <MobileNavBar />}
+
         </div>
     )
 }

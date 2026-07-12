@@ -1,0 +1,264 @@
+@media (max-width: 743px) {
+    .mobile-search-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        padding: 12px 12px 0;
+        overflow-y: auto;
+
+        background: var(--color-bg-soft);
+    }
+
+    /* --- header: tab + close --- */
+    .mso-header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+    }
+
+    .mso-tabs {
+        display: flex;
+        justify-content: center;
+    }
+
+    .mso-tab {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+
+        border: none;
+        background: transparent;
+
+        font-size: var(--typography-body-text_12_16-font-size);
+        font-weight: var(--typography-weight-semibold600);
+        color: var(--color-text);
+        cursor: pointer;
+    }
+
+    .mso-tab img {
+        height: 34px;
+        width: 34px;
+    }
+
+    .mso-tab.active span {
+        border-bottom: 2px solid var(--color-text);
+        padding-bottom: 2px;
+    }
+
+    .mso-close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 36px;
+        width: 36px;
+        border: 1px solid var(--color-border);
+        border-radius: 50%;
+        background: var(--color-bg);
+
+        font-size: 1.2rem;
+        color: var(--color-text);
+        cursor: pointer;
+    }
+
+    /* --- cards --- */
+    .mso-card {
+        border-radius: var(--corner-radius-xxlarge24px-border-radius);
+        background: var(--color-bg);
+        box-shadow: var(--elevation-elevation2-box-shadow);
+    }
+
+    .mso-card-open {
+        padding: 24px 20px;
+    }
+
+    .mso-card-title {
+        margin: 0 0 16px;
+
+        font-size: var(--typography-titles-semibold_26_30-font-size);
+        line-height: var(--typography-titles-semibold_26_30-line-height);
+        font-weight: var(--typography-weight-semibold600);
+        color: var(--color-text);
+    }
+
+    /* --- search input --- */
+    .mso-search-input {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        padding: 14px 16px;
+        margin-bottom: 20px;
+        border: 1px solid var(--color-border-dark);
+        border-radius: var(--corner-radius-medium12px-border-radius);
+        background: var(--color-bg);
+    }
+
+    .mso-search-input input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+
+        font-size: var(--typography-body-text_14_18-font-size);
+        color: var(--color-text);
+    }
+
+    .mso-search-input input::placeholder {
+        color: var(--color-text-light);
+    }
+
+    /* --- list rows --- */
+    .mso-list-title {
+        margin: 0 0 8px;
+
+        font-size: var(--typography-body-text_12_16-font-size);
+        font-weight: var(--typography-weight-book400);
+        color: var(--color-text);
+    }
+
+    .mso-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        padding: 8px 0;
+        cursor: pointer;
+    }
+
+    .mso-row-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        height: 48px;
+        width: 48px;
+        border-radius: var(--corner-radius-medium12px-border-radius);
+        background: var(--color-bg-soft);
+        color: var(--color-text);
+    }
+
+    .mso-row-icon.pin-blue {
+        background: var(--tint-blue-bg);
+        color: var(--tint-blue);
+    }
+
+    .mso-row-icon.pin-green {
+        background: var(--tint-green-bg);
+        color: var(--tint-green);
+    }
+
+    .mso-row-icon.pin-orange {
+        background: var(--tint-orange-bg);
+        color: var(--tint-orange);
+    }
+
+    .mso-row-icon.pin-purple {
+        background: var(--tint-purple-bg);
+        color: var(--tint-purple);
+    }
+
+    .mso-row-icon.pin-teal {
+        background: var(--tint-teal-bg);
+        color: var(--tint-teal);
+    }
+
+    .mso-row-icon.pin-red {
+        background: var(--tint-red-bg);
+        color: var(--tint-red);
+    }
+
+    .mso-row-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    .mso-row-main {
+        font-size: var(--typography-body-text_14_18-font-size);
+        font-weight: var(--typography-weight-medium500);
+        color: var(--color-text);
+    }
+
+    .mso-row-sub {
+        font-size: var(--typography-body-text_12_16-font-size);
+        color: var(--palette-text-secondary);
+    }
+
+    /* --- collapsed When / Who --- */
+    .mso-card-collapsed {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 18px 20px;
+    }
+
+    .mso-collapsed-label {
+        font-size: var(--typography-body-text_14_18-font-size);
+        font-weight: var(--typography-weight-medium500);
+        color: var(--palette-text-secondary);
+    }
+
+    .mso-collapsed-value {
+        font-size: var(--typography-body-text_14_18-font-size);
+        font-weight: var(--typography-weight-semibold600);
+        color: var(--color-text);
+    }
+
+    /* --- footer --- */
+    .mso-footer {
+        position: sticky;
+        bottom: 0;
+        margin-top: auto;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 14px 12px calc(14px + env(safe-area-inset-bottom));
+        margin-inline: -12px;
+
+        background: var(--color-bg);
+        border-top: 1px solid var(--palette-grey300);
+    }
+
+    .mso-clear {
+        border: none;
+        background: transparent;
+
+        font-size: var(--typography-body-text_14_18-font-size);
+        font-weight: var(--typography-weight-semibold600);
+        text-decoration: underline;
+        color: var(--color-text);
+        cursor: pointer;
+    }
+
+    .mso-search-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        padding: 14px 24px;
+        border: none;
+        border-radius: var(--corner-radius-small8px-border-radius);
+        background: var(--color-primary-gradient);
+
+        font-size: var(--typography-body-text_14_18-font-size);
+        font-weight: var(--typography-weight-semibold600);
+        color: var(--palette-grey0);
+        cursor: pointer;
+    }
+
+    .mso-search-btn svg {
+        stroke: var(--palette-grey0);
+    }
+}

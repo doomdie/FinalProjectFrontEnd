@@ -1,5 +1,11 @@
 // central place for all SVG icons — add more as { key: <svg/> }
 const icons = {
+    user: (
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style={{ display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'currentcolor', strokeWidth: 2.7, overflow: 'visible' }}>
+            <circle cx="16" cy="10" r="6" fill="none"></circle>
+            <path d="M4 28c0-6.6 5.4-11 12-11s12 4.4 12 11" fill="none"></path>
+        </svg>
+    ),
     share: (
         <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style={{ display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'currentcolor', strokeWidth: 2, overflow: 'visible' }}>
             <path d="m27 18v9c0 1.1046-.8954 2-2 2h-18c-1.10457 0-2-.8954-2-2v-9m11-15v21m-10-11 9.2929-9.29289c.3905-.39053 1.0237-.39053 1.4142 0l9.2929 9.29289" fill="none"></path>
@@ -76,6 +82,11 @@ const icons = {
     heart: (
         <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block', height: '1em', width: '1em', fill: 'currentColor', stroke: 'var(--color-bg)', strokeWidth: 2 }}>
             <path d="m15.9998 28.6668c7.1667-4.8847 14.3334-10.8844 14.3334-18.1088 0-1.84951-.6993-3.69794-2.0988-5.10877-1.3996-1.4098-3.2332-2.11573-5.0679-2.11573-1.8336 0-3.6683.70593-5.0668 2.11573l-2.0999 2.11677-2.0988-2.11677c-1.3995-1.4098-3.2332-2.11573-5.06783-2.11573-1.83364 0-3.66831.70593-5.06683 2.11573-1.39955 1.41083-2.09984 3.25926-2.09984 5.10877 0 7.2244 7.16667 13.2241 14.3333 18.1088z"></path>
+        </svg>
+    ),
+    heartOutline: (
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style={{ display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'currentcolor', strokeWidth: 2.7, overflow: 'visible' }}>
+            <path d="m16 28c7-4.7 14-10.6 14-17.6 0-1.8-.7-3.6-2-5-1.4-1.4-3.2-2.1-5-2.1s-3.6.7-5 2.1l-2 2-2-2c-1.4-1.4-3.2-2.1-5-2.1s-3.6.7-5 2.1c-1.3 1.4-2 3.2-2 5 0 7 7 12.9 14 17.6z" fill="none"></path>
         </svg>
     ),
     star: (

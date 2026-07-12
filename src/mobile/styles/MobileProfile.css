@@ -1,0 +1,122 @@
+/* mobile-only elements: hidden on desktop so nothing changes there */
+@media (min-width: 744px) {
+
+    .tab-btn-chevron,
+    .become-host-banner,
+    .logout-btn {
+        display: none;
+    }
+}
+
+@media (max-width: 743px) {
+
+    /* sidebar+content: side-by-side → stacked */
+    .user-details-full {
+        flex-direction: column;
+    }
+
+    .user-aside {
+        max-width: 100%;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--palette-grey300);
+    }
+
+    .aside-organizer {
+        padding: 24px 24px 8px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .user-profile-title {
+        font-size: var(--typography-titles-semibold_26_30-font-size);
+        line-height: var(--typography-titles-semibold_26_30-line-height);
+        margin-bottom: 16px;
+    }
+
+    /* tab buttons → airbnb-style menu rows */
+    .user-aside .tab-btn {
+        max-width: 100%;
+        padding: 16px 0;
+        border-bottom: none;
+
+        justify-content: space-between;
+        font-size: var(--typography-body-text_16_20-font-size);
+    }
+
+    .user-aside .tab-btn:last-child {
+        border-bottom: none;
+    }
+
+    .user-aside .tab-btn.active,
+    .user-aside .tab-btn:hover {
+        background-color: transparent;
+        border-radius: 0;
+        font-weight: var(--typography-weight-semibold600);
+    }
+
+    /* content area */
+    .user-info-main,
+    .past-trips-section,
+    .tab-info-content {
+        padding: 24px 24px 100px;
+        /* bottom clears the nav bar */
+    }
+
+    .tab-btn-chevron {
+        display: flex;
+        color: var(--palette-text-secondary);
+    }
+
+    .logout-btn {
+        margin-top: 16px;
+        border-top: 1px solid var(--palette-grey200) !important;
+        padding-top: 20px !important;
+    }
+
+    /* airbnb-style floating card shadow on the stats card */
+    .user-private-card-section {
+        box-shadow: var(--elevation-elevation2-box-shadow);
+        border-radius: var(--corner-radius-xxlarge24px-border-radius);
+    }
+
+    /* become a host banner card */
+    .become-host-banner {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        margin-block: 8px 16px;
+        padding: 16px;
+        border: none;
+        border-radius: var(--corner-radius-large16px-border-radius);
+        background: var(--color-bg);
+        box-shadow: var(--elevation-elevation2-box-shadow);
+
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .become-host-img {
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+    }
+
+    .become-host-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .become-host-title {
+        font-size: var(--typography-titles-semibold_16_20-font-size);
+        font-weight: var(--typography-weight-semibold600);
+        color: var(--color-text);
+    }
+
+    .become-host-sub {
+        font-size: var(--typography-body-text_12_16-font-size);
+        color: var(--palette-text-secondary);
+    }
+}

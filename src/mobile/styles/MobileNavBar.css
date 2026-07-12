@@ -1,0 +1,57 @@
+/* only exists on mobile widths */
+.mobile-nav-bar {
+    display: none;
+}
+
+@media (max-width: 743px) {
+    .mobile-nav-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        height: 64px;
+        padding-bottom: env(safe-area-inset-bottom);
+
+        background: var(--color-bg);
+        border-top: 1px solid var(--palette-grey300);
+    }
+
+    .mobile-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+
+        font-size: 10px;
+        color: var(--palette-text-secondary);
+        text-decoration: none;
+    }
+
+    .mobile-nav-item svg {
+        height: 24px !important;
+        width: 24px !important;
+    }
+
+    /* active tab = airbnb pink */
+    .mobile-nav-item.active {
+        color: var(--color-primary);
+    }
+
+    .mobile-nav-item.active svg {
+        stroke: var(--color-primary);
+    }
+
+    .mobile-nav-avatar {
+        height: 24px;
+        width: 24px;
+        border-radius: 50%;
+
+        object-fit: cover;
+    }
+}

@@ -154,11 +154,11 @@ export function SearchBarBig({ forcedSection = null, onOpenChange = () => { } })
     // pick an icon + color class from a stay type — keyword match, defaults to house/red
     function iconForType(type = '') {
         const t = type.toLowerCase()
-        if (t.includes('beach') || t.includes('lake') || t.includes('island') || t.includes('pool')) return { icon: 'beach', color: 'blue' }
-        if (t.includes('park') || t.includes('cabin') || t.includes('cave')) return { icon: 'park', color: 'green' }
-        if (t.includes('camper')) return { icon: 'tent', color: 'orange' }
-        if (t.includes('castle')) return { icon: 'castle', color: 'purple' }
-        if (t.includes('view') || t.includes('omg') || t.includes('design')) return { icon: 'views', color: 'teal' }
+        if (t.includes('beach') || t.includes('lake') || t.includes('island') || t.includes('pool') || t.includes('boat') || t.includes('cycladic') || t.includes('windmill')) return { icon: 'beach', color: 'blue' }
+        if (t.includes('park') || t.includes('cabin') || t.includes('cave') || t.includes('earth') || t.includes('farm') || t.includes('barn') || t.includes('treehouse')) return { icon: 'park', color: 'green' }
+        if (t.includes('camper') || t.includes('tent') || t.includes('container') || t.includes('tiny') || t.includes('yurt')) return { icon: 'tent', color: 'orange' }
+        if (t.includes('castle') || t.includes('tower') || t.includes('casa') || t.includes('villa') || t.includes('riad') || t.includes('trullo')) return { icon: 'castle', color: 'purple' }
+        if (t.includes('view') || t.includes('omg') || t.includes('design') || t.includes('dome') || t.includes('loft')) return { icon: 'views', color: 'teal' }
         return { icon: 'house', color: 'red' }
     }
 
@@ -269,7 +269,7 @@ export function SearchBarBig({ forcedSection = null, onOpenChange = () => { } })
                                 }}
                             >
                                 <span className={`recent-pin pin-${color}`}><SvgIcon iconName={icon} /></span>
-                                <span className="recent-text">{item.type} in {item.city}</span>
+                                <span className="recent-text">{item.type.charAt(0).toUpperCase() + item.type.slice(1)} in {item.city}</span>
                             </div>
                         )
                     })}

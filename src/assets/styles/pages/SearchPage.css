@@ -234,7 +234,7 @@
 /* map placeholder — right half, sticky so it stays while list scrolls */
 .search-map {
     position: sticky;
-    top: calc(var(--search-header-height) + 3rem);
+    top: calc(var(--search-header-height) + 3.5rem);
 
     display: flex;
     align-items: center;
