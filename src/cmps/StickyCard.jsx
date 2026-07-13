@@ -242,7 +242,9 @@ export function StickyCard({ stay, onUpdateFooter }) {
                                 </div>
                             </div>
 
-                            <DatePicker onSelectDates={handleSelectDates} numberOfMonths={2} />
+                            <DatePicker onSelectDates={handleSelectDates} numberOfMonths={2} enableHoverPreview={true} />
+
+
                             <div className="date-picker-panel-footer">
                                 <button className="picker-close-btn" onClick={() => setIsDatePickerOpen(false)}>Close</button>
                             </div>

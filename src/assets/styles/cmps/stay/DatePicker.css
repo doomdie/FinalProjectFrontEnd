@@ -1,0 +1,130 @@
+/* ===== DATE PICKER — shared calendar look (search bar + sticky card) ===== */
+
+/* day cell size + accent colors, set once on the calendar root */
+.date-picker-dropdown .rdp-root {
+    position: relative;
+
+    --rdp-accent-color: var(--color-text);
+    --rdp-accent-background-color: var(--color-bg-soft);
+    --rdp-day-width: 2.8rem;
+    --rdp-day-height: 2.8rem;
+}
+
+/* spread the months evenly across the full width */
+.date-picker-dropdown .rdp-months {
+    width: 100%;
+    max-width: none;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+
+/* center each month's name */
+.date-picker-dropdown .rdp-month_caption {
+    justify-content: center;
+    color: var(--color-text);
+}
+
+/* push the prev/next arrows to the left and right edges */
+.date-picker-dropdown .rdp-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+/* chevrons: dark icon */
+.date-picker-dropdown .rdp-chevron {
+    fill: var(--color-text);
+}
+
+/* chevron buttons: grey circle on hover */
+.date-picker-dropdown .rdp-button_previous:hover,
+.date-picker-dropdown .rdp-button_next:hover {
+    background-color: var(--color-bg-soft);
+    border-radius: 50%;
+}
+
+/* disabled chevron (can't go before current month): faded, no hover */
+.date-picker-dropdown .rdp-button_previous:disabled,
+.date-picker-dropdown .rdp-button_next:disabled {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.date-picker-dropdown .rdp-button_previous:disabled .rdp-chevron,
+.date-picker-dropdown .rdp-button_next:disabled .rdp-chevron {
+    fill: var(--palette-grey500);
+}
+
+/* day + weekday text */
+.date-picker-dropdown .rdp-day {
+    font-size: 0.9rem;
+    font-weight: var(--typography-weight-book400);
+}
+
+.date-picker-dropdown .rdp-weekday {
+    font-size: 0.75rem;
+    font-weight: var(--typography-weight-medium500);
+    color: var(--color-text-light);
+    text-transform: none;
+}
+
+/* no transition weirdness on day buttons */
+.date-picker-dropdown .rdp-day_button {
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* selected range: endpoints solid black circle */
+.date-picker-dropdown .rdp-range_start .rdp-day_button,
+.date-picker-dropdown .rdp-range_end .rdp-day_button {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    border: none;
+    border-radius: 50%;
+}
+
+/* days in between: grey bar (committed range + live hover preview) */
+.date-picker-dropdown .rdp-range_middle,
+.date-picker-dropdown .preview-middle {
+    background-color: var(--color-bg-soft);
+}
+
+.date-picker-dropdown .rdp-range_middle .rdp-day_button,
+.date-picker-dropdown .preview-middle .rdp-day_button {
+    position: relative;
+    background-color: transparent;
+    color: var(--color-text);
+    border: none;
+}
+
+/* plain hover: hollow black circle */
+.date-picker-dropdown .rdp-day:not(.rdp-disabled):not(.rdp-range_start):not(.rdp-range_end):not(.preview-end) .rdp-day_button:hover {
+    background-color: transparent;
+    color: var(--color-text);
+    border: 1px solid var(--color-text);
+    border-radius: 50%;
+}
+
+/* hovered future end date: solid black circle */
+.date-picker-dropdown .preview-end .rdp-day_button {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    border: none;
+    border-radius: 50%;
+}
+
+/* greyed-out days: dead to the mouse */
+.date-picker-dropdown .rdp-day_button:disabled {
+    pointer-events: none;
+}
+
+/* past days: greyed + struck through */
+.date-picker-dropdown .rdp-disabled .rdp-day_button {
+    color: var(--palette-grey700);
+    text-decoration: line-through;
+    opacity: 1;
+}

@@ -15,10 +15,12 @@
 }
 
 .service-modal {
-    width: 24rem;
+    width: 32rem;
     max-width: 90%;
-    padding: 0.75rem;
+    padding: 0 0.75rem 0.75rem;
+
     border-radius: 25px;
+    overflow: hidden;
 
     background-color: var(--color-bg);
     box-shadow: var(--shadow-lg);
@@ -28,7 +30,7 @@
 .service-modal-header {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 0;
+    padding: 1rem 1.25rem 0.5rem;
 }
 
 .service-modal-close {
@@ -93,16 +95,14 @@
 
     width: 100%;
     height: auto;
-    max-height: 20rem;
-    padding: 0.5rem;
-
-    aspect-ratio: 1 / 1;
+    max-height: 24rem;
+    padding: 0 1rem;
     object-fit: cover;
 }
 
 /* row 3: the text */
 .service-modal-text {
-    padding: 1rem 0.25rem 0.25rem;
+    padding: 2rem 1rem 0rem;
 }
 
 .service-modal-text h3 {
@@ -112,7 +112,7 @@
 }
 
 .service-modal-text p {
-    margin: 0.5rem 0;
+    /* margin: 0.5rem 0; */
     font-size: 0.9rem;
     color: var(--color-text-light);
     line-height: 1.4;

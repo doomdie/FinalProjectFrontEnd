@@ -30,6 +30,7 @@
 
 @import "cmps/stay/GuestPage";
 @import "cmps/stay/ServiceModal.css";
+@import "cmps/stay/DatePicker.css";
 
 @import "cmps/stay/StayReview.css";
 @import "cmps/stay/StayCard.css";

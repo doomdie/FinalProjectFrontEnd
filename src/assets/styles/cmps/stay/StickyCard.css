@@ -286,60 +286,6 @@
 }
 
 
-/* calendar inside the dropdown — v10 */
-.date-picker-panel .rdp-months {
-    position: relative;
-
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 24px;
-}
-
-.date-picker-panel .rdp-month {
-    flex: 0 0 auto;
-}
-
-/* nav arrows pinned to the far edges, on the caption row */
-.date-picker-panel .rdp-nav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
-
-    display: flex;
-    justify-content: space-between;
-
-    pointer-events: none;
-}
-
-.date-picker-panel .rdp-nav button {
-    pointer-events: auto;
-}
-
-/* center each month's caption */
-.date-picker-panel .rdp-month_caption {
-    display: flex;
-    justify-content: center;
-}
-
-.date-picker-panel .rdp-selected .rdp-day_button {
-    background: var(--palette-grey1000);
-    border: none;
-    border-radius: 50%;
-
-    color: var(--palette-grey0);
-    font-weight: var(--typography-weight-medium500);
-}
-
-.date-picker-panel .rdp-disabled .rdp-day_button {
-    color: var(--palette-grey400);
-    text-decoration: line-through;
-    opacity: 1;
-}
-
-
 
 .date-picker-panel-header {
     display: flex;
