@@ -105,8 +105,11 @@ export function WishlistPage() {
     }
 
     return (
-        <section className="wishlist-page">
-            <h1 className="wishlist-title">Wishlist</h1>
+        // <section className="wishlist-page">
+        <section className="host-listings-page">
+            {/* <h1 className="wishlist-title">Wishlist</h1> */}
+            <h1 className="hosting-menu-header"><span className = "hosting-menu-header-text">Wishlist</span></h1>
+
 
             {!likedStays.length
                 ? <p className="wishlist-empty">No saved stays yet — tap the heart on any stay to save it here.</p>
