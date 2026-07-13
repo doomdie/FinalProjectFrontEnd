@@ -1,0 +1,124 @@
+/* ===== SERVICE ANIMAL MODAL (portal → body) ===== */
+.service-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--color-overlay);
+}
+
+.service-modal {
+    width: 24rem;
+    max-width: 90%;
+    padding: 0.75rem;
+    border-radius: 25px;
+
+    background-color: var(--color-bg);
+    box-shadow: var(--shadow-lg);
+}
+
+/* row 1: just the X, top-right */
+.service-modal-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0;
+}
+
+.service-modal-close {
+    position: relative;
+    /* anchor for the hover pseudo-circle */
+    isolation: isolate;
+    /* own stacking context so ::before z-index:-1 stays inside */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 0rem;
+    height: 0rem;
+    border: none;
+    margin-right: .1rem;
+    margin-top: .4rem;
+
+    background-color: transparent;
+    color: var(--color-text);
+    font-size: 1.5rem;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+/* hover circle as a pseudo-element so it's always round + not clipped */
+.service-modal-close::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+    transform: translate(-50%, -50%);
+
+}
+
+.service-modal-close:hover::before {
+    background-color: var(--color-bg-soft);
+}
+
+/* kill global button hover/focus leak (red box) */
+.service-modal-close:hover,
+.service-modal-close:focus,
+.service-modal-close:active {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--color-text);
+}
+
+/* row 2: the square image */
+.service-modal-img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+    max-height: 20rem;
+    padding: 0.5rem;
+
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+/* row 3: the text */
+.service-modal-text {
+    padding: 1rem 0.25rem 0.25rem;
+}
+
+.service-modal-text h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.service-modal-text p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    line-height: 1.4;
+}
+
+.service-link {
+    color: var(--color-text);
+    text-decoration: underline;
+}

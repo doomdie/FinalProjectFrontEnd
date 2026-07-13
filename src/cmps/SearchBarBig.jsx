@@ -2,10 +2,8 @@ import { useState, useRef, useEffect } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 // import { FiSearch } from 'react-icons/fi'
-
 import { SvgIcon } from '../services/svg.service.jsx'
-
-
+import { ServiceAnimalModal } from './ServiceAnimalModal.jsx'
 import { DatePicker } from './DatePicker.jsx'
 
 
@@ -347,28 +345,8 @@ export function SearchBarBig({ forcedSection = null, onOpenChange = () => { } })
                 </div>
             )}
 
-            {showServiceModal && (
-                <div className="service-modal-overlay" onClick={() => setShowServiceModal(false)}>
-                    <div className="service-modal" onClick={(ev) => ev.stopPropagation()}>
+            {showServiceModal && <ServiceAnimalModal onClose={() => setShowServiceModal(false)} />}
 
-                        {/* row 1: X, top-right */}
-                        <div className="service-modal-header">
-                            <button className="service-modal-close" onClick={() => setShowServiceModal(false)}>×</button>
-                        </div>
-
-                        {/* row 2: square image */}
-                        <img src="/img/care-dog.jpg" alt="Service animal" className="service-modal-img" />
-
-                        {/* row 3: text */}
-                        <div className="service-modal-text">
-                            <h3>Service animals</h3>
-                            <p>Service animals aren't pets, so there's no need to add them here.</p>
-                            <p>Traveling with an emotional support animal? Check out our <a href="#" className="service-link">accessibility policy</a>.</p>
-                        </div>
-
-                    </div>
-                </div>
-            )}
         </div>
     )
 }

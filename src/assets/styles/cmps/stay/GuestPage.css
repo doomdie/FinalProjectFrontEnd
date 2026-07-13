@@ -21,13 +21,13 @@
 }
 
 .guest-title {
-  font-weight: 600;
+  font-weight: var(--typography-weight-semibold600);
   font-size: 1rem;
 }
 
 .guest-subtitle {
   font-size: 0.75rem;
-  color: #666;
+  color: var(--palette-grey700);
 }
 
 .guest-counter-group {
@@ -46,24 +46,26 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   width: 32px;
   height: 32px;
-  border-radius: 50%;
-  border: 1px solid #ccc;
-  background-color: transparent;
-  color: #333;
-  cursor: pointer;
   padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--palette-grey500);
+  background-color: transparent;
+
+  color: var(--palette-grey900);
+  cursor: pointer;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .counter-btn:hover:not(:disabled) {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: var(--palette-shadow50);
 }
 
 .counter-btn:disabled {
-  color: #aaa;
-  border-color: #eee;
+  color: var(--palette-grey500);
+  border-color: var(--palette-grey200);
   cursor: not-allowed;
 }
 
@@ -78,17 +80,16 @@
   left: 0;
   right: 0;
 
-  grid-column: span 2;
   z-index: 1000;
 
 
   width: 100%;
   background-color: var(--color-bg);
   border: none;
-  border-radius: var(--corner-radius-medium12px-border-radius);
+  border-radius: 5px;
   box-shadow: var(--elevation-elevation4-box-shadow);
   box-sizing: border-box;
-  margin-top: 4px;
+  margin-top: 0;
 }
 
 .dropdown-row {
@@ -99,9 +100,6 @@
   padding: 14px 16px;
 }
 
-.dropdown-row:not(:last-child) {
-  border-bottom: 1px solid #ebebeb;
-}
 
 .row-label {
   display: flex;
@@ -116,8 +114,8 @@
 }
 
 .row-label .subtitle {
-  font-size: .875rem;
-  color: var(--palette-grey900);
+  font-size: 1rem;
+  color: var(--palette-grey1000);
   margin-top: 2px;
 }
 
@@ -128,10 +126,11 @@
 }
 
 .counter-value {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #222222;
   min-width: 18px;
+
+  font-size: 1rem;
+  font-weight: var(--typography-weight-book400);
+  color: var(--color-text);
   text-align: center;
 }
 
@@ -168,7 +167,7 @@
 
 .dropdown-note {
   margin: 0;
-  padding: 16px 24px 8px;
+  padding: 12px 16px 4px;
 
   font-size: var(--typography-body-text_14_18-font-size);
   line-height: var(--typography-body-text_14_18-line-height);
@@ -178,7 +177,7 @@
 .dropdown-footer {
   display: flex;
   justify-content: flex-end;
-  padding: 8px .5rem .5rem;
+  padding: 4px .5rem .5rem;
 }
 
 .dropdown-close {
@@ -197,4 +196,18 @@
 .dropdown-close:hover {
   background: var(--color-bg-hover);
   color: var(--color-text);
+}
+
+
+.guest-trigger-tile.open {
+  box-shadow: inset 0 0 0 1px var(--color-text);
+  border-radius: 8px;
+}
+
+.date-pickers-trigger {
+  transition: border-bottom-color 0.2s ease;
+}
+
+.booking-form:has(.guest-trigger-tile.open) .date-pickers-trigger {
+  border-bottom-color: transparent;
 }

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { ServiceAnimalModal } from './ServiceAnimalModal.jsx'
 import { IconButton, Box } from '@mui/material'
 import RemoveIcon from '@mui/icons-material/Remove'
 import AddIcon from '@mui/icons-material/Add'
@@ -7,11 +8,13 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 
 export function GuestMenu({ currentList, onUpdateList, stay }) {
   const [isOpen, setIsOpen] = useState(false)
+  const [showServiceModal, setShowServiceModal] = useState(false)
   const menuRef = useRef(null)
 
   useEffect(() => {
     if (!isOpen) return
     function handleClickOutside(ev) {
+      if (ev.target.closest('.service-modal-overlay')) return
       if (menuRef.current && !menuRef.current.contains(ev.target)) setIsOpen(false)
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -19,7 +22,6 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
   }, [isOpen])
 
   const handleButtonClick = () => {
-    console.log('guest menu clicked! isOpen was:', isOpen)
     setIsOpen(!isOpen)
   }
 
@@ -35,23 +37,24 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
 
   const maxCapacity = stay.capacity || 5;
   const totalHumans = (currentList.adults || 0) + (currentList.children || 0);
-  const totalGuests =
-    (currentList.adults || 0) +
-    (currentList.children || 0) +
-    (currentList.infants || 0) +
-    (currentList.pets || 0);
-  const displayCount = totalGuests > 0 ? totalGuests : 1;
+  const displayCount = totalHumans > 0 ? totalHumans : 1;
+  const guestsLabel = [
+    `${displayCount} guest${displayCount === 1 ? '' : 's'}`,
+    (currentList.infants || 0) > 0 && `${currentList.infants} infant${currentList.infants === 1 ? '' : 's'}`,
+    (currentList.pets || 0) > 0 && `${currentList.pets} pet${currentList.pets === 1 ? '' : 's'}`,
+  ].filter(Boolean).join(', ');
+
   return (
     <div className="guest-triggers" ref={menuRef}>
       <Box
-        className="guest-trigger-tile"
+        className={`guest-trigger-tile ${isOpen ? 'open' : ''}`}
         onClick={handleButtonClick}
         role="button"
         style={{ cursor: 'pointer', width: '100%' }}
       >
         <div className="guests-col-one">
           <span className="col-one-title">GUESTS</span>
-          <span className="guests-text">{displayCount} guest{displayCount === 1 ? '' : 's'}</span>
+          <span className="guests-text">{guestsLabel}</span>
         </div>
         <div className="guests-col-two">
           {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -116,7 +119,10 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
           <div className="dropdown-row">
             <Box className="row-label">
               <span className="title">Pets</span>
-              <span className="subtitle subtitle-link">Bringing a service animal?</span>
+              <span
+                className="subtitle subtitle-link"
+                onClick={(e) => { e.stopPropagation(); setShowServiceModal(true) }}
+              >Bringing a service animal?</span>
             </Box>
             <Box className="row-controls">
               <IconButton size="small" onClick={(e) => handleCountChange(e, 'pets', -1)} disabled={(currentList.pets || 0) <= 0}>
@@ -136,9 +142,11 @@ export function GuestMenu({ currentList, onUpdateList, stay }) {
           <div className="dropdown-footer">
             <button className="dropdown-close" onClick={() => setIsOpen(false)}>Close</button>
           </div>
-
         </div>
+
       )}
+
+      {showServiceModal && <ServiceAnimalModal onClose={() => setShowServiceModal(false)} />}
     </div>
   )
 }
