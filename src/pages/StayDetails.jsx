@@ -76,7 +76,8 @@ export function StayDetails() {
 
       {stay && !isLoading && (
         <>
-          <StayDetailsNav />
+          <StayDetailsNav stay={stay} totalPrice={mobileFooterData?.price || 0} rating={avgRating} reviewCount={reviews?.length} />
+
           <header className="mobile-only-header">
             <button className="mobile-back-btn" onClick={() => navigate(-1)}>‹</button>
             <div className="mobile-header-actions">

@@ -23,6 +23,8 @@
 
 .details-nav-inner {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 24px;
 
     box-sizing: border-box;
@@ -30,6 +32,12 @@
     padding: 0 24px;
     margin: 0 auto;
 }
+
+.details-nav-links {
+    display: flex;
+    gap: 24px;
+}
+
 
 .details-nav-link {
     position: relative;
@@ -74,4 +82,91 @@
 #reviews,
 #location {
     scroll-margin-top: var(--details-nav-height, 73px);
+}
+
+
+/* ===== right-side summary (appears with the nav) ===== */
+.details-nav-summary {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    opacity: 0;
+    pointer-events: none;
+    /* transition: opacity 0.2s ease; */
+}
+
+.details-nav-summary.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.nav-summary-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+}
+
+.nav-summary-price {
+    font-size: var(--typography-body-text_14_18-font-size);
+    font-weight: var(--typography-weight-medium500);
+    color: var(--color-text);
+}
+
+.nav-summary-price.has-price {
+    font-weight: var(--typography-weight-semibold600);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.nav-summary-rating {
+    display: inline-flex;
+    align-items: center;
+
+    font-size: var(--typography-body-text_14_18-font-size);
+    color: var(--color-text);
+}
+
+.nav-summary-star {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 3px;
+}
+
+.nav-summary-star svg {
+    width: 12px !important;
+    height: 12px !important;
+}
+
+.nav-summary-score {
+    font-weight: var(--typography-weight-semibold600);
+}
+
+.nav-summary-reviews {
+    color: var(--palette-text-secondary);
+}
+
+.nav-summary-reviews::before {
+    content: '·';
+    margin-inline: .2rem;
+}
+
+.nav-summary-cta {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 999px;
+    background: var(--color-primary-gradient);
+
+    font-family: inherit;
+    font-size: var(--typography-body-text_14_18-font-size);
+    font-weight: var(--typography-weight-semibold600);
+    color: var(--palette-grey0);
+
+    cursor: pointer;
+}
+
+.nav-summary-cta:hover {
+    background: var(--color-primary-gradient);
+    color: var(--palette-grey0);
 }

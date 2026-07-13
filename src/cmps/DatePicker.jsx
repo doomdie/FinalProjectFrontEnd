@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { DayPicker } from 'react-day-picker'
 import 'react-day-picker/style.css'
 
-export function DatePicker({ onSelectDates, numberOfMonths = 1, value, formatters, enableHoverPreview = false }) {
+export function DatePicker({ onSelectDates, numberOfMonths = 1, value, formatters, enableHoverPreview = false, activeField = null }) {
     // console.log('DATEPICKER RENDER', { enableHoverPreview, value })
     // internal state — used only when the parent doesn't pass `value`
     const [internalRange, setInternalRange] = useState({ from: null, to: null })
@@ -31,24 +31,56 @@ export function DatePicker({ onSelectDates, numberOfMonths = 1, value, formatter
         return day.getTime() === hoveredDay.getTime()
     }
 
+    // figure out which day should get the "you're editing me" ring
+    function isActiveEndpoint(day) {
+        if (activeField === 'checkIn' && range?.from) return day.getTime() === range.from.getTime()
+        if (activeField === 'checkOut' && range?.to) return day.getTime() === range.to.getTime()
+        return false
+    }
+
+    // build the modifier maps: always the ring, plus hover-preview when enabled
+    const modifiers = { activeEndpoint: isActiveEndpoint }
+    const modifiersClassNames = { activeEndpoint: 'active-endpoint' }
+
+    if (enableHoverPreview) {
+        modifiers.previewMiddle = isPreviewMiddle
+        modifiers.previewEnd = isPreviewEnd
+        modifiersClassNames.previewMiddle = 'preview-middle'
+        modifiersClassNames.previewEnd = 'preview-end'
+    }
+
     return (
         <div className="date-picker-dropdown">
             <DayPicker
-            
+
                 mode="range"
                 className="rdp-left-align"
                 numberOfMonths={numberOfMonths}
                 startMonth={new Date()}
-                month={range?.from || undefined}
+                defaultMonth={range?.from || undefined}
                 disabled={{ before: new Date() }}
                 selected={range}
                 formatters={formatters}
-                modifiers={enableHoverPreview ? { previewMiddle: isPreviewMiddle, previewEnd: isPreviewEnd } : undefined}
-                modifiersClassNames={enableHoverPreview ? { previewMiddle: 'preview-middle', previewEnd: 'preview-end' } : undefined}
+                modifiers={modifiers}
+                modifiersClassNames={modifiersClassNames}
                 onDayMouseEnter={enableHoverPreview ? (day) => setHoveredDay(day) : undefined}
                 onDayMouseLeave={enableHoverPreview ? () => setHoveredDay(null) : undefined}
-                onSelect={(newRange) => {
-                    const safeRange = newRange || { from: null, to: null }
+                onSelect={(newRange, clickedDay) => {
+                    let safeRange = newRange || { from: null, to: null }
+
+                    // field-aware picking (sticky card passes activeField; search bar doesn't)
+                    if (activeField === 'checkIn' && clickedDay) {
+                        // clicked day = new check-in; keep checkout only if still after it
+                        const keepCheckout = range?.to && clickedDay < range.to
+                        safeRange = { from: clickedDay, to: keepCheckout ? range.to : null }
+                    } else if (activeField === 'checkOut' && clickedDay) {
+                        if (range?.from && clickedDay > range.from) {
+                            safeRange = { from: range.from, to: clickedDay }        // valid checkout
+                        } else {
+                            safeRange = { from: clickedDay, to: null }              // before check-in → restart
+                        }
+                    }
+
                     if (!isControlled) setInternalRange(safeRange)  // Yair's case: track internally
                     onSelectDates(safeRange)                         // both cases: report up to parent
                 }}

@@ -81,6 +81,9 @@
 /* selected range: endpoints solid black circle */
 .date-picker-dropdown .rdp-range_start .rdp-day_button,
 .date-picker-dropdown .rdp-range_end .rdp-day_button {
+    position: relative;
+    z-index: 1;
+    
     background-color: var(--color-text);
     color: var(--color-bg);
     border: none;
@@ -102,9 +105,10 @@
 }
 
 /* plain hover: hollow black circle */
-.date-picker-dropdown .rdp-day:not(.rdp-disabled):not(.rdp-range_start):not(.rdp-range_end):not(.preview-end) .rdp-day_button:hover {
+.date-picker-dropdown .rdp-day:not(.rdp-disabled):not(.rdp-selected):not(.rdp-range_start):not(.rdp-range_end):not(.preview-end) .rdp-day_button:hover {
     background-color: transparent;
     color: var(--color-text);
+
     border: 1px solid var(--color-text);
     border-radius: 50%;
 }
@@ -127,4 +131,27 @@
     color: var(--palette-grey700);
     text-decoration: line-through;
     opacity: 1;
+}
+
+
+/* single selected day (check-in picked, checkout pending) = solid black circle */
+.date-picker-dropdown .rdp-selected .rdp-day_button {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    border: none;
+    border-radius: 50%;
+}
+
+/* but middle-of-range days are also .rdp-selected — keep them flat on the grey bar */
+.date-picker-dropdown .rdp-range_middle .rdp-day_button,
+.date-picker-dropdown .preview-middle .rdp-day_button {
+    background-color: transparent;
+    color: var(--color-text);
+    border: none;
+    border-radius: 0;
+}
+
+/* thin ring around the endpoint belonging to the active field (check-in / checkout) */
+.date-picker-dropdown .active-endpoint .rdp-day_button {
+    box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 3.5px var(--color-text);
 }

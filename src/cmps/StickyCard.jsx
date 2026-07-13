@@ -84,8 +84,12 @@ export function StickyCard({ stay, onUpdateFooter }) {
     const originalPrice = totalPrice > 0 ? Math.round(totalPrice * 1.33) : 0
 
     function handleSelectDates(selectedRange) {
-        setDates({ checkIn: selectedRange.from, checkOut: selectedRange.to })
+        setDates({ checkIn: selectedRange?.from || null, checkOut: selectedRange?.to || null })
+        if (selectedRange?.from && !selectedRange?.to) setActiveField('checkOut')
+        if (activeField === 'checkOut' && selectedRange?.from && selectedRange?.to) setIsDatePickerOpen(false)
+        if (activeField === 'checkIn' && selectedRange?.from && selectedRange?.to) setActiveField('checkOut')
     }
+
 
     async function handleReserve() {
         if (!user) {
@@ -153,7 +157,7 @@ export function StickyCard({ stay, onUpdateFooter }) {
 
             <div className="booking-box">
 
-                {totalPrice > 0 && (
+                {totalPrice > 0 ? (
                     <div className="price-line">
                         {originalPrice > totalPrice && (
                             <span className="price-strike">₪{originalPrice}</span>
@@ -164,17 +168,21 @@ export function StickyCard({ stay, onUpdateFooter }) {
                             <span className="price-total-label">total</span>
                         </span>
                     </div>
+                ) : (
+                    <h3 className="add-dates-title">Add dates for prices</h3>
                 )}
+
                 <div className="booking-form-wrapper" ref={datePickerRef}>
                     <div className="booking-form">
-                        <div className="date-pickers-trigger" onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}>
-                            <div className="date-cell date-cell--in">
+                        <div className="date-pickers-trigger" onClick={() => { setIsDatePickerOpen(!isDatePickerOpen); setActiveField('checkIn') }}>
+                            <div className={`date-cell date-cell--in ${dates.checkIn ? '' : 'empty'}`}>
                                 <span className="date-cell-label">Check-in</span>
                                 <span className="date-cell-value">
                                     {dates.checkIn ? dates.checkIn.toLocaleDateString() : 'Add date'}
                                 </span>
                             </div>
-                            <div className="date-cell date-cell--out">
+                            <div className={`date-cell date-cell--out ${dates.checkOut ? '' : 'empty'}`}>
+
                                 <span className="date-cell-label">Checkout</span>
                                 <span className="date-cell-value">
                                     {dates.checkOut ? dates.checkOut.toLocaleDateString() : 'Add date'}
@@ -208,21 +216,20 @@ export function StickyCard({ stay, onUpdateFooter }) {
                                         <div className="picker-field-text">
                                             <span className="picker-field-label">Check-in</span>
                                             <span className="picker-field-value">
-                                                {dates.checkIn ? dates.checkIn.toLocaleDateString() : 'MM/DD/YYYY'}
+                                                {dates.checkIn ? new Date(dates.checkIn).toLocaleDateString() : 'Add date'}
                                             </span>
+
                                         </div>
-                                        {dates.checkIn && (
-                                            <button
-                                                className="picker-field-clear"
-                                                onClick={() => setDates({ checkIn: null, checkOut: null })}
-                                                aria-label="Clear check-in"
-                                            >×</button>
-                                        )}
+                                        <button
+                                            className={`picker-field-clear ${dates.checkIn ? '' : 'hidden'}`}
+                                            onClick={() => setDates({ checkIn: null, checkOut: null })}
+                                            aria-label="Clear check-in"
+                                        ><SvgIcon iconName="close" /></button>
                                     </div>
 
                                     <div
-                                        className={`picker-field ${activeField === 'checkOut' ? 'active' : ''} ${!dates.checkOut ? 'empty' : ''}`}
-                                        onClick={() => setActiveField('checkOut')}
+                                        className={`picker-field ${activeField === 'checkOut' ? 'active' : ''} ${!dates.checkOut ? 'empty' : ''} ${!dates.checkIn ? 'disabled' : ''}`}
+                                        onClick={() => dates.checkIn && setActiveField('checkOut')}
                                     >
                                         <div className="picker-field-text">
                                             <span className="picker-field-label">Checkout</span>
@@ -231,21 +238,28 @@ export function StickyCard({ stay, onUpdateFooter }) {
                                             </span>
 
                                         </div>
-                                        {dates.checkOut && (
-                                            <button
-                                                className="picker-field-clear"
-                                                onClick={() => setDates({ ...dates, checkOut: null })}
-                                                aria-label="Clear checkout"
-                                            >×</button>
-                                        )}
+                                        <button
+                                            className={`picker-field-clear ${dates.checkOut ? '' : 'hidden'}`}
+                                            onClick={() => setDates({ ...dates, checkOut: null })}
+                                            aria-label="Clear checkout"
+                                        ><SvgIcon iconName="close" /></button>
                                     </div>
                                 </div>
                             </div>
 
-                            <DatePicker onSelectDates={handleSelectDates} numberOfMonths={2} enableHoverPreview={true} />
-
+                            <DatePicker
+                                onSelectDates={handleSelectDates}
+                                numberOfMonths={2}
+                                enableHoverPreview={true}
+                                value={{ from: dates.checkIn, to: dates.checkOut }}
+                                activeField={activeField}
+                            />
 
                             <div className="date-picker-panel-footer">
+                                <button
+                                    className="picker-clear-btn"
+                                    onClick={() => { setDates({ checkIn: null, checkOut: null }); setActiveField('checkIn') }}
+                                >Clear dates</button>
                                 <button className="picker-close-btn" onClick={() => setIsDatePickerOpen(false)}>Close</button>
                             </div>
                         </div>

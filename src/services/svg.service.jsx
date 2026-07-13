@@ -1,5 +1,10 @@
 // central place for all SVG icons — add more as { key: <svg/> }
 const icons = {
+    close: (
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style={{ display: 'block', fill: 'none', height: '12px', width: '12px', stroke: 'currentcolor', strokeWidth: 4, overflow: 'visible' }}>
+            <path d="m6 6 20 20M26 6 6 26" fill="none"></path>
+        </svg>
+    ),
     user: (
         <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style={{ display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'currentcolor', strokeWidth: 2.7, overflow: 'visible' }}>
             <circle cx="16" cy="10" r="6" fill="none"></circle>

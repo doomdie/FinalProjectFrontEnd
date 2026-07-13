@@ -74,6 +74,10 @@
     color: var(--palette-grey1000);
 }
 
+/* "Add date" placeholder = grey when the cell is empty */
+.date-cell.empty .date-cell-value {
+    color: var(--color-text-light);
+}
 
 /* ===== details 2-column layout + sticky card ===== */
 .stay-content-container {
@@ -267,8 +271,30 @@
 .date-picker-panel-footer {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
 
     margin-top: 16px;
+}
+
+.picker-clear-btn {
+    padding: 10px 16px;
+    background: transparent;
+    border: none;
+    border-radius: var(--corner-radius-small8px-border-radius);
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: var(--typography-weight-medium500);
+    color: var(--color-text);
+
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.picker-clear-btn:hover {
+    background: var(--color-bg-hover);
+    color: var(--color-text);
 }
 
 .picker-close-btn {
@@ -283,8 +309,14 @@
     color: var(--palette-grey0);
 
     cursor: pointer;
+    transition: background-color 0.15s ease;
 }
 
+.picker-close-btn:hover,
+.picker-close-btn:focus {
+    background: var(--palette-grey900);
+    color: var(--palette-grey0);
+}
 
 
 .date-picker-panel-header {
@@ -329,7 +361,8 @@
     justify-content: space-between;
     gap: 12px;
 
-    min-width: 140px;
+    height: 56px;
+    min-width: 160px;
     padding: 10px 12px;
 }
 
@@ -346,7 +379,7 @@
 .picker-field-label {
     font-size: 10px;
     line-height: 12px;
-    font-weight: var(--typography-weight-bold700);
+    font-weight: var(--typography-weight-semibold600);
     text-transform: uppercase;
     letter-spacing: 0.02em;
     color: var(--palette-grey1000);
@@ -362,24 +395,35 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    align-self: center;
+    margin-right: -6px;
 
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
     padding: 0;
     background: none;
     border: none;
     border-radius: 50%;
 
-    font-size: 16px;
-    color: var(--palette-grey700);
-
+    color: var(--color-text);
     cursor: pointer;
 }
 
-.picker-field-clear:hover {
-    background: var(--palette-grey200);
+.picker-field-clear svg {
+    width: 12px !important;
+    height: 12px !important;
 }
 
+.picker-field-clear:hover {
+    background: var(--color-bg-hover);
+}
+
+
+/* X keeps its space when there's no date — field never resizes */
+.picker-field-clear.hidden {
+    visibility: hidden;
+    pointer-events: none;
+}
 
 .picker-field.active {
     z-index: 1;
@@ -393,7 +437,33 @@
     border-right-color: transparent;
 }
 
-.picker-field.empty .picker-field-label,
 .picker-field.empty .picker-field-value {
+    color: var(--color-text-light);
+}
+
+.picker-field .picker-field-label {
+    color: var(--color-text);
+}
+
+/* checkout locked until a check-in is picked — greyed, dead to clicks */
+.picker-field.disabled {
+    background: var(--palette-grey100);
+    cursor: default;
+    pointer-events: none;
+}
+
+.picker-field.disabled .picker-field-label,
+.picker-field.disabled .picker-field-value {
     color: var(--palette-grey500);
+}
+
+
+/* sticky card title when no dates are selected */
+.add-dates-title {
+    margin: 0;
+
+    font-size: 1.5rem;
+    line-height: var(--typography-titles-semibold_22_26-line-height);
+    font-weight: var(--typography-weight-semibold600);
+    color: var(--color-text);
 }
