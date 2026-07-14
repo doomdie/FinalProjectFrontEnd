@@ -5,8 +5,8 @@ import { reviewService } from '../services/review'
 import { getFakeDates } from '../services/util.service.js'
 
 export function StayCard({ stay, onToggleHeart }) {
-    const [rating, setRating] = useState(null)
-
+    // const [rating, setRating] = useState(null)
+    const [rating, setRating] = useState(undefined)
     const fallbackImage = "https://images.unsplash.com/photo-1512917774080-9991f1c4c750"
     const displayImg = stay.imgUrls && stay.imgUrls.length ? stay.imgUrls[0] : fallbackImage
 
@@ -21,11 +21,12 @@ export function StayCard({ stay, onToggleHeart }) {
         let isMounted = true
         reviewService.query({ targetId: stay._id, targetType: 'stay' })
             .then(reviews => {
-                if (!isMounted || !reviews?.length) return
+                if (!isMounted) return
+                if (!reviews?.length) return setRating(null)
                 const avg = reviews.reduce((sum, r) => sum + (r.rate || r.rating || 0), 0) / reviews.length
                 setRating(Number(avg.toFixed(1)))
             })
-            .catch(() => {})
+            .catch(() => { if (isMounted) setRating(null) })
         return () => { isMounted = false }
     }, [stay._id])
 
@@ -45,8 +46,12 @@ export function StayCard({ stay, onToggleHeart }) {
                 <p className="stay-card-dates">{fakeDateRange}</p>
                 <p className="stay-card-price">
                     ₪{totalPrice.toLocaleString()} total
-                    <span className="card-separator"> · </span>
-                    {rating ? <>★{rating}</> : <span className="card-new">New</span>}
+                    {rating !== undefined && (
+                        <>
+                            <span className="card-separator"> · </span>
+                            {rating ? <>★{rating}</> : <span className="card-new">New</span>}
+                        </>
+                    )}
                 </p>
             </div>
         </Link>

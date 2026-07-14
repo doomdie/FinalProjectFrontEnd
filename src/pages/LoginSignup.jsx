@@ -44,19 +44,18 @@ function Login({ onSuccess }) {
     const [errMsg, setErrMsg] = useState('')
     const navigate = useNavigate()
 
-    async function onLogin(ev) {
-        if (ev) ev.preventDefault()
-        if (!credentials.username) return
+   async function onLogin(ev) {
+    if (ev) ev.preventDefault()
+    if (!credentials.username) return
 
-        setErrMsg('')
-        try {
-            await login(credentials)
-            onSuccess()
-            navigate('/')
-        } catch (err) {
-            setErrMsg('Wrong username or password')
-        }
+    setErrMsg('')
+    try {
+        await login(credentials)
+        onSuccess()
+    } catch (err) {
+        setErrMsg('Wrong username or password')
     }
+}
 
     function handleChange(ev) {
         const { name, value } = ev.target
