@@ -1,41 +1,97 @@
 .user-msg {
     position: fixed;
-    top: 70px;
-    right: 0;
+    bottom: var(--space-lg);
+    left: var(--space-lg);
+    z-index: 1000;
 
     display: flex;
     align-items: center;
+    gap: 12px;
 
-    padding: .2em;
-    padding-inline-end: 1.5em;
-    background-color: var(--gray3);
-    z-index: 10000;
-    color: white;
-    font-size: .9em;
+    max-width: 380px;
+    padding: 14px var(--space-md);
+    border-radius: var(--corner-radius-medium12px-border-radius);
+
+    background: var(--color-bg);
+    box-shadow: var(--elevation-primary-box-shadow);
+    border: var(--elevation-primary-border);
+
+    font-size: var(--typography-body-text_14_18-font-size);
+    line-height: var(--typography-body-text_14_18-line-height);
+    color: var(--color-text);
 
     opacity: 0;
-    translate: 150%;
-    transition: 600ms;
+    transform: translateY(16px);
+    pointer-events: none;
+    transition:
+        opacity 0.25s var(--motion-standard-curve-animation-timing-function),
+        transform 0.25s var(--motion-standard-curve-animation-timing-function);
+}
 
-    &.visible {
-        opacity: 1;
-        translate: 0;
-    }
+.user-msg.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
 
-    &.success {
-        background-color: var(--success);
-    }
+.user-msg-icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    color: var(--color-success);
+}
 
-    &.error {
-        background-color: var(--error);
-    }
+.user-msg.error .user-msg-icon {
+    color: var(--color-error);
+}
 
-    & button {
-        background-color: var(--gray1);
-        padding: 1px 6px;
-        border: 0;
-        border-radius: 50%;
-        color: var(--gray4);
-    }
+.user-msg-txt {
+    margin: 0;
+}
 
+.user-msg-close {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    color: var(--color-text-light);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.user-msg-close:hover {
+    background-color: var(--color-bg-soft);
+}
+
+.user-msg-close svg {
+    width: 14px;
+    height: 14px;
+}
+
+.user-msg-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-success);
+    color: var(--color-bg);
+    font-size: 13px;
+    font-weight: var(--typography-weight-semibold600);
+}
+
+.user-msg.error .user-msg-icon {
+    background: var(--color-error);
+}
+
+.user-msg-close {
+    font-size: 13px;
 }
