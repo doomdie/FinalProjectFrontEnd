@@ -136,7 +136,8 @@ export function AppHeader() {
     }
 
     return (
-        <header className={`app-header full ${isScrolled ? 'scrolled' : ''}`}>
+        // <header className={`app-header full ${isScrolled ? 'scrolled' : ''}`}>
+        <header className={`app-header full ${isScrolled ? 'scrolled' : ''} ${isHostingMode ? 'hosting' : ''}`}>
             <div className="header-top">
                 <NavLink to="/" className="logo">
                     <img src="/img/symbols/logo.svg" alt="OurBNB" className="logo-img" />
