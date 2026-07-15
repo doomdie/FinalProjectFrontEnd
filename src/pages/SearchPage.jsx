@@ -8,13 +8,21 @@ import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps'
 import { wishlistService } from '../services/stays/wishlist.service.js'
 import { HeartButton } from '../cmps/HeartButton.jsx'
-import { getFakeRating, getFakeDates, getTotalPrice } from '../services/util.service.js'
+import { useIsMobile } from '../customHooks/useIsMobile.js'
+import { MobileSearchPage } from '../mobile/pages/MobileSearchPage.jsx'
 
 const STAYS_PER_PAGE = 18
 
-export function SearchPage() {
-    useSyncStayFilter()
 
+export function SearchPage() {
+    const isMobile = useIsMobile()
+    if (isMobile) return <MobileSearchPage />
+    return <SearchPageDesktop />
+}
+
+function SearchPageDesktop() {
+    useSyncStayFilter()
+    
     const stays = useSelector(storeState => storeState.stayModule.stays)
     const [searchParams] = useSearchParams()
     const [currentPage, setCurrentPage] = useState(0)

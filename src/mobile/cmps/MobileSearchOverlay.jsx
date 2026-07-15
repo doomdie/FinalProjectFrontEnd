@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { createPortal } from 'react-dom'
 import { useSelector } from 'react-redux'
 
@@ -22,6 +24,53 @@ export function MobileSearchOverlay({ onClose }) {
     const stays = useSelector(storeState => storeState.stayModule.stays)
 
     const suggestions = buildSuggestions(stays)
+    const navigate = useNavigate()
+
+    // local YYYY-MM-DD (not toISOString — that shifts a day across timezones)
+    function localYMD(date) {
+        const y = date.getFullYear()
+        const m = String(date.getMonth() + 1).padStart(2, '0')
+        const d = String(date.getDate()).padStart(2, '0')
+        return `${y}-${m}-${d}`
+    }
+
+    function onSearch() {
+        const params = {}
+        const where = whereValue.trim()
+        if (where) params.search = where
+
+        let { from, to } = dates
+        // FROM only → TO = +1 day (same rule as SearchBarBig)
+        if (from && (!to || from.getTime() === to.getTime())) {
+            to = new Date(from)
+            to.setDate(to.getDate() + 1)
+        }
+        if (from && to) {
+            params.from = localYMD(from)
+            params.to = localYMD(to)
+        }
+
+        const guestCount = guests.adults + guests.children
+        if (guestCount > 0) params.guests = guestCount
+
+        // save to shared recents (same key SearchBarBig uses)
+        if (where) {
+            const saved = JSON.parse(localStorage.getItem('recentSearches') || '[]')
+            const next = [where, ...saved.filter(p => p !== where)].slice(0, 5)
+            localStorage.setItem('recentSearches', JSON.stringify(next))
+        }
+
+        navigate(`/search?${new URLSearchParams(params).toString()}`)
+        onClose()
+    }
+
+    function onClearAll() {
+        setWhereValue('')
+        setDates({ from: null, to: null })
+        setGuests({ adults: 1, children: 0, infants: 0, pets: 0 })
+        setActiveSection('where')
+    }
+
 
     // freeze the page behind the overlay; restore on close
     useEffect(() => {
@@ -195,8 +244,8 @@ export function MobileSearchOverlay({ onClose }) {
 
             {/* footer */}
             <footer className="mso-footer">
-                <button className="mso-clear">Clear all</button>
-                <button className="mso-search-btn">
+                <button className="mso-clear" onClick={onClearAll}>Clear all</button>
+                <button className="mso-search-btn" onClick={onSearch}>
                     <SvgIcon iconName="search" />
                     <span>Search</span>
                 </button>
