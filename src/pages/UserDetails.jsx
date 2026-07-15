@@ -115,7 +115,7 @@ export function UserDetails() {
             className={`tab-btn ${activeTab === 'past-trips' ? 'active' : ''}`}
             onClick={() => setActiveTab('past-trips')}
           >
-            <span className="tab-btn-label">Past Trips</span>
+            <span className="tab-btn-label">Upcoming and Past Trips</span>
             <span className="tab-btn-chevron"><SvgIcon iconName="chevronRight" /></span>
           </button>
 

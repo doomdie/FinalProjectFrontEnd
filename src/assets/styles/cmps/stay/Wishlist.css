@@ -67,8 +67,14 @@
 }
 .host-listings-page {
     min-height: calc(100vh - 80px);
-    padding: 36px calc(8.5% + 32px); 
+    padding: 36px calc(8.5% + 32px);
     width: 100%;
+    
+}
+.host-listings-page {
+    max-width: 1280px;  
+    margin: 0 auto;
+    padding: 0 32px 36px;
 }
 .host-listings-page .listings-empty {
 

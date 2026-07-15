@@ -6,6 +6,7 @@ import { GuestMenuPage } from '../cmps/GuestMenuPage'
 import { AddImages } from '../cmps/AddImages'
 import { useNavigate } from 'react-router-dom'
 import { addStay } from '../store/actions/stay.actions'
+import { StayBioAndName } from '../cmps/StayBioAndName'
 import { userService } from '../services/user'
 import { showErrorMsg } from '../services/event-bus.service'
 
@@ -21,9 +22,11 @@ export function BecomeAHost() {
         imgUrls: [],
         bedrooms: 1,
         bathrooms: 1,
+        title: '',
+        description: '',
     })
 
-    const totalSteps = 5
+    const totalSteps = 6
 
     function updateFormData(key, value) {
         setFormData(prev => ({ ...prev, [key]: value }))
@@ -54,13 +57,13 @@ export function BecomeAHost() {
         setIsSubmitting(true)
         try {
             const stayToSave = {
-                name: `${formData.type} stay`,
+                name: formData.title || `${formData.type} stay`,
                 type: formData.type,
                 imgUrls: formData.imgUrls,
                 price: 100,
                 bedrooms: formData.bedrooms,
                 bathrooms: formData.bathrooms,
-                summary: 'Beautiful stay managed by host...',
+                summary: formData.description || 'Beautiful stay managed by host...',
                 capacity: formData.capacity,
                 amenities: formData.typesList,
                 labels: [],
@@ -84,7 +87,6 @@ export function BecomeAHost() {
                     imgUrl: loggedinUser.imgUrl,
                 },
             }
-            console.log('location at submit:', JSON.stringify(formData.location))
             await addStay(stayToSave)
             navigate('/')
         } catch (err) {
@@ -135,6 +137,13 @@ export function BecomeAHost() {
                         onUpdateImages={(urls) => updateFormData('imgUrls', urls)}
                     />
                 )}
+                {currentStep === 6 && (
+                    <StayBioAndName
+                        title={formData.title}
+                        description={formData.description}
+                        onUpdate={fields => setFormData(prev => ({ ...prev, ...fields }))}
+                    />
+                )}
             </main>
 
             <footer className="flow-footer">
@@ -153,7 +162,11 @@ export function BecomeAHost() {
                     <button
                         onClick={handleNext}
                         className="next-btn"
-                        disabled={(currentStep === 1 && !formData.type) || isSubmitting}
+                        disabled={
+                            (currentStep === 1 && !formData.type) ||
+                            (currentStep === 6 && !formData.title.trim()) ||
+                            isSubmitting
+                        }
                     >
                         {isSubmitting ? 'Submitting...' : currentStep === totalSteps ? 'Submit' : 'Next'}
                     </button>

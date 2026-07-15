@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { stayService } from '../services/stays'
+import { NavLink } from 'react-router-dom'
+import { SvgIcon } from '../services/svg.service.jsx'
+
 import { StayCard } from '../cmps/StayCard.jsx'
 import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
 export function HostListings() {
@@ -36,7 +39,9 @@ export function HostListings() {
 
     if (!stays) {
         return (
+
             <section className="host-listings-page">
+
                 <div className="host-dashboard-grid">
                     <SkeletonLoader variant="card-grid" count={8} isLoading={true} />
                 </div>
@@ -45,6 +50,14 @@ export function HostListings() {
     }
     return (
         <section className="host-listings-page">
+            <header className="hosting-menu-header">
+                <span className="hosting-menu-header-text">My Stays
+                   
+                </span>
+                 <NavLink to="/become-a-host" className="add-stay-button">
+                         <SvgIcon iconName="plus" />
+                    </NavLink>
+            </header>
             {!stays.length ? (
                 <p className="listings-empty">You haven't created any listings yet.</p>
             ) : (

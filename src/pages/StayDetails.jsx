@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { loadReviews } from '../store/actions/review.actions'
 import { AmenitiesList } from '../cmps/AmenitiesList'
@@ -69,7 +69,9 @@ export function StayDetails() {
   const avgRating = reviews?.length
     ? Number((reviews.reduce((sum, r) => sum + (r.rating || r.rate || 0), 0) / reviews.length).toFixed(1))
     : null
-
+  const avatar =
+    <img src={stay?.host?.imgUrl} className="reviewer-avatar" />
+  
   return (
     <section className="stay-details">
       <SkeletonLoader variant="details" isLoading={isLoading} />
@@ -139,11 +141,12 @@ export function StayDetails() {
                 <div className="firstColumn">
                   <Divider sx={{ borderColor: '#e0e0e0' }} />
                   <section className="host-profile">
-                    <img
+                    {/* <img
                       src={stay.host?.imgUrl || '/img/default-user.png'}
                       alt={stay.host?.fullname || 'Host'}
                       className="stay-card-img"
-                    />
+                    /> */}
+                    <Link to={`/user/public/${stay.host._id}`}>{avatar}</Link>
                     <div className="host-text">
                       {stay.host && <span className="host-name">Hosted by {stay.host.fullname}</span>}
                       <span className="host-undertext">
