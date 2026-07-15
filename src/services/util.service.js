@@ -117,3 +117,46 @@ export function getTotalPrice(stay, checkIn, checkOut) {
     const nights = Math.max(1, Math.round((checkOut - checkIn) / (1000 * 60 * 60 * 24)))
     return stay.price * nights
 }
+
+
+// pick an icon + tint color from a stay type — used by SearchBarBig + MobileSearchOverlay
+export function iconForType(type = '') {
+    const t = type.toLowerCase()
+    if (t.includes('beach') || t.includes('lake') || t.includes('island') || t.includes('pool') || t.includes('boat') || t.includes('cycladic') || t.includes('windmill')) return { icon: 'beach', color: 'blue' }
+    if (t.includes('park') || t.includes('cabin') || t.includes('cave') || t.includes('earth') || t.includes('farm') || t.includes('barn') || t.includes('treehouse')) return { icon: 'park', color: 'green' }
+    if (t.includes('camper') || t.includes('tent') || t.includes('container') || t.includes('tiny') || t.includes('yurt')) return { icon: 'tent', color: 'orange' }
+    if (t.includes('castle') || t.includes('tower') || t.includes('casa') || t.includes('villa') || t.includes('riad') || t.includes('trullo')) return { icon: 'castle', color: 'purple' }
+    if (t.includes('view') || t.includes('omg') || t.includes('design') || t.includes('dome') || t.includes('loft')) return { icon: 'views', color: 'teal' }
+    return { icon: 'house', color: 'red' }
+}
+
+// one suggestion per unique stay type, max 6 — shared by both search UIs
+export function buildSuggestions(stays) {
+    const suggestions = []
+    const seenTypes = new Set()
+    for (const stay of stays || []) {
+        if (seenTypes.has(stay.type)) continue
+        seenTypes.add(stay.type)
+        if (stay && stay.loc) {
+            suggestions.push({ type: stay?.type || '', city: stay?.loc?.city || '' })
+        } if (suggestions.length === 6) break
+    }
+    return suggestions
+}
+
+
+// "Jun 5 - 12" / "Jun 5 - Jul 2" / "Add dates" — shared by SearchBarBig + MobileSearchOverlay
+export function formatDateRange(dates) {
+    if (!dates?.from) return 'Add dates'
+
+    const opts = { month: 'short', day: 'numeric' }
+    const from = dates.from.toLocaleDateString('en-US', opts)
+
+    if (!dates.to || dates.from.getTime() === dates.to.getTime()) return from
+
+    const sameMonth = dates.from.getMonth() === dates.to.getMonth()
+    const toOpts = sameMonth ? { day: 'numeric' } : opts
+    const to = dates.to.toLocaleDateString('en-US', toOpts)
+
+    return `${from} - ${to}`
+}

@@ -5,8 +5,10 @@ export function ServiceAnimalModal({ onClose }) {
         <div className="service-modal-overlay" onClick={onClose}>
             <div className="service-modal" onClick={(ev) => ev.stopPropagation()}>
                 <div className="service-modal-header">
+                    <h3 className="service-modal-header-title">Service animals</h3>
                     <button className="service-modal-close" onClick={onClose}>×</button>
                 </div>
+
                 <img src="/img/care-dog.jpg" alt="Service animal" className="service-modal-img" />
                 <div className="service-modal-text">
                     <h3>Service animals</h3>

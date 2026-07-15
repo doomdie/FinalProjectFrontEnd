@@ -33,6 +33,11 @@
     padding: 1rem 1.25rem 0.5rem;
 }
 
+/* header title exists for mobile only — desktop keeps title in the text block */
+.service-modal-header-title {
+    display: none;
+}
+
 .service-modal-close {
     position: relative;
     /* anchor for the hover pseudo-circle */
@@ -46,8 +51,8 @@
     width: 0rem;
     height: 0rem;
     border: none;
-    margin-right: .1rem;
-    margin-top: .4rem;
+    margin-right: -1rem;
+    margin-top: .5rem;
 
     background-color: transparent;
     color: var(--color-text);
@@ -113,8 +118,8 @@
 
 .service-modal-text p {
     /* margin: 0.5rem 0; */
-    font-size: 0.9rem;
-    color: var(--color-text-light);
+      font-size: var(--typography-body-text_16_20-font-size);
+        color: var(--color-text);
     line-height: 1.4;
 }
 

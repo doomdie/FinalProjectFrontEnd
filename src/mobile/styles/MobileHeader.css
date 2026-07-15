@@ -63,6 +63,15 @@
         overflow-x: auto;
         scrollbar-width: none;
         /* hide scrollbar, keep scroll */
+
+        /* full-bleed past header padding so pills fade off-screen instead of hard-clipping */
+        margin-inline: -24px;
+        padding-inline: 24px;
+        scroll-padding-inline: 24px;
+
+        /* overflow-x:auto force-clips vertical overflow too — give shadows room inside the box */
+        padding-block: 6px;
+        margin-block: -6px;
     }
 
     .mobile-chips::-webkit-scrollbar {
@@ -78,13 +87,17 @@
         padding: 8px 14px;
         border: 1px solid var(--color-border);
         border-radius: 999px;
-        background: var(--color-bg);
+        background: linear-gradient(to bottom, var(--palette-grey300), var(--color-bg) 50%);
+        box-shadow: 0 5px 5px -4px var(--palette-shadow600);
 
         font-size: 0.85rem;
-        font-weight: var(--typography-weight-medium500);
-        color: var(--color-text);
+        font-weight: var(--typography-weight-book400);
+        color: var(--palette-text-secondary);
         text-decoration: none;
         white-space: nowrap;
+
+        transition: transform 0.22s var(--motion-standard-curve-animation-timing-function),
+            box-shadow 0.22s var(--motion-standard-curve-animation-timing-function);
     }
 
     .mobile-chip img {
@@ -92,9 +105,15 @@
         width: 22px;
     }
 
+
     .mobile-chip.active {
-        border-color: var(--color-text);
-        box-shadow: inset 0 0 0 1px var(--color-text);
-        background: var(--color-bg-soft);
+        box-shadow: inset 0 3px 5px var(--palette-shadow300),
+            inset 0 0 3px var(--palette-shadow150);
+    }
+
+    .mobile-chip:active {
+        box-shadow: inset 0 3px 5px var(--palette-shadow300),
+            inset 0 0 3px var(--palette-shadow150);
+        transform: scale(0.96);
     }
 }

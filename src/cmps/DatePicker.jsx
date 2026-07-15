@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { DayPicker } from 'react-day-picker'
 import 'react-day-picker/style.css'
 
-export function DatePicker({ onSelectDates, numberOfMonths = 1, value, formatters, enableHoverPreview = false, activeField = null }) {
+export function DatePicker({ onSelectDates, numberOfMonths = 1, value, formatters, enableHoverPreview = false, activeField = null, hideNavigation = false }) {
     // console.log('DATEPICKER RENDER', { enableHoverPreview, value })
     // internal state — used only when the parent doesn't pass `value`
     const [internalRange, setInternalRange] = useState({ from: null, to: null })
@@ -56,6 +56,7 @@ export function DatePicker({ onSelectDates, numberOfMonths = 1, value, formatter
                 mode="range"
                 className="rdp-left-align"
                 numberOfMonths={numberOfMonths}
+                hideNavigation={hideNavigation}
                 startMonth={new Date()}
                 defaultMonth={range?.from || undefined}
                 disabled={{ before: new Date() }}
@@ -69,7 +70,13 @@ export function DatePicker({ onSelectDates, numberOfMonths = 1, value, formatter
                     let safeRange = newRange || { from: null, to: null }
 
                     // field-aware picking (sticky card passes activeField; search bar doesn't)
-                    if (activeField === 'checkIn' && clickedDay) {
+                    if (!activeField && clickedDay && range?.from && range?.to && range.from.getTime() !== range.to.getTime()) {
+                        // search-bar mode: range complete (a real range, not the first-click from===to) → restart
+                        safeRange = { from: clickedDay, to: null }
+                    } else if (!activeField && clickedDay && range?.from && (!range?.to || range.from.getTime() === range.to.getTime()) && clickedDay < range.from) {
+                        // search-bar mode: picking backwards while waiting for TO → clicked day is the new FROM
+                        safeRange = { from: clickedDay, to: null }
+                    } else if (activeField === 'checkIn' && clickedDay) {
                         // clicked day = new check-in; keep checkout only if still after it
                         const keepCheckout = range?.to && clickedDay < range.to
                         safeRange = { from: clickedDay, to: keepCheckout ? range.to : null }

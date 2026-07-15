@@ -334,7 +334,7 @@ html {
 @media (max-width: 950px) {
 
     .app-header,
-    header:not(.stay-overview-header):not(.mobile-only-header):not(.mobile-header):not(.carouselHeader) {
+    header:not(.stay-overview-header):not(.mobile-only-header):not(.mobile-header):not(.carouselHeader):not(.mso-header) {
         display: none !important;
     }
 

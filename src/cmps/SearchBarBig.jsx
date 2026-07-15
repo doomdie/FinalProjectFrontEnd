@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { SvgIcon } from '../services/svg.service.jsx'
 import { ServiceAnimalModal } from './ServiceAnimalModal.jsx'
 import { DatePicker } from './DatePicker.jsx'
-
+import { iconForType, buildSuggestions } from '../services/util.service.js'
 
 export function SearchBarBig({ forcedSection = null, onOpenChange = () => { } }) {
     // which section is open: 'where', 'when', 'who', or null
@@ -24,16 +24,9 @@ export function SearchBarBig({ forcedSection = null, onOpenChange = () => { } })
     const navigate = useNavigate()
     const stays = useSelector(storeState => storeState.stayModule.stays)
 
-    // one suggested destination per unique stay type, with its city — for the Where dropdown
-    const suggestions = []
-    const seenTypes = new Set()
-    for (const stay of stays || []) {
-        if (seenTypes.has(stay.type)) continue
-        seenTypes.add(stay.type)
-        if (stay && stay.loc) {
-            suggestions.push({ type: stay?.type || '', city: stay?.loc?.city || '' })
-        } if (suggestions.length === 6) break
-    }
+// one suggested destination per unique stay type, with its city — for the Where dropdown
+    const suggestions = buildSuggestions(stays)
+
 
     const searchBarRef = useRef()   // the search-bar div, for click-outside check
     const whereRef = useRef()
@@ -116,8 +109,17 @@ export function SearchBarBig({ forcedSection = null, onOpenChange = () => { } })
         // save the picked dates so the small bar can show them
         // (format LOCALLY — toISOString converts to UTC and shifts the day back in UTC+ timezones)
         const toLocalYMD = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+
         if (dates.from) params.set('from', toLocalYMD(dates.from))
-        if (dates.to) params.set('to', toLocalYMD(dates.to))
+        if (dates.to) {
+            params.set('to', toLocalYMD(dates.to))
+        } else if (dates.from) {
+            // only a check-in picked → assume a 1-night stay (checkout = next day)
+            const nextDay = new Date(dates.from)
+            nextDay.setDate(nextDay.getDate() + 1)
+            params.set('to', toLocalYMD(nextDay))
+        }
+
         navigate(`/search?${params.toString()}`)
         window.scrollTo(0, 0)   // land at the top of the results
 
@@ -149,16 +151,6 @@ export function SearchBarBig({ forcedSection = null, onOpenChange = () => { } })
     }
 
 
-    // pick an icon + color class from a stay type — keyword match, defaults to house/red
-    function iconForType(type = '') {
-        const t = type.toLowerCase()
-        if (t.includes('beach') || t.includes('lake') || t.includes('island') || t.includes('pool') || t.includes('boat') || t.includes('cycladic') || t.includes('windmill')) return { icon: 'beach', color: 'blue' }
-        if (t.includes('park') || t.includes('cabin') || t.includes('cave') || t.includes('earth') || t.includes('farm') || t.includes('barn') || t.includes('treehouse')) return { icon: 'park', color: 'green' }
-        if (t.includes('camper') || t.includes('tent') || t.includes('container') || t.includes('tiny') || t.includes('yurt')) return { icon: 'tent', color: 'orange' }
-        if (t.includes('castle') || t.includes('tower') || t.includes('casa') || t.includes('villa') || t.includes('riad') || t.includes('trullo')) return { icon: 'castle', color: 'purple' }
-        if (t.includes('view') || t.includes('omg') || t.includes('design') || t.includes('dome') || t.includes('loft')) return { icon: 'views', color: 'teal' }
-        return { icon: 'house', color: 'red' }
-    }
 
     return (
         <div className="search-bar" ref={searchBarRef}>

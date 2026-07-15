@@ -9,7 +9,7 @@
         gap: 12px;
 
         padding: 12px 12px 0;
-        overflow-y: auto;
+        overflow: hidden;
 
         background: var(--color-bg-soft);
     }
@@ -17,11 +17,12 @@
     /* --- header: tab + close --- */
     .mso-header {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr auto 1fr;
         align-items: center;
     }
 
     .mso-tabs {
+        grid-column: 2;
         display: flex;
         justify-content: center;
     }
@@ -52,6 +53,9 @@
     }
 
     .mso-close {
+        grid-column: 3;
+        justify-self: end;
+
         display: flex;
         align-items: center;
         justify-content: center;
@@ -61,6 +65,7 @@
         border: 1px solid var(--color-border);
         border-radius: 50%;
         background: var(--color-bg);
+        box-shadow: 0 3px 3px 0px var(--color-border);
 
         font-size: 1.2rem;
         color: var(--color-text);
@@ -72,11 +77,123 @@
         border-radius: var(--corner-radius-xxlarge24px-border-radius);
         background: var(--color-bg);
         box-shadow: var(--elevation-elevation2-box-shadow);
+        animation: mso-drop-in 0.55s var(--motion-standard-curve-animation-timing-function) both;
+    }
+
+    /* stagger: each card lands a beat after the previous */
+    .mso-card:nth-of-type(2) {
+        animation-delay: 0.08s;
+    }
+
+    .mso-card:nth-of-type(3) {
+        animation-delay: 0.16s;
+    }
+
+    @keyframes mso-drop-in {
+        from {
+            opacity: 0;
+            transform: translateY(-24px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .mso-card-open {
         padding: 24px 20px;
+
+        /* fill the screen between header and collapsed cards/footer */
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 0;
     }
+
+    /* cards with fixed content (Who) hug their rows instead of filling the screen */
+    .mso-card-fit {
+        flex: 0 0 auto;
+    }
+
+    /* list area scrolls; title + input stay pinned */
+    .mso-scroll-list {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        scrollbar-width: none;
+    }
+
+    .mso-scroll-list::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* --- When: vertical stacked months --- */
+    .mso-datepicker .rdp-months {
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+
+    /* month name left-aligned above its grid, airbnb-style */
+    .mso-datepicker .rdp-month_caption {
+        justify-content: flex-start;
+        padding-inline: 0;
+
+        font-size: 0.9rem;
+        /* same as .rdp-day numbers */
+        font-weight: var(--typography-weight-medium500);
+    }
+
+    /* month grid flush with the card edge so captions line up with "When?" */
+    .mso-datepicker .rdp-months {
+        padding: 0;
+    }
+
+    .mso-datepicker .rdp-month {
+        width: 100%;
+    }
+
+    .mso-datepicker .rdp-month_grid {
+        width: 100%;
+    }
+
+    /* single pinned weekday header; the per-month ones are hidden below */
+    .mso-weekday-row {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        justify-items: center;
+
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+
+        font-size: 0.75rem;
+        font-weight: var(--typography-weight-medium500);
+        color: var(--color-text-light);
+    }
+
+    .mso-datepicker .rdp-weekdays {
+        display: none;
+    }
+
+
+    .mso-load-more {
+        display: block;
+
+        width: 100%;
+        padding: 1rem;
+        margin: 8px 0 0;
+        border: none;
+        border-radius: var(--corner-radius-medium12px-border-radius);
+        background: var(--palette-grey300);
+
+        font-size: var(--typography-body-text_16_20-font-size);
+        font-weight: var(--typography-weight-semibold600);
+        /* letter-spacing: var(--typography-tracking-wide-letter-spacing); */
+        color: var(--color-text);
+        cursor: pointer;
+    }
+
 
     .mso-card-title {
         margin: 0 0 16px;
@@ -210,9 +327,94 @@
 
     .mso-collapsed-value {
         font-size: var(--typography-body-text_14_18-font-size);
-        font-weight: var(--typography-weight-semibold600);
+        font-weight: var(--typography-weight-book400);
         color: var(--color-text);
     }
+
+
+
+    /* --- Who: guest counter rows --- */
+    .mso-guest-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 16px 0;
+        border-bottom: 1px solid var(--palette-grey300);
+    }
+
+    .mso-guest-row:last-child {
+        border-bottom: none;
+    }
+
+    .mso-guest-label {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .mso-guest-type {
+        font-size: var(--typography-body-text_16_20-font-size);
+        font-weight: var(--typography-weight-medium500);
+        color: var(--color-text);
+    }
+
+    .mso-guest-sub {
+        font-size: var(--typography-body-text_14_18-font-size);
+        color: var(--palette-text-secondary);
+    }
+
+    .mso-guest-sub.link {
+        color: var(--palette-grey500);
+        font-weight: var(--typography-weight-semibold600);
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .mso-guest-controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .mso-guest-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 32px;
+        width: 32px;
+        margin: 0;
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        background: var(--palette-grey200);
+
+        font-size: 1rem;
+        color: var(--palette-text-secondary);
+        cursor: pointer;
+    }
+
+    .mso-guest-btn:hover,
+    .mso-guest-btn:focus {
+        background: var(--palette-grey200);
+        color: var(--palette-text-secondary);
+    }
+
+    .mso-guest-btn:disabled {
+        opacity: 0.35;
+        cursor: default;
+    }
+
+    .mso-guest-count {
+        min-width: 20px;
+        text-align: center;
+
+        font-size: var(--typography-body-text_16_20-font-size);
+        color: var(--color-text);
+    }
+
+
 
     /* --- footer --- */
     .mso-footer {
@@ -227,18 +429,31 @@
         padding: 14px 12px calc(14px + env(safe-area-inset-bottom));
         margin-inline: -12px;
 
-        background: var(--color-bg);
-        border-top: 1px solid var(--palette-grey300);
+        background: transparent;
+
+        animation: mso-rise-in 0.55s var(--motion-standard-curve-animation-timing-function) both;
+    }
+
+    @keyframes mso-rise-in {
+        from {
+            opacity: 0;
+            transform: translateY(100%);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .mso-clear {
         border: none;
         background: transparent;
 
-        font-size: var(--typography-body-text_14_18-font-size);
+        font-size: var(--typography-body-text_16_20-font-size);
         font-weight: var(--typography-weight-semibold600);
-        text-decoration: underline;
         color: var(--color-text);
+
         cursor: pointer;
     }
 
@@ -249,7 +464,7 @@
 
         padding: 14px 24px;
         border: none;
-        border-radius: var(--corner-radius-small8px-border-radius);
+        border-radius: 12px;
         background: var(--color-primary-gradient);
 
         font-size: var(--typography-body-text_14_18-font-size);
