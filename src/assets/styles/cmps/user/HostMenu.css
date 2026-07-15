@@ -126,3 +126,13 @@
     padding: 24px 0 4px;
 
 }
+
+.add-stay-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--palette-grey200);
+}
