@@ -17,7 +17,7 @@ const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
 
 const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
 
-export const socketService = (VITE_LOCAL === 'true')? createDummySocketService() : createSocketService()
+export const socketService = (VITE_LOCAL === 'true') ? createDummySocketService() : createSocketService()
 
 if (DEV) window.socketService = socketService
 
@@ -29,8 +29,11 @@ function createSocketService() {
   const socketService = {
     setup() {
       socket = io(baseUrl)
-      const user = userService.getLoggedinUser()
-      if (user) this.login(user._id)
+      // re-stamp userId on every (re)connect — otherwise a server restart wipes it
+      socket.on('connect', () => {
+        const user = userService.getLoggedinUser()
+        if (user) this.login(user._id)
+      })
     },
     on(eventName, cb) {
       socket.on(eventName, cb)

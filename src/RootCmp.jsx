@@ -18,6 +18,7 @@ import { UserDetails } from './pages/UserDetails'
 import { PublicProfile } from './pages/PublicProfile.jsx'
 import { HostListings } from './cmps/HostListings.jsx'
 import { checkLoggedinUser } from './store/actions/user.actions'
+import { initOrderSocketListeners } from './store/actions/order.actions'
 import { UserMsg } from './cmps/UserMsg'
 import { ScrollToTop } from './cmps/ScrollToTop.jsx'
 
@@ -28,6 +29,7 @@ import { MobileHeader } from './mobile/cmps/MobileHeader.jsx'
 export function RootCmp() {
     useEffect(() => {
         checkLoggedinUser()
+        initOrderSocketListeners()
     }, [])
     const location = useLocation()
     const isHostPage = location.pathname === '/become-a-host'

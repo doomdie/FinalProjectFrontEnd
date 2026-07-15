@@ -5,6 +5,7 @@ import { CarIndex } from '../pages/CarIndex'
 import { TabNav } from '../cmps/TabNav'
 import { useSyncStayFilter } from '../customHooks/useSyncStayFilter'
 import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
+import { UnderConstruction } from './UnderConstruction.jsx'
 
 export function HomesPage() {
     const location = useLocation()
@@ -29,12 +30,7 @@ export function HomesPage() {
             )}
 
             {(currentTab === 'experiences' || currentTab === 'services') && (
-                <div className="under-construction">
-                    <div className = "under-construction-content">
-                    <h2>Page under construction</h2>
-                    <p>We're working on it. Check back soon.</p>
-                    </div>
-                </div>
+                <UnderConstruction />
             )}
         </section>
     )

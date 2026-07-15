@@ -1,8 +1,9 @@
 export function UnderConstruction() {
     return (
-        <div className="tab-content">
-            <div className="host-reservations">
-                <h1>Under Construction.</h1>
+        <div className="under-construction">
+            <div className="under-construction-content">
+                <h2>Page under construction</h2>
+                <p>We're working on it. Check back soon.</p>
             </div>
         </div>
     )

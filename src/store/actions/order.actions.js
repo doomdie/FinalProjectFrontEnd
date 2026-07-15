@@ -1,10 +1,22 @@
 import { orderService } from '../../services/orders/'
+import { socketService } from '../../services/socket.service.js'
 import { store } from '../store'
 import { SET_HOST_ORDERS, SET_GUEST_ORDERS } from '../reducers/order.reducer'
+
+// call once at app start — live order updates over socket
+export function initOrderSocketListeners() {
+    socketService.on('order-added', (order) => {
+        store.dispatch({ type: 'ADD_ORDER', order })
+    })
+    socketService.on('order-updated', (order) => {
+        store.dispatch({ type: 'UPDATE_ORDER', order })
+    })
+}
+
 export async function loadOrders(filterBy = {}) {
     try {
         const orders = await orderService.query(filterBy)
-        
+
         if (filterBy?.hostId) {
             store.dispatch({ type: SET_HOST_ORDERS, orders })
         } else if (filterBy?.buyerId) {
