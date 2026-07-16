@@ -118,7 +118,7 @@
 .app-header .search-label {
     margin-bottom: 4px;
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: var(--typography-weight-medium500);
     color: var(--color-text);
 }
 
@@ -144,21 +144,22 @@
     background: transparent;
     outline: none;
 
+    font: inherit;
     font-size: 0.875rem;
-    font-weight: 600;
+    font-weight: var(--typography-weight-medium500);
 
     color: var(--color-text);
 }
 
 .app-header .search-input::placeholder {
     color: var(--color-text-light);
-    font-weight: 400;   
+    font-weight: 400;
 }
 
 
 /* a filled (non-placeholder) value = bold + dark, like the labels */
 .app-header .search-value.filled {
-    font-weight: 600;
+    font-weight: var(--typography-weight-medium500);
     color: var(--color-text);
 }
 
@@ -181,7 +182,7 @@
     flex-shrink: 0;
     /* never shrink — stays a circle */
 
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-dark);
     color: var(--color-bg);
     font-size: 1em;
 
@@ -222,13 +223,22 @@
     opacity: 1;
 }
 
+.app-header .search-bar:hover .search-btn {
+    background: var(--palette-rausch500);
+}
+
+.app-header .search-btn.expanded,
+.app-header .search-bar:hover .search-btn.expanded {
+    background: linear-gradient(to right, var(--palette-rausch600), var(--palette-rausch500) 50%, var(--palette-rausch700));
+}
 
 /* ===== SMALL SEARCH PILL (scrolled state) ===== */
 .app-header .search-bar-small {
     display: flex;
     align-items: center;
 
-    height: 46px;   /* Airbnb's exact small-bar height */
+    height: 46px;
+    /* Airbnb's exact small-bar height */
     padding: 0 7px 0 12px;
     border: 1px solid var(--color-border);
     border-radius: 40px;
@@ -242,7 +252,8 @@
 
     padding: 0.4rem 1rem;
 
-    font-size: 14px;   /* Airbnb's exact small-bar text size */
+    font-size: 14px;
+    /* Airbnb's exact small-bar text size */
     font-weight: 500;
     color: var(--color-text);
 }
@@ -273,7 +284,7 @@
     margin: 0;
     flex-shrink: 0;
 
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-dark);
     color: var(--color-bg);
     font-size: 0.9rem;
     cursor: pointer;
@@ -633,5 +644,3 @@
     text-align: center;
     font-size: 0.95rem;
 }
-
-

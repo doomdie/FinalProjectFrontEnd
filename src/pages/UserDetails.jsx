@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { UserInfo } from '../cmps/UserInfo'
 import { StayMiniList } from '../cmps/StayMiniList'
 import { PastTrips } from '../cmps/PastTrips'
@@ -26,7 +26,14 @@ export function UserDetails() {
   // }) : []
 
   // const isUserHost = hostStays.length > 0
-  const [activeTab, setActiveTab] = useState('details')
+  const [searchParams] = useSearchParams()
+  const [activeTab, setActiveTab] = useState(searchParams.get('tab') || 'details')
+
+  // keep tab in sync when the URL param changes while already on the page
+  useEffect(() => {
+    setActiveTab(searchParams.get('tab') || 'details')
+  }, [searchParams])
+
 
   useEffect(() => {
     if (!user) {

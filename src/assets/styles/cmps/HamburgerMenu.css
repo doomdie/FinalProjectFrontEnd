@@ -1,7 +1,3 @@
-/* ============================================================
-   HAMBURGER MENU — button, dropdown, backdrop
-   ============================================================ */
-
 /* hamburger — same-size grey circle as the avatar */
 .app-header .menu-wrapper {
     position: relative;
@@ -21,7 +17,7 @@
 
     font-size: 1rem;
     color: var(--color-text);
-    background-color: var(--color-bg-soft);
+    background-color: var(--palette-grey300);
     cursor: pointer;
     transition: background-color 0.1s ease, transform 0.1s ease;
 }
@@ -81,29 +77,27 @@
 }
 
 
-/* primary row (Wishlist) — icon + darker, bolder text like Airbnb */
-.app-header .menu-item-primary {
+/* icon rows — icon + label like Airbnb */
+.app-header .menu-item-icon {
     display: flex;
     align-items: center;
     gap: 0.75rem;
 
-    font-weight: 600;
+    font-weight: var(--typography-weight-medium500);
     color: var(--color-text);
 }
 
-.app-header .menu-item-primary svg {
+.app-header .menu-item-icon svg {
     width: 1.1rem;
     height: 1.1rem;
 }
 
-
-
-.app-header .menu-item-primary svg,
-.app-header .menu-item-primary svg path {
-    fill: none !important;
-    stroke: var(--color-text);
-    stroke-width: 3;
+/* Switch to hosting — bolder, like Airbnb's top row */
+.app-header .menu-item-hosting {
+    font-weight: var(--typography-weight-semibold600);
 }
+
+
 
 /* divider before Log out — inset from the edges like Airbnb */
 .app-header .menu-divider {
