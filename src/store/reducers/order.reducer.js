@@ -17,12 +17,16 @@ export function orderReducer(state = initialState, action) {
         case SET_GUEST_ORDERS:
             return { ...state, guestOrders: action.orders }
 
-        case ADD_ORDER:
+        case ADD_ORDER: {
+            const user = JSON.parse(sessionStorage.getItem('loggedinUser')) || null
+            const isBuyer = user && action.order.buyer?._id === user._id
+            const isHost = user && action.order.hostId === user._id
             return {
                 ...state,
-                guestOrders: [...state.guestOrders, action.order],
-                hostOrders: [...state.hostOrders, action.order]
+                guestOrders: isBuyer ? [...state.guestOrders, action.order] : state.guestOrders,
+                hostOrders: isHost ? [...state.hostOrders, action.order] : state.hostOrders
             }
+        }
 
         case UPDATE_ORDER:
             return {
