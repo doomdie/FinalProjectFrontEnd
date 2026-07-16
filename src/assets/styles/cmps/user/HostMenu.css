@@ -136,3 +136,10 @@
     border-radius: 50%;
     background-color: var(--palette-grey200);
 }
+
+
+.add-stay-button:hover,
+.add-stay-button:focus {
+    background-color: var(--palette-grey400);
+    color: var(--color-text);
+}

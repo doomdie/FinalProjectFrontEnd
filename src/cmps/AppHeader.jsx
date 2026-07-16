@@ -35,7 +35,7 @@ export function AppHeader() {
 
     const frozenPillsRef = useRef(null)
     const amenityPills = useMemo(() => {
-        if (frozenPillsRef.current) return frozenPillsRef.current   
+        if (frozenPillsRef.current) return frozenPillsRef.current
         if (!stays?.length) return []
         const amenityCounts = {}
         for (const stay of stays) {
@@ -46,7 +46,7 @@ export function AppHeader() {
         const pills = Object.keys(amenityCounts)
             .sort((a, b) => amenityCounts[b] - amenityCounts[a])
             .slice(0, 9)
-        frozenPillsRef.current = pills   
+        frozenPillsRef.current = pills
         return pills
     }, [stays])
 
@@ -72,9 +72,9 @@ export function AppHeader() {
             return
         }
 
-        if (forcedSection) return   
+        if (forcedSection) return
         if (isDetailsPage || isSearchPage || isUser) {
-            setIsScrolled(true) 
+            setIsScrolled(true)
             return
         }
 
@@ -137,7 +137,7 @@ export function AppHeader() {
 
     return (
         // <header className={`app-header full ${isScrolled ? 'scrolled' : ''}`}>
-        <header className={`app-header full ${isScrolled ? 'scrolled' : ''} ${isHostingMode ? 'hosting' : ''}`}>
+        <header className={`app-header full ${isScrolled ? 'scrolled' : ''} ${isHostingMode ? 'hosting' : ''} ${isUser ? 'white' : ''}`}>
             <div className="header-top">
                 <NavLink to="/" className="logo">
                     <img src="/img/symbols/logo.svg" alt="OurBNB" className="logo-img" />

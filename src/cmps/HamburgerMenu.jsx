@@ -27,12 +27,40 @@ export function HamburgerMenu({ user, onLogout, onOpenLogin }) {
                         {user && (
                             <>
                                 <Link
-                                    to="/wishlist"
-                                    className="menu-item menu-item-primary"
+                                    to="/hosting"
+                                    className="menu-item menu-item-icon menu-item-hosting"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
-                                    <SvgIcon iconName="heart" />
+                                    <SvgIcon iconName="hostingSwitch" />
+                                    Switch to hosting
+                                </Link>
+
+                                <div className="menu-divider" />
+
+                                <Link
+                                    to={`/user/${user._id}?tab=wishlist`}
+                                    className="menu-item menu-item-icon"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    <SvgIcon iconName="heartOutline" />
                                     Wishlists
+                                </Link>
+                                <Link
+                                    to={`/user/${user._id}?tab=past-trips`}
+                                    className="menu-item menu-item-icon"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    <SvgIcon iconName="airbnbSymbol" />
+                                    Trips
+                                </Link>
+
+                                <Link
+                                    to={`/user/${user._id}`}
+                                    className="menu-item menu-item-icon"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    <SvgIcon iconName="profileCircle" />
+                                    Profile
                                 </Link>
 
                                 <div className="menu-divider" />

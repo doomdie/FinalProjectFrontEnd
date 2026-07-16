@@ -8,6 +8,10 @@
     transition: padding 0.3s ease;
 }
 
+.app-header.white {
+    background: var(--color-bg);
+}
+
 .app-header.scrolled {
     padding-top: var(--space-md);
     padding-bottom: var(--space-md);

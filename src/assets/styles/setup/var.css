@@ -250,15 +250,21 @@
   /* Airbnb pink — search button, active states, accents */
   --color-primary-dark: #E00B41;
   /* darker pink — hover on primary */
-  --color-primary-gradient: linear-gradient(to right, #E61E4D, #E31C5F, #D70466);
-  /* the search button gradient */
+  --palette-rausch500: #E61E4D;
+  --palette-rausch700: #D70466;
+  /* the airbnb pink ramp: rausch600 (#FF385C) light → 500 mid → 700 dark */
+  --color-primary-gradient: linear-gradient(to right, var(--palette-rausch500), var(--palette-rausch700));
+  /* static brand gradient (mso search btn) */
+  --color-primary-gradient-diagonal: linear-gradient(to top right, var(--palette-rausch700), var(--palette-rausch500) 50%, var(--palette-rausch600));
+  /* diagonal version — big-search-bar button hover/expanded */
+
 
   --color-overlay: rgba(0, 0, 0, 0.5);
   --color-heart: rgba(0, 0, 0, 0.5);
   /* dimmed heart on card images */
   --color-heart-hover: rgba(0, 0, 0, 0.7);
   /* heart on hover */
-  
+
   --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.12);
 
   /* ===== Text ===== */
@@ -280,7 +286,7 @@
 
   --header-bg: linear-gradient(to bottom, #FFFFFF, #F7F7F7);
   --footer-bg: #F7F7F7;
---palette-text-secondary: #6A6A6A;
+  --palette-text-secondary: #6A6A6A;
   --corner-radius-tiny4px-border-radius: 4px;
   --corner-radius-small8px-border-radius: 8px;
   --corner-radius-medium12px-border-radius: 12px;
