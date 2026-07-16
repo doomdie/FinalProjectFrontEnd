@@ -184,7 +184,7 @@
     position: relative;
     width: 100%;
     padding: 14px;
-    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), #FF385C 0%, #E61E4D 30%, #D70466 70%);
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), var(--palette-rausch600) 0%, var(--palette-rausch500) 30%, var(--palette-rausch700) 70%);
     border: none;
     border-radius: 30px;
 

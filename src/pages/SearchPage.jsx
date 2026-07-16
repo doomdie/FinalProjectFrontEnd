@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useSearchParams } from 'react-router-dom'
-
+import { getFakeRating, getFakeDates, getTotalPrice } from '../services/util.service.js'
 import { useSyncStayFilter } from '../customHooks/useSyncStayFilter.js'
 import { SvgIcon } from '../services/svg.service.jsx'
 import { SkeletonLoader } from '../cmps/SkeletonLoader.jsx'
@@ -10,7 +10,6 @@ import { wishlistService } from '../services/stays/wishlist.service.js'
 import { HeartButton } from '../cmps/HeartButton.jsx'
 import { useIsMobile } from '../customHooks/useIsMobile.js'
 import { MobileSearchPage } from '../mobile/pages/MobileSearchPage.jsx'
-import { getFakeRating, getFakeDates, getTotalPrice } from '../services/util.service.js'
 
 const STAYS_PER_PAGE = 18
 

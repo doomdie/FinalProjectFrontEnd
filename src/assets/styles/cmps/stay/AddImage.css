@@ -1,0 +1,26 @@
+.upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 10px 16px;
+    border: 1px solid var(--color-text);
+    border-radius: var(--corner-radius-small8px-border-radius);
+    background: var(--color-bg);
+
+    font-size: var(--typography-body-text_14_18-font-size);
+    font-weight: var(--typography-weight-semibold600);
+    color: var(--color-text);
+    cursor: pointer;
+    user-select: none;
+}
+
+.upload-btn:hover {
+    background: var(--color-bg-soft);
+}
+
+.upload-btn.disabled {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+}

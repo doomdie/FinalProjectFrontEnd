@@ -87,8 +87,6 @@ export function getFakeHostingYears(stay) {
 }
 
 
-// FAKE — deterministic dates from the END of the _id (same seed style as getFakeRating)
-// returns real Date objects so both the search card and the sticky card agree
 export function getFakeDates(stay) {
     if (!stay?._id) return null
     const idLen = stay._id.length
@@ -97,16 +95,15 @@ export function getFakeDates(stay) {
         stay._id.charCodeAt(idLen - 2) * 29 +
         stay._id.charCodeAt(idLen - 3) * 5
 
-    const startDay = 1 + (dateSeed % 27)
+    // always upcoming: check-in 2-45 days from today, stay length 3-8 nights
+    const daysFromNow = 2 + (dateSeed % 44)
     const span = 3 + ((dateSeed >> 2) % 6)
-    const monthIdx = 6 + ((dateSeed >> 4) % 2)   // 6=Jul, 7=Aug
-    const endDay = Math.min(startDay + span, 30)
 
-    const year = new Date().getFullYear()
-    return {
-        checkIn: new Date(year, monthIdx, startDay),
-        checkOut: new Date(year, monthIdx, endDay),
-    }
+    const today = new Date()
+    const checkIn = new Date(today.getFullYear(), today.getMonth(), today.getDate() + daysFromNow)
+    const checkOut = new Date(checkIn.getFullYear(), checkIn.getMonth(), checkIn.getDate() + span)
+
+    return { checkIn, checkOut }
 }
 
 
